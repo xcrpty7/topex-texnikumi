@@ -93,17 +93,21 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ─── Statik fayllar ───────────────────────────────────────────────────────────
-const TRANSPARENT_PIXEL = Buffer.from(
-  'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64'
+const PLACEHOLDER_SVG = Buffer.from(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">' +
+  '<rect width="800" height="600" fill="#1e1e2e"/>' +
+  '<text x="400" y="300" text-anchor="middle" fill="#6c7086" font-size="20">Rasm mavjud emas</text>' +
+  '</svg>'
 );
 app.use('/uploads', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
 }, express.static(path.join(__dirname, 'uploads')), (req, res) => {
-  res.setHeader('Content-Type', 'image/gif');
-  res.setHeader('Content-Length', TRANSPARENT_PIXEL.length);
-  res.status(200).end(TRANSPARENT_PIXEL);
+  res.setHeader('Content-Type', 'image/svg+xml');
+  res.setHeader('Content-Length', PLACEHOLDER_SVG.length);
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.status(200).end(PLACEHOLDER_SVG);
 });
 
 // ─── Google OAuth (Passport) ──────────────────────────────────────────────────
