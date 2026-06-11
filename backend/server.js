@@ -93,11 +93,18 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ─── Statik fayllar ───────────────────────────────────────────────────────────
+const TRANSPARENT_PIXEL = Buffer.from(
+  'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64'
+);
 app.use('/uploads', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
-}, express.static(path.join(__dirname, 'uploads')));
+}, express.static(path.join(__dirname, 'uploads')), (req, res) => {
+  res.setHeader('Content-Type', 'image/gif');
+  res.setHeader('Content-Length', TRANSPARENT_PIXEL.length);
+  res.status(200).end(TRANSPARENT_PIXEL);
+});
 
 // ─── API yo'llari ─────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
