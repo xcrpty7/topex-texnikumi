@@ -106,6 +106,33 @@ app.use('/uploads', (req, res, next) => {
   res.status(200).end(TRANSPARENT_PIXEL);
 });
 
+// ─── Google OAuth (Passport) ──────────────────────────────────────────────────
+const { passport, CLIENT_URL: GOOGLE_CLIENT_URL } = require('./config/passport');
+app.use(passport.initialize());
+
+const jwt = require('jsonwebtoken');
+const signAccessToken = (user) =>
+  jwt.sign(
+    { id: user._id.toString(), role: user.role },
+    process.env.JWT_ACCESS_SECRET,
+    { expiresIn: process.env.JWT_ACCESS_EXPIRE || '15m' }
+  );
+
+app.get(
+  '/api/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+);
+
+app.get(
+  '/api/auth/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: `${GOOGLE_CLIENT_URL}/login?error=google_failed` }),
+  (req, res) => {
+    if (!req.user) return res.redirect(`${GOOGLE_CLIENT_URL}/login?error=no_user`);
+    const token = signAccessToken(req.user);
+    res.redirect(`${GOOGLE_CLIENT_URL}/login?google=${encodeURIComponent(token)}`);
+  }
+);
+
 // ─── API yo'llari ─────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
