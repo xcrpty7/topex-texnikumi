@@ -402,10 +402,10 @@ const HomePage = () => {
             <motion.div {...up(0)} className="relative">
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { src: settings?.aboutImage1 || '/assets/images/DSC00827.jpg', cls: 'aspect-[3/4] sm:-mt-6' },
-                  { src: settings?.aboutImage2 || '/assets/images/DSC00912.jpg', cls: 'aspect-[3/4] sm:mt-6' },
-                  { src: settings?.aboutImage3 || '/assets/images/DSC01036.jpg', cls: 'aspect-[4/3]' },
-                  { src: settings?.aboutImage4 || '/assets/images/DSC01093.jpg', cls: 'aspect-[4/3] sm:mt-8' },
+                  { src: '/assets/images/DSC00827.jpg', cls: 'aspect-[3/4] sm:-mt-6' },
+                  { src: '/assets/images/DSC00912.jpg', cls: 'aspect-[3/4] sm:mt-6' },
+                  { src: '/assets/images/DSC01036.jpg', cls: 'aspect-[4/3]' },
+                  { src: '/assets/images/DSC01093.jpg', cls: 'aspect-[4/3] sm:mt-8' },
                 ].map((im, i) => {
                   const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
                   return (

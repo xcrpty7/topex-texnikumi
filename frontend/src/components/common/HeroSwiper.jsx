@@ -35,7 +35,7 @@ export default function HeroSwiper({ settings }) {
     ? dbSlides.map((s, i) => ({
         title: [s.title1 || '', s.title2 || '', s.title3 || ''].filter(Boolean),
         subtitle: s.subtitle || '',
-        image: resolveImg(s.image, IMAGES[i % IMAGES.length]),
+        image: IMAGES[i % IMAGES.length],
       }))
     : [0, 1, 2].map((i) => ({
         title: [
