@@ -23,9 +23,9 @@ export default function NewsSwiper({ articles, settings }) {
   const [isBeginning, setIsBeginning] = useState(true);
 
   const items = (articles && articles.length > 0)
-    ? articles.map(a => ({
+    ? articles.map((a, i) => ({
         title: a.title,
-        img: a.image || '/assets/posts/smm-01.jpg',
+        img: NEWS_IMAGES[i % NEWS_IMAGES.length],
         href: `/blog/${a.slug || a._id}`,
       }))
     : NEWS_IMAGES.map((img, i) => ({
