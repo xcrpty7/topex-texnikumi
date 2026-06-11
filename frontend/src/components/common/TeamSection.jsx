@@ -6,6 +6,14 @@ import { Link } from 'react-router-dom';
 
 const TEACHERS_RAW = [
   { name: "G'AYRAT SHOUMAROV", roleKey: 'director',   img: '/assets/Ustozlar/DSC01143.jpg' },
+  { name: 'OLGERD FILLIPOV',   roleKey: 'programming',img: '/assets/Ustozlar/DSC01155.jpg' },
+  { name: 'RUSTAM KARIMOV',    roleKey: 'marketing',  img: '/assets/Ustozlar/DSC01164.jpg' },
+  { name: 'DILSHOD AZIZOV',    roleKey: 'design',     img: '/assets/Ustozlar/DSC01187.jpg' },
+  { name: 'AKMAL RAHIMOV',     roleKey: 'bank',       img: '/assets/Ustozlar/DSC01199.jpg' },
+  { name: 'YANGI USTOZ 1',     roleKey: 'new1',       img: '/assets/Ustozlar/teacher-new-1.jpg' },
+  { name: 'YANGI USTOZ 2',     roleKey: 'new2',       img: '/assets/Ustozlar/teacher-new-2.jpg' },
+  { name: 'YANGI USTOZ 3',     roleKey: 'new3',       img: '/assets/Ustozlar/teacher-new-3.jpg' },
+  { name: 'YANGI USTOZ 4',     roleKey: 'new4',       img: '/assets/Ustozlar/teacher-new-4.jpg' },
 ];
 
 const API_URL = import.meta.env.VITE_API_URL || '';
