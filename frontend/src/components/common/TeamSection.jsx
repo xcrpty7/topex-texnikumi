@@ -4,26 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const TEACHERS_RAW = [
-  { name: "G'AYRAT SHOUMAROV", roleKey: 'director',   img: '/assets/Ustozlar/DSC01143.jpg' },
-  { name: 'OLGERD FILLIPOV',   roleKey: 'programming',img: '/assets/Ustozlar/DSC01155.jpg' },
-  { name: 'RUSTAM KARIMOV',    roleKey: 'marketing',  img: '/assets/Ustozlar/DSC01164.jpg' },
-  { name: 'DILSHOD AZIZOV',    roleKey: 'design',     img: '/assets/Ustozlar/DSC01187.jpg' },
-  { name: 'AKMAL RAHIMOV',     roleKey: 'bank',       img: '/assets/Ustozlar/DSC01199.jpg' },
-];
-
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 export default function TeamSection({ teachers = [], settings }) {
   const { t } = useTranslation();
-  const FALLBACK = TEACHERS_RAW.map(x => ({ ...x, role: t(`team.roles.${x.roleKey}`) }));
-  const TEACHERS = teachers.length > 0
-    ? teachers.map(x => ({
-        name:  x.name,
-        role:  x.role,
-        img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC01143.jpg',
-      }))
-    : FALLBACK;
+  const TEACHERS = teachers.map(x => ({
+    name:  x.name,
+    role:  x.role,
+    img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '',
+  }));
   const [page, setPage] = useState(0);
   const perView = 2;
   const pages = Math.max(1, Math.ceil(TEACHERS.length / perView));
