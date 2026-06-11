@@ -15,8 +15,26 @@ const isTokenExpired = (token) => {
   }
 };
 
+const PLACEHOLDER =
+  'data:image/svg+xml,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
+    '<rect width="400" height="300" fill="#2a2a3a"/>' +
+    '<path d="M180 140h40v40h-40z" fill="#555"/>' +
+    '<text x="200" y="200" text-anchor="middle" fill="#666" font-size="14">Rasm topilmadi</text>' +
+    '</svg>'
+  );
+
 const App = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.addEventListener('error', (e) => {
+      if (e.target?.tagName === 'IMG' && !e.target.dataset.fallback) {
+        e.target.dataset.fallback = 'true';
+        e.target.src = PLACEHOLDER;
+      }
+    }, true);
+  }, []);
 
   useEffect(() => {
     let saved = null;
@@ -28,7 +46,6 @@ const App = () => {
       dispatch(setCredentials({ accessToken: saved }));
       dispatch(fetchMe());
     } else {
-      // Token yo'q yoki muddati o'tgan — saqlangani bo'lsa tozalash
       if (saved) {
         try { localStorage.removeItem('accessToken'); } catch {}
       }
