@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.local
+dist/
+uploads/
+*.log
+.DS_Store
+.claude/
+AGENT_SUMMARY.md
+.vercel/
+mongodb/
+mongodb-data/

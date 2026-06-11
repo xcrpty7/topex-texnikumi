@@ -1,0 +1,168 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "courses": "Programs",
+    "blog": "News",
+    "gallery": "Gallery",
+    "contacts": "Contacts",
+    "login": "Sign In",
+    "register": "Register",
+    "profile": "Profile",
+    "logout": "Logout",
+    "admin": "Admin panel"
+  },
+  "contact": {
+    "address": "Address",
+    "phone": "Contact",
+    "email": "E-mail",
+    "addressValue": "Sergeli-3, Yangi Sergeli Yuli street, 49",
+    "addressValue2": ""
+  },
+  "hero": {
+    "slide1Title1": "GET YOUR",
+    "slide1Title2": "FUTURE CAREER",
+    "slide1Title3": "TODAY!",
+    "slide1Sub": "At Topex College — modern programs, hands-on experience, and a chance to earn a monthly scholarship of up to 2,000,000 UZS.",
+    "slide2Title1": "WITHOUT TUTORS",
+    "slide2Title2": "WITH QUALITY",
+    "slide2Title3": "EDUCATION",
+    "slide2Sub": "Special programs and international standards in professional fields for 10-11 grade students.",
+    "slide3Title1": "A MODERN",
+    "slide3Title2": "COLLEGE",
+    "slide3Title3": "IN TASHKENT",
+    "slide3Sub": "3+ branches, 50+ professional teachers, 600+ students — your future career starts here.",
+    "ctaApply": "Apply now",
+    "note": "For those who have finished 9th grade or did not complete 11-year education!"
+  },
+  "stats": {
+    "students": "Student",
+    "branches": "Branch",
+    "teachers": "Specialist",
+    "teacher": "Teacher",
+    "grades": "Grades"
+  },
+  "about": {
+    "label": "Why choose us",
+    "title": "About the college",
+    "slogan": "Topex College — Quality education, real result!",
+    "paragraph": "Topex College is a modern private institution operating in the Chilanzar district of Tashkent since 2022. We provide quality education to more than 600 students in grades 10-11, professional programs and Olympiad preparation services. Experienced educators, modern classrooms and an individual approach help every student unlock their potential.",
+    "more": "Read more"
+  },
+  "directions": {
+    "label": "At Topex College",
+    "title": "Programs",
+    "prev": "Previous",
+    "next": "Next",
+    "items": {
+      "programming": "Programming",
+      "marketing": "Marketing & Agribusiness",
+      "graphics": "Computer Graphics",
+      "bank": "Banking Controller",
+      "hotel": "Hotel Management",
+      "analytics": "Digital Data Analyst",
+      "lab": "Lab Analyst",
+      "pharma": "Medicinal Plants Lab Assistant"
+    }
+  },
+  "team": {
+    "label": "Our specialists",
+    "title": "Meet our team",
+    "paragraph": "Over 50 professional teachers and practicing specialists work at Topex College. Most are experienced in their fields and teach at expert level in IT, marketing, banking, graphics, and other modern fields. Our instructors share not only theory, but also real-world experience and career advice.",
+    "allTeachers": "All teachers",
+    "roles": {
+      "director": "Director of Topex College",
+      "programming": "Head of Programming Department",
+      "marketing": "Head of Marketing Department",
+      "design": "Graphic Design Instructor",
+      "bank": "Banking Specialist"
+    }
+  },
+  "news": {
+    "label": "Our blog",
+    "title": "News",
+    "more": "Read more",
+    "items": {
+      "n1": "The meaning of our life — it's children!",
+      "n2": "New academic year at Topex College!",
+      "n3": "Did you come to the exam?",
+      "n4": "Practical lessons and project week",
+      "n5": "Olympiad winners awarded",
+      "n6": "New laboratory opened"
+    }
+  },
+  "videos": {
+    "label": "Current video clips",
+    "title": "Student life",
+    "subtitle": "Topex life"
+  },
+  "form": {
+    "label": "Have a question?",
+    "title": "Fill in your details",
+    "paragraph": "Leave your phone number and we'll answer all your questions!",
+    "nameLabel": "Your name",
+    "namePh": "Leave your full name",
+    "phoneLabel": "Your phone number",
+    "directionLabel": "Direction",
+    "directionPh": "Choose a direction",
+    "direction9": "After 9th grade (3 years)",
+    "direction11": "After 11th grade (2 years)",
+    "agree": "I consent to the processing of personal data, agree to receive information bulletins from \"Topex College\" and agree to the privacy policy.",
+    "submit": "Apply now",
+    "submitting": "Sending..."
+  },
+  "footer": {
+    "colAbout": "About college",
+    "colApplicants": "For applicants",
+    "colStudents": "For students",
+    "colContacts": "Contacts",
+    "license": "College license",
+    "copyright": "©Copyright",
+    "oferta": "Public offer",
+    "links": {
+      "about": "About us",
+      "news": "News",
+      "partners": "Partners",
+      "vacancies": "Vacancies",
+      "team": "\"Topex\" team",
+      "journals": "Journals",
+      "directions": "Programs",
+      "faq": "Q&A",
+      "examResult": "Entrance exam results",
+      "contract": "Get contract",
+      "studentLife": "Student life"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "noData": "No data",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "free": "Free"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Sign in to continue",
+    "registerTitle": "Join Topex",
+    "registerSubtitle": "Start learning today",
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "submit": "Sign In",
+    "submitRegister": "Create account",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signUp": "Sign up",
+    "signIn": "Sign in",
+    "forgotPassword": "Forgot password?"
+  }
+}

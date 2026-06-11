@@ -1,0 +1,722 @@
+import { useEffect, useState } from 'react';
+const API_URL = import.meta.env.VITE_API_URL || '';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
+import {
+  ArrowRight, CheckCircle2, Plus, Minus,
+  Users, Award, Star, GraduationCap, BookOpen,
+  Phone, Mail, MapPin, Clock, ChevronRight, Play,
+  Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout, X,
+  Cpu, Music, Camera, Globe,
+} from 'lucide-react';
+
+const ICON_MAP = { Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout, BookOpen, Star, Award, Users, Globe, Cpu, Music, Camera };
+import { fetchCourses } from '../features/courses/coursesSlice';
+import { fetchArticles } from '../features/blog/blogSlice';
+import CourseCard from '../components/common/CourseCard';
+import HeroSwiper from '../components/common/HeroSwiper';
+import DirectionsSplit from '../components/common/DirectionsSplit';
+import TeamSection from '../components/common/TeamSection';
+import NewsSwiper from '../components/common/NewsSwiper';
+import VideosSwiper from '../components/common/VideosSwiper';
+import ArticleCard from '../components/common/ArticleCard';
+import Spinner from '../components/ui/Spinner';
+import api from '../services/api';
+import { toast } from 'react-toastify';
+
+/* ─── reusable Stat block ──────────────────────────────── */
+const StatBlock = ({ value, label }) => (
+  <motion.div
+    initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+    transition={{ duration:0.6 }}
+    className="flex flex-col">
+    <div className="flex items-start gap-1 leading-none">
+      <span className="text-[44px] sm:text-[64px] md:text-[78px] font-black text-gray-900 leading-none">{value}</span>
+      <span className="text-[32px] sm:text-[44px] md:text-[54px] font-black text-orange leading-none mt-2">+</span>
+    </div>
+    <span className="text-gray-500 text-[15px] mt-2 font-medium">{label}</span>
+  </motion.div>
+);
+
+/* ─── animation helper ─────────────────────────────────── */
+const up = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.55, ease: 'easeOut', delay },
+});
+
+/* ─── Static data ───────────────────────────────────────── */
+const STATS = [
+  { val: '600+',  lbl: "O'quvchi",       icon: Users },
+  { val: '3+',    lbl: "Filial",          icon: MapPin },
+  { val: '50+',   lbl: "Mutaxassis",     icon: Award },
+  { val: '10–11',  lbl: "Sinflar",         icon: GraduationCap },
+];
+
+const SUBJECTS = [
+  { 
+    icon: Code,           
+    name: 'Dasturlash',                    
+    desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
+    img: '/assets/images/DSC00827.jpg',
+    duration: '2 yil',
+    features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
+  },
+  { 
+    icon: TrendingUp,     
+    name: 'Marketing va Agrobiznes',       
+    desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.", 
+    img: '/assets/images/DSC00912.jpg',
+    duration: '2 yil',
+    features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
+  },
+  { 
+    icon: Palette,        
+    name: 'Kompyuter Grafikasi',           
+    desc: '3D modellashtirish, brending va vizual kontent.', 
+    img: '/assets/images/DSC01093.jpg',
+    duration: '2 yil',
+    features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
+  },
+  { 
+    icon: ShieldCheck,    
+    name: 'Bank Nazoratchisi',             
+    desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', 
+    img: '/assets/famali-photo/DSC00875.jpg',
+    duration: '2 yil',
+    features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
+  },
+  { 
+    icon: Hotel,          
+    name: 'Mehmonxona Boshqaruvi',         
+    desc: "Xalqaro servis va mehmondo'stlik san'ati.", 
+    img: '/assets/famali-photo/DSC00954.jpg',
+    duration: '2 yil',
+    features: ['Service Management', 'Event planning', 'Xorijiy tillar']
+  },
+  { 
+    icon: BarChart3,      
+    name: 'Raqamli Axborotlar Analitigi',   
+    desc: "Ma'lumotlar tahlili va biznes-bashorat.",
+    img: '/assets/famali-photo/DSC00955.jpg',
+    duration: '2 yil',
+    features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
+  },
+  { 
+    icon: FlaskConical,   
+    name: 'Laborant-Analitik',             
+    desc: 'Tibbiy va sanoat tahlillari ustasi.', 
+    img: '/assets/famali-photo/DSC00964.jpg',
+    duration: '2 yil',
+    features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
+  },
+  { 
+    icon: Sprout,         
+    name: "Dorivor O'simliklar Laboranti",
+    desc: 'Farmatsevtika va fitoterapiya sirlari.', 
+    img: '/assets/famali-photo/DSC00980.jpg',
+    duration: '2 yil',
+    features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
+  },
+];
+
+const VIDEOS = [
+  { src: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4', title: 'Amaliy darslar' },
+  { src: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4', title: 'Tadbirlar' },
+  { src: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4', title: 'Oromgoh' },
+  { src: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4', title: 'Dars jarayoni' },
+  { src: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4', title: 'Bitiruv kechasi' },
+];
+
+
+
+
+const EXTRAS = [
+  "IT va Robototexnika",
+  "Ingliz tili (IELTS tayyorlov)",
+  "Matematika olimpiadasi",
+  "Shaxmat",
+  "Stol tennisi",
+  "Ijodiy to'garaklar",
+];
+
+const FEATURES = [
+  {
+    title: "Tajribali o'qituvchilar",
+    desc: "Har bir fandan yuqori malakali va tajribali pedagoglar jamoasi",
+    bg: 'bg-blue/8', col: 'text-blue',
+  },
+  {
+    title: "Zamonaviy sinf xonalar",
+    desc: "Eng zamonaviy jihozlar, laboratoriya va multimedia vositalari",
+    bg: 'bg-teal/10', col: 'text-teal-dark',
+  },
+  {
+    title: "Individual yondashuv",
+    desc: "Har bir o'quvchiga alohida e'tibor va o'quv rejasi",
+    bg: 'bg-coral/8', col: 'text-coral-dark',
+  },
+  {
+    title: "Olimpiada natijalari",
+    desc: "Respublika va xalqaro olimpiadalarda yuksak yutuqlar",
+    bg: 'bg-blue/8', col: 'text-blue',
+  },
+];
+
+const STATIC_SCHOLARSHIP_CARDS = [
+  { title: 'SAT 1200+',       subtitle: '',            amount: '2 MLN',    amountUnit: "so'm", badge: "Deyarli bepul o'qish", colorType: 'blue' },
+  { title: 'Chet tili C1',    subtitle: 'IELTS 7.0+',  amount: '1 MLN',    amountUnit: "so'm", badge: 'Katta chegirma',       colorType: 'teal' },
+  { title: 'Chet tili B2',    subtitle: 'IELTS 5.5-6.5', amount: '500 MING', amountUnit: "so'm", badge: 'Stipendiya',          colorType: 'blue2' },
+  { title: 'Fan sertifikati', subtitle: 'B+ darajasi', amount: '500 MING', amountUnit: "so'm", badge: 'Stipendiya',           colorType: 'coral' },
+];
+
+const SC_COLORS = {
+  blue:  { grad: 'bg-blue-grad',  shadow: 'shadow-blue/5',  iconBg: 'from-blue to-blue-dark',        iconShadow: 'shadow-blue/30',  amtColor: 'text-blue',      badgeCls: 'text-coral bg-coral/10',    Icon: Award },
+  teal:  { grad: 'bg-teal-grad',  shadow: 'shadow-teal/5',  iconBg: 'from-teal-400 to-teal-600',     iconShadow: 'shadow-teal/30',  amtColor: 'text-teal-600',  badgeCls: 'text-teal-700 bg-teal-100', Icon: Star },
+  blue2: { grad: 'bg-blue-grad',  shadow: 'shadow-blue/5',  iconBg: 'from-blue-400 to-blue-600',     iconShadow: 'shadow-blue/30',  amtColor: 'text-blue',      badgeCls: 'text-blue bg-blue/10',      Icon: BookOpen },
+  coral: { grad: 'bg-coral-grad', shadow: 'shadow-coral/5', iconBg: 'from-coral to-coral-dark',      iconShadow: 'shadow-coral/30', amtColor: 'text-coral',     badgeCls: 'text-coral bg-coral/10',    Icon: CheckCircle2 },
+};
+
+const STATIC_FAQS = [
+  { _id: 'f1', question: "Diplom davlat namunasidagimi?", answer: "Ha, bitiruvchilarga davlat namunasidagi diplom beriladi." },
+  { _id: 'f2', question: "O'qish narxi qancha?", answer: "Oylik to'lov 2 500 000 so'm (yiliga 10 oy)." },
+  { _id: 'f3', question: "Grantlar bormi?", answer: "Ha, bizda jami 1 milliard so'mlik grant fondi mavjud." },
+];
+
+const STATIC_REVIEWS = [
+  { _id: 'r1', name: 'Zulfiya Xasanova', role: "9-sinf o'quvchisining onasi", avatar: '/assets/posts/avatar-02.jpg', text: "Topex texnikumiga o'tganidan beri o'g'lim matematika va fizikadan sezilarli yutuqlar ko'rsatyapti. O'qituvchilar juda mehribon va tajribali.", rating: 5 },
+  { _id: 'r2', name: 'Behruz Toshmatov', role: '11-sinf bitiruvchisi', avatar: '/assets/posts/avatar-01.jpg', text: "Topexda o'qigan 3 yilim hayotimning eng foydali davri bo'ldi. Olimpiadada birinchi o'rin oldim va universitetga kirish oson bo'ldi.", rating: 5 },
+  { _id: 'r3', name: 'Nilufar Rahimova', role: "6-sinf o'quvchisining otasi", avatar: '/assets/posts/avatar-02.jpg', text: "Individual yondashuv va zamonaviy usullar tufayli qizimning o'zlashtirishi keskin yaxshilandi. Texnikum bilan juda mamnunmiz.", rating: 5 },
+];
+
+/* ─── Accordion item ─────────────────────────────────────── */
+const Acc = ({ q, a, dark }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={dark ? 'faq-row' : 'acc-row'}>
+      <button className={dark ? 'faq-btn' : 'acc-btn'} onClick={() => setOpen(v => !v)}>
+        <span>{q}</span>
+        <span className="ml-4 flex-shrink-0">
+          {open ? <Minus size={17} /> : <Plus size={17} />}
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div key="body"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="overflow-hidden"
+          >
+            <p className={`pb-4 text-sm leading-relaxed ${dark ? 'text-white/65' : 'text-gray-500'}`}>{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const PremiumAcc = ({ q, a, index }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className={`border border-gray-200/80 rounded-[1.5rem] bg-white/60 backdrop-blur-md overflow-hidden transition-all duration-300 ${open ? 'shadow-xl shadow-blue/5 border-blue/30 bg-white' : 'hover:border-blue/40 hover:bg-white hover:shadow-md'}`}
+    >
+      <button 
+        className="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none group" 
+        onClick={() => setOpen(v => !v)}
+      >
+        <span className={`font-extrabold text-[15px] sm:text-base pr-4 transition-colors ${open ? 'text-blue' : 'text-navy group-hover:text-blue'}`}>{q}</span>
+        <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${open ? 'bg-blue text-white rotate-180' : 'bg-gray-100 text-gray-500 group-hover:bg-blue/10 group-hover:text-blue'}`}>
+          {open ? <Minus size={18} /> : <Plus size={18} />}
+        </div>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-6 pt-2">
+              <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-4"></div>
+              <p className="text-gray-500 text-[15px] leading-relaxed">
+                {a}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
+/* ─── Page ───────────────────────────────────────────────── */
+const HomePage = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const [selected, setSelected] = useState(null);
+  const [activeVideo, setActiveVideo] = useState(null);
+  const { list: courses, loading: cLoad } = useSelector(s => s.courses);
+  const { list: articles, loading: aLoad } = useSelector(s => s.blog);
+  const [form, setForm] = useState({ name: '', phone: '', grade: '9' });
+  const [faqs, setFaqs] = useState(STATIC_FAQS);
+  const [reviews, setReviews] = useState(STATIC_REVIEWS);
+  const [settings, setSettings] = useState(null);
+  const [homeVideos, setHomeVideos] = useState([]);
+  const [dbTeachers, setDbTeachers] = useState([]);
+  const [dbDirections, setDbDirections] = useState([]);
+  const [dbSubjects, setDbSubjects] = useState([]);
+  const [dbExtras, setDbExtras] = useState([]);
+  const [dbFeatures, setDbFeatures] = useState([]);
+  const [dbScholarshipCards, setDbScholarshipCards] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchCourses({ limit: 6 }));
+    dispatch(fetchArticles({ limit: 3 }));
+    api.get('/faq').then(r => { if (r.data.data?.length) setFaqs(r.data.data); }).catch(() => {});
+    api.get('/testimonials').then(r => { if (r.data.data?.length) setReviews(r.data.data); }).catch(() => {});
+    api.get('/settings').then(r => {
+      const d = r.data.data;
+      if (d) {
+        setSettings(d);
+        if (d.subjects?.length > 0)         setDbSubjects(d.subjects);
+        if (d.extras?.length > 0)            setDbExtras(d.extras);
+        if (d.features?.length > 0)          setDbFeatures(d.features);
+        if (d.scholarshipCards?.length > 0)  setDbScholarshipCards(d.scholarshipCards);
+      }
+    }).catch(() => {});
+    api.get('/home-videos').then(r => { if (Array.isArray(r.data.data)) setHomeVideos(r.data.data); }).catch(() => {});
+    api.get('/teachers').then(r => { if (Array.isArray(r.data.data)) setDbTeachers(r.data.data); }).catch(() => {});
+    api.get('/directions').then(r => { if (Array.isArray(r.data.data)) setDbDirections(r.data.data); }).catch(() => {});
+  }, [dispatch]);
+
+  const displaySubjects        = dbSubjects.length        > 0 ? dbSubjects        : SUBJECTS;
+  const displayExtras          = dbExtras.length          > 0 ? dbExtras          : EXTRAS;
+  const displayFeatures        = dbFeatures.length        > 0 ? dbFeatures        : FEATURES;
+  const displayScholarshipCards = dbScholarshipCards.length > 0 ? dbScholarshipCards : STATIC_SCHOLARSHIP_CARDS;
+
+  const displayVideos = homeVideos.length > 0
+    ? homeVideos.map(v => ({
+        src: !v.url
+          ? ''
+          : v.url.startsWith('http') || v.url.startsWith('/assets')
+            ? v.url
+            : `${API_URL}${v.url}`,
+        title: v.title,
+      }))
+    : VIDEOS;
+
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+
+    const fullName = (form.name || '').trim();
+    const phone = (form.phone || '').trim();
+    const grade = String(form.grade || '').trim();
+
+    if (!fullName) { toast.error("Ismingizni kiriting"); return; }
+    if (!phone)    { toast.error("Telefon raqamingizni kiriting"); return; }
+    if (grade !== '9' && grade !== '11') { toast.error("Sinf 9 yoki 11 bo'lishi kerak"); return; }
+
+    try {
+      setSubmitting(true);
+      await api.post('/applications', { fullName, phone, grade });
+      toast.success(`Rahmat, ${fullName}! Arizangiz qabul qilindi. Tez orada bog'lanamiz.`);
+      setForm({ name: '', phone: '', grade: '9' });
+    } catch (err) {
+      const msg = err?.response?.data?.message
+        || err?.response?.data?.errors?.[0]?.msg
+        || (err?.message === 'Network Error'
+            ? "Internet bilan bog'lanishda muammo. Iltimos, keyinroq urinib ko'ring."
+            : "Ariza yuborishda xatolik. Qayta urinib ko'ring.");
+      toast.error(msg);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <Helmet>
+        <title>{settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"}</title>
+        <meta name="description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Tajribali o'qituvchilar, olimpiada natijalari."} />
+        <meta name="keywords" content="TOPEX, Topex Texnikumi, xususiy texnikum Toshkent, Chilonzor, 10-sinf, 11-sinf, olimpiada, grant, akademik litsey" />
+        <link rel="canonical" href="https://topex-texnikumi.vercel.app/" />
+        <meta property="og:title" content={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"} />
+        <meta property="og:description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum."} />
+        <meta property="og:url" content="https://topex-texnikumi.vercel.app/" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:title" content={settings?.siteTitle || "Topex Texnikumi"} />
+        <meta name="twitter:description" content={settings?.siteDescription || "Toshkentdagi zamonaviy xususiy texnikum."} />
+      </Helmet>
+
+      {/* ══ 1. HERO — Profi-style split ══════════════════════ */}
+      <HeroSwiper settings={settings} />
+
+
+      {/* ══ 2. STATS BAR ══════════════════════════════════════ */}
+      <section className="bg-navy-grad py-10">
+        <div className="wrap">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:divide-x divide-white/10">
+            {[
+              { val: settings?.statsStudents || STATS[0].val, lbl: STATS[0].lbl, icon: STATS[0].icon },
+              { val: settings?.statsBranches || STATS[1].val, lbl: STATS[1].lbl, icon: STATS[1].icon },
+              { val: settings?.statsTeachers || STATS[2].val, lbl: STATS[2].lbl, icon: STATS[2].icon },
+            ].map(({ val, lbl, icon:Icon }, i) => (
+              <motion.div {...up(i*0.07)} key={lbl} className="flex flex-col items-center text-center py-2 px-4">
+                <Icon size={26} className="text-coral mb-3" />
+                <p className="text-white font-black text-3xl">{val}</p>
+                <p className="text-white/55 text-sm mt-1">{lbl}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 3. TEXNIKUM HAQIDA — Profi-style ══════════════════ */}
+      <section className="relative bg-white py-12 sm:py-20 lg:py-28 overflow-hidden">
+        {/* Subtle linework decoration */}
+        <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.04] pointer-events-none"
+             style={{
+               backgroundImage: "repeating-linear-gradient(135deg, transparent 0 40px, #1d3a8a 40px 41px)"
+             }} />
+
+        <div className="w-full px-6 lg:px-16 max-w-[1500px] mx-auto relative">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+
+            {/* LEFT — 2x2 staggered image collage */}
+            <motion.div {...up(0)} className="relative">
+              <div className="grid grid-cols-2 gap-5">
+                {[
+                  { src: settings?.aboutImage1 || '/assets/images/DSC00827.jpg', cls: 'aspect-[3/4] sm:-mt-6' },
+                  { src: settings?.aboutImage2 || '/assets/images/DSC00912.jpg', cls: 'aspect-[3/4] sm:mt-6' },
+                  { src: settings?.aboutImage3 || '/assets/images/DSC01036.jpg', cls: 'aspect-[4/3]' },
+                  { src: settings?.aboutImage4 || '/assets/images/DSC01093.jpg', cls: 'aspect-[4/3] sm:mt-8' },
+                ].map((im, i) => {
+                  const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
+                  return (
+                    <motion.div key={i}
+                      initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                      transition={{ duration:0.6, delay: i*0.1 }}
+                      className={`${im.cls} rounded-2xl overflow-hidden shadow-xl`}>
+                      <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* RIGHT — text + stats */}
+            <motion.div {...up(0.15)}>
+              <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
+                {settings?.aboutSectionLabel || t('about.label')}
+              </span>
+              <h2 className="text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-7">
+                {settings?.aboutSectionTitle || t('about.title')}
+              </h2>
+              <p className="text-gray-600 text-base mb-5">
+                {settings?.aboutSlogan || t('about.slogan')}
+              </p>
+              <p className="text-gray-600 text-[15px] md:text-[16px] leading-[1.75] mb-10 max-w-xl">
+                {settings?.aboutParagraph || t('about.paragraph')}
+              </p>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-8 mb-12 max-w-md">
+                <StatBlock value={settings?.aboutStat1Value || '600'} label={settings?.aboutStat1Label || t('stats.students')} />
+                <StatBlock value={settings?.aboutStat2Value || '50'}  label={settings?.aboutStat2Label || t('stats.teacher')} />
+              </div>
+
+              <button
+                onClick={() => document.getElementById('ariza')?.scrollIntoView({ behavior:'smooth' })}
+                className="inline-flex items-center justify-center bg-brand hover:bg-brand-dark
+                           text-white font-semibold px-12 py-4 rounded-xl shadow-lg
+                           hover:-translate-y-0.5 transition-all duration-200 text-[15px]">
+                {settings?.aboutBtnText || t('about.more')}
+              </button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* ══ 4. YO'NALISHLAR — Profi-style split ══════════════ */}
+      <DirectionsSplit subjects={dbDirections.length > 0 ? dbDirections : displaySubjects} settings={settings} onSelect={setSelected} />
+
+      {/* ══ 5. JAMOA — Bizning mutaxassislar ═════════════════ */}
+      <TeamSection teachers={dbTeachers} settings={settings} />
+
+      {/* ══ 7. VIDEO — Talabalik hayoti ═════════════════════ */}
+      <VideosSwiper videos={displayVideos} onOpen={setActiveVideo} settings={settings} />
+
+
+
+
+
+
+
+      {/* ══ ARIZA — Profi-style form ═════════════════════════ */}
+      <section id="ariza" className="relative bg-white py-12 sm:py-20 lg:py-28 overflow-hidden">
+        {/* Decorative line pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(135deg, transparent 0 60px, #1d3a8a 60px 61px)',
+          }}
+        />
+
+        <div className="w-full max-w-[1500px] mx-auto px-6 lg:px-16 relative">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            {/* LEFT — Form */}
+            <div>
+              <motion.span
+                initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
+                {settings?.formLabel || t('form.label')}
+              </motion.span>
+              <motion.h2
+                initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                transition={{ delay:0.1 }}
+                className="text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-8">
+                {settings?.formTitle || t('form.title')}
+              </motion.h2>
+              <motion.p
+                initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                transition={{ delay:0.2 }}
+                className="text-gray-600 text-[16px] leading-[1.85] mb-10 max-w-xl">
+                {settings?.formParagraph || t('form.paragraph')}
+              </motion.p>
+
+              <motion.form
+                onSubmit={submit}
+                initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                transition={{ delay:0.3 }}
+                className="space-y-5 max-w-xl">
+
+                <div>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formNameLabel || t('form.nameLabel')}</label>
+                  <input
+                    type="text"
+                    placeholder={settings?.formNamePh || t('form.namePh')}
+                    className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 text-brand text-[15px]
+                               placeholder:text-gray-400 focus:outline-none focus:border-orange transition-all"
+                    value={form.name}
+                    onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formPhoneLabel || t('form.phoneLabel')}</label>
+                  <div className="relative">
+                    <span className="absolute left-5 top-1/2 -translate-y-1/2 text-base leading-none">🇺🇿</span>
+                    <input
+                      type="tel"
+                      placeholder="+998 __ ___-__-__"
+                      className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 pl-14 pr-5 text-brand text-[15px]
+                                 placeholder:text-gray-400 focus:outline-none focus:border-orange transition-all"
+                      value={form.phone}
+                      onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formDirLabel || t('form.directionLabel')}</label>
+                  <div className="relative">
+                    <select
+                      className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 pr-12 text-brand text-[15px]
+                                 focus:outline-none focus:border-orange transition-all appearance-none cursor-pointer"
+                      value={form.grade}
+                      onChange={e => setForm(p => ({ ...p, grade: e.target.value }))}
+                    >
+                      <option value="">{settings?.formDirPh || t('form.directionPh')}</option>
+                      <option value="9">{settings?.formDir9 || t('form.direction9')}</option>
+                      <option value="11">{settings?.formDir11 || t('form.direction11')}</option>
+                    </select>
+                    <ChevronRight size={18} className="absolute right-5 top-1/2 -translate-y-1/2 rotate-90 text-gray-400 pointer-events-none" />
+                  </div>
+                </div>
+
+                <label className="flex items-start gap-3 cursor-pointer pt-2">
+                  <input
+                    type="checkbox"
+                    required
+                    className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2 cursor-pointer"
+                  />
+                  <span className="text-gray-500 text-[13px] leading-relaxed">
+                    {settings?.formAgreeText || t('form.agree')}
+                  </span>
+                </label>
+
+                <div className="pt-4 flex justify-center lg:justify-start">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="inline-flex items-center justify-center gap-2 bg-orange-grad hover:brightness-110
+                               text-white font-bold px-14 py-4 rounded-xl shadow-xl shadow-orange/30
+                               hover:-translate-y-0.5 transition-all duration-200 text-[15px]
+                               disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                    {submitting ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        {t('form.submitting')}
+                      </>
+                    ) : (
+                      <>{settings?.formSubmitText || t('form.submit')}</>
+                    )}
+                  </button>
+                </div>
+              </motion.form>
+            </div>
+
+            {/* RIGHT — photo with orange arch */}
+            <motion.div
+              initial={{ opacity:0, scale:0.95 }} whileInView={{ opacity:1, scale:1 }} viewport={{ once:true }}
+              transition={{ duration:0.7 }}
+              className="relative hidden lg:flex items-end justify-center min-h-[600px]">
+              {/* Orange arch background */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[420px] h-[560px]
+                              bg-orange-grad shadow-2xl shadow-orange/20"
+                   style={{ borderRadius: '210px 210px 24px 24px' }} />
+              {/* Photo on top */}
+              <img
+                src={settings?.formImage
+                  ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
+                  : '/assets/images/DSC00912.jpg'}
+                alt="Topex talabasi"
+                className="relative z-10 w-[400px] h-[540px] object-cover rounded-t-[200px]
+                           shadow-2xl"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      {/* ── Lightbox ── */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-navy/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
+            onClick={() => setSelected(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all"
+              onClick={() => setSelected(null)}
+            >
+              <X size={24} />
+            </button>
+
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="max-w-4xl w-full bg-white rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl relative"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+                <img
+                  src={selected.imgUrl ? (selected.imgUrl.startsWith('/assets') ? selected.imgUrl : `${API_URL}${selected.imgUrl}`) : (selected.img || '')}
+                  alt={selected.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent md:hidden"></div>
+              </div>
+              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col bg-white text-left">
+                {(() => { const SelIcon = selected.icon || ICON_MAP[selected.iconName] || BookOpen; return (
+                  <div className="w-16 h-16 rounded-2xl bg-blue/10 flex items-center justify-center text-blue mb-6">
+                    <SelIcon size={32} strokeWidth={2} />
+                  </div>
+                ); })()}
+                <h2 className="text-navy text-3xl font-black mb-4">{selected.name}</h2>
+                <p className="text-gray-500 text-lg leading-relaxed mb-8">{selected.desc}</p>
+
+                <div className="mt-auto space-y-4">
+                  <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <GraduationCap size={20} className="text-blue" />
+                    <span>O'qish muddati: <span className="font-bold">{selected.duration} (10-11 sinflar)</span></span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <TrendingUp size={20} className="text-coral" />
+                    <div className="flex flex-wrap gap-1">
+                      {(Array.isArray(selected.features)
+                        ? selected.features
+                        : (selected.features || '').split(',').map(f => f.trim()).filter(Boolean)
+                      ).map((f, i) => (
+                        <span key={i} className="after:content-[','] last:after:content-[''] mr-1">{f}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={() => {
+                    setSelected(null);
+                    document.getElementById('ariza')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="btn-blue w-full mt-8 py-4 text-base"
+                >
+                  Ariza qoldirish
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Video Lightbox ── */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-12"
+            onClick={() => setActiveVideo(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all z-[120]"
+              onClick={() => setActiveVideo(null)}
+            >
+              <X size={24} />
+            </button>
+
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="max-w-5xl w-full aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl relative border border-white/10"
+              onClick={e => e.stopPropagation()}
+            >
+              <video 
+                src={activeVideo.url || activeVideo.src} 
+                className="w-full h-full"
+                controls 
+                autoPlay 
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+export default HomePage;

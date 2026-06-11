@@ -1,0 +1,27 @@
+{
+  "name": "TOPEX Texnikumi",
+  "short_name": "TOPEX",
+  "description": "TOPEX Texnikumi – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10–11 sinflar uchun sifatli ta'lim.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#27374D",
+  "lang": "uz",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/logos/topex-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logos/topex-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "school"]
+}

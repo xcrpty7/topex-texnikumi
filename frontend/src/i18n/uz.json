@@ -1,0 +1,168 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "about": "Biz haqimizda",
+    "courses": "Yo'nalishlar",
+    "blog": "Yangiliklar",
+    "gallery": "Galereya",
+    "contacts": "Aloqalar",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish",
+    "profile": "Profil",
+    "logout": "Chiqish",
+    "admin": "Admin panel"
+  },
+  "contact": {
+    "address": "Manzili",
+    "phone": "Murojaat",
+    "email": "E-mail",
+    "addressValue": "Sirg'ali-3, Yangi Sirg'ali yo'li ko'chasi, 49-uy",
+    "addressValue2": ""
+  },
+  "hero": {
+    "slide1Title1": "KELAJAK",
+    "slide1Title2": "KASBINI BUGUN",
+    "slide1Title3": "EGALLANG!",
+    "slide1Sub": "Topex Texnikumida zamonaviy yo'nalishlar, amaliy tajriba va oylik 2 000 000 so'mgacha stipendiya olish imkoniyati.",
+    "slide2Title1": "REPETITORSIZ",
+    "slide2Title2": "VA SIFATLI",
+    "slide2Title3": "TA'LIM",
+    "slide2Sub": "10-11 sinflar uchun professional yo'nalishlar bo'yicha maxsus dasturlar va xalqaro standartlar.",
+    "slide3Title1": "ZAMONAVIY",
+    "slide3Title2": "TEXNIKUM",
+    "slide3Title3": "TOSHKENTDA",
+    "slide3Sub": "3+ filial, 50+ professional o'qituvchi, 600+ o'quvchi — kelajak kasbingiz shu yerda boshlanadi.",
+    "ctaApply": "Ariza topshirish",
+    "note": "9-sinfni tamomlaganlar va 11 yillik ta'limi tugallanmay qolganlar uchun!"
+  },
+  "stats": {
+    "students": "O'quvchi",
+    "branches": "Filial",
+    "teachers": "Mutaxassis",
+    "teacher": "O'qituvchi",
+    "grades": "Sinflar"
+  },
+  "about": {
+    "label": "Nima uchun biz",
+    "title": "Texnikum haqida",
+    "slogan": "Topex Texnikumi — Sifatli ta'lim, real natija!",
+    "paragraph": "Topex texnikumi — Toshkent shahrining Chilonzor tumanida 2022-yildan beri faoliyat ko'rsatayotgan zamonaviy xususiy texnikum. Biz 600 dan ortiq o'quvchiga 10-11 sinflar uchun yuqori sifatli ta'lim, professional yo'nalishlar va olimpiadaga tayyorgarlik bo'yicha xizmatlar ko'rsatib kelmoqdamiz. Tajribali pedagoglar, zamonaviy sinflar va individual yondashuv har bir o'quvchining salohiyatini ochishga yordam beradi.",
+    "more": "Batafsil"
+  },
+  "directions": {
+    "label": "Topex Texnikumida",
+    "title": "Yo'nalishlar",
+    "prev": "Oldingi",
+    "next": "Keyingi",
+    "items": {
+      "programming": "Dasturlash",
+      "marketing": "Marketing va Agrobiznes",
+      "graphics": "Kompyuter Grafikasi",
+      "bank": "Bank Nazoratchisi",
+      "hotel": "Mehmonxona Boshqaruvi",
+      "analytics": "Raqamli Axborotlar Analitigi",
+      "lab": "Laborant-Analitik",
+      "pharma": "Dorivor O'simliklar Laboranti"
+    }
+  },
+  "team": {
+    "label": "Bizning mutaxassislar",
+    "title": "Bizning jamoa bilan tanishing",
+    "paragraph": "Topex Texnikumida 50 dan ortiq professional o'qituvchi va amaliyotchi mutaxassis faoliyat yuritmoqda. Ularning aksariyati o'z sohasida tajribali bo'lib, IT, marketing, bank, grafika va boshqa zamonaviy yo'nalishlarda mutaxassis darajasidagi bilim beradi. Bizning ustozlarimiz nafaqat nazariy ma'lumot, balki real ish tajribasi va karyera maslahatlarini ham o'rgatadi.",
+    "allTeachers": "Barcha ustozlar",
+    "roles": {
+      "director": "Topex Texnikumi direktori",
+      "programming": "Dasturlash kafedra mudiri",
+      "marketing": "Marketing kafedra mudiri",
+      "design": "Grafika dizayn ustozi",
+      "bank": "Bank ishi mutaxassisi"
+    }
+  },
+  "news": {
+    "label": "Bizning blog",
+    "title": "Yangiliklar",
+    "more": "Batafsil",
+    "items": {
+      "n1": "Hayotimizning ma'nosi, bu — bolalar!",
+      "n2": "Topex Texnikumi yangi o'quv yili!",
+      "n3": "Imtihonga keldingizmi?",
+      "n4": "Amaliy darslar va loyihalar haftaligi",
+      "n5": "Olimpiada g'oliblari taqdirlandi",
+      "n6": "Yangi laboratoriya ochildi"
+    }
+  },
+  "videos": {
+    "label": "Joriy video roliklar",
+    "title": "Talabalik hayoti",
+    "subtitle": "Topex hayoti"
+  },
+  "form": {
+    "label": "Savolingiz bormi?",
+    "title": "Ma'lumotlaringizni to'ldiring",
+    "paragraph": "Telefon raqamingizni qoldiring va biz sizni barcha qiziqtirgan savollaringizga javob beramiz!",
+    "nameLabel": "Ismingiz",
+    "namePh": "To'liq ismingizni qoldiring",
+    "phoneLabel": "Telefon raqamingiz",
+    "directionLabel": "Yo'nalish",
+    "directionPh": "Yo'nalishni tanlang",
+    "direction9": "9-sinfdan keyin (3 yil)",
+    "direction11": "11-sinfdan keyin (2 yil)",
+    "agree": "Men shaxsiy ma'lumotlarni qayta ishlashga rozilik beraman, \"Topex Texnikumi\"dan axborot byulletenlarini olishga roziman va maxfiylik siyosatiga roziman.",
+    "submit": "Ariza topshirish",
+    "submitting": "Yuborilmoqda..."
+  },
+  "footer": {
+    "colAbout": "Texnikum haqida",
+    "colApplicants": "Abituriyentlar uchun",
+    "colStudents": "Talabalar uchun",
+    "colContacts": "Aloqalar",
+    "license": "Texnikum litsenziyasi",
+    "copyright": "©Copyright",
+    "oferta": "Ommaviy oferta",
+    "links": {
+      "about": "Biz haqimizda",
+      "news": "Yangiliklar",
+      "partners": "Hamkorlar",
+      "vacancies": "Vakansiyalar",
+      "team": "\"Topex\" jamoasi",
+      "journals": "Jurnallar",
+      "directions": "Yo'nalishlar",
+      "faq": "Savol-javoblar",
+      "examResult": "Kirish imtihon natijasi",
+      "contract": "Shartnoma olish",
+      "studentLife": "Talabalik hayoti"
+    }
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi",
+    "noData": "Ma'lumot yo'q",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "confirm": "Tasdiqlash",
+    "delete": "O'chirish",
+    "edit": "Tahrirlash",
+    "back": "Orqaga",
+    "search": "Qidirish",
+    "filter": "Filtr",
+    "all": "Barchasi",
+    "free": "Bepul"
+  },
+  "auth": {
+    "loginTitle": "Xush kelibsiz",
+    "loginSubtitle": "Davom etish uchun kiring",
+    "registerTitle": "Topex'ga qo'shiling",
+    "registerSubtitle": "Bugun o'qishni boshlang",
+    "name": "To'liq ism",
+    "email": "Elektron pochta",
+    "password": "Parol",
+    "confirmPassword": "Parolni tasdiqlang",
+    "submit": "Kirish",
+    "submitRegister": "Hisob yaratish",
+    "noAccount": "Hisobingiz yo'qmi?",
+    "hasAccount": "Hisobingiz bormi?",
+    "signUp": "Ro'yxatdan o'tish",
+    "signIn": "Kirish",
+    "forgotPassword": "Parolni unutdingizmi?"
+  }
+}

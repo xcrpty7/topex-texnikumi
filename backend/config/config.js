@@ -1,0 +1,26 @@
+module.exports = {
+  jwtAccessSecret: process.env.JWT_ACCESS_SECRET,
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
+  jwtAccessExpire: process.env.JWT_ACCESS_EXPIRE || '15m',
+  jwtRefreshExpire: process.env.JWT_REFRESH_EXPIRE || '7d',
+  clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
+  uploadPath: process.env.UPLOAD_PATH || 'uploads',
+  maxFileSize: parseInt(process.env.MAX_FILE_SIZE) || 5 * 1024 * 1024,
+  roles: {
+    USER: 'USER',
+    ADMIN: 'ADMIN',
+    SUPER_ADMIN: 'SUPER_ADMIN',
+  },
+  courseCategories: [
+    'Dasturlash',
+    'Marketing',
+    'Grafik Dizayn',
+    'Bank',
+    'Mehmonxona',
+    'Ma\'lumotlar Tahlili',
+    'Laboratoriya',
+    'Farmatsevtika',
+  ],
+  courseLevels: ['Boshlang\'ich', 'O\'rta', 'Yuqori'],
+  applicationStatuses: ['yangi', 'ko\'rib_chiqilmoqda', 'qabul_qilindi', 'rad_etildi'],
+};
