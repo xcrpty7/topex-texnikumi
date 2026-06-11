@@ -1,44 +1,34 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
-import Spinner from '../components/ui/Spinner';
-
-const HomePage = lazy(() => import('../pages/HomePage'));
-const LoginPage = lazy(() => import('../pages/LoginPage'));
-const RegisterPage = lazy(() => import('../pages/RegisterPage'));
-const CoursesPage = lazy(() => import('../pages/CoursesPage'));
-const CourseDetailPage = lazy(() => import('../pages/CourseDetailPage'));
-const GalleryPage = lazy(() => import('../pages/GalleryPage'));
-const ContactPage = lazy(() => import('../pages/ContactPage'));
+import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
+import CoursesPage from '../pages/CoursesPage';
+import CourseDetailPage from '../pages/CourseDetailPage';
+import GalleryPage from '../pages/GalleryPage';
+import ContactPage from '../pages/ContactPage';
 import BlogPage from '../pages/BlogPage';
 import ArticleDetailPage from '../pages/ArticleDetailPage';
-const ProfilePage = lazy(() => import('../pages/ProfilePage'));
-const AdminDashboard    = lazy(() => import('../pages/admin/AdminDashboard'));
-const AdminUsers        = lazy(() => import('../pages/admin/AdminUsers'));
-const AdminCourses      = lazy(() => import('../pages/admin/AdminCourses'));
-const AdminBlog         = lazy(() => import('../pages/admin/AdminBlog'));
-const AdminApplications = lazy(() => import('../pages/admin/AdminApplications'));
-const AdminGallery      = lazy(() => import('../pages/admin/AdminGallery'));
-const AdminTestimonials = lazy(() => import('../pages/admin/AdminTestimonials'));
-const AdminFAQ          = lazy(() => import('../pages/admin/AdminFAQ'));
-const AdminScholarships = lazy(() => import('../pages/admin/AdminScholarships'));
-const AdminSettings     = lazy(() => import('../pages/admin/AdminSettings'));
-const AdminHomeVideos   = lazy(() => import('../pages/admin/AdminHomeVideos'));
-const AdminSiteEditor   = lazy(() => import('../pages/admin/AdminSiteEditor'));
-const AdminTeachers     = lazy(() => import('../pages/admin/AdminTeachers'));
-const AdminDirections   = lazy(() => import('../pages/admin/AdminDirections'));
-
-const Loader = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <Spinner size="lg" />
-  </div>
-);
+import ProfilePage from '../pages/ProfilePage';
+import AdminDashboard    from '../pages/admin/AdminDashboard';
+import AdminUsers        from '../pages/admin/AdminUsers';
+import AdminCourses      from '../pages/admin/AdminCourses';
+import AdminBlog         from '../pages/admin/AdminBlog';
+import AdminApplications from '../pages/admin/AdminApplications';
+import AdminGallery      from '../pages/admin/AdminGallery';
+import AdminTestimonials from '../pages/admin/AdminTestimonials';
+import AdminFAQ          from '../pages/admin/AdminFAQ';
+import AdminScholarships from '../pages/admin/AdminScholarships';
+import AdminSettings     from '../pages/admin/AdminSettings';
+import AdminHomeVideos   from '../pages/admin/AdminHomeVideos';
+import AdminSiteEditor   from '../pages/admin/AdminSiteEditor';
+import AdminTeachers     from '../pages/admin/AdminTeachers';
+import AdminDirections   from '../pages/admin/AdminDirections';
 
 const AppRouter = () => (
-  <Suspense fallback={<Loader />}>
-    <Routes>
+  <Routes>
       {/* Auth pages — без хедера/футера */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -83,7 +73,6 @@ const AppRouter = () => (
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-  </Suspense>
 );
 
 export default AppRouter;
