@@ -249,7 +249,7 @@ const ContactPage = () => {
               <img
                 src={settings?.formImage
                   ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                  : '/assets/images/DSC00912.jpg'}
+                  : '/assets/images/form-photo.jpg'}
                 alt="Topex talabasi"
                 className="relative z-10 w-[400px] h-[540px] object-cover rounded-t-[200px] shadow-2xl"
               />
