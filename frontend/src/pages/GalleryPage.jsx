@@ -37,21 +37,27 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 const GalleryPage = () => {
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState('students');
-  const [items, setItems] = useState(STATIC_ITEMS);
+  const [items, setItems] = useState([]);
   const [settings, setSettings] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
     api.get('/gallery').then(res => {
       const data = res.data.data || [];
       if (data.length > 0) {
-        const dbItems = data.map(i => ({
+        setItems(data.map(i => ({
           ...i,
           src: i.image?.startsWith('/assets') ? i.image : `${API_URL}${i.image}`,
-        }));
-        setItems(dbItems);
+        })));
+      } else {
+        setItems(STATIC_ITEMS);
       }
-    }).catch(() => {});
+      setLoaded(true);
+    }).catch(() => {
+      setItems(STATIC_ITEMS);
+      setLoaded(true);
+    });
   }, []);
 
   return (
