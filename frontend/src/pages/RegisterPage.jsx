@@ -2,15 +2,18 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Eye, EyeOff, ArrowRight, CheckCircle2, BookOpen, User, Mail, Lock, Sparkles, GraduationCap } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Check, User, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { register, selectAuth, clearError } from '../features/auth/authSlice';
 
-const checks = (pw) => [
-  { label: '8+ belgi', valid: pw.length >= 8 },
+const API_URL = import.meta.env.VITE_API_URL || '';
+
+const passwordChecks = (pw) => [
+  { label: '8+ belgi',  valid: pw.length >= 8 },
   { label: 'Katta harf', valid: /[A-Z]/.test(pw) },
-  { label: 'Raqam', valid: /\d/.test(pw) },
+  { label: 'Raqam',      valid: /\d/.test(pw) },
 ];
 
 const RegisterPage = () => {
@@ -21,24 +24,19 @@ const RegisterPage = () => {
   const location = useLocation();
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [showPass, setShowPass] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const justSubmitted = useRef(false);
 
   useEffect(() => {
     if (!isAuthenticated) return;
-
     if (justSubmitted.current) {
       justSubmitted.current = false;
       const from = location.state?.from?.pathname;
-      if (from) {
-        navigate(from, { replace: true });
-      } else if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
-        navigate('/admin', { replace: true });
-      } else {
-        navigate('/', { replace: true });
-      }
+      if (from) navigate(from, { replace: true });
+      else if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') navigate('/admin', { replace: true });
+      else navigate('/', { replace: true });
       return;
     }
-
     navigate('/', { replace: true });
   }, [isAuthenticated, user, navigate, location]);
 
@@ -46,205 +44,234 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!agreed) return;
     justSubmitted.current = true;
     dispatch(register(form));
   };
 
+  const handleGoogle = () => {
+    window.location.href = `${API_URL}/api/auth/google`;
+  };
+
+  const pwChecks = passwordChecks(form.password);
+  const pwStrong = pwChecks.every(c => c.valid);
+
   return (
     <>
-      <Helmet><title>Ro'yxatdan o'tish – TOPEX Texnikumi</title></Helmet>
+      <Helmet>
+        <title>{t('auth.signUp')} — Topex Texnikumi</title>
+      </Helmet>
 
-      <div className="min-h-screen bg-[#F8FAFF] flex overflow-hidden font-sans">
-        
-        {/* Left panel – Info Section */}
-        <div className="hidden lg:flex lg:w-[45%] bg-navy items-center justify-center p-12 relative overflow-hidden">
-          {/* Animated Background Elements */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4"></div>
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-coral/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4"></div>
-          
-          <div className="relative z-10 max-w-md">
-            <motion.div 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="w-20 h-20 bg-gradient-to-br from-blue to-blue-dark rounded-[2rem] flex items-center justify-center mb-10 shadow-2xl shadow-blue/20"
-            >
-              <GraduationCap size={40} className="text-white" />
-            </motion.div>
+      <div className="min-h-screen flex bg-white">
+        {/* ════ LEFT — visual ════ */}
+        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-brand-deep">
+          <div className="absolute inset-0 bg-cover bg-center opacity-25"
+               style={{ backgroundImage: "url('/assets/images/DSC01036.jpg')" }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/95 via-brand/85 to-brand-deep/95" />
 
-            <motion.h2 
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-white font-black text-5xl leading-tight mb-6"
-            >
-              Kelajakni <br/> <span className="text-blue">biz bilan</span> <br/> quring!
-            </motion.h2>
+          <div className="absolute inset-0 opacity-[0.06]"
+               style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
 
-            <motion.p 
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-white/60 text-lg leading-relaxed mb-12"
-            >
-              TOPEX Texnikumi – zamonaviy ta'lim va amaliy ko'nikmalar markazi. Biz bilan birga o'z potensialingizni oching.
-            </motion.p>
+          <svg className="absolute inset-0 w-full h-full opacity-[0.08]" viewBox="0 0 800 800" preserveAspectRatio="none" fill="none">
+            {[...Array(12)].map((_, i) => (
+              <path key={i}
+                d={`M -100 ${80 + i * 50} Q 300 ${10 + i * 50}, 600 ${100 + i * 50} T 1200 ${60 + i * 50}`}
+                stroke="white" strokeWidth="1.2" fill="none" />
+            ))}
+          </svg>
 
-            <div className="space-y-6">
-              {[
-                { text: "Zamonaviy 10–11 sinf dasturi", icon: CheckCircle2 },
-                { text: "Oylik 2 000 000 so'mgacha stipendiya", icon: Sparkles },
-                { text: "Xalqaro darajadagi sertifikatlar", icon: BookOpen },
-              ].map((item, i) => (
-                <motion.div 
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 + (i * 0.1) }}
-                  key={i} 
-                  className="flex items-center gap-4 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-blue/20 flex items-center justify-center text-blue">
-                    <item.icon size={18} />
-                  </div>
-                  <span className="text-white/80 font-medium">{item.text}</span>
-                </motion.div>
-              ))}
+          <div className="relative z-10 flex flex-col justify-between p-16 text-white">
+            <Link to="/" className="inline-flex items-center gap-2 text-white/70 hover:text-orange text-sm font-medium w-fit">
+              <ArrowLeft size={16} /> Bosh sahifa
+            </Link>
+
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+                <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
+                  Topex Texnikumida o'qish
+                </span>
+                <h1 className="text-[44px] lg:text-[56px] font-black leading-[1.05] mb-6 uppercase">
+                  Kelajakni<br/>boshlash<br/>vaqti!
+                </h1>
+                <p className="text-white/75 text-base leading-relaxed max-w-md mb-8">
+                  Bepul hisob oching va Topex Texnikumi imkoniyatlaridan to'liq foydalaning.
+                </p>
+
+                <ul className="space-y-3 max-w-md">
+                  {[
+                    'Zamonaviy yo\'nalishlar',
+                    'Tajribali ustozlar',
+                    '600+ o\'quvchi va o\'sib borayotgan jamoa',
+                    'Sifatli ta\'lim, real natija',
+                  ].map((txt, i) => (
+                    <motion.li key={i}
+                      initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 + i * 0.08, duration: 0.4 }}
+                      className="flex items-center gap-3 text-white/85 text-[15px]">
+                      <div className="w-6 h-6 rounded-full bg-orange flex items-center justify-center flex-shrink-0">
+                        <Check size={14} className="text-white" strokeWidth={3} />
+                      </div>
+                      {txt}
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
             </div>
+
+            <p className="text-white/40 text-xs">© {new Date().getFullYear()} Topex Texnikumi</p>
           </div>
         </div>
 
-        {/* Right form – Register Section */}
-        <div className="flex-1 flex items-center justify-center p-6 relative">
-          <div className="absolute top-10 right-10 hidden md:block">
-             <Link to="/" className="text-navy/40 hover:text-navy font-bold flex items-center gap-2 transition-all">
-                Asosiy sahifa <ArrowRight size={18} />
-             </Link>
-          </div>
-
+        {/* ════ RIGHT — form ════ */}
+        <div className="flex-1 lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-white overflow-y-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="w-full max-w-[460px]"
-          >
-            <div className="mb-10 text-center lg:text-left">
-              <Link to="/" className="inline-flex items-center gap-3 mb-8 lg:hidden">
-                <div className="w-10 h-10 bg-navy rounded-2xl flex items-center justify-center shadow-lg shadow-navy/20">
-                  <GraduationCap size={20} className="text-white" />
-                </div>
-                <span className="text-navy font-black text-2xl tracking-tight">TOPEX</span>
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            className="w-full max-w-md py-8">
+
+            <div className="lg:hidden mb-8">
+              <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-brand text-sm font-medium">
+                <ArrowLeft size={16} /> Bosh sahifa
               </Link>
-              <h1 className="text-4xl font-black text-navy mb-3 italic tracking-tight uppercase">Присоединиться к TOPEX</h1>
-              <p className="text-gray-400 font-medium">Начните своё обучение сегодня!</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Full Name */}
-              <div className="space-y-2">
-                <label className="text-xs font-black text-navy/40 uppercase tracking-widest ml-1">Полное имя</label>
-                <div className="relative group">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue transition-colors" size={18} />
+            <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-4">
+              Ro'yxatdan o'tish
+            </span>
+            <h2 className="text-[34px] md:text-[42px] font-black text-brand leading-[1.1] mb-3">
+              Yangi akkaunt<br/>yarating
+            </h2>
+            <p className="text-gray-500 mb-8">Akkauntingiz bormi?{' '}
+              <Link to="/login" className="text-orange font-bold hover:underline">Kirish</Link>
+            </p>
+
+            <button
+              type="button"
+              onClick={handleGoogle}
+              className="w-full mb-5 flex items-center justify-center gap-3 bg-white border-2 border-gray-200
+                         text-brand font-semibold py-3.5 rounded-xl hover:border-orange hover:shadow-md
+                         transition-all duration-200">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              Google bilan ro'yxatdan o'tish
+            </button>
+
+            <div className="flex items-center gap-3 my-5">
+              <div className="flex-1 h-px bg-gray-200" />
+              <span className="text-gray-400 text-xs uppercase tracking-widest font-semibold">yoki</span>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 mb-5">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-brand font-semibold text-[14px] mb-2">To'liq ism</label>
+                <div className="relative">
+                  <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type="text"
-                    className="w-full bg-white border border-gray-100 rounded-2xl py-4.5 pl-12 pr-4 text-navy text-[15px] focus:outline-none focus:ring-4 focus:ring-blue/5 focus:border-blue transition-all shadow-sm"
-                    placeholder="Ism Familiya"
+                    placeholder="Aziz Rahimov"
                     value={form.name}
-                    onChange={e => setForm({ ...form, name: e.target.value })}
+                    onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
                     required
+                    className="w-full bg-white border-2 border-gray-200 rounded-xl pl-12 pr-4 py-3.5
+                               text-brand text-[15px] placeholder:text-gray-400
+                               focus:outline-none focus:border-orange transition-all"
                   />
                 </div>
               </div>
 
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="text-xs font-black text-navy/40 uppercase tracking-widest ml-1">Электронная почта</label>
-                <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue transition-colors" size={18} />
+              <div>
+                <label className="block text-brand font-semibold text-[14px] mb-2">Email manzil</label>
+                <div className="relative">
+                  <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type="email"
-                    className="w-full bg-white border border-gray-100 rounded-2xl py-4.5 pl-12 pr-4 text-navy text-[15px] focus:outline-none focus:ring-4 focus:ring-blue/5 focus:border-blue transition-all shadow-sm"
                     placeholder="siz@example.com"
                     value={form.email}
-                    onChange={e => setForm({ ...form, email: e.target.value })}
+                    onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
                     required
+                    className="w-full bg-white border-2 border-gray-200 rounded-xl pl-12 pr-4 py-3.5
+                               text-brand text-[15px] placeholder:text-gray-400
+                               focus:outline-none focus:border-orange transition-all"
                   />
                 </div>
               </div>
 
-              {/* Password */}
-              <div className="space-y-2">
-                <label className="text-xs font-black text-navy/40 uppercase tracking-widest ml-1">Пароль</label>
-                <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue transition-colors" size={18} />
+              <div>
+                <label className="block text-brand font-semibold text-[14px] mb-2">Parol</label>
+                <div className="relative">
+                  <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type={showPass ? 'text' : 'password'}
-                    className="w-full bg-white border border-gray-100 rounded-2xl py-4.5 pl-12 pr-12 text-navy text-[15px] focus:outline-none focus:ring-4 focus:ring-blue/5 focus:border-blue transition-all shadow-sm"
-                    placeholder="Kuchli parol yarating"
+                    placeholder="Kuchli parol o'ylab toping"
                     value={form.password}
-                    onChange={e => setForm({ ...form, password: e.target.value })}
+                    onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
                     required
+                    className="w-full bg-white border-2 border-gray-200 rounded-xl pl-12 pr-12 py-3.5
+                               text-brand text-[15px] placeholder:text-gray-400
+                               focus:outline-none focus:border-orange transition-all"
                   />
-                  <button type="button" onClick={() => setShowPass(v => !v)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-navy transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(p => !p)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange transition-colors">
                     {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                
-                {/* Password Checks */}
-                <AnimatePresence>
-                  {form.password.length > 0 && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="grid grid-cols-3 gap-2 pt-1"
-                    >
-                      {checks(form.password).map(({ label, valid }) => (
-                        <div key={label} className="flex items-center gap-1.5">
-                          <div className={`w-1.5 h-1.5 rounded-full ${valid ? 'bg-blue' : 'bg-gray-200'}`} />
-                          <span className={`text-[10px] font-bold uppercase tracking-tight ${valid ? 'text-blue' : 'text-gray-300'}`}>
-                            {label}
-                          </span>
-                        </div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+
+                {form.password && (
+                  <div className="mt-3 flex gap-2 flex-wrap">
+                    {pwChecks.map(c => (
+                      <span key={c.label}
+                            className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full transition-colors
+                                       ${c.valid ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                        {c.valid && <Check size={12} strokeWidth={3} />} {c.label}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {error && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-red-50 border border-red-100 rounded-2xl px-5 py-4 text-red-600 text-[13px] font-medium flex items-center gap-3"
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
-                  {error}
-                </motion.div>
-              )}
+              <label className="flex items-start gap-3 cursor-pointer pt-1">
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={e => setAgreed(e.target.checked)}
+                  className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2"
+                />
+                <span className="text-gray-500 text-[13px] leading-relaxed">
+                  Men <a href="#" className="text-orange font-semibold hover:underline">foydalanish shartlari</a> va{' '}
+                  <a href="#" className="text-orange font-semibold hover:underline">maxfiylik siyosati</a>ga roziman.
+                </span>
+              </label>
 
-              <button type="submit" disabled={loading}
-                className="w-full bg-navy hover:bg-blue text-white font-black py-5 rounded-2xl shadow-xl shadow-navy/10 hover:shadow-blue/20 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 text-base mt-2"
-              >
+              <button
+                type="submit"
+                disabled={loading || !agreed || !pwStrong}
+                className="w-full inline-flex items-center justify-center gap-2 bg-orange-grad
+                           hover:brightness-110 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange/30
+                           hover:-translate-y-0.5 transition-all duration-200 text-[15px]
+                           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0">
                 {loading ? (
-                  <span className="flex items-center gap-3">
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Загрузка...
-                  </span>
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Yaratilmoqda...
+                  </>
                 ) : (
-                  <>Создать аккаунт <ArrowRight size={20} /></>
+                  <>Hisob yaratish <ArrowRight size={18} /></>
                 )}
               </button>
             </form>
-
-            <div className="mt-8 text-center">
-              <p className="text-gray-400 font-medium text-sm">
-                Уже есть аккаунт?{' '}
-                <Link to="/login" className="text-blue font-black hover:underline transition-all">
-                  Войти
-                </Link>
-              </p>
-            </div>
           </motion.div>
         </div>
       </div>
