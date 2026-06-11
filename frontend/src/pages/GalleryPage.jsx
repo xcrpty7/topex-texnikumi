@@ -32,32 +32,13 @@ const STATIC_ITEMS = [
   { _id: 't5', src: '/assets/Ustozlar/DSC01199.jpg', title: "Texnikum ustozlari", category: 'teachers' },
 ];
 
-const API_URL = import.meta.env.VITE_API_URL || '';
-
 const GalleryPage = () => {
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState('students');
-  const [items, setItems] = useState([]);
   const [settings, setSettings] = useState(null);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
-    api.get('/gallery').then(res => {
-      const data = res.data.data || [];
-      if (data.length > 0) {
-        setItems(data.map(i => ({
-          ...i,
-          src: i.image?.startsWith('/assets') ? i.image : `${API_URL}${i.image}`,
-        })));
-      } else {
-        setItems(STATIC_ITEMS);
-      }
-      setLoaded(true);
-    }).catch(() => {
-      setItems(STATIC_ITEMS);
-      setLoaded(true);
-    });
   }, []);
 
   return (
@@ -129,7 +110,7 @@ const GalleryPage = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {items.filter(i => filter === 'all' || i.category === filter).map((item, i) => (
+            {STATIC_ITEMS.filter(i => filter === 'all' || i.category === filter).map((item, i) => (
               <div
                 key={item._id}
                 onClick={() => setSelected(item)}
