@@ -75,7 +75,11 @@
       "programming": "Head of Programming Department",
       "marketing": "Head of Marketing Department",
       "design": "Graphic Design Instructor",
-      "bank": "Banking Specialist"
+      "bank": "Banking Specialist",
+      "new1": "Teacher",
+      "new2": "Teacher",
+      "new3": "Teacher",
+      "new4": "Teacher"
     }
   },
   "news": {
