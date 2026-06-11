@@ -542,7 +542,7 @@ const HomePage = () => {
                   <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formDirLabel || t('form.directionLabel')}</label>
                   <div className="relative">
                     <select
-                      className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 pr-12 text-brand text-[15px]
+                      className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 text-brand text-[15px]
                                  focus:outline-none focus:border-orange transition-all appearance-none cursor-pointer"
                       value={form.grade}
                       onChange={e => setForm(p => ({ ...p, grade: e.target.value }))}
@@ -551,7 +551,6 @@ const HomePage = () => {
                       <option value="9">{settings?.formDir9 || t('form.direction9')}</option>
                       <option value="11">{settings?.formDir11 || t('form.direction11')}</option>
                     </select>
-                    <ChevronRight size={18} className="absolute right-5 top-1/2 -translate-y-1/2 rotate-90 text-gray-400 pointer-events-none" />
                   </div>
                 </div>
 
