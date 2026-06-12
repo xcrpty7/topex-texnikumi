@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
-  Camera, BookOpen, CheckCircle, Award, TrendingUp, Star, GraduationCap,
+  Camera, BookOpen, CheckCircle, TrendingUp,
 } from 'lucide-react';
 import { selectUser } from '../features/auth/authSlice';
 import { setCredentials } from '../features/auth/authSlice';
@@ -151,35 +151,6 @@ const ProfilePage = () => {
                       <p className="text-gray-500 text-xs">{t('profile.avgProgress') || 'Общий прогресс'}</p>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="bg-white border border-gray-100 rounded-2xl shadow-card p-6"
-              >
-                <h3 className="text-navy font-bold text-sm uppercase tracking-wider mb-4">{t('profile.achievements') || 'Достижения'}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {completed > 0 && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-teal/10 text-teal-dark text-xs font-bold">
-                      <Award size={14} /> {completed} {t('profile.coursesDone') || 'курсов завершено'}
-                    </span>
-                  )}
-                  {totalProgress >= 50 && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue/10 text-blue text-xs font-bold">
-                      <Star size={14} /> {t('profile.halfWay') || 'Пол пути пройдено'}
-                    </span>
-                  )}
-                  {totalProgress === 100 && enrolled.length > 0 && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-coral/10 text-coral-dark text-xs font-bold">
-                      <GraduationCap size={14} /> {t('profile.allDone') || 'Всё завершено!'}
-                    </span>
-                  )}
-                  {enrolled.length === 0 && (
-                    <span className="text-gray-400 text-xs">{t('profile.noAchievements') || 'Нет достижений'}</span>
-                  )}
                 </div>
               </motion.div>
             </div>
