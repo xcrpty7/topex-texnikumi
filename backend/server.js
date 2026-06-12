@@ -31,7 +31,10 @@ const { getVideos } = require('./controllers/videoController');
 const app = express();
 
 // ─── Ma'lumotlar bazasiga ulanish ───────────────────────────────────────────
-connectDB();
+connectDB().then(() => {
+  // Auto-seed (faqat bo'sh DB ga yozadi)
+  require('./utils/seed')().catch(() => {});
+});
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
@@ -220,9 +223,6 @@ const server = app.listen(PORT, () => {
 });
 
 server.timeout = 30000; // 30 sek — slow-loris DoS dan himoya
-
-// Auto-seed (faqat bo'sh DB ga yozadi)
-require('./utils/seed')().catch(() => {});
 
 process.on('unhandledRejection', (err) => {
   console.error('❌ Boshqarilmagan xato:', err.message);
