@@ -70,13 +70,13 @@ const GalleryPage = () => {
           <motion.div {...up(0)} className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-white/10 text-white/80 backdrop-blur-md
                             border border-white/15 rounded-full px-4 py-2 text-sm font-semibold mb-6">
-              <Camera size={15} /> {settings?.galleryHeroBadge || 'Bizning Galereya'}
+              <Camera size={15} /> {t('galleryPage.heroBadge')}
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-6 drop-shadow-lg">
-              {settings?.galleryHeroTitle || 'Topex hayoti kadrlarda'}
+              {t('galleryPage.heroTitle')}
             </h1>
             <p className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-              {settings?.galleryHeroSubtitle || "Ta'lim jarayoni, tadbirlar va talabalarimizning muvaffaqiyatlaridan eng yorqin lavhalar."}
+              {t('galleryPage.heroSubtitle')}
             </p>
           </motion.div>
         </div>
@@ -87,15 +87,15 @@ const GalleryPage = () => {
         <div className="wrap">
           <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
             <div className="text-center md:text-left">
-              <span className="lbl">{settings?.galleryPhotosLabel || "FOTO LAVHALAR"}</span>
-              <h2 className="h2">{settings?.galleryPhotosTitle || (<>Rasmlar <span className="text-blue">galereyasi</span></>)}</h2>
+              <span className="lbl">{t('galleryPage.photosLabel')}</span>
+              <h2 className="h2">{t('galleryPage.photosTitle')}</h2>
             </div>
 
             {/* Filter Tabs */}
             <div className="flex p-1.5 bg-gray-100 rounded-2xl overflow-x-auto max-w-full">
               {[
-                { id: 'students', label: settings?.galleryStudentsTab || "O'quvchilar" },
-                { id: 'teachers', label: settings?.galleryTeachersTab || "O'qituvchilar" }
+                { id: 'students', label: t('galleryPage.studentTab') },
+                { id: 'teachers', label: t('galleryPage.teacherTab') }
               ].map(tab => (
                 <button
                   key={tab.id}

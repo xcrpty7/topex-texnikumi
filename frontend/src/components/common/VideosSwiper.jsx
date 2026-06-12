@@ -26,13 +26,13 @@ export default function VideosSwiper({ videos = [], onOpen, settings }) {
             <motion.span
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-              {settings?.videosLabel || t('videos.label')}
+              {t('videos.label')}
             </motion.span>
             <motion.h2
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               transition={{ delay:0.1 }}
               className="text-[42px] md:text-[52px] lg:text-[56px] font-black text-brand leading-[1.05]">
-              {settings?.videosTitle || t('videos.title')}
+              {t('videos.title')}
             </motion.h2>
           </div>
 
@@ -98,7 +98,7 @@ export default function VideosSwiper({ videos = [], onOpen, settings }) {
                     {vid.title}
                   </p>
                   <p className="text-orange-light text-[11px] mt-2 uppercase tracking-[0.18em] font-bold">
-                    {settings?.videosSubtitle || t('videos.subtitle')}
+                    {t('videos.subtitle')}
                   </p>
                 </div>
               </motion.div>

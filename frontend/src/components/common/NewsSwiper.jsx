@@ -48,13 +48,13 @@ export default function NewsSwiper({ articles, settings }) {
             <motion.span
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-              {settings?.newsLabel || t('news.label')}
+              {t('news.label')}
             </motion.span>
             <motion.h2
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               transition={{ delay:0.1 }}
               className="text-[42px] md:text-[52px] lg:text-[56px] font-black text-brand leading-[1.05]">
-              {settings?.newsTitle || t('news.title')}
+              {t('news.title')}
             </motion.h2>
           </div>
 
@@ -94,7 +94,7 @@ export default function NewsSwiper({ articles, settings }) {
                 </h3>
                 <div className="inline-flex items-center gap-2 text-orange font-bold text-[13px] uppercase tracking-[0.18em]
                                 group-hover:gap-3 transition-all duration-300">
-                  {settings?.newsMoreText || t('news.more')}
+                  {t('news.more')}
                   <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </Link>

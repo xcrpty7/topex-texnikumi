@@ -35,10 +35,10 @@ const ContactPage = () => {
     || `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
   const cards = [
-    { Icon: MapPin, title: settings?.contactCard1Title || t('contactPage.cardAddress'), lines: [address] },
-    { Icon: Phone,  title: settings?.contactCard2Title || t('contactPage.cardPhone'),  lines: [phone, phone2].filter(Boolean), href: `tel:${phone.replace(/\s/g, '')}` },
-    { Icon: Mail,   title: settings?.contactCard3Title || t('contactPage.cardEmail'),   lines: [email], href: `mailto:${email}` },
-    { Icon: Clock,  title: settings?.contactCard4Title || settings?.footerHoursTitle || t('contactPage.cardHours'), lines: [hours] },
+    { Icon: MapPin, title: t('contactPage.cardAddress'), lines: [address] },
+    { Icon: Phone,  title: t('contactPage.cardPhone'),  lines: [phone, phone2].filter(Boolean), href: `tel:${phone.replace(/\s/g, '')}` },
+    { Icon: Mail,   title: t('contactPage.cardEmail'),   lines: [email], href: `mailto:${email}` },
+    { Icon: Clock,  title: t('contactPage.cardHours'), lines: [hours] },
   ];
 
   const submit = async (e) => {
@@ -91,8 +91,8 @@ const ContactPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
-          <motion.h1 {...up(0)} className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-5 drop-shadow-lg">
-            {settings?.contactHeroTitle || 'Aloqalar'}
+            <motion.h1 {...up(0)} className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-5 drop-shadow-lg">
+            {t('contactPage.heroTitle')}
           </motion.h1>
           {settings?.contactHeroSubtitle && (
             <motion.p {...up(0.05)} className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
@@ -149,23 +149,23 @@ const ContactPage = () => {
             <div>
               <motion.span {...up(0)}
                 className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-                {settings?.formLabel || t('form.label')}
+                {t('form.label')}
               </motion.span>
               <motion.h2 {...up(0.1)}
                 className="text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-8">
-                {settings?.formTitle || t('form.title')}
+                {t('form.title')}
               </motion.h2>
               <motion.p {...up(0.2)}
                 className="text-gray-600 text-[16px] leading-[1.85] mb-10 max-w-xl">
-                {settings?.formParagraph || t('form.paragraph')}
+                {t('form.paragraph')}
               </motion.p>
 
               <motion.form onSubmit={submit} {...up(0.3)} className="space-y-5 max-w-xl">
                 <div>
-                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formNameLabel || t('form.nameLabel')}</label>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.nameLabel')}</label>
                   <input
                     type="text"
-                    placeholder={settings?.formNamePh || t('form.namePh')}
+                    placeholder={t('form.namePh')}
                     className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 text-brand text-[15px]
                                placeholder:text-gray-400 focus:outline-none focus:border-orange transition-all"
                     value={form.name}
@@ -175,7 +175,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formPhoneLabel || t('form.phoneLabel')}</label>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.phoneLabel')}</label>
                   <div className="relative">
                     <span className="absolute left-5 top-1/2 -translate-y-1/2 text-base leading-none">🇺🇿</span>
                     <input
@@ -191,7 +191,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formDirLabel || t('form.directionLabel')}</label>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.directionLabel')}</label>
                   <div className="relative">
                     <select
                       className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 text-brand text-[15px]
@@ -199,9 +199,9 @@ const ContactPage = () => {
                       value={form.grade}
                       onChange={e => setForm(p => ({ ...p, grade: e.target.value }))}
                     >
-                      <option value="">{settings?.formDirPh || t('form.directionPh')}</option>
-                      <option value="9">{settings?.formDir9 || t('form.direction9')}</option>
-                      <option value="11">{settings?.formDir11 || t('form.direction11')}</option>
+                      <option value="">{t('form.directionPh')}</option>
+                      <option value="9">{t('form.direction9')}</option>
+                      <option value="11">{t('form.direction11')}</option>
                     </select>
                   </div>
                 </div>
@@ -213,7 +213,7 @@ const ContactPage = () => {
                     className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2 cursor-pointer"
                   />
                   <span className="text-gray-500 text-[13px] leading-relaxed">
-                    {settings?.formAgreeText || t('form.agree')}
+                    {t('form.agree')}
                   </span>
                 </label>
 
@@ -231,7 +231,7 @@ const ContactPage = () => {
                         {t('form.submitting')}
                       </>
                     ) : (
-                      <>{settings?.formSubmitText || t('form.submit')}</>
+                      <>{t('form.submit')}</>
                     )}
                   </button>
                 </div>
@@ -263,7 +263,7 @@ const ContactPage = () => {
         <div className="w-full max-w-[1500px] mx-auto px-6 lg:px-16">
           <motion.h2 {...up(0)}
             className="text-3xl md:text-4xl font-black text-brand mb-8">
-            {settings?.contactMapTitle || 'BIZ XARITADA!'}
+            {t('contactPage.mapTitle')}
           </motion.h2>
           <motion.div {...up(0.1)}
             className="rounded-2xl overflow-hidden shadow-lg border border-gray-200">

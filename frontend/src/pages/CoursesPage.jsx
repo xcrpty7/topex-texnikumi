@@ -129,13 +129,13 @@ const CoursesPage = () => {
           <motion.div {...up(0)}
             className="inline-flex items-center gap-2 bg-white/10 text-white/85 backdrop-blur-md
                        border border-white/15 rounded-full px-4 py-2 text-sm font-semibold mb-6">
-            <GraduationCap size={15} className="text-orange" /> {settings?.coursesHeroBadge || "O'quv yo'nalishlari"}
+            <GraduationCap size={15} className="text-orange" /> {t('coursesPage.heroBadge')}
           </motion.div>
           <motion.h1 {...up(0.05)} className="text-4xl md:text-6xl font-black text-white leading-[1.08] mb-5 drop-shadow-lg">
-            {settings?.coursesHeroTitle || t('coursesPage.heroTitle')}
+            {t('coursesPage.heroTitle')}
           </motion.h1>
           <motion.p {...up(0.1)} className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
-            {settings?.coursesHeroSubtitle || t('coursesPage.heroSubtitle')}
+            {t('coursesPage.heroSubtitle')}
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
@@ -151,12 +151,12 @@ const CoursesPage = () => {
       <section className="sec bg-gray-50">
         <div className="wrap">
           <motion.div {...up(0)} className="text-center mb-12">
-            <span className="lbl text-blue">{settings?.coursesFacultyLabel || "FAKULTETLAR"}</span>
+            <span className="lbl text-blue">{t('coursesPage.facultyLabel')}</span>
             <h2 className="text-3xl md:text-4xl font-black text-navy">
-              {settings?.coursesFacultyTitle || (<>Bizning <span className="text-blue">fakultetlar</span></>)}
+              {t('coursesPage.facultyTitle')}
             </h2>
             <p className="text-navy/60 mt-3 max-w-2xl mx-auto">
-              {settings?.coursesFacultySubtitle || "Zamonaviy kasblar bo'yicha chuqurlashtirilgan ta'lim yo'nalishlari"}
+              {t('coursesPage.facultySubtitle')}
             </p>
           </motion.div>
 
@@ -251,20 +251,20 @@ const CoursesPage = () => {
                        items-center justify-between gap-8"
           >
             <div>
-              <span className="lbl text-coral">{settings?.coursesCtaLabel || "QABUL"}</span>
+              <span className="lbl text-coral">{t('coursesPage.ctaLabel')}</span>
               <h2 className="text-3xl font-black text-white mb-3 whitespace-pre-line">
-                {settings?.coursesCtaTitle || (<>Farzandingizni<br />Topexga yozing!</>)}
+                {t('coursesPage.ctaTitle')}
               </h2>
               <p className="text-white/55">
-                {settings?.coursesCtaSubtitle || "Ariza qoldiring — biz siz bilan bog'lanamiz"}
+                {t('coursesPage.ctaSubtitle')}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
               <a href={`tel:${settings?.coursesCtaPhone || '+998787774477'}`} className="btn-coral text-base px-8 py-4 whitespace-nowrap">
-                {settings?.coursesCtaPhoneBtn || "Qo'ng'iroq qilish"}
+                {t('coursesPage.ctaPhoneBtn')}
               </a>
               <a href="/" className="btn-outline text-base px-8 py-4 whitespace-nowrap border-white text-white hover:bg-white hover:text-navy">
-                {settings?.coursesCtaHomeBtn || 'Bosh sahifa'} <ArrowRight size={16} />
+                {t('coursesPage.ctaHomeBtn')} <ArrowRight size={16} />
               </a>
             </div>
           </motion.div>

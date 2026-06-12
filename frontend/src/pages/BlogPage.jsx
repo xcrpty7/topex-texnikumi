@@ -91,8 +91,8 @@ const BlogPage = () => {
     api.get('/settings').then((r) => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
   }, [dispatch]);
 
-  const heroTitle = settings?.blogHeroTitle || t('news.title');
-  const moreText  = settings?.newsMoreText || t('news.more');
+  const heroTitle = t('news.title');
+  const moreText  = t('news.more');
   const display   = articles.length > 0 ? articles : STATIC_NEWS;
   const featured  = display[0];
   const rest      = display.slice(1);
@@ -130,13 +130,13 @@ const BlogPage = () => {
           <motion.div {...up(0)}
             className="inline-flex items-center gap-2 bg-white/10 text-white/85 backdrop-blur-md
                        border border-white/15 rounded-full px-4 py-2 text-sm font-semibold mb-6">
-            <Newspaper size={15} className="text-orange" /> {settings?.newsLabel || t('news.label')}
+            <Newspaper size={15} className="text-orange" /> {t('news.label')}
           </motion.div>
           <motion.h1 {...up(0.05)} className="text-4xl md:text-6xl font-black text-white leading-[1.08] mb-5 drop-shadow-lg">
             {heroTitle}
           </motion.h1>
           <motion.p {...up(0.1)} className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
-            {settings?.blogHeroSubtitle || "Texnikumimiz hayotidan eng so'nggi yangiliklar, yutuqlar va tadbirlar."}
+            {t('blogPage.heroSubtitle')}
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
@@ -161,7 +161,7 @@ const BlogPage = () => {
             <div>
               <span className="inline-flex items-center gap-2 text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-4">
                 <span className="w-8 h-[2px] bg-orange inline-block" />
-                {settings?.newsLabel || t('news.label')}
+                {t('news.label')}
               </span>
               <h2 className="text-[38px] md:text-[52px] font-black text-brand leading-[1.05]">
                 {t('news.title')}

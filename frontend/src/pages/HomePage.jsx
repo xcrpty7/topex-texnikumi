@@ -373,9 +373,9 @@ const HomePage = () => {
         <div className="wrap">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:divide-x divide-white/10">
             {[
-              { val: settings?.statsStudents || STATS[0].val, lbl: STATS[0].lbl, icon: STATS[0].icon },
-              { val: settings?.statsBranches || STATS[1].val, lbl: STATS[1].lbl, icon: STATS[1].icon },
-              { val: settings?.statsTeachers || STATS[2].val, lbl: STATS[2].lbl, icon: STATS[2].icon },
+              { val: settings?.statsStudents || STATS[0].val, lbl: t('stats.students'), icon: STATS[0].icon },
+              { val: settings?.statsBranches || STATS[1].val, lbl: t('stats.branches'), icon: STATS[1].icon },
+              { val: settings?.statsTeachers || STATS[2].val, lbl: t('stats.teachers'), icon: STATS[2].icon },
             ].map(({ val, lbl, icon:Icon }, i) => (
               <motion.div {...up(i*0.07)} key={lbl} className="flex flex-col items-center text-center py-2 px-4">
                 <Icon size={26} className="text-coral mb-3" />
@@ -423,22 +423,22 @@ const HomePage = () => {
             {/* RIGHT — text + stats */}
             <motion.div {...up(0.15)}>
               <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-                {settings?.aboutSectionLabel || t('about.label')}
+                {t('about.label')}
               </span>
               <h2 className="text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-7">
-                {settings?.aboutSectionTitle || t('about.title')}
+                {t('about.title')}
               </h2>
               <p className="text-gray-600 text-base mb-5">
-                {settings?.aboutSlogan || t('about.slogan')}
+                {t('about.slogan')}
               </p>
               <p className="text-gray-600 text-[15px] md:text-[16px] leading-[1.75] mb-10 max-w-xl">
-                {settings?.aboutParagraph || t('about.paragraph')}
+                {t('about.paragraph')}
               </p>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-8 mb-12 max-w-md">
-                <StatBlock value={settings?.aboutStat1Value || '600'} label={settings?.aboutStat1Label || t('stats.students')} />
-                <StatBlock value={settings?.aboutStat2Value || '50'}  label={settings?.aboutStat2Label || t('stats.teacher')} />
+              <StatBlock value={settings?.aboutStat1Value || '600'} label={t('stats.students')} />
+              <StatBlock value={settings?.aboutStat2Value || '50'} label={t('stats.teacher')} />
               </div>
 
               <button
@@ -446,7 +446,7 @@ const HomePage = () => {
                 className="inline-flex items-center justify-center bg-brand hover:bg-brand-dark
                            text-white font-semibold px-12 py-4 rounded-xl shadow-lg
                            hover:-translate-y-0.5 transition-all duration-200 text-[15px]">
-                {settings?.aboutBtnText || t('about.more')}
+                {t('about.more')}
               </button>
             </motion.div>
           </div>
@@ -488,19 +488,19 @@ const HomePage = () => {
               <motion.span
                 initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                 className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-                {settings?.formLabel || t('form.label')}
+                {t('form.label')}
               </motion.span>
               <motion.h2
                 initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                 transition={{ delay:0.1 }}
                 className="text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-8">
-                {settings?.formTitle || t('form.title')}
+                {t('form.title')}
               </motion.h2>
               <motion.p
                 initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                 transition={{ delay:0.2 }}
                 className="text-gray-600 text-[16px] leading-[1.85] mb-10 max-w-xl">
-                {settings?.formParagraph || t('form.paragraph')}
+                {t('form.paragraph')}
               </motion.p>
 
               <motion.form
@@ -510,10 +510,10 @@ const HomePage = () => {
                 className="space-y-5 max-w-xl">
 
                 <div>
-                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formNameLabel || t('form.nameLabel')}</label>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.nameLabel')}</label>
                   <input
                     type="text"
-                    placeholder={settings?.formNamePh || t('form.namePh')}
+                    placeholder={t('form.namePh')}
                     className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 text-brand text-[15px]
                                placeholder:text-gray-400 focus:outline-none focus:border-orange transition-all"
                     value={form.name}
@@ -523,7 +523,7 @@ const HomePage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formPhoneLabel || t('form.phoneLabel')}</label>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.phoneLabel')}</label>
                   <div className="relative">
                     <span className="absolute left-5 top-1/2 -translate-y-1/2 text-base leading-none">🇺🇿</span>
                     <input
@@ -539,7 +539,7 @@ const HomePage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-brand font-semibold text-[14px] mb-2">{settings?.formDirLabel || t('form.directionLabel')}</label>
+                  <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.directionLabel')}</label>
                   <div className="relative">
                     <select
                       className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 px-5 text-brand text-[15px]
@@ -547,9 +547,9 @@ const HomePage = () => {
                       value={form.grade}
                       onChange={e => setForm(p => ({ ...p, grade: e.target.value }))}
                     >
-                      <option value="">{settings?.formDirPh || t('form.directionPh')}</option>
-                      <option value="9">{settings?.formDir9 || t('form.direction9')}</option>
-                      <option value="11">{settings?.formDir11 || t('form.direction11')}</option>
+                      <option value="">{t('form.directionPh')}</option>
+                      <option value="9">{t('form.direction9')}</option>
+                      <option value="11">{t('form.direction11')}</option>
                     </select>
                   </div>
                 </div>
@@ -561,7 +561,7 @@ const HomePage = () => {
                     className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2 cursor-pointer"
                   />
                   <span className="text-gray-500 text-[13px] leading-relaxed">
-                    {settings?.formAgreeText || t('form.agree')}
+                    {t('form.agree')}
                   </span>
                 </label>
 
@@ -579,7 +579,7 @@ const HomePage = () => {
                         {t('form.submitting')}
                       </>
                     ) : (
-                      <>{settings?.formSubmitText || t('form.submit')}</>
+                      <>{t('form.submit')}</>
                     )}
                   </button>
                 </div>

@@ -56,19 +56,19 @@ export default function TeamSection({ teachers = [], settings }) {
             <motion.span
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-              {settings?.teamLabel || t('team.label')}
+              {t('team.label')}
             </motion.span>
             <motion.h2
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               transition={{ delay:0.1 }}
               className="text-[42px] md:text-[52px] lg:text-[56px] font-black text-brand leading-[1.05] mb-8">
-              {settings?.teamTitle || t('team.title')}
+              {t('team.title')}
             </motion.h2>
             <motion.p
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               transition={{ delay:0.2 }}
               className="text-gray-600 text-[15px] md:text-[16px] leading-[1.85] mb-10 max-w-xl">
-              {settings?.teamParagraph || t('team.paragraph')}
+              {t('team.paragraph')}
             </motion.p>
             <motion.div
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
@@ -78,7 +78,7 @@ export default function TeamSection({ teachers = [], settings }) {
                 className="inline-flex items-center justify-center bg-brand hover:bg-brand-dark
                            text-white font-semibold px-12 py-4 rounded-xl shadow-lg
                            hover:-translate-y-0.5 transition-all duration-200 text-[15px]">
-                {settings?.teamBtnText || t('team.allTeachers')}
+                {t('team.allTeachers')}
               </Link>
             </motion.div>
           </div>

@@ -47,8 +47,8 @@ export default function HeroSwiper({ settings }) {
         image: i === 0 ? resolveImg(settings?.heroImage, IMAGES[0]) : IMAGES[i],
       }));
 
-  const ctaText  = settings?.heroCtaText  || t('hero.ctaApply');
-  const noteText = settings?.heroNoteText || t('hero.note');
+  const ctaText  = t('hero.ctaApply');
+  const noteText = t('hero.note');
 
   return (
     <section className="relative bg-white overflow-hidden" key={i18n.language}>
