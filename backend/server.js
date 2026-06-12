@@ -32,8 +32,11 @@ const app = express();
 
 // ─── Ma'lumotlar bazasiga ulanish ───────────────────────────────────────────
 connectDB().then(() => {
-  // Auto-seed (faqat bo'sh DB ga yozadi)
-  require('./utils/seed')().catch(() => {});
+  require('./utils/seed')().then(() => {
+    console.log('🌱 Seed tugadi');
+  }).catch((err) => {
+    console.error('❌ Seed xatosi:', err.message);
+  });
 });
 
 const allowedOrigins = [
