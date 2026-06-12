@@ -68,7 +68,7 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                  backgroundSize: '24px 24px',
                }} />
 
-          <div className="relative">
+          <div className="relative max-w-xl">
             <span
               className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
               {t('directions.label')}
