@@ -44,15 +44,15 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
       <div className="grid lg:grid-cols-2">
 
         {/* LEFT — Photo */}
-        <div className="relative overflow-hidden bg-gray-900 h-full min-h-[300px]">
+        <div className="relative overflow-hidden bg-gray-900 flex flex-col min-h-[300px]">
           <Swiper
             modules={[Autoplay]}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             loop
-            className="absolute inset-0 w-full h-full"
+            className="w-full flex-1"
           >
             {PHOTOS.map((src, i) => (
-              <SwiperSlide key={i}>
+              <SwiperSlide key={i} className="!h-full">
                 <img src={src} alt="" className="w-full h-full object-cover" />
               </SwiperSlide>
             ))}
