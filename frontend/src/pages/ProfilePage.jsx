@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
-  Camera, BookOpen, CheckCircle, Award, TrendingUp, Clock, Star, GraduationCap,
+  Camera, BookOpen, CheckCircle, Award, TrendingUp, Star, GraduationCap,
 } from 'lucide-react';
 import { selectUser } from '../features/auth/authSlice';
 import { setCredentials } from '../features/auth/authSlice';
@@ -272,20 +272,7 @@ const ProfilePage = () => {
                 </motion.div>
               )}
 
-              {enrolled.length === 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="bg-white border border-gray-100 rounded-2xl shadow-card p-8 text-center"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                    <GraduationCap size={28} className="text-gray-400" />
-                  </div>
-                  <p className="text-navy font-bold text-lg mb-2">{t('profile.noCourses') || 'Нет записанных курсов'}</p>
-                  <p className="text-gray-500 text-sm">{t('profile.noCoursesDesc') || 'Запишитесь на курс, чтобы он отображался здесь'}</p>
-                </motion.div>
-              )}
+
             </div>
           </div>
         </div>
