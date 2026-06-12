@@ -24,7 +24,7 @@ const LanguageSwitcher = ({ compact = false }) => {
             compact
               ? i18n.language === code
                 ? 'text-orange'
-                : 'text-white/50 hover:text-white'
+                : 'text-gray-400 hover:text-gray-700'
               : i18n.language === code
                 ? 'text-orange bg-orange/10'
                 : 'text-navy/50 hover:text-navy'
