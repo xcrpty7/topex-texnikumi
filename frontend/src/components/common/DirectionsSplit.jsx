@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +25,12 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
   const { t } = useTranslation();
   const swiperRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [photoIdx, setPhotoIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setPhotoIdx(p => (p + 1) % PHOTOS.length), 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const isFromDB = subjects[0]?._id != null;
   const localized = isFromDB
@@ -44,19 +50,15 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
       <div className="grid lg:grid-cols-2">
 
         {/* LEFT — Photo */}
-        <div className="relative overflow-hidden bg-gray-900 flex flex-col min-h-[300px]">
-          <Swiper
-            modules={[Autoplay]}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            loop
-            className="w-full flex-1"
-          >
-            {PHOTOS.map((src, i) => (
-              <SwiperSlide key={i} className="!h-full">
-                <img src={src} alt="" className="w-full h-full object-cover" />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+        <div className="relative overflow-hidden bg-gray-900 h-full min-h-[300px]">
+          {PHOTOS.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt=""
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === photoIdx ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ))}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-brand/20 pointer-events-none z-10" />
         </div>
 
