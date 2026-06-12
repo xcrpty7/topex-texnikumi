@@ -19,7 +19,7 @@ export default function VideosSwiper({ videos = [], onOpen, settings }) {
         }}
       />
 
-      <div className="w-full max-w-[1500px] mx-auto px-6 lg:px-16 relative">
+      <div className="wrap relative">
         {/* Header */}
         <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
           <div>
