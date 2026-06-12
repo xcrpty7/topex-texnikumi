@@ -5,16 +5,16 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TEACHERS_RAW = [
-  { name: "G'AYRAT SHOUMAROV", roleKey: 'new1',   img: '/assets/Ustozlar/DSC01143.jpg' },
-  { name: 'OLGERD FILLIPOV',   roleKey: 'programming',img: '/assets/Ustozlar/DSC01155.jpg' },
-  { name: 'RUSTAM KARIMOV',    roleKey: 'marketing',  img: '/assets/Ustozlar/DSC01164.jpg' },
-  { name: 'DILSHOD AZIZOV',    roleKey: 'design',     img: '/assets/Ustozlar/DSC01187.jpg' },
-  { name: 'AKMAL RAHIMOV',     roleKey: 'bank',       img: '/assets/Ustozlar/DSC01199.jpg' },
-  { name: 'NORBOYEV NE\'MATBEK CHORIYEVICH', roleKey: 'new1', img: '/assets/Ustozlar/teacher-new-1.jpg' },
-  { name: 'KUBAYEV RO\'ZIMUROD HIKMATILLAYEVICH', roleKey: 'new2', img: '/assets/Ustozlar/teacher-new-2.jpg' },
-  { name: 'BURTSEVA ALEKSANDRA VASILEVNA', roleKey: 'new3', img: '/assets/Ustozlar/teacher-new-3.jpg' },
-  { name: 'ABDULLAYEV OYBEK ODILOVICH', roleKey: 'new4', img: '/assets/Ustozlar/teacher-new-4.jpg' },
-  { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', roleKey: 'new5', img: '/assets/Ustozlar/teacher-new-5.jpg' },
+  { name: "G'AYRAT SHOUMAROV", roleKey: 'new1',   img: '/assets/Ustozlar/DSC01143.webp' },
+  { name: 'OLGERD FILLIPOV',   roleKey: 'programming',img: '/assets/Ustozlar/DSC01155.webp' },
+  { name: 'RUSTAM KARIMOV',    roleKey: 'marketing',  img: '/assets/Ustozlar/DSC01164.webp' },
+  { name: 'DILSHOD AZIZOV',    roleKey: 'design',     img: '/assets/Ustozlar/DSC01187.webp' },
+  { name: 'AKMAL RAHIMOV',     roleKey: 'bank',       img: '/assets/Ustozlar/DSC01199.webp' },
+  { name: 'NORBOYEV NE\'MATBEK CHORIYEVICH', roleKey: 'new1', img: '/assets/Ustozlar/teacher-new-1.webp' },
+  { name: 'KUBAYEV RO\'ZIMUROD HIKMATILLAYEVICH', roleKey: 'new2', img: '/assets/Ustozlar/teacher-new-2.webp' },
+  { name: 'BURTSEVA ALEKSANDRA VASILEVNA', roleKey: 'new3', img: '/assets/Ustozlar/teacher-new-3.webp' },
+  { name: 'ABDULLAYEV OYBEK ODILOVICH', roleKey: 'new4', img: '/assets/Ustozlar/teacher-new-4.webp' },
+  { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', roleKey: 'new5', img: '/assets/Ustozlar/teacher-new-5.webp' },
 ];
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -26,7 +26,7 @@ export default function TeamSection({ teachers = [], settings }) {
     ? teachers.map(x => ({
         name:  x.name,
         role:  x.role,
-        img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC01143.jpg',
+        img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC01143.webp',
       }))
     : FALLBACK;
   const [page, setPage] = useState(0);
@@ -123,6 +123,7 @@ export default function TeamSection({ teachers = [], settings }) {
                     <img
                       src={t.img}
                       alt={t.name}
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover
                                  group-hover:scale-105 transition-transform duration-700"
                     />

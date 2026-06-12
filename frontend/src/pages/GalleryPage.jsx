@@ -26,11 +26,11 @@ const STATIC_ITEMS = (t) => [
   { _id: 's18', src: '/assets/famali-photo/DSC01065.jpg', title: t('galleryPage.static.s18'), category: 'students' },
   { _id: 's19', src: '/assets/famali-photo/DSC01086.jpg', title: t('galleryPage.static.s19'), category: 'students' },
   { _id: 's25', src: '/assets/famali-photo/DSC01268.jpg', title: t('galleryPage.static.s25'), category: 'students' },
-  { _id: 't1', src: '/assets/Ustozlar/DSC01143.jpg', title: t('galleryPage.static.t1'), category: 'teachers' },
-  { _id: 't2', src: '/assets/Ustozlar/DSC01155.jpg', title: t('galleryPage.static.t2'), category: 'teachers' },
-  { _id: 't3', src: '/assets/Ustozlar/DSC01164.jpg', title: t('galleryPage.static.t3'), category: 'teachers' },
-  { _id: 't4', src: '/assets/Ustozlar/DSC01187.jpg', title: t('galleryPage.static.t4'), category: 'teachers' },
-  { _id: 't5', src: '/assets/Ustozlar/DSC01199.jpg', title: t('galleryPage.static.t5'), category: 'teachers' },
+  { _id: 't1', src: '/assets/Ustozlar/DSC01143.webp', title: t('galleryPage.static.t1'), category: 'teachers' },
+  { _id: 't2', src: '/assets/Ustozlar/DSC01155.webp', title: t('galleryPage.static.t2'), category: 'teachers' },
+  { _id: 't3', src: '/assets/Ustozlar/DSC01164.webp', title: t('galleryPage.static.t3'), category: 'teachers' },
+  { _id: 't4', src: '/assets/Ustozlar/DSC01187.webp', title: t('galleryPage.static.t4'), category: 'teachers' },
+  { _id: 't5', src: '/assets/Ustozlar/DSC01199.webp', title: t('galleryPage.static.t5'), category: 'teachers' },
 ];
 
 const GalleryPage = () => {

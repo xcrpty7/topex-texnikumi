@@ -29,11 +29,11 @@ const STATIC_ITEMS = [
   { title: "Tanaffus",             category: 'students', order: 11, image: '/assets/famali-photo/DSC01065.jpg' },
   { title: "Bitiruvchilar",        category: 'students', order: 12, image: '/assets/famali-photo/DSC01086.jpg' },
   { title: "Kreativlik",           category: 'students', order: 13, image: '/assets/famali-photo/DSC01268.jpg' },
-  { title: "Ilmiy kengash",        category: 'teachers', order: 14, image: '/assets/Ustozlar/DSC01143.jpg' },
-  { title: "Malakali kadrlar",     category: 'teachers', order: 15, image: '/assets/Ustozlar/DSC01155.jpg' },
-  { title: "Pedagoglar",           category: 'teachers', order: 16, image: '/assets/Ustozlar/DSC01164.jpg' },
-  { title: "Kafedra mudirlari",    category: 'teachers', order: 17, image: '/assets/Ustozlar/DSC01187.jpg' },
-  { title: "Texnikum ustozlari",   category: 'teachers', order: 18, image: '/assets/Ustozlar/DSC01199.jpg' },
+  { title: "Ilmiy kengash",        category: 'teachers', order: 14, image: '/assets/Ustozlar/DSC01143.webp' },
+  { title: "Malakali kadrlar",     category: 'teachers', order: 15, image: '/assets/Ustozlar/DSC01155.webp' },
+  { title: "Pedagoglar",           category: 'teachers', order: 16, image: '/assets/Ustozlar/DSC01164.webp' },
+  { title: "Kafedra mudirlari",    category: 'teachers', order: 17, image: '/assets/Ustozlar/DSC01187.webp' },
+  { title: "Texnikum ustozlari",   category: 'teachers', order: 18, image: '/assets/Ustozlar/DSC01199.webp' },
 ];
 
 const imgSrc = (image) => {
