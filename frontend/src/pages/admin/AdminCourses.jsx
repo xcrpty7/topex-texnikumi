@@ -76,15 +76,15 @@ const AdminCourses = () => {
       if (file) fd.append('image', file);
       if (editing) {
         await api.put(`/courses/${editing}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-        toast.success('Kurs yangilandi!');
+        toast.success(t('adminCourses.toast.updated'));
       } else {
         await api.post('/courses', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-        toast.success('Kurs yaratildi!');
+        toast.success(t('adminCourses.toast.created'));
       }
       setModal(false);
       dispatch(fetchCourses({ limit: 100 }));
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik yuz berdi');
+      toast.error(err.response?.data?.message || t('adminCourses.toast.error'));
     } finally {
       setSaving(false);
     }
@@ -95,10 +95,10 @@ const AdminCourses = () => {
     setDeleting(true);
     try {
       await api.delete(`/courses/${confirmId}`);
-      toast.success("O'chirildi!");
+      toast.success(t('adminCourses.toast.deleted'));
       dispatch(fetchCourses({ limit: 100 }));
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik yuz berdi');
+      toast.error(err.response?.data?.message || t('adminCourses.toast.error'));
     } finally {
       setDeleting(false);
       setConfirmId(null);
@@ -109,25 +109,25 @@ const AdminCourses = () => {
     try {
       await api.patch(`/courses/${id}/publish`);
       dispatch(fetchCourses({ limit: 100 }));
-    } catch { toast.error('Xatolik yuz berdi'); }
+    } catch { toast.error(t('adminCourses.toast.error')); }
   };
 
   return (
     <>
-      <Helmet><title>Courses – TOPEX Admin</title></Helmet>
+      <Helmet><title>{t('adminCourses.pageTitle')}</title></Helmet>
       <div className="space-y-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#272829' }}>Kurslar</h1>
-            <p className="text-xs" style={{ color: '#61677A' }}>{filtered.length}/{courses.length} ta kurs</p>
+            <h1 className="text-2xl font-bold" style={{ color: '#272829' }}>{t('adminCourses.header')}</h1>
+            <p className="text-xs" style={{ color: '#61677A' }}>{filtered.length}/{courses.length} {t('adminCourses.coursesCount')}</p>
             <div className="flex gap-2 mt-1">
               <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
                 style={{ background: '#DCFCE7', color: '#16A34A' }}>
-                {courses.filter(c => c.isActive).length} faol
+                {courses.filter(c => c.isActive).length} {t('adminCourses.active')}
               </span>
               <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
                 style={{ background: '#F1F2F4', color: '#61677A' }}>
-                {courses.filter(c => !c.isActive).length} nofaol
+                {courses.filter(c => !c.isActive).length} {t('adminCourses.inactive')}
               </span>
             </div>
           </div>
@@ -141,16 +141,16 @@ const AdminCourses = () => {
             <input
               value={searchQ}
               onChange={e => setSearchQ(e.target.value)}
-              placeholder="Kurs nomi yoki kategoriya..."
+              placeholder={t('adminCourses.searchPlaceholder')}
               className="pl-8 pr-3 py-2 rounded-xl text-sm outline-none"
               style={{ background: '#FFFFFF', border: '1px solid #E5E7EA', color: '#272829', width: 240 }}
             />
           </div>
           <div className="flex items-center gap-2">
             {[
-              { value: 'all', label: 'Barchasi' },
-              { value: 'active', label: 'Chop etilgan' },
-              { value: 'draft', label: 'Qoralama' },
+              { value: 'all', label: t('adminCourses.filterAll') },
+              { value: 'active', label: t('adminCourses.filterPublished') },
+              { value: 'draft', label: t('adminCourses.filterDraft') },
             ].map(f => (
               <button
                 key={f.value}
@@ -175,14 +175,14 @@ const AdminCourses = () => {
             style={{ background: '#FFFFFF', border: '1px solid #E5E7EA' }}
           >
             <Search size={32} style={{ color: '#9CA3AF' }} className="mb-3" />
-            <p className="text-sm" style={{ color: '#61677A' }}>Kurs topilmadi</p>
+            <p className="text-sm" style={{ color: '#61677A' }}>{t('adminCourses.notFound')}</p>
           </div>
         ) : (
-          <div className="glass-card overflow-x-auto">
+          <div className="glass-card overflow-hidden">
             <table className="tm-table">
               <thead>
                 <tr>
-                  {['rasm', 'sarlavha', 'daraja', 'holat', "o'quvchilar", 'amal'].map((h) => (
+                  {[t('adminCourses.table.image'), t('adminCourses.table.title'), t('adminCourses.table.level'), t('adminCourses.table.status'), t('adminCourses.table.students'), t('adminCourses.table.actions')].map((h) => (
                     <th key={h}>{h}</th>
                   ))}
                 </tr>
@@ -211,7 +211,7 @@ const AdminCourses = () => {
                       <div className="flex items-center gap-1.5">
                         <p className="text-[13px] font-medium" style={{ color: '#272829' }}>{course.title}</p>
                         {course.isFeatured && (
-                          <Star size={11} fill="#F59E0B" style={{ color: '#F59E0B', flexShrink: 0 }} title="Tanlangan" />
+                          <Star size={11} fill="#F59E0B" style={{ color: '#F59E0B', flexShrink: 0 }} title={t('adminCourses.featured')} />
                         )}
                       </div>
                       {course.category && (
@@ -235,7 +235,7 @@ const AdminCourses = () => {
                           ? { background: '#F0FDF4', color: '#16A34A', border: '1px solid #27282930' }
                           : { background: '#E5E7EA', color: '#61677A', border: '1px solid #D8D9DA' }}
                       >
-                        {course.isActive ? 'chop etilgan' : 'qoralama'}
+                        {course.isActive ? t('adminCourses.statusPublished') : t('adminCourses.statusDraft')}
                       </span>
                     </td>
                     <td className="muted font-mono text-[11px]">{course.enrollmentCount}</td>
@@ -244,7 +244,7 @@ const AdminCourses = () => {
                         <button
                           onClick={() => handlePublish(course._id)}
                           className="p-1.5 rounded transition-colors"
-                          title={course.isActive ? 'Yashirish' : 'Chop etish'}
+                          title={course.isActive ? t('adminCourses.tooltip.hide') : t('adminCourses.tooltip.publish')}
                           style={{ color: course.isActive ? '#D97706' : '#16A34A' }}
                           onMouseEnter={(e) => (e.currentTarget.style.background = course.isActive ? 'rgba(217,119,6,0.08)' : 'rgba(22,163,74,0.08)')}
                           onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
@@ -259,7 +259,7 @@ const AdminCourses = () => {
                           style={{ color: '#61677A' }}
                           onMouseEnter={(e) => { e.currentTarget.style.color = '#2563EB'; e.currentTarget.style.background = 'rgba(37,99,235,0.08)'; }}
                           onMouseLeave={(e) => { e.currentTarget.style.color = '#61677A'; e.currentTarget.style.background = 'transparent'; }}
-                          title="Saytda ko'rish"
+                          title={t('adminCourses.tooltip.viewOnSite')}
                         >
                           <ExternalLink size={13} />
                         </a>
@@ -291,7 +291,7 @@ const AdminCourses = () => {
         )}
       </div>
 
-      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Kursni tahrirlash' : "Yangi kurs qo'shish"} size="lg">
+      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? t('adminCourses.modalEdit') : t('adminCourses.modalAdd')} size="lg">
         <form onSubmit={handleSave} className="space-y-4">
           <div className="flex items-center gap-4">
             <div
@@ -304,13 +304,13 @@ const AdminCourses = () => {
               ) : (
                 <>
                   <Upload size={20} style={{ color: '#9CA3AF' }} />
-                  <span className="text-[10px] mt-1" style={{ color: '#61677A' }}>Rasm</span>
+                  <span className="text-[10px] mt-1" style={{ color: '#61677A' }}>{t('adminCourses.form.image')}</span>
                 </>
               )}
             </div>
             <div className="flex-1">
-              <p className="text-xs font-mono mb-2" style={{ color: '#61677A' }}>Kurs muqovasi (16:9 tavsiya etiladi)</p>
-              <Button type="button" variant="ghost" size="sm" onClick={() => fileRef.current?.click()}>Rasm tanlash</Button>
+              <p className="text-xs font-mono mb-2" style={{ color: '#61677A' }}>{t('adminCourses.form.imageHint')}</p>
+              <Button type="button" variant="ghost" size="sm" onClick={() => fileRef.current?.click()}>{t('admin.chooseImage')}</Button>
               {preview && (
                 <button
                   type="button"
@@ -325,9 +325,9 @@ const AdminCourses = () => {
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
           </div>
 
-          <Input label="Sarlavha" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required minLength={5} />
+          <Input label={t('adminCourses.form.title')} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required minLength={5} />
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-accent">Tavsif</label>
+            <label className="block text-sm font-medium text-accent">{t('adminCourses.form.description')}</label>
             <textarea
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -337,52 +337,52 @@ const AdminCourses = () => {
               minLength={20}
             />
           </div>
-          <Input label="Qisqa tavsif" value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} maxLength={300} />
-          <Input label="Video URL (YouTube/Vimeo)" value={form.videoUrl} onChange={(e) => setForm({ ...form, videoUrl: e.target.value })} placeholder="https://youtube.com/watch?v=..." />
+          <Input label={t('adminCourses.form.shortDescription')} value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} maxLength={300} />
+          <Input label={t('adminCourses.form.videoUrl')} value={form.videoUrl} onChange={(e) => setForm({ ...form, videoUrl: e.target.value })} placeholder={t('adminCourses.form.videoUrlPlaceholder')} />
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-accent">Kategoriya</label>
+            <label className="block text-sm font-medium text-accent">{t('adminCourses.form.category')}</label>
             <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input-field" required>
-              <option value="">-- Kategoriya tanlang --</option>
-              <option value="Dasturlash">Dasturlash</option>
-              <option value="Marketing va Agrobiznes">Marketing va Agrobiznes</option>
-              <option value="Kompyuter Grafikasi">Kompyuter Grafikasi</option>
-              <option value="Bank Nazoratchisi">Bank Nazoratchisi</option>
-              <option value="Mehmonxona Boshqaruvi">Mehmonxona Boshqaruvi</option>
-              <option value="Raqamli Axborotlar Analitigi">Raqamli Axborotlar Analitigi</option>
-              <option value="Laborant-Analitik">Laborant-Analitik</option>
-              <option value="Dorivor O'simliklar Laboranti">Dorivor O'simliklar Laboranti</option>
-              <option value="Boshqa">Boshqa</option>
+              <option value="">{t('adminCourses.form.categoryPlaceholder')}</option>
+              <option value="Dasturlash">{t('directions.items.programming')}</option>
+              <option value="Marketing va Agrobiznes">{t('directions.items.marketing')}</option>
+              <option value="Kompyuter Grafikasi">{t('directions.items.graphics')}</option>
+              <option value="Bank Nazoratchisi">{t('directions.items.bank')}</option>
+              <option value="Mehmonxona Boshqaruvi">{t('directions.items.hotel')}</option>
+              <option value="Raqamli Axborotlar Analitigi">{t('directions.items.analytics')}</option>
+              <option value="Laborant-Analitik">{t('directions.items.lab')}</option>
+              <option value="Dorivor O'simliklar Laboranti">{t('directions.items.pharma')}</option>
+              <option value="Boshqa">{t('adminCourses.form.categoryOther')}</option>
             </select>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-accent">Daraja</label>
+              <label className="block text-sm font-medium text-accent">{t('adminCourses.form.level')}</label>
               <select value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value })} className="input-field">
-                <option value="beginner">Boshlang'ich</option>
-                <option value="intermediate">O'rta</option>
-                <option value="advanced">Yuqori</option>
+                <option value="beginner">{t('courses.level.beginner')}</option>
+                <option value="intermediate">{t('courses.level.intermediate')}</option>
+                <option value="advanced">{t('courses.level.advanced')}</option>
               </select>
             </div>
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-accent">Narx (so'm)</label>
+              <label className="block text-sm font-medium text-accent">{t('adminCourses.form.price')}</label>
               <input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: +e.target.value })} min={0} className="input-field" />
             </div>
           </div>
-          <Input label="Davomiyligi (masalan: 3 oy, 24 ta dars)" value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} />
+          <Input label={t('adminCourses.form.duration')} value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} />
           <div className="flex items-center gap-6 flex-wrap">
             <label className="flex items-center gap-2 cursor-pointer w-fit">
               <input type="checkbox" checked={form.isFree} onChange={(e) => setForm({ ...form, isFree: e.target.checked })} className="rounded" />
-              <span className="text-accent text-sm">Bepul kurs</span>
+              <span className="text-accent text-sm">{t('adminCourses.form.isFree')}</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer w-fit">
               <input type="checkbox" checked={form.isActive} onChange={(e) => setForm({ ...form, isActive: e.target.checked })} className="rounded" />
-              <span className="text-accent text-sm">Chop etilgan</span>
+              <span className="text-accent text-sm">{t('adminCourses.form.isActive')}</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer w-fit">
               <input type="checkbox" checked={form.isFeatured} onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })} className="rounded" />
               <span className="text-accent text-sm flex items-center gap-1">
                 <Star size={12} fill={form.isFeatured ? '#F59E0B' : 'none'} style={{ color: '#F59E0B' }} />
-                Tanlangan (featured)
+                {t('adminCourses.form.isFeatured')}
               </span>
             </label>
           </div>
@@ -398,9 +398,9 @@ const AdminCourses = () => {
         onClose={() => setConfirmId(null)}
         onConfirm={handleDelete}
         loading={deleting}
-        title="Kursni o'chirishni tasdiqlang"
-        message="Bu amalni bekor qilib bo'lmaydi. Kurs va unga bog'liq ma'lumotlar butunlay o'chiriladi."
-        confirmLabel="Ha, o'chirish"
+        title={t('adminCourses.confirmTitle')}
+        message={t('adminCourses.confirmMessage')}
+        confirmLabel={t('adminCourses.confirmLabel')}
       />
     </>
   );

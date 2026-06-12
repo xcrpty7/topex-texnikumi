@@ -10,10 +10,10 @@ import { register, selectAuth, clearError } from '../features/auth/authSlice';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
-const passwordChecks = (pw) => [
-  { label: '8+ belgi',  valid: pw.length >= 8 },
-  { label: 'Katta harf', valid: /[A-Z]/.test(pw) },
-  { label: 'Raqam',      valid: /\d/.test(pw) },
+const passwordChecks = (pw, t) => [
+  { label: t('registerPage.passwordCheck.minChars'),  valid: pw.length >= 8 },
+  { label: t('registerPage.passwordCheck.upperCase'), valid: /[A-Z]/.test(pw) },
+  { label: t('registerPage.passwordCheck.number'),   valid: /\d/.test(pw) },
 ];
 
 const RegisterPage = () => {
@@ -53,7 +53,7 @@ const RegisterPage = () => {
     window.location.href = `${API_URL}/api/auth/google`;
   };
 
-  const pwChecks = passwordChecks(form.password);
+  const pwChecks = passwordChecks(form.password, t);
   const pwStrong = pwChecks.every(c => c.valid);
 
   return (
@@ -82,28 +82,28 @@ const RegisterPage = () => {
 
           <div className="relative z-10 flex flex-col justify-between p-16 text-white">
             <Link to="/" className="inline-flex items-center gap-2 text-white/70 hover:text-orange text-sm font-medium w-fit">
-              <ArrowLeft size={16} /> Bosh sahifa
+              <ArrowLeft size={16} /> {t('registerPage.backHome')}
             </Link>
 
             <div>
               <motion.div
                 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
                 <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
-                  Topex Texnikumida o'qish
+                  {t('registerPage.heroBadge')}
                 </span>
                 <h1 className="text-[44px] lg:text-[56px] font-black leading-[1.05] mb-6 uppercase">
-                  Kelajakni<br/>boshlash<br/>vaqti!
+                  {t('registerPage.heroTitle')}
                 </h1>
                 <p className="text-white/75 text-base leading-relaxed max-w-md mb-8">
-                  Bepul hisob oching va Topex Texnikumi imkoniyatlaridan to'liq foydalaning.
+                  {t('registerPage.heroParagraph')}
                 </p>
 
                 <ul className="space-y-3 max-w-md">
                   {[
-                    'Zamonaviy yo\'nalishlar',
-                    'Tajribali ustozlar',
-                    '600+ o\'quvchi va o\'sib borayotgan jamoa',
-                    'Sifatli ta\'lim, real natija',
+                    t('registerPage.feature1'),
+                    t('registerPage.feature2'),
+                    t('registerPage.feature3'),
+                    t('registerPage.feature4'),
                   ].map((txt, i) => (
                     <motion.li key={i}
                       initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
@@ -131,18 +131,18 @@ const RegisterPage = () => {
 
             <div className="lg:hidden mb-8">
               <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-brand text-sm font-medium">
-                <ArrowLeft size={16} /> Bosh sahifa
+                <ArrowLeft size={16} /> {t('registerPage.backHome')}
               </Link>
             </div>
 
             <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-4">
-              Ro'yxatdan o'tish
+              {t('registerPage.sectionLabel')}
             </span>
             <h2 className="text-[34px] md:text-[42px] font-black text-brand leading-[1.1] mb-3">
-              Yangi akkaunt<br/>yarating
+              {t('registerPage.formTitle')}
             </h2>
-            <p className="text-gray-500 mb-8">Akkauntingiz bormi?{' '}
-              <Link to="/login" className="text-orange font-bold hover:underline">Kirish</Link>
+            <p className="text-gray-500 mb-8">{t('registerPage.hasAccount')}{' '}
+              <Link to="/login" className="text-orange font-bold hover:underline">{t('registerPage.signIn')}</Link>
             </p>
 
             <button
@@ -157,12 +157,12 @@ const RegisterPage = () => {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
               </svg>
-              Google bilan ro'yxatdan o'tish
+              {t('registerPage.googleSignup')}
             </button>
 
             <div className="flex items-center gap-3 my-5">
               <div className="flex-1 h-px bg-gray-200" />
-              <span className="text-gray-400 text-xs uppercase tracking-widest font-semibold">yoki</span>
+              <span className="text-gray-400 text-xs uppercase tracking-widest font-semibold">{t('registerPage.orDivider')}</span>
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
@@ -174,12 +174,12 @@ const RegisterPage = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-brand font-semibold text-[14px] mb-2">To'liq ism</label>
+                <label className="block text-brand font-semibold text-[14px] mb-2">{t('registerPage.nameLabel')}</label>
                 <div className="relative">
                   <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Aziz Rahimov"
+                    placeholder={t('registerPage.namePlaceholder')}
                     value={form.name}
                     onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
                     required
@@ -191,12 +191,12 @@ const RegisterPage = () => {
               </div>
 
               <div>
-                <label className="block text-brand font-semibold text-[14px] mb-2">Email manzil</label>
+                <label className="block text-brand font-semibold text-[14px] mb-2">{t('registerPage.emailLabel')}</label>
                 <div className="relative">
                   <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type="email"
-                    placeholder="siz@example.com"
+                    placeholder={t('registerPage.emailPlaceholder')}
                     value={form.email}
                     onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
                     required
@@ -208,12 +208,12 @@ const RegisterPage = () => {
               </div>
 
               <div>
-                <label className="block text-brand font-semibold text-[14px] mb-2">Parol</label>
+                <label className="block text-brand font-semibold text-[14px] mb-2">{t('registerPage.passwordLabel')}</label>
                 <div className="relative">
                   <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     type={showPass ? 'text' : 'password'}
-                    placeholder="Kuchli parol o'ylab toping"
+                    placeholder={t('registerPage.passwordPlaceholder')}
                     value={form.password}
                     onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
                     required
@@ -250,8 +250,8 @@ const RegisterPage = () => {
                   className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2"
                 />
                 <span className="text-gray-500 text-[13px] leading-relaxed">
-                  Men <a href="#" className="text-orange font-semibold hover:underline">foydalanish shartlari</a> va{' '}
-                  <a href="#" className="text-orange font-semibold hover:underline">maxfiylik siyosati</a>ga roziman.
+                  {t('registerPage.agreement.prefix')} <a href="#" className="text-orange font-semibold hover:underline">{t('registerPage.agreement.terms')}</a> {t('registerPage.agreement.and')}{' '}
+                  <a href="#" className="text-orange font-semibold hover:underline">{t('registerPage.agreement.privacy')}</a>{t('registerPage.agreement.suffix')}
                 </span>
               </label>
 
@@ -265,10 +265,10 @@ const RegisterPage = () => {
                 {loading ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Yaratilmoqda...
+                    {t('registerPage.submitting')}
                   </>
                 ) : (
-                  <>Hisob yaratish <ArrowRight size={18} /></>
+                  <>{t('registerPage.submit')} <ArrowRight size={18} /></>
                 )}
               </button>
             </form>

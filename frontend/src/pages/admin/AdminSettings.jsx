@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Settings, Save, Phone, Mail, MapPin, Clock, Globe, RefreshCw } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -11,6 +12,7 @@ const imgSrc = (url) => {
 };
 
 const ImageUploadField = ({ label, value, onChange, hint }) => {
+  const { t } = useTranslation();
   const ref = useRef();
   const [uploading, setUploading] = useState(false);
 
@@ -23,9 +25,9 @@ const ImageUploadField = ({ label, value, onChange, hint }) => {
       setUploading(true);
       const res = await api.post('/admin/settings/upload-image', fd);
       onChange(res.data.data.url);
-      toast.success('Rasm yuklandi');
+      toast.success(t('admin.imageUploaded'));
     } catch {
-      toast.error('Yuklashda xatolik');
+      toast.error(t('admin.imageUploadError'));
     } finally {
       setUploading(false);
       if (ref.current) ref.current.value = '';
@@ -46,7 +48,7 @@ const ImageUploadField = ({ label, value, onChange, hint }) => {
           style={{ border: '2px dashed #D8D9DA', color: '#2563EB', background: '#EFF6FF' }}
           onMouseEnter={e => e.currentTarget.style.borderColor = '#2563EB'}
           onMouseLeave={e => e.currentTarget.style.borderColor = '#D8D9DA'}>
-          {uploading ? 'Yuklanmoqda...' : '+ Rasm yuklash'}
+          {uploading ? t('admin.uploading') : `+ ${t('admin.uploadImage')}`}
         </button>
         <input ref={ref} type="file" accept="image/*" className="hidden" onChange={handleFile} />
       </div>
@@ -85,6 +87,7 @@ const TextAreaField = ({ label, value, onChange, placeholder, rows = 3 }) => (
 );
 
 const AdminSettings = () => {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     phone: '', phone2: '', email: '', address: '', workingHours: '', mapLink: '',
     telegram: '', instagram: '', facebook: '', youtube: '',
@@ -114,7 +117,7 @@ const AdminSettings = () => {
         statsTeachers: d.statsTeachers || '', statsGrades: d.statsGrades || '',
         footerDescription: d.footerDescription || '',
       });
-    } catch { toast.error('Yuklab bo\'lmadi'); }
+    } catch { toast.error(t('admin.loadError')); }
     finally { setLoading(false); }
   };
 
@@ -127,13 +130,13 @@ const AdminSettings = () => {
     try {
       setSaving(true);
       await api.put('/admin/settings', form);
-      toast.success('Sozlamalar saqlandi');
-    } catch { toast.error('Xatolik'); }
+      toast.success(t('adminSettings.saved'));
+    } catch { toast.error(t('admin.error')); }
     finally { setSaving(false); }
   };
 
   if (loading) return (
-    <div className="text-center py-20 font-mono text-sm" style={{ color: '#61677A' }}>Yuklanmoqda...</div>
+    <div className="text-center py-20 font-mono text-sm" style={{ color: '#61677A' }}>{t('admin.loading')}</div>
   );
 
   const Section = ({ title, children }) => (
@@ -148,99 +151,99 @@ const AdminSettings = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-xl font-mono font-bold flex items-center gap-2">
-            <Settings size={20} style={{ color: '#2563EB' }} /> Sayt Sozlamalari
+            <Settings size={20} style={{ color: '#2563EB' }} /> {t('adminSettings.header')}
           </h1>
-          <p className="font-mono text-xs mt-1" style={{ color: '#61677A' }}>Saytning umumiy ma'lumotlarini boshqaring</p>
+          <p className="font-mono text-xs mt-1" style={{ color: '#61677A' }}>{t('adminSettings.subtitle')}</p>
         </div>
         <button onClick={() => load()} className="flex items-center gap-1.5 px-3 py-2 rounded-lg font-mono text-xs transition-colors"
           style={{ background: '#E5E7EA', color: '#61677A' }}>
-          <RefreshCw size={12} /> Yangilash
+          <RefreshCw size={12} /> {t('admin.refresh')}
         </button>
       </div>
 
       <form onSubmit={handleSave}>
-        <Section title="Sahifa Rasmlari">
+        <Section title={t('adminSettings.sectionImages')}>
           <div className="md:col-span-2">
             <ImageUploadField
-              label="Bosh sahifa — Asosiy rasm (hero image, o'ng tomonda ko'rinadi)"
+              label={t('adminSettings.heroImage')}
               value={form.heroImage}
               onChange={val => setForm(p => ({ ...p, heroImage: val }))}
-              hint="Tavsiya etilgan o'lcham: 600×700px"
+              hint={t('adminSettings.heroImageHint')}
             />
           </div>
           <div className="md:col-span-2">
             <ImageUploadField
-              label="Bosh sahifa — Fon rasmi (orqa, shaffof)"
+              label={t('adminSettings.heroBgImage')}
               value={form.heroBgImage}
               onChange={val => setForm(p => ({ ...p, heroBgImage: val }))}
-              hint="Katta rasm, kam kontrast"
+              hint={t('adminSettings.heroBgHint')}
             />
           </div>
           <div className="md:col-span-2">
             <ImageUploadField
-              label="'Biz Haqimizda' rasmi"
+              label={t('adminSettings.aboutImage')}
               value={form.aboutImage}
               onChange={val => setForm(p => ({ ...p, aboutImage: val }))}
-              hint="Kvadrat yoki portret formatda"
+              hint={t('adminSettings.aboutImageHint')}
             />
           </div>
         </Section>
 
-        <Section title="Aloqa Ma'lumotlari">
-          <Field label="Telefon 1" value={form.phone} onChange={set('phone')} placeholder="+998 71 123 45 67" icon={Phone} />
-          <Field label="Telefon 2" value={form.phone2} onChange={set('phone2')} placeholder="+998 90 123 45 67" icon={Phone} />
-          <Field label="Email" value={form.email} onChange={set('email')} placeholder="info@topex.uz" icon={Mail} type="email" />
-          <Field label="Ish vaqti" value={form.workingHours} onChange={set('workingHours')} placeholder="Du-Sha: 8:00 - 18:00" icon={Clock} />
+        <Section title={t('adminSettings.sectionContact')}>
+          <Field label={t('adminSettings.phone1')} value={form.phone} onChange={set('phone')} placeholder="+998 71 123 45 67" icon={Phone} />
+          <Field label={t('adminSettings.phone2')} value={form.phone2} onChange={set('phone2')} placeholder="+998 90 123 45 67" icon={Phone} />
+          <Field label={t('adminSettings.email')} value={form.email} onChange={set('email')} placeholder="info@topex.uz" icon={Mail} type="email" />
+          <Field label={t('adminSettings.workingHours')} value={form.workingHours} onChange={set('workingHours')} placeholder="Du-Sha: 8:00 - 18:00" icon={Clock} />
           <div className="md:col-span-2">
-            <Field label="Manzil" value={form.address} onChange={set('address')} placeholder="Toshkent shahri, Yunusobod tumani..." icon={MapPin} />
+            <Field label={t('adminSettings.address')} value={form.address} onChange={set('address')} placeholder="Toshkent shahri..." icon={MapPin} />
           </div>
           <div className="md:col-span-2">
-            <Field label="Xarita havolasi (Google Maps embed URL)" value={form.mapLink} onChange={set('mapLink')} placeholder="https://maps.google.com/..." icon={Globe} />
+            <Field label={t('adminSettings.mapLink')} value={form.mapLink} onChange={set('mapLink')} placeholder="https://maps.google.com/..." icon={Globe} />
           </div>
         </Section>
 
-        <Section title="Ijtimoiy Tarmoqlar">
+        <Section title={t('adminSettings.sectionSocial')}>
           <Field label="Telegram" value={form.telegram} onChange={set('telegram')} placeholder="https://t.me/topextexnikumi" />
           <Field label="Instagram" value={form.instagram} onChange={set('instagram')} placeholder="https://instagram.com/topex..." />
           <Field label="Facebook" value={form.facebook} onChange={set('facebook')} placeholder="https://facebook.com/topex..." />
           <Field label="YouTube" value={form.youtube} onChange={set('youtube')} placeholder="https://youtube.com/@topex..." />
         </Section>
 
-        <Section title="Bosh Sahifa - Hero Qismi">
+        <Section title={t('adminSettings.sectionHero')}>
           <div className="md:col-span-2">
-            <Field label="Asosiy sarlavha" value={form.heroTitle} onChange={set('heroTitle')} placeholder="Kelajakni bugun shakllantir" />
+            <Field label={t('adminSettings.heroTitleField')} value={form.heroTitle} onChange={set('heroTitle')} placeholder="Kelajakni bugun shakllantir" />
           </div>
           <div className="md:col-span-2">
-            <TextAreaField label="Kichik matn" value={form.heroSubtitle} onChange={set('heroSubtitle')} placeholder="Topex texnikumida sifatli ta'lim oling..." rows={2} />
+            <TextAreaField label={t('adminSettings.heroSubtitleField')} value={form.heroSubtitle} onChange={set('heroSubtitle')} placeholder="Topex texnikumida sifatli ta'lim oling..." rows={2} />
           </div>
-          <Field label="Tugma matni" value={form.heroBtn} onChange={set('heroBtn')} placeholder="Hozir ariza topshiring" />
+          <Field label={t('adminSettings.heroBtnField')} value={form.heroBtn} onChange={set('heroBtn')} placeholder="Hozir ariza topshiring" />
         </Section>
 
-        <Section title="Statistika Raqamlari">
-          <Field label="O'quvchilar soni" value={form.statsStudents} onChange={set('statsStudents')} placeholder="600+" />
-          <Field label="Filiallar soni" value={form.statsBranches} onChange={set('statsBranches')} placeholder="3+" />
-          <Field label="Mutaxassislar" value={form.statsTeachers} onChange={set('statsTeachers')} placeholder="50+" />
-          <Field label="Sinflar" value={form.statsGrades} onChange={set('statsGrades')} placeholder="10-11" />
+        <Section title={t('adminSettings.sectionStats')}>
+          <Field label={t('adminSettings.statsStudents')} value={form.statsStudents} onChange={set('statsStudents')} placeholder="600+" />
+          <Field label={t('adminSettings.statsBranches')} value={form.statsBranches} onChange={set('statsBranches')} placeholder="3+" />
+          <Field label={t('adminSettings.statsTeachers')} value={form.statsTeachers} onChange={set('statsTeachers')} placeholder="50+" />
+          <Field label={t('adminSettings.statsGrades')} value={form.statsGrades} onChange={set('statsGrades')} placeholder="10-11" />
         </Section>
 
-        <Section title="'Biz Haqimizda' Bo'limi">
+        <Section title={t('adminSettings.sectionAbout')}>
           <div className="md:col-span-2">
-            <Field label="Sarlavha" value={form.aboutTitle} onChange={set('aboutTitle')} placeholder="Topex texnikumi haqida" />
+            <Field label={t('adminSettings.aboutTitleField')} value={form.aboutTitle} onChange={set('aboutTitle')} placeholder="Topex texnikumi haqida" />
           </div>
           <div className="md:col-span-2">
             <TextAreaField
-              label="Matn (yangi xatboshi uchun ikki marta Enter)"
+              label={t('adminSettings.aboutTextField')}
               value={form.aboutText}
               onChange={set('aboutText')}
-              placeholder={"Birinchi xatboshi...\n\nIkkinchi xatboshi...\n\nUchinchi xatboshi..."}
+              placeholder={t('adminSettings.aboutTextPlaceholder')}
               rows={12}
             />
           </div>
         </Section>
 
-        <Section title="Footer Tavsifi">
+        <Section title={t('adminSettings.sectionFooter')}>
           <div className="md:col-span-2">
-            <TextAreaField label="Footer uchun qisqa tavsif" value={form.footerDescription} onChange={set('footerDescription')} placeholder="Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum..." rows={2} />
+            <TextAreaField label={t('adminSettings.footerDesc')} value={form.footerDescription} onChange={set('footerDescription')} placeholder="Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum..." rows={2} />
           </div>
         </Section>
 
@@ -249,7 +252,7 @@ const AdminSettings = () => {
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-mono text-sm font-semibold transition-all disabled:opacity-50"
             style={{ background: '#272829', color: '#fff' }}>
             <Save size={16} />
-            {saving ? 'Saqlanmoqda...' : 'Barcha o\'zgarishlarni saqlash'}
+            {saving ? t('admin.saving') : t('adminSettings.saveAll')}
           </button>
         </div>
       </form>

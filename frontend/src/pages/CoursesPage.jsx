@@ -33,25 +33,26 @@ const up = (delay = 0) => ({
   transition:  { duration: 0.5, ease: 'easeOut', delay },
 });
 
-const DEFAULT_HIGHLIGHTS = [
-  { img: '/assets/icons/icon-02.jpg', title: 'Kimyo',       students: '120+' },
-  { img: '/assets/icons/icon-04.jpg', title: 'Adabiyot',    students: '85+' },
-  { img: '/assets/icons/icon-06.jpg', title: 'Olimpiadalar', students: '200+' },
-  { img: '/assets/icons/icon-08.jpg', title: 'Tadqiqot',    students: '60+' },
+const DEFAULT_HIGHLIGHTS = (t) => [
+  { img: '/assets/icons/icon-02.jpg', title: t('coursesPage.highlights.chemistry'),   students: '120+' },
+  { img: '/assets/icons/icon-04.jpg', title: t('coursesPage.highlights.literature'),  students: '85+' },
+  { img: '/assets/icons/icon-06.jpg', title: t('coursesPage.highlights.olympiads'),   students: '200+' },
+  { img: '/assets/icons/icon-08.jpg', title: t('coursesPage.highlights.research'),    students: '60+' },
 ];
 
-const DEFAULT_SUBJECTS = [
-  { icon: Code,        name: 'Dasturlash',                   desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', img: '/assets/images/DSC00827.jpg',       duration: '2 yil', features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish'] },
-  { icon: TrendingUp,  name: 'Marketing va Agrobiznes',      desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.",      img: '/assets/images/DSC00912.jpg',       duration: '2 yil', features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import'] },
-  { icon: Palette,     name: 'Kompyuter Grafikasi',          desc: '3D modellashtirish, brending va vizual kontent.',        img: '/assets/images/DSC01093.jpg',       duration: '2 yil', features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn'] },
-  { icon: ShieldCheck, name: 'Bank Nazoratchisi',            desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.',        img: '/assets/famali-photo/DSC00875.jpg', duration: '2 yil', features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi'] },
-  { icon: Hotel,       name: 'Mehmonxona Boshqaruvi',        desc: "Xalqaro servis va mehmondo'stlik san'ati.",              img: '/assets/famali-photo/DSC00954.jpg', duration: '2 yil', features: ['Service Management', 'Event planning', 'Xorijiy tillar'] },
-  { icon: BarChart3,   name: 'Raqamli Axborotlar Analitigi', desc: "Ma'lumotlar tahlili va biznes-bashorat.",                img: '/assets/famali-photo/DSC00955.jpg', duration: '2 yil', features: ['Big Data', 'Excel & SQL', 'Biznes strategiya'] },
-  { icon: FlaskConical,name: 'Laborant-Analitik',            desc: 'Tibbiy va sanoat tahlillari ustasi.',                   img: '/assets/famali-photo/DSC00964.jpg', duration: '2 yil', features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati'] },
-  { icon: Sprout,      name: "Dorivor O'simliklar Laboranti",desc: 'Farmatsevtika va fitoterapiya sirlari.',                 img: '/assets/famali-photo/DSC00980.jpg', duration: '2 yil', features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya'] },
+const DEFAULT_SUBJECTS = (t) => [
+  { icon: Code,        name: t('coursesPage.subjects.programming'),            desc: t('coursesPage.subjects.programmingDesc'),           img: '/assets/images/DSC00827.jpg',       duration: '2 yil', features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
+  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),              desc: t('coursesPage.subjects.marketingDesc'),             img: '/assets/images/DSC00912.jpg',       duration: '2 yil', features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
+  { icon: Palette,     name: t('coursesPage.subjects.design'),                 desc: t('coursesPage.subjects.designDesc'),                img: '/assets/images/DSC01093.jpg',       duration: '2 yil', features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
+  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),                desc: t('coursesPage.subjects.bankingDesc'),               img: '/assets/famali-photo/DSC00875.jpg', duration: '2 yil', features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
+  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),                  desc: t('coursesPage.subjects.hotelDesc'),                 img: '/assets/famali-photo/DSC00954.jpg', duration: '2 yil', features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
+  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),              desc: t('coursesPage.subjects.analyticsDesc'),             img: '/assets/famali-photo/DSC00955.jpg', duration: '2 yil', features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
+  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),               desc: t('coursesPage.subjects.laborantDesc'),              img: '/assets/famali-photo/DSC00964.jpg', duration: '2 yil', features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
+  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),               desc: t('coursesPage.subjects.phytolabDesc'),              img: '/assets/famali-photo/DSC00980.jpg', duration: '2 yil', features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
 ];
 
 const CoursesPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { list, loading, meta, filters } = useSelector((s) => s.courses);
   const [selected, setSelected] = useState(null);
@@ -85,18 +86,18 @@ const CoursesPage = () => {
 
   const handlePage = (page) => dispatch(setFilters({ page }));
 
-  const displaySubjects  = dbSubjects.length  > 0 ? dbSubjects  : DEFAULT_SUBJECTS;
-  const displayHighlights = dbHighlights.length > 0 ? dbHighlights : DEFAULT_HIGHLIGHTS;
+  const displaySubjects  = dbSubjects.length  > 0 ? dbSubjects  : DEFAULT_SUBJECTS(t);
+  const displayHighlights = dbHighlights.length > 0 ? dbHighlights : DEFAULT_HIGHLIGHTS(t);
 
   return (
     <>
       <Helmet>
-        <title>Kurslar va Yo'nalishlar – Topex Texnikumi</title>
-        <meta name="description" content="Topex Texnikumidagi barcha o'quv yo'nalishlari: dasturlash, marketing, kompyuter grafikasi, bank ishi, mehmonxona boshqaruvi va boshqalar." />
-        <meta name="keywords" content="kurslar, o'quv yo'nalishlari, dasturlash, marketing, dizayn, Topex" />
+        <title>{t('coursesPage.meta.title')}</title>
+        <meta name="description" content={t('coursesPage.meta.description')} />
+        <meta name="keywords" content={t('coursesPage.meta.keywords')} />
         <link rel="canonical" href="https://topex-texnikumi.vercel.app/courses" />
-        <meta property="og:title" content="Kurslar va Yo'nalishlar – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumidagi barcha o'quv yo'nalishlari." />
+        <meta property="og:title" content={t('coursesPage.meta.ogTitle')} />
+        <meta property="og:description" content={t('coursesPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/courses" />
         <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>
@@ -130,10 +131,10 @@ const CoursesPage = () => {
             <GraduationCap size={15} className="text-orange" /> {settings?.coursesHeroBadge || "O'quv yo'nalishlari"}
           </motion.div>
           <motion.h1 {...up(0.05)} className="text-4xl md:text-6xl font-black text-white leading-[1.08] mb-5 drop-shadow-lg">
-            {settings?.coursesHeroTitle || "Yo'nalishlar"}
+            {settings?.coursesHeroTitle || t('coursesPage.heroTitle')}
           </motion.h1>
           <motion.p {...up(0.1)} className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
-            {settings?.coursesHeroSubtitle || "10-11 sinflar uchun zamonaviy kasblar bo'yicha chuqurlashtirilgan ta'lim dasturlari."}
+            {settings?.coursesHeroSubtitle || t('coursesPage.heroSubtitle')}
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">

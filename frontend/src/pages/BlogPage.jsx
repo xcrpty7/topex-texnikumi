@@ -49,7 +49,7 @@ const FeaturedNews = ({ article, moreText }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-navy/40 via-transparent to-transparent lg:bg-gradient-to-r" />
           <span className="absolute top-5 left-5 inline-flex items-center gap-1.5 bg-orange text-white text-[11px]
                            font-bold uppercase tracking-wide px-3.5 py-1.5 rounded-full shadow-lg">
-            ✦ {article.category || 'Yangiliklar'}
+            ✦ {article.category || t('blogPage.fallbackCategory')}
           </span>
         </div>
 
@@ -100,12 +100,12 @@ const BlogPage = () => {
   return (
     <>
       <Helmet>
-        <title>Yangiliklar – Topex Texnikumi</title>
-        <meta name="description" content="Topex Texnikumi yangiliklari, e'lonlari va tadbirlari. Eng so'nggi voqealardan xabardor bo'ling." />
-        <meta name="keywords" content="yangiliklar, Topex, e'lonlar, tadbirlar, maqolalar" />
+        <title>{t('blogPage.meta.title')}</title>
+        <meta name="description" content={t('blogPage.meta.description')} />
+        <meta name="keywords" content={t('blogPage.meta.keywords')} />
         <link rel="canonical" href="https://topex-texnikumi.vercel.app/blog" />
-        <meta property="og:title" content="Yangiliklar – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumining eng so'nggi yangiliklari." />
+        <meta property="og:title" content={t('blogPage.meta.ogTitle')} />
+        <meta property="og:description" content={t('blogPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/blog" />
         <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>

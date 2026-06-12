@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Star, Plus, Trash2, Edit2, Eye, EyeOff, X, Upload, Search, MessageSquare } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -8,6 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 const empty = { name: '', role: "O'quvchi", text: '', rating: 5, order: 0 };
 
 const AdminTestimonials = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +29,7 @@ const AdminTestimonials = () => {
       setLoading(true);
       const res = await api.get('/admin/testimonials');
       setItems(res.data.data || []);
-    } catch { toast.error('Yuklab bo\'lmadi'); }
+    } catch { toast.error(t('admin.loadError')); }
     finally { setLoading(false); }
   };
 
@@ -51,14 +53,14 @@ const AdminTestimonials = () => {
       if (file) fd.append('avatar', file);
       if (editing) {
         await api.put(`/admin/testimonials/${editing._id}`, fd);
-        toast.success('Yangilandi');
+        toast.success(t('admin.updated'));
       } else {
         await api.post('/admin/testimonials', fd);
-        toast.success('Qo\'shildi');
+        toast.success(t('admin.created'));
       }
       setShowModal(false);
       load();
-    } catch { toast.error('Xatolik'); }
+    } catch { toast.error(t('admin.error')); }
     finally { setSaving(false); }
   };
 
@@ -68,7 +70,7 @@ const AdminTestimonials = () => {
       fd.append('isActive', !item.isActive);
       await api.put(`/admin/testimonials/${item._id}`, fd);
       setItems(prev => prev.map(i => i._id === item._id ? { ...i, isActive: !i.isActive } : i));
-    } catch { toast.error('Xatolik'); }
+    } catch { toast.error(t('admin.error')); }
   };
 
   const handleDeleteConfirm = async () => {
@@ -76,14 +78,13 @@ const AdminTestimonials = () => {
     try {
       setDeleteLoading(true);
       await api.delete(`/admin/testimonials/${confirmId}`);
-      toast.success('O\'chirildi');
+      toast.success(t('admin.deleted'));
       setItems(prev => prev.filter(i => i._id !== confirmId));
       setConfirmId(null);
-    } catch { toast.error('Xatolik'); }
+    } catch { toast.error(t('admin.error')); }
     finally { setDeleteLoading(false); }
   };
 
-  // Filtered list
   const filtered = items.filter(i => {
     const q = searchQ.toLowerCase();
     const matchSearch = !q || i.name?.toLowerCase().includes(q) || i.role?.toLowerCase().includes(q);
@@ -96,45 +97,43 @@ const AdminTestimonials = () => {
 
   return (
     <div style={{ color: '#272829' }}>
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-mono font-bold">O'quvchi Sharhlari</h1>
-          <p className="font-mono text-xs mt-1" style={{ color: '#61677A' }}>{items.length} ta sharh</p>
+          <h1 className="text-xl font-mono font-bold">{t('adminTestimonials.header')}</h1>
+          <p className="font-mono text-xs mt-1" style={{ color: '#61677A' }}>{items.length} {t('adminTestimonials.reviewsCount')}</p>
           <div className="flex gap-2 mt-1">
             <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
               style={{ background: '#DCFCE7', color: '#16A34A' }}>
-              {items.filter(i => i.isActive).length} faol
+              {items.filter(i => i.isActive).length} {t('admin.statusActive')}
             </span>
             <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
               style={{ background: '#F1F2F4', color: '#61677A' }}>
-              {items.filter(i => !i.isActive).length} yashirin
+              {items.filter(i => !i.isActive).length} {t('admin.statusHidden')}
             </span>
           </div>
         </div>
         <button onClick={openCreate} className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs font-semibold"
           style={{ background: '#272829', color: '#fff' }}>
-          <Plus size={14} /> Sharh qo'shish
+          <Plus size={14} /> {t('adminTestimonials.addReview')}
         </button>
       </div>
 
-      {/* Filter bar */}
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <div className="relative">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#9CA3AF' }} />
           <input
             value={searchQ}
             onChange={e => setSearchQ(e.target.value)}
-            placeholder="Ism yoki rol..."
+            placeholder={t('adminTestimonials.searchPlaceholder')}
             className="pl-8 pr-3 py-2 rounded-xl text-sm outline-none"
             style={{ background: '#FFFFFF', border: '1px solid #E5E7EA', color: '#272829', width: 200 }}
           />
         </div>
         <div className="flex gap-2">
           {[
-            { v: 'all',    label: 'Barchasi' },
-            { v: 'active', label: 'Faol' },
-            { v: 'hidden', label: 'Yashirin' },
+            { v: 'all',    label: t('admin.filterAll') },
+            { v: 'active', label: t('admin.statusActive') },
+            { v: 'hidden', label: t('admin.statusHidden') },
           ].map(({ v, label }) => (
             <button key={v} onClick={() => setVisFilter(v)}
               className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
@@ -149,7 +148,7 @@ const AdminTestimonials = () => {
       </div>
 
       {loading ? (
-        <div className="text-center py-20 font-mono text-sm" style={{ color: '#61677A' }}>Yuklanmoqda...</div>
+        <div className="text-center py-20 font-mono text-sm" style={{ color: '#61677A' }}>{t('admin.loading')}</div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -174,7 +173,7 @@ const AdminTestimonials = () => {
                   </div>
                   {!item.isActive && (
                     <span className="px-1.5 py-0.5 rounded font-mono text-[9px]" style={{ background: '#F1F2F4', color: '#9CA3AF' }}>
-                      yashirin
+                      {t('admin.statusHidden')}
                     </span>
                   )}
                 </div>
@@ -182,15 +181,15 @@ const AdminTestimonials = () => {
                 <div className="flex gap-2 mt-3 pt-3" style={{ borderTop: '1px solid #E5E7EA' }}>
                   <button onClick={() => openEdit(item)} className="flex items-center gap-1 px-2 py-1 rounded font-mono text-xs transition-colors"
                     style={{ background: '#E5E7EA', color: '#61677A' }}>
-                    <Edit2 size={10} /> Tahrir
+                    <Edit2 size={10} /> {t('admin.edit')}
                   </button>
                   <button onClick={() => toggleActive(item)} className="flex items-center gap-1 px-2 py-1 rounded font-mono text-xs transition-colors"
                     style={{ background: '#E5E7EA', color: item.isActive ? '#D97706' : '#16A34A' }}>
-                    {item.isActive ? <><EyeOff size={10} /> Yashir</> : <><Eye size={10} /> Ko'rsat</>}
+                    {item.isActive ? <><EyeOff size={10} /> {t('admin.hide')}</> : <><Eye size={10} /> {t('admin.show')}</>}
                   </button>
                   <button onClick={() => setConfirmId(item._id)} className="flex items-center gap-1 px-2 py-1 rounded font-mono text-xs ml-auto transition-colors"
                     style={{ background: 'rgba(220,38,38,0.08)', color: '#DC2626' }}>
-                    <Trash2 size={10} /> O'chir
+                    <Trash2 size={10} /> {t('admin.delete')}
                   </button>
                 </div>
               </div>
@@ -200,7 +199,7 @@ const AdminTestimonials = () => {
               <div className="col-span-3 text-center py-20">
                 <MessageSquare size={36} style={{ color: '#D1D5DB', margin: '0 auto 12px' }} />
                 <p className="font-mono text-sm" style={{ color: '#61677A' }}>
-                  {searchQ || visFilter !== 'all' ? 'Filtr bo\'yicha sharh topilmadi' : 'Hali sharh yo\'q'}
+                  {searchQ || visFilter !== 'all' ? t('adminTestimonials.filterEmpty') : t('adminTestimonials.empty')}
                 </p>
                 {(searchQ || visFilter !== 'all') && (
                   <button
@@ -208,7 +207,7 @@ const AdminTestimonials = () => {
                     className="mt-3 font-mono text-xs px-3 py-1.5 rounded-lg"
                     style={{ background: '#F1F2F4', color: '#61677A' }}
                   >
-                    Filtrni tozalash
+                    {t('admin.clearFilter')}
                   </button>
                 )}
               </div>
@@ -217,12 +216,11 @@ const AdminTestimonials = () => {
         </>
       )}
 
-      {/* Create / Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
           <div className="w-full max-w-lg rounded-xl p-6 overflow-y-auto max-h-[90vh]" style={{ background: '#FFFFFF', border: '1px solid #D8D9DA' }}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-mono font-bold" style={{ color: '#272829' }}>{editing ? 'Tahrirlash' : 'Sharh qo\'shish'}</h2>
+              <h2 className="font-mono font-bold" style={{ color: '#272829' }}>{editing ? t('adminTestimonials.modalEdit') : t('adminTestimonials.modalAdd')}</h2>
               <button onClick={() => setShowModal(false)}><X size={16} style={{ color: '#61677A' }} /></button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-3">
@@ -236,13 +234,13 @@ const AdminTestimonials = () => {
                     <img src={preview} alt="preview" className="w-full h-full object-cover" />
                   ) : <Upload size={18} style={{ color: '#9CA3AF' }} />}
                 </div>
-                <p className="font-mono text-xs" style={{ color: '#61677A' }}>Rasm yuklash (ixtiyoriy)</p>
+                <p className="font-mono text-xs" style={{ color: '#61677A' }}>{t('adminTestimonials.uploadImage')}</p>
                 <input ref={fileRef} type="file" accept="image/*" className="hidden"
                   onChange={e => { const f = e.target.files[0]; if (f) { setFile(f); setPreview(URL.createObjectURL(f)); } }} />
               </div>
               {[
-                { key: 'name', label: 'Ism', placeholder: 'Ism Familiya' },
-                { key: 'role', label: 'Lavozim/Sinf', placeholder: "O'quvchi, 11-sinf" },
+                { key: 'name', label: t('adminTestimonials.form.name'), placeholder: t('adminTestimonials.form.namePlaceholder') },
+                { key: 'role', label: t('adminTestimonials.form.role'), placeholder: t('adminTestimonials.form.rolePlaceholder') },
               ].map(({ key, label, placeholder }) => (
                 <div key={key}>
                   <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>{label}</label>
@@ -253,14 +251,14 @@ const AdminTestimonials = () => {
                 </div>
               ))}
               <div>
-                <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>Sharh matni</label>
+                <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>{t('adminTestimonials.form.text')}</label>
                 <textarea required value={form.text} onChange={e => setForm(p => ({ ...p, text: e.target.value }))}
                   rows={3} className="w-full px-3 py-2 rounded-lg font-mono text-sm outline-none resize-none"
                   style={{ background: '#FFFFFF', border: '1px solid #D8D9DA', color: '#272829' }}
-                  placeholder="O'quvchi sharhi..." />
+                  placeholder={t('adminTestimonials.form.textPlaceholder')} />
               </div>
               <div>
-                <label className="block font-mono text-xs mb-2" style={{ color: '#61677A' }}>Reyting: {form.rating}/5</label>
+                <label className="block font-mono text-xs mb-2" style={{ color: '#61677A' }}>{t('adminTestimonials.form.rating')}: {form.rating}/5</label>
                 <div className="flex gap-2">
                   {[1,2,3,4,5].map(s => (
                     <button key={s} type="button" onClick={() => setForm(p => ({ ...p, rating: s }))}
@@ -274,12 +272,12 @@ const AdminTestimonials = () => {
               <div className="flex gap-2 pt-2">
                 <button type="button" onClick={() => setShowModal(false)}
                   className="flex-1 py-2 rounded-lg font-mono text-sm" style={{ background: '#E5E7EA', color: '#61677A' }}>
-                  Bekor
+                  {t('admin.cancel')}
                 </button>
                 <button type="submit" disabled={saving}
                   className="flex-1 py-2 rounded-lg font-mono text-sm font-semibold disabled:opacity-50"
                   style={{ background: '#272829', color: '#fff' }}>
-                  {saving ? 'Saqlanmoqda...' : 'Saqlash'}
+                  {saving ? t('admin.saving') : t('admin.save')}
                 </button>
               </div>
             </form>
@@ -287,15 +285,14 @@ const AdminTestimonials = () => {
         </div>
       )}
 
-      {/* Delete Confirm Modal */}
       <ConfirmModal
         isOpen={!!confirmId}
         onClose={() => setConfirmId(null)}
         onConfirm={handleDeleteConfirm}
         loading={deleteLoading}
-        title="Sharhni o'chirish"
-        message="Bu sharh butunlay o'chiriladi. Bu amalni qaytarib bo'lmaydi."
-        confirmLabel="O'chirish"
+        title={t('adminTestimonials.confirmTitle')}
+        message={t('adminTestimonials.confirmMessage')}
+        confirmLabel={t('admin.deleteConfirm')}
         confirmStyle="danger"
       />
     </div>

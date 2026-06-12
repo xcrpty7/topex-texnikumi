@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Home, BarChart3, Info, BookOpen, List, CheckSquare,
   Video, HelpCircle, MessageSquare, GraduationCap, FileText,
@@ -25,29 +26,36 @@ const ICON_OPTIONS = ['Code','TrendingUp','Palette','ShieldCheck','Hotel','BarCh
 
 /* ─── Small reusable components ─────────────────────────── */
 
-const Field = ({ label, value, onChange, type = 'text', placeholder }) => (
-  <div>
-    <label className="block text-xs font-semibold text-gray-500 mb-1">{label}</label>
-    <input
-      type={type} value={value ?? ''} onChange={e => onChange(e.target.value)}
-      placeholder={placeholder}
-      className="w-full px-3 py-2 rounded-lg text-sm outline-none border border-gray-200 focus:border-blue-500 transition-colors"
-    />
-  </div>
-);
+const Field = ({ label, value, onChange, type = 'text', placeholder }) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <label className="block text-xs font-semibold text-gray-500 mb-1">{label}</label>
+      <input
+        type={type} value={value ?? ''} onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="w-full px-3 py-2 rounded-lg text-sm outline-none border border-gray-200 focus:border-blue-500 transition-colors"
+      />
+    </div>
+  );
+};
 
-const TextArea = ({ label, value, onChange, rows = 4, placeholder }) => (
-  <div>
-    <label className="block text-xs font-semibold text-gray-500 mb-1">{label}</label>
-    <textarea
-      value={value ?? ''} onChange={e => onChange(e.target.value)}
-      rows={rows} placeholder={placeholder}
-      className="w-full px-3 py-2 rounded-lg text-sm outline-none border border-gray-200 focus:border-blue-500 transition-colors resize-none"
-    />
-  </div>
-);
+const TextArea = ({ label, value, onChange, rows = 4, placeholder }) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <label className="block text-xs font-semibold text-gray-500 mb-1">{label}</label>
+      <textarea
+        value={value ?? ''} onChange={e => onChange(e.target.value)}
+        rows={rows} placeholder={placeholder}
+        className="w-full px-3 py-2 rounded-lg text-sm outline-none border border-gray-200 focus:border-blue-500 transition-colors resize-none"
+      />
+    </div>
+  );
+};
 
-const ImageUpload = ({ value, onChange, label = 'Rasm' }) => {
+const ImageUpload = ({ value, onChange, label }) => {
+  const { t } = useTranslation();
   const ref = useRef();
   const [uploading, setUploading] = useState(false);
 
@@ -60,9 +68,9 @@ const ImageUpload = ({ value, onChange, label = 'Rasm' }) => {
       setUploading(true);
       const res = await api.post('/admin/settings/upload-image', fd);
       onChange(res.data.data.url);
-      toast.success('Rasm yuklandi');
+      toast.success(t('adminSiteEditor.imageUpload.success'));
     } catch {
-      toast.error('Yuklashda xatolik');
+      toast.error(t('adminSiteEditor.imageUpload.error'));
     } finally {
       setUploading(false);
       if (ref.current) ref.current.value = '';
@@ -71,7 +79,7 @@ const ImageUpload = ({ value, onChange, label = 'Rasm' }) => {
 
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-500 mb-2">{label}</label>
+      <label className="block text-xs font-semibold text-gray-500 mb-2">{label || t('adminSiteEditor.imageUpload.label')}</label>
       <div className="flex items-center gap-3 flex-wrap">
         {value && (
           <img src={imgSrc(value)} alt="" className="w-20 h-20 object-cover rounded-xl border border-gray-200" />
@@ -79,7 +87,7 @@ const ImageUpload = ({ value, onChange, label = 'Rasm' }) => {
         <button type="button" onClick={() => ref.current?.click()} disabled={uploading}
           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm border-2 border-dashed border-gray-300 hover:border-blue-400 text-blue-600 transition-colors disabled:opacity-60">
           {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-          {uploading ? 'Yuklanmoqda...' : 'Rasm yuklash'}
+          {uploading ? t('adminSiteEditor.imageUpload.uploading') : t('adminSiteEditor.imageUpload.uploadBtn')}
         </button>
         <input ref={ref} type="file" accept="image/*" className="hidden" onChange={handleFile} />
       </div>
@@ -87,89 +95,101 @@ const ImageUpload = ({ value, onChange, label = 'Rasm' }) => {
   );
 };
 
-const SaveBtn = ({ onClick, saving, saved }) => (
-  <button onClick={onClick} disabled={saving}
-    className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all disabled:opacity-60 hover:-translate-y-0.5"
-    style={{ background: saved ? '#16A34A' : '#272829', color: '#fff', transition: 'background 0.3s' }}>
-    {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-    {saving ? 'Saqlanmoqda...' : saved ? 'Saqlandi ✓' : 'Saqlash'}
-  </button>
-);
+const SaveBtn = ({ onClick, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <button onClick={onClick} disabled={saving}
+      className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all disabled:opacity-60 hover:-translate-y-0.5"
+      style={{ background: saved ? '#16A34A' : '#272829', color: '#fff', transition: 'background 0.3s' }}>
+      {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+      {saving ? t('adminSiteEditor.saveBtn.saving') : saved ? t('adminSiteEditor.saveBtn.saved') : t('adminSiteEditor.saveBtn.save')}
+    </button>
+  );
+};
 
 /* ─── Section Editors ───────────────────────────────────── */
 
-const HeroEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Field label="Yuqoridagi kichik yorliq (label)" value={s.heroLabel} onChange={v => onChange('heroLabel', v)} placeholder="TOPEX TEXNIKUMI –" />
-      <Field label="1-tugma matni" value={s.heroBtn} onChange={v => onChange('heroBtn', v)} placeholder="Yo'nalishlarni ko'rish" />
-      <div className="md:col-span-2">
-        <TextArea label="Asosiy sarlavha (h1)" value={s.heroTitle} onChange={v => onChange('heroTitle', v)} rows={3}
-          placeholder="Kelajak kasbini bugun egallang..." />
+const HeroEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Field label={t('adminSiteEditor.hero.label')} value={s.heroLabel} onChange={v => onChange('heroLabel', v)} placeholder={t('adminSiteEditor.hero.phLabel')} />
+        <Field label={t('adminSiteEditor.hero.btn1')} value={s.heroBtn} onChange={v => onChange('heroBtn', v)} placeholder={t('adminSiteEditor.hero.phBtn1')} />
+        <div className="md:col-span-2">
+          <TextArea label={t('adminSiteEditor.hero.title')} value={s.heroTitle} onChange={v => onChange('heroTitle', v)} rows={3}
+            placeholder={t('adminSiteEditor.hero.phTitle')} />
+        </div>
+        <div className="md:col-span-2">
+          <TextArea label={t('adminSiteEditor.hero.subtitle')} value={s.heroSubtitle} onChange={v => onChange('heroSubtitle', v)} rows={2}
+            placeholder={t('adminSiteEditor.hero.phSubtitle')} />
+        </div>
+        <Field label={t('adminSiteEditor.hero.btn2')} value={s.heroBtn2} onChange={v => onChange('heroBtn2', v)} placeholder={t('adminSiteEditor.hero.phBtn2')} />
+        <div className="md:col-span-2">
+          <TextArea
+            label={t('adminSiteEditor.hero.note')}
+            value={s.heroNote}
+            onChange={v => onChange('heroNote', v)}
+            rows={2}
+            placeholder={t('adminSiteEditor.hero.phNote')}
+          />
+        </div>
       </div>
-      <div className="md:col-span-2">
-        <TextArea label="Kichik matn (paragraf)" value={s.heroSubtitle} onChange={v => onChange('heroSubtitle', v)} rows={2}
-          placeholder="Topex Texnikumida zamonaviy yo'nalishlar..." />
+      <ImageUpload label={t('adminSiteEditor.hero.image')} value={s.heroImage} onChange={v => onChange('heroImage', v)} />
+      <div className="p-4 rounded-xl border border-blue-100 bg-blue-50">
+        <p className="text-xs font-semibold text-blue-700 mb-3">{t('adminSiteEditor.hero.bgLabel')}</p>
+        <ImageUpload label={t('adminSiteEditor.hero.bgImage')} value={s.heroBgImage} onChange={v => onChange('heroBgImage', v)} />
       </div>
-      <Field label="2-tugma matni (chiziqli)" value={s.heroBtn2} onChange={v => onChange('heroBtn2', v)} placeholder="Grant uchun ro'yxatdan o'tish" />
-      <div className="md:col-span-2">
-        <TextArea
-          label="Eslatma kartasi (tugmalar ostida ko'rinadi, bo'sh qoldirsangiz yashirinadi)"
-          value={s.heroNote}
-          onChange={v => onChange('heroNote', v)}
-          rows={2}
-          placeholder="9-sinfni tamomlaganlar va 11 yillik ta'limi tugallanmay qolganlar uchun!"
-        />
+      <div className="flex justify-end pt-2">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
       </div>
     </div>
-    <ImageUpload label="O'ng tomonidagi rasm (asosiy)" value={s.heroImage} onChange={v => onChange('heroImage', v)} />
-    <div className="p-4 rounded-xl border border-blue-100 bg-blue-50">
-      <p className="text-xs font-semibold text-blue-700 mb-3">Fon rasmi (orqa taraf, shaffof)</p>
-      <ImageUpload label="Fon rasmi" value={s.heroBgImage} onChange={v => onChange('heroBgImage', v)} />
-    </div>
-    <div className="flex justify-end pt-2">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
-const StatsEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <div className="grid grid-cols-2 gap-4">
-      <Field label="O'quvchilar soni" value={s.statsStudents} onChange={v => onChange('statsStudents', v)} placeholder="600+" />
-      <Field label="Filiallar soni"   value={s.statsBranches} onChange={v => onChange('statsBranches', v)} placeholder="3+" />
-      <Field label="Mutaxassislar"    value={s.statsTeachers} onChange={v => onChange('statsTeachers', v)} placeholder="50+" />
-      <Field label="Sinflar"          value={s.statsGrades}   onChange={v => onChange('statsGrades', v)}   placeholder="10–11" />
+const StatsEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <Field label={t('adminSiteEditor.stats.students')} value={s.statsStudents} onChange={v => onChange('statsStudents', v)} placeholder={t('adminSiteEditor.stats.phStudents')} />
+        <Field label={t('adminSiteEditor.stats.branches')}   value={s.statsBranches} onChange={v => onChange('statsBranches', v)} placeholder={t('adminSiteEditor.stats.phBranches')} />
+        <Field label={t('adminSiteEditor.stats.teachers')}    value={s.statsTeachers} onChange={v => onChange('statsTeachers', v)} placeholder={t('adminSiteEditor.stats.phTeachers')} />
+        <Field label={t('adminSiteEditor.stats.grades')}          value={s.statsGrades}   onChange={v => onChange('statsGrades', v)}   placeholder={t('adminSiteEditor.stats.phGrades')} />
+      </div>
+      <div className="flex justify-end">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      </div>
     </div>
-    <div className="flex justify-end">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
-const AboutEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <Field label="Yuqoridagi kichik yorliq (label)" value={s.aboutLabel} onChange={v => onChange('aboutLabel', v)} placeholder="TOPEX HAQIDA" />
-    <Field label="Sarlavha" value={s.aboutTitle} onChange={v => onChange('aboutTitle', v)} placeholder="Toshkentning zamonaviy texnikumi" />
-    <TextArea
-      label="Asosiy matn (xatboshilar)"
-      value={s.aboutText}
-      onChange={v => onChange('aboutText', v)}
-      rows={14}
-      placeholder={"Birinchi xatboshi matni...\n\nIkkinchi xatboshi matni...\n\nUchinchi xatboshi matni..."}
-    />
-    <p className="text-xs text-gray-500 -mt-2">
-      Yangi xatboshi qo'shish uchun ikki marta <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border">Enter</kbd> bosing.
-      Har bir bo'sh qator yangi paragraf yaratadi.
-    </p>
-    <ImageUpload label="Bo'lim rasmi" value={s.aboutImage} onChange={v => onChange('aboutImage', v)} />
-    <div className="flex justify-end">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+const AboutEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <Field label={t('adminSiteEditor.about.label')} value={s.aboutLabel} onChange={v => onChange('aboutLabel', v)} placeholder={t('adminSiteEditor.about.phLabel')} />
+      <Field label={t('adminSiteEditor.about.title')} value={s.aboutTitle} onChange={v => onChange('aboutTitle', v)} placeholder={t('adminSiteEditor.about.phTitle')} />
+      <TextArea
+        label={t('adminSiteEditor.about.text')}
+        value={s.aboutText}
+        onChange={v => onChange('aboutText', v)}
+        rows={14}
+        placeholder={t('adminSiteEditor.about.phText')}
+      />
+      <p className="text-xs text-gray-500 -mt-2">
+        {t('adminSiteEditor.about.textHint1')} <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border">Enter</kbd> {t('adminSiteEditor.about.textHint2')}
+      </p>
+      <ImageUpload label={t('adminSiteEditor.about.image')} value={s.aboutImage} onChange={v => onChange('aboutImage', v)} />
+      <div className="flex justify-end">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const SubjectsEditor = ({ subjects, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(null);
   const [pendingRemove, setPendingRemove] = useState(null);
 
@@ -180,7 +200,7 @@ const SubjectsEditor = ({ subjects, onChange, onSave, saving, saved }) => {
   };
 
   const addNew = () => {
-    const newItem = { id: Date.now(), name: 'Yangi yo\'nalish', desc: 'Tavsif...', duration: '2 yil', features: 'Feature 1, Feature 2', imgUrl: '', iconName: 'BookOpen' };
+    const newItem = { id: Date.now(), name: t('adminSiteEditor.subjects.defaultName'), desc: t('adminSiteEditor.subjects.defaultDesc'), duration: t('adminSiteEditor.subjects.defaultDuration'), features: t('adminSiteEditor.subjects.defaultFeatures'), imgUrl: '', iconName: 'BookOpen' };
     onChange([...subjects, newItem]);
     setEditing(subjects.length);
   };
@@ -196,10 +216,10 @@ const SubjectsEditor = ({ subjects, onChange, onSave, saving, saved }) => {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">Jami: <strong>{subjects.length}</strong> ta yo'nalish</p>
+        <p className="text-sm text-gray-500">{t('adminSiteEditor.subjects.total')} <strong>{subjects.length}</strong> {t('adminSiteEditor.subjects.totalSuffix')}</p>
         <button onClick={addNew}
           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
-          <Plus size={14} /> Yangi qo'shish
+          <Plus size={14} /> {t('adminSiteEditor.subjects.addNew')}
         </button>
       </div>
 
@@ -228,24 +248,24 @@ const SubjectsEditor = ({ subjects, onChange, onSave, saving, saved }) => {
           {editing === idx && (
             <div className="p-4 space-y-3 border-t border-gray-100">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <Field label="Nomi" value={sub.name} onChange={v => update(idx, 'name', v)} />
-                <Field label="Davomiyligi" value={sub.duration} onChange={v => update(idx, 'duration', v)} placeholder="2 yil" />
+                <Field label={t('adminSiteEditor.subjects.name')} value={sub.name} onChange={v => update(idx, 'name', v)} />
+                <Field label={t('adminSiteEditor.subjects.duration')} value={sub.duration} onChange={v => update(idx, 'duration', v)} placeholder={t('adminSiteEditor.subjects.phDuration')} />
                 <div className="md:col-span-2">
-                  <TextArea label="Tavsif" value={sub.desc} onChange={v => update(idx, 'desc', v)} rows={2} />
+                  <TextArea label={t('adminSiteEditor.subjects.description')} value={sub.desc} onChange={v => update(idx, 'desc', v)} rows={2} />
                 </div>
                 <div className="md:col-span-2">
-                  <Field label="Imkoniyatlar (vergul bilan ajrating)" value={sub.features} onChange={v => update(idx, 'features', v)}
-                    placeholder="Frontend & Backend, Mobil ilovalar, Portfolio" />
+                  <Field label={t('adminSiteEditor.subjects.features')} value={sub.features} onChange={v => update(idx, 'features', v)}
+                    placeholder={t('adminSiteEditor.subjects.phFeatures')} />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1">Ikonka</label>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">{t('adminSiteEditor.subjects.icon')}</label>
                   <select value={sub.iconName || 'BookOpen'} onChange={e => update(idx, 'iconName', e.target.value)}
                     className="w-full px-3 py-2 rounded-lg text-sm border border-gray-200 outline-none">
                     {ICON_OPTIONS.map(ic => <option key={ic} value={ic}>{ic}</option>)}
                   </select>
                 </div>
               </div>
-              <ImageUpload label="Rasm" value={sub.imgUrl} onChange={v => update(idx, 'imgUrl', v)} />
+              <ImageUpload label={t('adminSiteEditor.subjects.image')} value={sub.imgUrl} onChange={v => update(idx, 'imgUrl', v)} />
             </div>
           )}
         </div>
@@ -259,26 +279,27 @@ const SubjectsEditor = ({ subjects, onChange, onSave, saving, saved }) => {
         isOpen={pendingRemove !== null}
         onClose={() => setPendingRemove(null)}
         onConfirm={confirmRemove}
-        title="Yo'nalishni o'chirish"
-        message="Bu yo'nalish ro'yxatdan butunlay o'chiriladi. Saqlashni unutmang."
-        confirmLabel="Ha, o'chirish"
+        title={t('adminSiteEditor.subjects.deleteTitle')}
+        message={t('adminSiteEditor.subjects.deleteMessage')}
+        confirmLabel={t('adminSiteEditor.subjects.deleteConfirm')}
       />
     </div>
   );
 };
 
 const ExtrasEditor = ({ extras, onChange, onSave, saving, saved }) => {
-  const addItem = () => onChange([...extras, 'Yangi faoliyat']);
+  const { t } = useTranslation();
+  const addItem = () => onChange([...extras, t('adminSiteEditor.extras.defaultItem')]);
   const removeItem = (i) => onChange(extras.filter((_, idx) => idx !== i));
   const updateItem = (i, val) => { const a = [...extras]; a[i] = val; onChange(a); };
 
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">Sinfdan tashqari faoliyatlar</p>
+        <p className="text-sm text-gray-500">{t('adminSiteEditor.extras.title')}</p>
         <button onClick={addItem}
           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
-          <Plus size={14} /> Qo'shish
+          <Plus size={14} /> {t('adminSiteEditor.extras.add')}
         </button>
       </div>
       {extras.map((item, i) => (
@@ -298,27 +319,28 @@ const ExtrasEditor = ({ extras, onChange, onSave, saving, saved }) => {
 };
 
 const FeaturesEditor = ({ s, features, onChange, onChangeKey, onSave, saving, saved }) => {
+  const { t } = useTranslation();
   const updateItem = (i, key, val) => {
     const arr = [...features];
     arr[i] = { ...arr[i], [key]: val };
     onChange(arr);
   };
-  const addItem = () => onChange([...features, { title: 'Yangi afzallik', desc: 'Tavsif...' }]);
+  const addItem = () => onChange([...features, { title: t('adminSiteEditor.features.defaultTitle'), desc: t('adminSiteEditor.features.defaultDesc') }]);
   const removeItem = (i) => onChange(features.filter((_, idx) => idx !== i));
 
   return (
     <div className="space-y-4">
       <div className="border border-blue-100 bg-blue-50/50 rounded-xl p-4 space-y-3">
-        <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">Bo'lim sarlavhalari</p>
-        <Field label="Yorliq (label)" value={s.featuresLabel} onChange={v => onChangeKey('featuresLabel', v)} placeholder="Nega bizni tanlashingiz kerak?" />
-        <Field label="Asosiy sarlavha (h2)" value={s.featuresTitle} onChange={v => onChangeKey('featuresTitle', v)} placeholder="Topex texnikumining afzalliklari" />
-        <Field label="Pastki yozuv (bo'sh qoldirsangiz yashirinadi)" value={s.featuresSubtitle} onChange={v => onChangeKey('featuresSubtitle', v)} placeholder="TOPEX TEXNIKUM hamasini katta bilan yozamiz" />
+        <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">{t('adminSiteEditor.features.sectionHeaders')}</p>
+        <Field label={t('adminSiteEditor.features.label')} value={s.featuresLabel} onChange={v => onChangeKey('featuresLabel', v)} placeholder={t('adminSiteEditor.features.phLabel')} />
+        <Field label={t('adminSiteEditor.features.title')} value={s.featuresTitle} onChange={v => onChangeKey('featuresTitle', v)} placeholder={t('adminSiteEditor.features.phTitle')} />
+        <Field label={t('adminSiteEditor.features.subtitle')} value={s.featuresSubtitle} onChange={v => onChangeKey('featuresSubtitle', v)} placeholder={t('adminSiteEditor.features.phSubtitle')} />
       </div>
       <div className="flex justify-between items-center pt-2">
-        <p className="text-sm text-gray-500">Afzalliklar kartalari</p>
+        <p className="text-sm text-gray-500">{t('adminSiteEditor.features.cards')}</p>
         <button onClick={addItem}
           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
-          <Plus size={14} /> Qo'shish
+          <Plus size={14} /> {t('adminSiteEditor.features.add')}
         </button>
       </div>
       {features.map((feat, i) => (
@@ -329,8 +351,8 @@ const FeaturesEditor = ({ s, features, onChange, onChangeKey, onSave, saving, sa
               <Trash2 size={13} />
             </button>
           </div>
-          <Field label="Sarlavha" value={feat.title} onChange={v => updateItem(i, 'title', v)} />
-          <TextArea label="Tavsif" value={feat.desc} onChange={v => updateItem(i, 'desc', v)} rows={2} />
+          <Field label={t('adminSiteEditor.features.cardTitle')} value={feat.title} onChange={v => updateItem(i, 'title', v)} />
+          <TextArea label={t('adminSiteEditor.features.cardDesc')} value={feat.desc} onChange={v => updateItem(i, 'desc', v)} rows={2} />
         </div>
       ))}
       <div className="flex justify-end pt-2">
@@ -343,6 +365,7 @@ const FeaturesEditor = ({ s, features, onChange, onChangeKey, onSave, saving, sa
 /* ─── Grant Kartalari Editor ─────────────────────────────── */
 
 const ScholarshipCardsEditor = ({ s, cards, onChange, onChangeKey, onSave, saving, saved }) => {
+  const { t } = useTranslation();
   const COLOR_OPTIONS = ['blue', 'teal', 'blue2', 'coral'];
   const update = (i, key, val) => {
     const arr = [...cards];
@@ -353,23 +376,23 @@ const ScholarshipCardsEditor = ({ s, cards, onChange, onChangeKey, onSave, savin
   return (
     <div className="space-y-4">
       <div className="border border-blue-100 bg-blue-50/50 rounded-xl p-4 space-y-3">
-        <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">Bo'lim sarlavhalari</p>
-        <Field label="Yorliq (label)" value={s.grantsLabel} onChange={v => onChangeKey('grantsLabel', v)} placeholder="STIPENDIYA VA GRANTLAR" />
-        <Field label="Asosiy sarlavha (h2)" value={s.grantsTitle} onChange={v => onChangeKey('grantsTitle', v)} placeholder="Bilimingizni daromadga aylantiring!" />
-        <TextArea label="Pastki tavsif" value={s.grantsSubtitle} onChange={v => onChangeKey('grantsSubtitle', v)} rows={3} placeholder="Topex Texnikumida oylik kontrakt to'lovi..." />
+        <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">{t('adminSiteEditor.grants.sectionHeaders')}</p>
+        <Field label={t('adminSiteEditor.grants.label')} value={s.grantsLabel} onChange={v => onChangeKey('grantsLabel', v)} placeholder={t('adminSiteEditor.grants.phLabel')} />
+        <Field label={t('adminSiteEditor.grants.title')} value={s.grantsTitle} onChange={v => onChangeKey('grantsTitle', v)} placeholder={t('adminSiteEditor.grants.phTitle')} />
+        <TextArea label={t('adminSiteEditor.grants.subtitle')} value={s.grantsSubtitle} onChange={v => onChangeKey('grantsSubtitle', v)} rows={3} placeholder={t('adminSiteEditor.grants.phSubtitle')} />
       </div>
-      <p className="text-xs text-gray-500">4 ta grant kartasini tahrirlang (rang, miqdor, matn)</p>
+      <p className="text-xs text-gray-500">{t('adminSiteEditor.grants.hint')}</p>
       {cards.map((card, i) => (
         <div key={i} className="border border-gray-200 rounded-xl p-4 space-y-3">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Grant Kartasi {i + 1}</p>
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">{t('adminSiteEditor.grants.card')} {i + 1}</p>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Sarlavha" value={card.title} onChange={v => update(i, 'title', v)} placeholder="SAT 1200+" />
-            <Field label="Kichik matn" value={card.subtitle} onChange={v => update(i, 'subtitle', v)} placeholder="IELTS 7.0+" />
-            <Field label="Miqdor" value={card.amount} onChange={v => update(i, 'amount', v)} placeholder="2 MLN" />
-            <Field label="Valyuta" value={card.amountUnit} onChange={v => update(i, 'amountUnit', v)} placeholder="so'm" />
-            <Field label="Badge matni" value={card.badge} onChange={v => update(i, 'badge', v)} placeholder="Deyarli bepul o'qish" />
+            <Field label={t('adminSiteEditor.grants.cardTitle')} value={card.title} onChange={v => update(i, 'title', v)} placeholder={t('adminSiteEditor.grants.phCardTitle')} />
+            <Field label={t('adminSiteEditor.grants.cardSubtitle')} value={card.subtitle} onChange={v => update(i, 'subtitle', v)} placeholder={t('adminSiteEditor.grants.phCardSubtitle')} />
+            <Field label={t('adminSiteEditor.grants.amount')} value={card.amount} onChange={v => update(i, 'amount', v)} placeholder={t('adminSiteEditor.grants.phAmount')} />
+            <Field label={t('adminSiteEditor.grants.currency')} value={card.amountUnit} onChange={v => update(i, 'amountUnit', v)} placeholder={t('adminSiteEditor.grants.phCurrency')} />
+            <Field label={t('adminSiteEditor.grants.badge')} value={card.badge} onChange={v => update(i, 'badge', v)} placeholder={t('adminSiteEditor.grants.phBadge')} />
             <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">Rang turi</label>
+              <label className="block text-xs font-semibold text-gray-500 mb-1">{t('adminSiteEditor.grants.colorType')}</label>
               <select value={card.colorType || 'blue'} onChange={e => update(i, 'colorType', e.target.value)}
                 className="w-full px-3 py-2 rounded-lg text-sm border border-gray-200 outline-none">
                 {COLOR_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
@@ -388,6 +411,7 @@ const ScholarshipCardsEditor = ({ s, cards, onChange, onChangeKey, onSave, savin
 /* ─── Courses Page Editor ────────────────────────────────── */
 
 const CoursesHighlightsEditor = ({ highlights, onChange }) => {
+  const { t } = useTranslation();
   const update = (i, key, val) => {
     const arr = [...highlights];
     arr[i] = { ...arr[i], [key]: val };
@@ -395,138 +419,145 @@ const CoursesHighlightsEditor = ({ highlights, onChange }) => {
   };
   return (
     <div className="space-y-3">
-      <p className="text-xs text-gray-500 font-semibold">Hero bo'limidagi 4 ta kichik karta:</p>
+      <p className="text-xs text-gray-500 font-semibold">{t('adminSiteEditor.coursesHighlights.hint')}</p>
       {highlights.map((item, i) => (
         <div key={i} className="border border-gray-200 rounded-xl p-4 space-y-3">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Karta {i + 1}</p>
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">{t('adminSiteEditor.coursesHighlights.card')} {i + 1}</p>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Sarlavha" value={item.title} onChange={v => update(i, 'title', v)} />
-            <Field label="O'quvchilar soni" value={item.students} onChange={v => update(i, 'students', v)} placeholder="120+" />
+            <Field label={t('adminSiteEditor.coursesHighlights.cardTitle')} value={item.title} onChange={v => update(i, 'title', v)} />
+            <Field label={t('adminSiteEditor.coursesHighlights.students')} value={item.students} onChange={v => update(i, 'students', v)} placeholder={t('adminSiteEditor.coursesHighlights.phStudents')} />
           </div>
-          <ImageUpload label="Kichik rasm" value={item.img} onChange={v => update(i, 'img', v)} />
+          <ImageUpload label={t('adminSiteEditor.coursesHighlights.image')} value={item.img} onChange={v => update(i, 'img', v)} />
         </div>
       ))}
     </div>
   );
 };
 
-const CoursesPageEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-6">
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Hero Bo'limi</h3>
-      <div className="space-y-4">
-        <Field label="Yuqoridagi badge" value={s.coursesHeroBadge} onChange={v => onChange('coursesHeroBadge', v)} placeholder="O'quv kurslari" />
-        <Field label="Sarlavha (h1)" value={s.coursesHeroTitle} onChange={v => onChange('coursesHeroTitle', v)} placeholder="Barcha kurslar va yo'nalishlar" />
-        <TextArea label="Kichik matn" value={s.coursesHeroSubtitle} onChange={v => onChange('coursesHeroSubtitle', v)} rows={2} />
-        <ImageUpload label="Fon rasmi (Curses sahifasi orqa fon)" value={s.coursesHeroImage} onChange={v => onChange('coursesHeroImage', v)} />
-      </div>
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">"Bizning fakultetlar" bo'limi</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Yorliq" value={s.coursesFacultyLabel} onChange={v => onChange('coursesFacultyLabel', v)} placeholder="FAKULTETLAR" />
-        <Field label="Sarlavha (h2)" value={s.coursesFacultyTitle} onChange={v => onChange('coursesFacultyTitle', v)} placeholder="Bizning fakultetlar" />
-        <div className="md:col-span-2">
-          <TextArea label="Pastki tavsif" value={s.coursesFacultySubtitle} onChange={v => onChange('coursesFacultySubtitle', v)} rows={2} />
+const CoursesPageEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.coursesPage.heroSection')}</h3>
+        <div className="space-y-4">
+          <Field label={t('adminSiteEditor.coursesPage.badge')} value={s.coursesHeroBadge} onChange={v => onChange('coursesHeroBadge', v)} placeholder={t('adminSiteEditor.coursesPage.phBadge')} />
+          <Field label={t('adminSiteEditor.coursesPage.title')} value={s.coursesHeroTitle} onChange={v => onChange('coursesHeroTitle', v)} placeholder={t('adminSiteEditor.coursesPage.phTitle')} />
+          <TextArea label={t('adminSiteEditor.coursesPage.subtitle')} value={s.coursesHeroSubtitle} onChange={v => onChange('coursesHeroSubtitle', v)} rows={2} />
+          <ImageUpload label={t('adminSiteEditor.coursesPage.heroImage')} value={s.coursesHeroImage} onChange={v => onChange('coursesHeroImage', v)} />
         </div>
       </div>
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Kichik Kartalar (4 ta)</h3>
-      <CoursesHighlightsEditor
-        highlights={s.coursesHighlights || []}
-        onChange={v => onChange('coursesHighlights', v)}
-      />
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">CTA Bo'limi (Pastki qism)</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Yorliq" value={s.coursesCtaLabel} onChange={v => onChange('coursesCtaLabel', v)} placeholder="QABUL" />
-        <Field label="Telefon raqam (link)" value={s.coursesCtaPhone} onChange={v => onChange('coursesCtaPhone', v)} placeholder="+998787774477" />
-        <div className="md:col-span-2">
-          <TextArea label="Sarlavha" value={s.coursesCtaTitle} onChange={v => onChange('coursesCtaTitle', v)} rows={2} placeholder="Farzandingizni Topexga yozing!" />
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.coursesPage.facultySection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.coursesPage.facultyLabel')} value={s.coursesFacultyLabel} onChange={v => onChange('coursesFacultyLabel', v)} placeholder={t('adminSiteEditor.coursesPage.phFacultyLabel')} />
+          <Field label={t('adminSiteEditor.coursesPage.facultyTitle')} value={s.coursesFacultyTitle} onChange={v => onChange('coursesFacultyTitle', v)} placeholder={t('adminSiteEditor.coursesPage.phFacultyTitle')} />
+          <div className="md:col-span-2">
+            <TextArea label={t('adminSiteEditor.coursesPage.facultySubtitle')} value={s.coursesFacultySubtitle} onChange={v => onChange('coursesFacultySubtitle', v)} rows={2} />
+          </div>
         </div>
-        <div className="md:col-span-2">
-          <Field label="Kichik matn" value={s.coursesCtaSubtitle} onChange={v => onChange('coursesCtaSubtitle', v)} placeholder="Ariza qoldiring — biz siz bilan bog'lanamiz" />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.coursesPage.cardsSection')}</h3>
+        <CoursesHighlightsEditor
+          highlights={s.coursesHighlights || []}
+          onChange={v => onChange('coursesHighlights', v)}
+        />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.coursesPage.ctaSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Field label={t('adminSiteEditor.coursesPage.ctaLabel')} value={s.coursesCtaLabel} onChange={v => onChange('coursesCtaLabel', v)} placeholder={t('adminSiteEditor.coursesPage.phCtaLabel')} />
+          <Field label={t('adminSiteEditor.coursesPage.ctaPhone')} value={s.coursesCtaPhone} onChange={v => onChange('coursesCtaPhone', v)} placeholder={t('adminSiteEditor.coursesPage.phCtaPhone')} />
+          <div className="md:col-span-2">
+            <TextArea label={t('adminSiteEditor.coursesPage.ctaTitle')} value={s.coursesCtaTitle} onChange={v => onChange('coursesCtaTitle', v)} rows={2} placeholder={t('adminSiteEditor.coursesPage.phCtaTitle')} />
+          </div>
+          <div className="md:col-span-2">
+            <Field label={t('adminSiteEditor.coursesPage.ctaSubtitle')} value={s.coursesCtaSubtitle} onChange={v => onChange('coursesCtaSubtitle', v)} placeholder={t('adminSiteEditor.coursesPage.phCtaSubtitle')} />
+          </div>
+          <Field label={t('adminSiteEditor.coursesPage.btn1')} value={s.coursesCtaPhoneBtn} onChange={v => onChange('coursesCtaPhoneBtn', v)} placeholder={t('adminSiteEditor.coursesPage.phBtn1')} />
+          <Field label={t('adminSiteEditor.coursesPage.btn2')} value={s.coursesCtaHomeBtn} onChange={v => onChange('coursesCtaHomeBtn', v)} placeholder={t('adminSiteEditor.coursesPage.phBtn2')} />
         </div>
-        <Field label="Tugma 1 matni" value={s.coursesCtaPhoneBtn} onChange={v => onChange('coursesCtaPhoneBtn', v)} placeholder="Qo'ng'iroq qilish" />
-        <Field label="Tugma 2 matni" value={s.coursesCtaHomeBtn} onChange={v => onChange('coursesCtaHomeBtn', v)} placeholder="Bosh sahifa" />
+      </div>
+      <div className="flex justify-end">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
       </div>
     </div>
-    <div className="flex justify-end">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
 /* ─── Diplom Bo'limi Editor ─────────────────────────────── */
 
-const DiplomaEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-5">
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Asosiy matn</h3>
-      <div className="space-y-4">
-        <Field label="Sarlavha (h2)" value={s.diplomaTitle} onChange={v => onChange('diplomaTitle', v)} placeholder="Davlat namunasidagi diplom" />
-        <TextArea label="Asosiy matn (paragraflar)" value={s.diplomaText} onChange={v => onChange('diplomaText', v)} rows={8}
-          placeholder="Topex bitiruvchilari davlat namunasidagi diplom oladilar..." />
-      </div>
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Diplom rasmlari (chap tomon)</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ImageUpload label="1-rasm (chap)" value={s.diplomaImage1} onChange={v => onChange('diplomaImage1', v)} />
-        <ImageUpload label="2-rasm (o'ng)" value={s.diplomaImage2} onChange={v => onChange('diplomaImage2', v)} />
-      </div>
-      <p className="text-xs text-gray-400 mt-2">Bo'sh qoldirsangiz — chiroyli default ko'rinish (DIPLOM/OTPRAV) chiqadi.</p>
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Pastdagi 2 ta kichik karta</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="border border-gray-200 rounded-xl p-4 space-y-3">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Karta 1</p>
-          <Field label="Sarlavha" value={s.diplomaCard1Title} onChange={v => onChange('diplomaCard1Title', v)} placeholder="Davlat tan olishi" />
-          <Field label="Tavsif" value={s.diplomaCard1Desc} onChange={v => onChange('diplomaCard1Desc', v)} placeholder="Rasmiy hujjat" />
-        </div>
-        <div className="border border-gray-200 rounded-xl p-4 space-y-3">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Karta 2</p>
-          <Field label="Sarlavha" value={s.diplomaCard2Title} onChange={v => onChange('diplomaCard2Title', v)} placeholder="Kasbiy ko'nikmalar" />
-          <Field label="Tavsif" value={s.diplomaCard2Desc} onChange={v => onChange('diplomaCard2Desc', v)} placeholder="Amaliy tasdiqlash" />
+const DiplomaEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-5">
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.diploma.mainText')}</h3>
+        <div className="space-y-4">
+          <Field label={t('adminSiteEditor.diploma.title')} value={s.diplomaTitle} onChange={v => onChange('diplomaTitle', v)} placeholder={t('adminSiteEditor.diploma.phTitle')} />
+          <TextArea label={t('adminSiteEditor.diploma.text')} value={s.diplomaText} onChange={v => onChange('diplomaText', v)} rows={8}
+            placeholder={t('adminSiteEditor.diploma.phText')} />
         </div>
       </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.diploma.imagesSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ImageUpload label={t('adminSiteEditor.diploma.image1')} value={s.diplomaImage1} onChange={v => onChange('diplomaImage1', v)} />
+          <ImageUpload label={t('adminSiteEditor.diploma.image2')} value={s.diplomaImage2} onChange={v => onChange('diplomaImage2', v)} />
+        </div>
+        <p className="text-xs text-gray-400 mt-2">{t('adminSiteEditor.diploma.imagesHint')}</p>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.diploma.cardsSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="border border-gray-200 rounded-xl p-4 space-y-3">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">{t('adminSiteEditor.diploma.card1')}</p>
+            <Field label={t('adminSiteEditor.diploma.cardTitle')} value={s.diplomaCard1Title} onChange={v => onChange('diplomaCard1Title', v)} placeholder={t('adminSiteEditor.diploma.phCard1Title')} />
+            <Field label={t('adminSiteEditor.diploma.cardDesc')} value={s.diplomaCard1Desc} onChange={v => onChange('diplomaCard1Desc', v)} placeholder={t('adminSiteEditor.diploma.phCard1Desc')} />
+          </div>
+          <div className="border border-gray-200 rounded-xl p-4 space-y-3">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">{t('adminSiteEditor.diploma.card2')}</p>
+            <Field label={t('adminSiteEditor.diploma.cardTitle')} value={s.diplomaCard2Title} onChange={v => onChange('diplomaCard2Title', v)} placeholder={t('adminSiteEditor.diploma.phCard2Title')} />
+            <Field label={t('adminSiteEditor.diploma.cardDesc')} value={s.diplomaCard2Desc} onChange={v => onChange('diplomaCard2Desc', v)} placeholder={t('adminSiteEditor.diploma.phCard2Desc')} />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end pt-2">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      </div>
     </div>
-    <div className="flex justify-end pt-2">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
 /* ─── Ish bilan ta'minlash Editor ────────────────────────── */
 
 const EmploymentEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
   const bullets = s.employmentBullets || [];
   const updateBullet = (i, val) => {
     const a = [...bullets]; a[i] = val;
     onChange('employmentBullets', a);
   };
-  const addBullet = () => onChange('employmentBullets', [...bullets, "Yangi punkt"]);
+  const addBullet = () => onChange('employmentBullets', [...bullets, t('adminSiteEditor.employment.defaultBullet')]);
   const removeBullet = (i) => onChange('employmentBullets', bullets.filter((_, idx) => idx !== i));
 
   return (
     <div className="space-y-5">
       <div>
-        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Asosiy matn</h3>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.employment.mainText')}</h3>
         <div className="space-y-4">
-          <Field label="Sarlavha (h2)" value={s.employmentTitle} onChange={v => onChange('employmentTitle', v)} placeholder="Ish bilan ta'minlash" />
-          <TextArea label="Tavsif (asosiy paragraf)" value={s.employmentText} onChange={v => onChange('employmentText', v)} rows={6}
-            placeholder="Topexda o'qish davomida..." />
+          <Field label={t('adminSiteEditor.employment.title')} value={s.employmentTitle} onChange={v => onChange('employmentTitle', v)} placeholder={t('adminSiteEditor.employment.phTitle')} />
+          <TextArea label={t('adminSiteEditor.employment.text')} value={s.employmentText} onChange={v => onChange('employmentText', v)} rows={6}
+            placeholder={t('adminSiteEditor.employment.phText')} />
         </div>
       </div>
       <div>
         <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-100">
-          <h3 className="text-sm font-bold text-gray-700">Yordam punktlari (ro'yxat)</h3>
+          <h3 className="text-sm font-bold text-gray-700">{t('adminSiteEditor.employment.bullets')}</h3>
           <button onClick={addBullet}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
-            <Plus size={12} /> Qo'shish
+            <Plus size={12} /> {t('adminSiteEditor.employment.add')}
           </button>
         </div>
         <div className="space-y-2">
@@ -546,13 +577,13 @@ const EmploymentEditor = ({ s, onChange, onSave, saving, saved }) => {
         </div>
       </div>
       <div>
-        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Pastki matn (statistika)</h3>
-        <TextArea label="Pastki matn" value={s.employmentFooter} onChange={v => onChange('employmentFooter', v)} rows={2}
-          placeholder="Topex bitiruvchilarining 100 % i amaliyotga chiqadi..." />
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.employment.footerSection')}</h3>
+        <TextArea label={t('adminSiteEditor.employment.footerText')} value={s.employmentFooter} onChange={v => onChange('employmentFooter', v)} rows={2}
+          placeholder={t('adminSiteEditor.employment.phFooterText')} />
       </div>
       <div>
-        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Rasm (o'ng tomonda)</h3>
-        <ImageUpload label="Bo'lim rasmi" value={s.employmentImage} onChange={v => onChange('employmentImage', v)} />
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.employment.imageSection')}</h3>
+        <ImageUpload label={t('adminSiteEditor.employment.image')} value={s.employmentImage} onChange={v => onChange('employmentImage', v)} />
       </div>
       <div className="flex justify-end pt-2">
         <SaveBtn onClick={onSave} saving={saving} saved={saved} />
@@ -563,243 +594,261 @@ const EmploymentEditor = ({ s, onChange, onSave, saving, saved }) => {
 
 /* ─── Gallery / Blog Hero Editors ───────────────────────── */
 
-const GalleryHeroEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <div className="border border-blue-100 bg-blue-50/50 rounded-xl p-4 space-y-3">
-      <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">Hero (yuqorigi)</p>
-      <Field label="Yuqoridagi badge" value={s.galleryHeroBadge} onChange={v => onChange('galleryHeroBadge', v)} placeholder="Bizning Galereya" />
-      <Field label="Sarlavha (h1)" value={s.galleryHeroTitle} onChange={v => onChange('galleryHeroTitle', v)} placeholder="Topex hayoti kadrlarda" />
-      <TextArea label="Kichik matn" value={s.galleryHeroSubtitle} onChange={v => onChange('galleryHeroSubtitle', v)} rows={2} />
-      <ImageUpload label="Fon rasmi (Hero)" value={s.galleryHeroImage} onChange={v => onChange('galleryHeroImage', v)} />
-    </div>
-    <div className="border border-gray-100 rounded-xl p-4 space-y-3">
-      <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">Rasmlar bo'limi</p>
-      <Field label="Yorliq" value={s.galleryPhotosLabel} onChange={v => onChange('galleryPhotosLabel', v)} placeholder="FOTO LAVHALAR" />
-      <Field label="Sarlavha (h2)" value={s.galleryPhotosTitle} onChange={v => onChange('galleryPhotosTitle', v)} placeholder="Rasmlar galereyasi" />
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Tab 1 nomi" value={s.galleryStudentsTab} onChange={v => onChange('galleryStudentsTab', v)} placeholder="O'quvchilar" />
-        <Field label="Tab 2 nomi" value={s.galleryTeachersTab} onChange={v => onChange('galleryTeachersTab', v)} placeholder="O'qituvchilar" />
+const GalleryHeroEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <div className="border border-blue-100 bg-blue-50/50 rounded-xl p-4 space-y-3">
+        <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">{t('adminSiteEditor.galleryHero.hero')}</p>
+        <Field label={t('adminSiteEditor.galleryHero.badge')} value={s.galleryHeroBadge} onChange={v => onChange('galleryHeroBadge', v)} placeholder={t('adminSiteEditor.galleryHero.phBadge')} />
+        <Field label={t('adminSiteEditor.galleryHero.title')} value={s.galleryHeroTitle} onChange={v => onChange('galleryHeroTitle', v)} placeholder={t('adminSiteEditor.galleryHero.phTitle')} />
+        <TextArea label={t('adminSiteEditor.galleryHero.subtitle')} value={s.galleryHeroSubtitle} onChange={v => onChange('galleryHeroSubtitle', v)} rows={2} />
+        <ImageUpload label={t('adminSiteEditor.galleryHero.image')} value={s.galleryHeroImage} onChange={v => onChange('galleryHeroImage', v)} />
+      </div>
+      <div className="border border-gray-100 rounded-xl p-4 space-y-3">
+        <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">{t('adminSiteEditor.galleryHero.photosSection')}</p>
+        <Field label={t('adminSiteEditor.galleryHero.photosLabel')} value={s.galleryPhotosLabel} onChange={v => onChange('galleryPhotosLabel', v)} placeholder={t('adminSiteEditor.galleryHero.phPhotosLabel')} />
+        <Field label={t('adminSiteEditor.galleryHero.photosTitle')} value={s.galleryPhotosTitle} onChange={v => onChange('galleryPhotosTitle', v)} placeholder={t('adminSiteEditor.galleryHero.phPhotosTitle')} />
+        <div className="grid grid-cols-2 gap-3">
+          <Field label={t('adminSiteEditor.galleryHero.tab1')} value={s.galleryStudentsTab} onChange={v => onChange('galleryStudentsTab', v)} placeholder={t('adminSiteEditor.galleryHero.phTab1')} />
+          <Field label={t('adminSiteEditor.galleryHero.tab2')} value={s.galleryTeachersTab} onChange={v => onChange('galleryTeachersTab', v)} placeholder={t('adminSiteEditor.galleryHero.phTab2')} />
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
       </div>
     </div>
-    <div className="flex justify-end">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
-const BlogHeroEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <Field label="Yuqoridagi badge" value={s.blogHeroBadge} onChange={v => onChange('blogHeroBadge', v)} placeholder="Video Galereya" />
-    <Field label="Sarlavha (h1)" value={s.blogHeroTitle} onChange={v => onChange('blogHeroTitle', v)} placeholder="Bizning Videolar" />
-    <TextArea label="Kichik matn" value={s.blogHeroSubtitle} onChange={v => onChange('blogHeroSubtitle', v)} rows={2} />
-    <ImageUpload label="Fon rasmi (Hero)" value={s.blogHeroImage} onChange={v => onChange('blogHeroImage', v)} />
-    <div className="flex justify-end">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+const BlogHeroEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <Field label={t('adminSiteEditor.blogHero.badge')} value={s.blogHeroBadge} onChange={v => onChange('blogHeroBadge', v)} placeholder={t('adminSiteEditor.blogHero.phBadge')} />
+      <Field label={t('adminSiteEditor.blogHero.title')} value={s.blogHeroTitle} onChange={v => onChange('blogHeroTitle', v)} placeholder={t('adminSiteEditor.blogHero.phTitle')} />
+      <TextArea label={t('adminSiteEditor.blogHero.subtitle')} value={s.blogHeroSubtitle} onChange={v => onChange('blogHeroSubtitle', v)} rows={2} />
+      <ImageUpload label={t('adminSiteEditor.blogHero.image')} value={s.blogHeroImage} onChange={v => onChange('blogHeroImage', v)} />
+      <div className="flex justify-end">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ─── Contact Editor ─────────────────────────────────────── */
 
-const ContactEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-6">
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Telefon va Aloqa</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Asosiy telefon" value={s.phone} onChange={v => onChange('phone', v)} placeholder="+998 71 123 45 67" />
-        <Field label="Qo'shimcha telefon" value={s.phone2} onChange={v => onChange('phone2', v)} placeholder="+998 90 123 45 67" />
-        <Field label="Email" value={s.email} onChange={v => onChange('email', v)} placeholder="info@topex.uz" />
-        <Field label="Ish vaqti" value={s.workingHours} onChange={v => onChange('workingHours', v)} placeholder="Du-Sha: 8:00-18:00" />
-        <div className="md:col-span-2">
-          <Field label="Manzil" value={s.address} onChange={v => onChange('address', v)} placeholder="Toshkent shahri, Chilonzor tumani" />
-        </div>
-        <div className="md:col-span-2">
-          <Field label="Xarita havolasi (Google Maps embed URL)" value={s.mapLink} onChange={v => onChange('mapLink', v)} placeholder="https://maps.google.com/..." />
-        </div>
-      </div>
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Ijtimoiy Tarmoqlar</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Telegram" value={s.telegram} onChange={v => onChange('telegram', v)} placeholder="https://t.me/topex_uz" />
-        <Field label="Instagram" value={s.instagram} onChange={v => onChange('instagram', v)} placeholder="https://instagram.com/topex.uz" />
-        <Field label="Facebook" value={s.facebook} onChange={v => onChange('facebook', v)} placeholder="https://facebook.com/topex.uz" />
-        <Field label="YouTube" value={s.youtube} onChange={v => onChange('youtube', v)} placeholder="https://youtube.com/@topex" />
-      </div>
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Footer Tavsifi va Sarlavhalari</h3>
-      <div className="space-y-4">
-        <TextArea
-          label="Footer qismidagi texnikum tavsifi"
-          value={s.footerDescription}
-          onChange={v => onChange('footerDescription', v)}
-          rows={3}
-          placeholder="Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum..."
-        />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <Field label="Ustun 1 sarlavhasi" value={s.footerPagesTitle} onChange={v => onChange('footerPagesTitle', v)} placeholder="Sahifalar" />
-          <Field label="Ustun 2 sarlavhasi" value={s.footerHoursTitle} onChange={v => onChange('footerHoursTitle', v)} placeholder="Ish vaqti" />
-          <Field label="Huquqiy bo'lim sarl." value={s.footerLegalTitle} onChange={v => onChange('footerLegalTitle', v)} placeholder="Huquqiy" />
-          <Field label="Ustun 4 sarlavhasi" value={s.footerContactsTitle} onChange={v => onChange('footerContactsTitle', v)} placeholder="Kontaktlar" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-gray-100">
-          <Field label="Huquqiy link 1 — matn" value={s.footerLegal1Label} onChange={v => onChange('footerLegal1Label', v)} placeholder="Maxfiylik siyosati" />
-          <Field label="Huquqiy link 1 — URL" value={s.footerLegal1Url} onChange={v => onChange('footerLegal1Url', v)} placeholder="/privacy" />
-          <Field label="Huquqiy link 2 — matn" value={s.footerLegal2Label} onChange={v => onChange('footerLegal2Label', v)} placeholder="Foydalanish shartlari" />
-          <Field label="Huquqiy link 2 — URL" value={s.footerLegal2Url} onChange={v => onChange('footerLegal2Url', v)} placeholder="/terms" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-gray-100">
-          <Field label="Copyright matni (yil avtomatik)" value={s.footerCopyright} onChange={v => onChange('footerCopyright', v)} placeholder="Topex Texnikumi. Barcha huquqlar himoyalangan." />
-          <Field label="Pastki o'ng yozuv" value={s.footerBottomRight} onChange={v => onChange('footerBottomRight', v)} placeholder="topex.uz" />
+const ContactEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.contact.phoneSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.contact.mainPhone')} value={s.phone} onChange={v => onChange('phone', v)} placeholder={t('adminSiteEditor.contact.phMainPhone')} />
+          <Field label={t('adminSiteEditor.contact.secondaryPhone')} value={s.phone2} onChange={v => onChange('phone2', v)} placeholder={t('adminSiteEditor.contact.phSecondaryPhone')} />
+          <Field label={t('adminSiteEditor.contact.email')} value={s.email} onChange={v => onChange('email', v)} placeholder={t('adminSiteEditor.contact.phEmail')} />
+          <Field label={t('adminSiteEditor.contact.workingHours')} value={s.workingHours} onChange={v => onChange('workingHours', v)} placeholder={t('adminSiteEditor.contact.phWorkingHours')} />
+          <div className="md:col-span-2">
+            <Field label={t('adminSiteEditor.contact.address')} value={s.address} onChange={v => onChange('address', v)} placeholder={t('adminSiteEditor.contact.phAddress')} />
+          </div>
+          <div className="md:col-span-2">
+            <Field label={t('adminSiteEditor.contact.mapLink')} value={s.mapLink} onChange={v => onChange('mapLink', v)} placeholder={t('adminSiteEditor.contact.phMapLink')} />
+          </div>
         </div>
       </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.contact.socialSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.contact.telegram')} value={s.telegram} onChange={v => onChange('telegram', v)} placeholder={t('adminSiteEditor.contact.phTelegram')} />
+          <Field label={t('adminSiteEditor.contact.instagram')} value={s.instagram} onChange={v => onChange('instagram', v)} placeholder={t('adminSiteEditor.contact.phInstagram')} />
+          <Field label={t('adminSiteEditor.contact.facebook')} value={s.facebook} onChange={v => onChange('facebook', v)} placeholder={t('adminSiteEditor.contact.phFacebook')} />
+          <Field label={t('adminSiteEditor.contact.youtube')} value={s.youtube} onChange={v => onChange('youtube', v)} placeholder={t('adminSiteEditor.contact.phYoutube')} />
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.contact.footerSection')}</h3>
+        <div className="space-y-4">
+          <TextArea
+            label={t('adminSiteEditor.contact.footerDesc')}
+            value={s.footerDescription}
+            onChange={v => onChange('footerDescription', v)}
+            rows={3}
+            placeholder={t('adminSiteEditor.contact.phFooterDesc')}
+          />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <Field label={t('adminSiteEditor.contact.footerCol1')} value={s.footerPagesTitle} onChange={v => onChange('footerPagesTitle', v)} placeholder={t('adminSiteEditor.contact.phFooterCol1')} />
+            <Field label={t('adminSiteEditor.contact.footerCol2')} value={s.footerHoursTitle} onChange={v => onChange('footerHoursTitle', v)} placeholder={t('adminSiteEditor.contact.phFooterCol2')} />
+            <Field label={t('adminSiteEditor.contact.footerCol3')} value={s.footerLegalTitle} onChange={v => onChange('footerLegalTitle', v)} placeholder={t('adminSiteEditor.contact.phFooterCol3')} />
+            <Field label={t('adminSiteEditor.contact.footerCol4')} value={s.footerContactsTitle} onChange={v => onChange('footerContactsTitle', v)} placeholder={t('adminSiteEditor.contact.phFooterCol4')} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-gray-100">
+            <Field label={t('adminSiteEditor.contact.legal1Label')} value={s.footerLegal1Label} onChange={v => onChange('footerLegal1Label', v)} placeholder={t('adminSiteEditor.contact.phLegal1Label')} />
+            <Field label={t('adminSiteEditor.contact.legal1Url')} value={s.footerLegal1Url} onChange={v => onChange('footerLegal1Url', v)} placeholder={t('adminSiteEditor.contact.phLegal1Url')} />
+            <Field label={t('adminSiteEditor.contact.legal2Label')} value={s.footerLegal2Label} onChange={v => onChange('footerLegal2Label', v)} placeholder={t('adminSiteEditor.contact.phLegal2Label')} />
+            <Field label={t('adminSiteEditor.contact.legal2Url')} value={s.footerLegal2Url} onChange={v => onChange('footerLegal2Url', v)} placeholder={t('adminSiteEditor.contact.phLegal2Url')} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-gray-100">
+            <Field label={t('adminSiteEditor.contact.copyright')} value={s.footerCopyright} onChange={v => onChange('footerCopyright', v)} placeholder={t('adminSiteEditor.contact.phCopyright')} />
+            <Field label={t('adminSiteEditor.contact.bottomRight')} value={s.footerBottomRight} onChange={v => onChange('footerBottomRight', v)} placeholder={t('adminSiteEditor.contact.phBottomRight')} />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end pt-2">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      </div>
     </div>
-    <div className="flex justify-end pt-2">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
 /* ─── Aloqalar Sahifasi Editor ───────────────────────────── */
 
-const ContactPageEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-6">
-    <div className="border border-blue-100 bg-blue-50/50 rounded-xl p-4 space-y-3">
-      <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">Hero (yuqori banner)</p>
-      <Field label="Sarlavha (h1)" value={s.contactHeroTitle} onChange={v => onChange('contactHeroTitle', v)} placeholder="Aloqalar" />
-      <TextArea label="Kichik matn (bo'sh qoldirsangiz yashirinadi)" value={s.contactHeroSubtitle} onChange={v => onChange('contactHeroSubtitle', v)} rows={2} />
-      <ImageUpload label="Fon rasmi (Hero)" value={s.contactHeroImage} onChange={v => onChange('contactHeroImage', v)} />
-    </div>
-
-    <div className="border border-gray-100 rounded-xl p-4 space-y-3">
-      <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">Kontakt kartalari (sarlavhalar)</p>
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="1-karta (manzil)"    value={s.contactCard1Title} onChange={v => onChange('contactCard1Title', v)} placeholder="Bizning manzil" />
-        <Field label="2-karta (telefon)"   value={s.contactCard2Title} onChange={v => onChange('contactCard2Title', v)} placeholder="Telefon raqam" />
-        <Field label="3-karta (email)"     value={s.contactCard3Title} onChange={v => onChange('contactCard3Title', v)} placeholder="E-mail" />
-        <Field label="4-karta (ish vaqti)" value={s.contactCard4Title} onChange={v => onChange('contactCard4Title', v)} placeholder="Ish vaqti" />
+const ContactPageEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-6">
+      <div className="border border-blue-100 bg-blue-50/50 rounded-xl p-4 space-y-3">
+        <p className="text-xs font-bold text-blue-700 uppercase tracking-widest">{t('adminSiteEditor.contactPage.hero')}</p>
+        <Field label={t('adminSiteEditor.contactPage.title')} value={s.contactHeroTitle} onChange={v => onChange('contactHeroTitle', v)} placeholder={t('adminSiteEditor.contactPage.phTitle')} />
+        <TextArea label={t('adminSiteEditor.contactPage.subtitle')} value={s.contactHeroSubtitle} onChange={v => onChange('contactHeroSubtitle', v)} rows={2} />
+        <ImageUpload label={t('adminSiteEditor.contactPage.image')} value={s.contactHeroImage} onChange={v => onChange('contactHeroImage', v)} />
       </div>
-      <p className="text-xs text-gray-400">
-        Kartalardagi <strong>qiymatlar</strong> (telefon, email, manzil, ish vaqti) "Kontakt va Ijtimoiy" bo'limidan olinadi.
-      </p>
-    </div>
 
-    <div className="border border-gray-100 rounded-xl p-4 space-y-3">
-      <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">Xarita bo'limi</p>
-      <Field label="Sarlavha" value={s.contactMapTitle} onChange={v => onChange('contactMapTitle', v)} placeholder="BIZ XARITADA!" />
-      <p className="text-xs text-gray-400">
-        Xarita havolasi (Google Maps embed) "Kontakt va Ijtimoiy" bo'limidagi "Xarita havolasi" maydonidan olinadi. Bo'sh bo'lsa — manzil bo'yicha avtomatik chiqadi.
-      </p>
-    </div>
+      <div className="border border-gray-100 rounded-xl p-4 space-y-3">
+        <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">{t('adminSiteEditor.contactPage.cardsSection')}</p>
+        <div className="grid grid-cols-2 gap-3">
+          <Field label={t('adminSiteEditor.contactPage.card1')}    value={s.contactCard1Title} onChange={v => onChange('contactCard1Title', v)} placeholder={t('adminSiteEditor.contactPage.phCard1')} />
+          <Field label={t('adminSiteEditor.contactPage.card2')}   value={s.contactCard2Title} onChange={v => onChange('contactCard2Title', v)} placeholder={t('adminSiteEditor.contactPage.phCard2')} />
+          <Field label={t('adminSiteEditor.contactPage.card3')}     value={s.contactCard3Title} onChange={v => onChange('contactCard3Title', v)} placeholder={t('adminSiteEditor.contactPage.phCard3')} />
+          <Field label={t('adminSiteEditor.contactPage.card4')} value={s.contactCard4Title} onChange={v => onChange('contactCard4Title', v)} placeholder={t('adminSiteEditor.contactPage.phCard4')} />
+        </div>
+        <p className="text-xs text-gray-400">
+          {t('adminSiteEditor.contactPage.cardValuesHint1')} <strong>{t('adminSiteEditor.contactPage.cardValuesHintStrong')}</strong> {t('adminSiteEditor.contactPage.cardValuesHint2')}
+        </p>
+      </div>
 
-    <div className="flex justify-end">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      <div className="border border-gray-100 rounded-xl p-4 space-y-3">
+        <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">{t('adminSiteEditor.contactPage.mapSection')}</p>
+        <Field label={t('adminSiteEditor.contactPage.mapTitle')} value={s.contactMapTitle} onChange={v => onChange('contactMapTitle', v)} placeholder={t('adminSiteEditor.contactPage.phMapTitle')} />
+        <p className="text-xs text-gray-400">
+          {t('adminSiteEditor.contactPage.mapHint')}
+        </p>
+      </div>
+
+      <div className="flex justify-end">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ─── Bo'lim sarlavhalari (umumiy) Editor ───────────────── */
 
-const SectionTitlesEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-6">
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Video Galereya bo'limi</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Yorliq" value={s.videoLabel} onChange={v => onChange('videoLabel', v)} placeholder="VIDEO GALEREYA" />
-        <Field label="Sarlavha (h2)" value={s.videoTitle} onChange={v => onChange('videoTitle', v)} placeholder="Bizning hayotimizdan lavhalar" />
-      </div>
-    </div>
-
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">"Mashhur kurslar" bo'limi</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Yorliq" value={s.popularLabel} onChange={v => onChange('popularLabel', v)} placeholder="★ KURSLARIMIZ" />
-        <Field label="Sarlavha (h2)" value={s.popularTitle} onChange={v => onChange('popularTitle', v)} placeholder="Mashhur kurslar" />
-        <div className="md:col-span-2">
-          <TextArea label="Pastki tavsif" value={s.popularSubtitle} onChange={v => onChange('popularSubtitle', v)} rows={2} placeholder="Eng so'nggi yo'nalishlar..." />
+const SectionTitlesEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.sectionTitles.videoSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.sectionTitles.videoLabel')} value={s.videoLabel} onChange={v => onChange('videoLabel', v)} placeholder={t('adminSiteEditor.sectionTitles.phVideoLabel')} />
+          <Field label={t('adminSiteEditor.sectionTitles.videoTitle')} value={s.videoTitle} onChange={v => onChange('videoTitle', v)} placeholder={t('adminSiteEditor.sectionTitles.phVideoTitle')} />
         </div>
-        <Field label="Pastki tugma" value={s.popularBtn} onChange={v => onChange('popularBtn', v)} placeholder="Barcha kurslarni ko'rish" />
       </div>
-    </div>
 
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">FAQ bo'limi</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Yorliq" value={s.faqLabel} onChange={v => onChange('faqLabel', v)} placeholder="FAQ" />
-        <Field label="Sarlavha (h2)" value={s.faqTitle} onChange={v => onChange('faqTitle', v)} placeholder="Tez-tez beriladigan savollar" />
-      </div>
-    </div>
-
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Ariza qoldirish (CTA) bo'limi</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Yuqoridagi badge" value={s.applicationBadge} onChange={v => onChange('applicationBadge', v)} placeholder="Qabul 2026" />
-        <Field label="Forma sarlavhasi" value={s.applicationFormTitle} onChange={v => onChange('applicationFormTitle', v)} placeholder="Ariza qoldirish" />
-        <div className="md:col-span-2">
-          <TextArea label="Asosiy sarlavha (h2)" value={s.applicationTitle} onChange={v => onChange('applicationTitle', v)} rows={3} placeholder="Kelajagingizni biz bilan boshlang!" />
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.sectionTitles.popularSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.sectionTitles.popularLabel')} value={s.popularLabel} onChange={v => onChange('popularLabel', v)} placeholder={t('adminSiteEditor.sectionTitles.phPopularLabel')} />
+          <Field label={t('adminSiteEditor.sectionTitles.popularTitle')} value={s.popularTitle} onChange={v => onChange('popularTitle', v)} placeholder={t('adminSiteEditor.sectionTitles.phPopularTitle')} />
+          <div className="md:col-span-2">
+            <TextArea label={t('adminSiteEditor.sectionTitles.popularSubtitle')} value={s.popularSubtitle} onChange={v => onChange('popularSubtitle', v)} rows={2} placeholder={t('adminSiteEditor.sectionTitles.phPopularSubtitle')} />
+          </div>
+          <Field label={t('adminSiteEditor.sectionTitles.popularBtn')} value={s.popularBtn} onChange={v => onChange('popularBtn', v)} placeholder={t('adminSiteEditor.sectionTitles.phPopularBtn')} />
         </div>
-        <div className="md:col-span-2">
-          <TextArea label="Pastki tavsif (paragraf)" value={s.applicationSubtitle} onChange={v => onChange('applicationSubtitle', v)} rows={3} placeholder="Hoziroq ro'yxatdan o'ting..." />
+      </div>
+
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.sectionTitles.faqSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.sectionTitles.faqLabel')} value={s.faqLabel} onChange={v => onChange('faqLabel', v)} placeholder={t('adminSiteEditor.sectionTitles.phFaqLabel')} />
+          <Field label={t('adminSiteEditor.sectionTitles.faqTitle')} value={s.faqTitle} onChange={v => onChange('faqTitle', v)} placeholder={t('adminSiteEditor.sectionTitles.phFaqTitle')} />
         </div>
-        <Field label="Forma kichik tavsifi" value={s.applicationFormSubtitle} onChange={v => onChange('applicationFormSubtitle', v)} placeholder="Biz 24 soat ichida siz bilan bog'lanamiz" />
-        <Field label="Yuborish tugmasi" value={s.applicationSubmitBtn} onChange={v => onChange('applicationSubmitBtn', v)} placeholder="Arizani yuborish" />
       </div>
-    </div>
 
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">Logotip (Navbar)</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field
-          label="Logotip yonidagi yozuv (asosiy)"
-          value={s.brandSuffix}
-          onChange={v => onChange('brandSuffix', v)}
-          placeholder="TEXNIKUMI"
-        />
-        <Field
-          label="Slogan (kichik, pastki yozuv)"
-          value={s.brandTagline}
-          onChange={v => onChange('brandTagline', v)}
-          placeholder="Sifatli ta'lim"
-        />
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.sectionTitles.applicationSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label={t('adminSiteEditor.sectionTitles.applicationBadge')} value={s.applicationBadge} onChange={v => onChange('applicationBadge', v)} placeholder={t('adminSiteEditor.sectionTitles.phApplicationBadge')} />
+          <Field label={t('adminSiteEditor.sectionTitles.applicationFormTitle')} value={s.applicationFormTitle} onChange={v => onChange('applicationFormTitle', v)} placeholder={t('adminSiteEditor.sectionTitles.phApplicationFormTitle')} />
+          <div className="md:col-span-2">
+            <TextArea label={t('adminSiteEditor.sectionTitles.applicationTitle')} value={s.applicationTitle} onChange={v => onChange('applicationTitle', v)} rows={3} placeholder={t('adminSiteEditor.sectionTitles.phApplicationTitle')} />
+          </div>
+          <div className="md:col-span-2">
+            <TextArea label={t('adminSiteEditor.sectionTitles.applicationSubtitle')} value={s.applicationSubtitle} onChange={v => onChange('applicationSubtitle', v)} rows={3} placeholder={t('adminSiteEditor.sectionTitles.phApplicationSubtitle')} />
+          </div>
+          <Field label={t('adminSiteEditor.sectionTitles.applicationFormSubtitle')} value={s.applicationFormSubtitle} onChange={v => onChange('applicationFormSubtitle', v)} placeholder={t('adminSiteEditor.sectionTitles.phApplicationFormSubtitle')} />
+          <Field label={t('adminSiteEditor.sectionTitles.applicationSubmitBtn')} value={s.applicationSubmitBtn} onChange={v => onChange('applicationSubmitBtn', v)} placeholder={t('adminSiteEditor.sectionTitles.phApplicationSubmitBtn')} />
+        </div>
       </div>
-      <p className="text-xs text-gray-500 mt-2">
-        Logotip ko'rinishi: <strong className="text-navy">Topex │ TEXNIKUMI</strong> <span className="text-gray-400">/ Sifatli ta'lim</span>. Bo'sh qoldirsangiz tegishli qism yashirinadi.
-      </p>
-      <div className="mt-4">
-        <ImageUpload label="Logotip rasmi (Navbar va Footer)" value={s.logo} onChange={v => onChange('logo', v)} />
-        <p className="text-xs text-gray-400 mt-1">Shaffof fonli PNG tavsiya etiladi. Footerda rasm avtomatik oq rangga aylantiriladi.</p>
-      </div>
-    </div>
 
-    <div>
-      <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">SEO (brauzer ko'rinishi)</h3>
-      <div className="space-y-4">
-        <Field label="Sayt sarlavhasi (browser tab)" value={s.siteTitle} onChange={v => onChange('siteTitle', v)} placeholder="Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar" />
-        <TextArea label="Sayt tavsifi (meta description)" value={s.siteDescription} onChange={v => onChange('siteDescription', v)} rows={3} placeholder="Topex – Toshkent, Chilonzor tumanidagi..." />
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.sectionTitles.logoSection')}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field
+            label={t('adminSiteEditor.sectionTitles.brandSuffix')}
+            value={s.brandSuffix}
+            onChange={v => onChange('brandSuffix', v)}
+            placeholder={t('adminSiteEditor.sectionTitles.phBrandSuffix')}
+          />
+          <Field
+            label={t('adminSiteEditor.sectionTitles.brandTagline')}
+            value={s.brandTagline}
+            onChange={v => onChange('brandTagline', v)}
+            placeholder={t('adminSiteEditor.sectionTitles.phBrandTagline')}
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-2">
+          {t('adminSiteEditor.sectionTitles.logoPreviewPrefix')} <strong className="text-navy">Topex │ TEXNIKUMI</strong> <span className="text-gray-400">/ {t('adminSiteEditor.sectionTitles.logoPreviewSuffix')}</span>. {t('adminSiteEditor.sectionTitles.logoHint')}
+        </p>
+        <div className="mt-4">
+          <ImageUpload label={t('adminSiteEditor.sectionTitles.logo')} value={s.logo} onChange={v => onChange('logo', v)} />
+          <p className="text-xs text-gray-400 mt-1">{t('adminSiteEditor.sectionTitles.logoHelper')}</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">{t('adminSiteEditor.sectionTitles.seoSection')}</h3>
+        <div className="space-y-4">
+          <Field label={t('adminSiteEditor.sectionTitles.siteTitle')} value={s.siteTitle} onChange={v => onChange('siteTitle', v)} placeholder={t('adminSiteEditor.sectionTitles.phSiteTitle')} />
+          <TextArea label={t('adminSiteEditor.sectionTitles.siteDescription')} value={s.siteDescription} onChange={v => onChange('siteDescription', v)} rows={3} placeholder={t('adminSiteEditor.sectionTitles.phSiteDescription')} />
+        </div>
+      </div>
+
+      <div className="flex justify-end pt-2">
+        <SaveBtn onClick={onSave} saving={saving} saved={saved} />
       </div>
     </div>
-
-    <div className="flex justify-end pt-2">
-      <SaveBtn onClick={onSave} saving={saving} saved={saved} />
-    </div>
-  </div>
-);
+  );
+};
 
 /* ─── Linked section shortcut ────────────────────────────── */
 
-const LinkedSection = ({ label, to, desc }) => (
-  <div className="flex items-center justify-between p-5 rounded-xl border border-gray-200 bg-gray-50">
-    <div>
-      <p className="font-semibold text-gray-800">{label}</p>
-      <p className="text-sm text-gray-400 mt-0.5">{desc}</p>
+const LinkedSection = ({ label, to, desc }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center justify-between p-5 rounded-xl border border-gray-200 bg-gray-50">
+      <div>
+        <p className="font-semibold text-gray-800">{label}</p>
+        <p className="text-sm text-gray-400 mt-0.5">{desc}</p>
+      </div>
+      <Link to={to}
+        className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-gray-800 text-white hover:bg-blue-600 transition-colors">
+        {t('adminSiteEditor.linkedSection.manage')} <ExternalLink size={13} />
+      </Link>
     </div>
-    <Link to={to}
-      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-gray-800 text-white hover:bg-blue-600 transition-colors">
-      Boshqarish <ExternalLink size={13} />
-    </Link>
-  </div>
-);
+  );
+};
 
 /* ─── Main Page ──────────────────────────────────────────── */
 
@@ -865,6 +914,7 @@ const FIELD_LABELS = {
 };
 
 const AdminSiteEditor = () => {
+  const { t } = useTranslation();
   const [settings, setSettings] = useState(null);
   const [active, setActive] = useState('hero');
   const [saving, setSaving] = useState(false);
@@ -888,7 +938,7 @@ const AdminSiteEditor = () => {
           { id: 3, name: 'Kompyuter Grafikasi', desc: '3D modellashtirish, brending va vizual kontent.', duration: '2 yil', features: "Adobe Photoshop/Illustrator, 3D Blender, Motion dizayn", imgUrl: '/assets/images/DSC01093.jpg', iconName: 'Palette' },
           { id: 4, name: 'Bank Nazoratchisi', desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', duration: '2 yil', features: "Kredit tahlili, Xavfsizlik tizimlari, Bank auditi", imgUrl: '/assets/famali-photo/DSC00875.jpg', iconName: 'ShieldCheck' },
           { id: 5, name: 'Mehmonxona Boshqaruvi', desc: "Xalqaro servis va mehmondo'stlik san'ati.", duration: '2 yil', features: "Service Management, Event planning, Xorijiy tillar", imgUrl: '/assets/famali-photo/DSC00954.jpg', iconName: 'Hotel' },
-          { id: 6, name: 'Raqamli Axborotlar Analitigi', desc: "Ma'lumotlar tahlili va biznes-bashorat.", duration: '2 yil', features: "Big Data, Excel & SQL, Biznes strategiya", imgUrl: '/assets/famali-photo/DSC00955.jpg', iconName: 'BarChart3' },
+          { id: 6, name: 'Raqamli Axborotlar Analitigi', desc: "Ma'lumotlar tahlili va biznes-bashorat.", duration: '2 yil', features: 'Big Data, Excel & SQL, Biznes strategiya', imgUrl: '/assets/famali-photo/DSC00955.jpg', iconName: 'BarChart3' },
           { id: 7, name: 'Laborant-Analitik', desc: 'Tibbiy va sanoat tahlillari ustasi.', duration: '2 yil', features: "Kimyoviy tahlil, Sanoat laboratoriyasi, Sifat nazorati", imgUrl: '/assets/famali-photo/DSC00964.jpg', iconName: 'FlaskConical' },
           { id: 8, name: "Dorivor O'simliklar Laboranti", desc: 'Farmatsevtika va fitoterapiya sirlari.', duration: '2 yil', features: "Botanika, Dori tayyorlash, Fitoterapiya", imgUrl: '/assets/famali-photo/DSC00980.jpg', iconName: 'Sprout' },
         ];
@@ -929,7 +979,7 @@ const AdminSiteEditor = () => {
       setOriginalSettings(JSON.parse(JSON.stringify(d)));
       setDirty(new Set());
     } catch {
-      toast.error('Yuklab bo\'lmadi');
+      toast.error(t('adminSiteEditor.loadError'));
     } finally {
       setLoading(false);
     }
@@ -965,7 +1015,7 @@ const AdminSiteEditor = () => {
     try {
       setSaving(true);
       await api.put('/admin/settings', payload);
-      toast.success('Saqlandi ✓');
+      toast.success(t('adminSiteEditor.saveSuccess'));
       setSaved(true);
       // Clear dirty state for saved fields
       setDirty(prev => {
@@ -981,7 +1031,7 @@ const AdminSiteEditor = () => {
       });
       setTimeout(() => setSaved(false), 2000);
     } catch {
-      toast.error('Xatolik yuz berdi');
+      toast.error(t('adminSiteEditor.saveError'));
     } finally {
       setSaving(false);
     }
@@ -1051,16 +1101,16 @@ const AdminSiteEditor = () => {
 
   return (
     <>
-      <Helmet><title>Sayt Muhariri – TOPEX Admin</title></Helmet>
+      <Helmet><title>{t('adminSiteEditor.pageTitle')}</title></Helmet>
 
       {/* Confirm-switch modal */}
       <ConfirmModal
         isOpen={confirmSwitch !== null}
         onClose={() => setConfirmSwitch(null)}
         onConfirm={() => { setActive(confirmSwitch); setConfirmSwitch(null); }}
-        title="Saqlanmagan o'zgarishlar"
-        message="Bu bo'limda saqlanmagan o'zgarishlar bor. O'zgarishlarni yo'qotib, boshqa bo'limga o'tasizmi?"
-        confirmLabel="Ha, davom etish"
+        title={t('adminSiteEditor.confirmSwitch.title')}
+        message={t('adminSiteEditor.confirmSwitch.message')}
+        confirmLabel={t('adminSiteEditor.confirmSwitch.confirmLabel')}
       />
 
       {/* Sticky unsaved-changes banner */}
@@ -1069,8 +1119,8 @@ const AdminSiteEditor = () => {
           <div className="px-6 py-2.5 flex items-center justify-between gap-3 text-sm">
             <div className="flex items-center gap-2 text-amber-800">
               <AlertCircle size={15} />
-              <span className="font-semibold">{totalDirty} ta saqlanmagan o'zgarish</span>
-              <span className="hidden md:inline text-amber-700/70">— ushbu bo'limning «Saqlash» tugmasini bosing</span>
+              <span className="font-semibold">{totalDirty} {t('adminSiteEditor.unsavedCount')}</span>
+              <span className="hidden md:inline text-amber-700/70">{t('adminSiteEditor.unsavedHint')}</span>
             </div>
           </div>
         </div>
@@ -1079,8 +1129,8 @@ const AdminSiteEditor = () => {
       <div className="space-y-6" style={{ paddingTop: totalDirty > 0 ? 44 : 0 }}>
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Sayt Muhariri</h1>
-            <p className="text-sm text-gray-500 mt-1">Saytdagi barcha ma'lumotlarni shu yerdan o'zgartiring</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t('adminSiteEditor.header')}</h1>
+            <p className="text-sm text-gray-500 mt-1">{t('adminSiteEditor.subtitle')}</p>
           </div>
           <a
             href={activeSection?.previewUrl || '/'}
@@ -1088,7 +1138,7 @@ const AdminSiteEditor = () => {
             rel="noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm"
           >
-            <Eye size={14} /> Saytda ko'rish <ExternalLink size={12} />
+            <Eye size={14} /> {t('adminSiteEditor.viewOnSite')} <ExternalLink size={12} />
           </a>
         </div>
 
@@ -1102,7 +1152,7 @@ const AdminSiteEditor = () => {
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="Maydonni qidirish..."
+                placeholder={t('adminSiteEditor.searchPlaceholder')}
                 className="w-full pl-9 pr-8 py-2 rounded-xl text-[13px] border border-gray-200 focus:border-blue-500 focus:outline-none transition-colors bg-white"
               />
               {query && (
@@ -1112,7 +1162,7 @@ const AdminSiteEditor = () => {
               )}
             </div>
             {q && visibleSections.length === 0 && (
-              <p className="px-3 py-4 text-xs text-gray-400 text-center">Topilmadi</p>
+              <p className="px-3 py-4 text-xs text-gray-400 text-center">{t('adminSiteEditor.notFound')}</p>
             )}
             {visibleSections.map(({ id, label, icon: Icon }) => {
               const sec = SECTIONS.find(s => s.id === id);
@@ -1128,9 +1178,9 @@ const AdminSiteEditor = () => {
                   onMouseLeave={e => { if (active !== id) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#61677A'; } }}
                 >
                   <Icon size={16} />
-                  <span className="flex-1">{label}</span>
+                  <span className="flex-1">{t('adminSiteEditor.section.' + id, label)}</span>
                   {dirtyCount > 0 && (
-                    <span title="Saqlanmagan o'zgarishlar" style={{
+                    <span title={t('adminSiteEditor.unsavedTitle')} style={{
                       background: '#F59E0B',
                       width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
                     }} />
@@ -1152,20 +1202,20 @@ const AdminSiteEditor = () => {
               );
             })}
             <div className="pt-3 mt-3 border-t border-gray-200">
-              <p className="px-3 text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Tezkor havolalar</p>
+              <p className="px-3 text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">{t('adminSiteEditor.quickLinks')}</p>
               {[
-                { label: 'Videolar',    to: '/admin/home-videos',  icon: Video },
-                { label: 'FAQ',         to: '/admin/faq',          icon: HelpCircle },
-                { label: 'Sharhlar',    to: '/admin/testimonials', icon: MessageSquare },
-                { label: 'Kurslar',     to: '/admin/courses',      icon: GraduationCap },
-                { label: 'Blog',        to: '/admin/blog',         icon: FileText },
-                { label: 'Galereya',    to: '/admin/gallery',      icon: Image },
-                { label: 'Grantlar',    to: '/admin/scholarships', icon: Award },
-              ].map(({ label, to, icon: Icon }) => (
+                { key: 'videos',    to: '/admin/home-videos',  icon: Video },
+                { key: 'faq',       to: '/admin/faq',          icon: HelpCircle },
+                { key: 'testimonials', to: '/admin/testimonials', icon: MessageSquare },
+                { key: 'courses',   to: '/admin/courses',      icon: GraduationCap },
+                { key: 'blog',      to: '/admin/blog',         icon: FileText },
+                { key: 'gallery',   to: '/admin/gallery',      icon: Image },
+                { key: 'scholarships', to: '/admin/scholarships', icon: Award },
+              ].map(({ key, to, icon: Icon }) => (
                 <Link key={to} to={to}
                   className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
                   <Icon size={14} />
-                  <span>{label}</span>
+                  <span>{t('adminSiteEditor.quickLink.' + key)}</span>
                   <ExternalLink size={10} className="ml-auto" />
                 </Link>
               ))}
@@ -1176,43 +1226,43 @@ const AdminSiteEditor = () => {
           <div className="flex-1 min-w-0 rounded-xl border border-gray-200 bg-white p-6">
             {active === 'hero' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Hero Bo'limi (Bosh sahifa)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.hero')}</h2>
                 <HeroEditor s={settings} onChange={change} onSave={() => save(['heroLabel','heroTitle','heroSubtitle','heroBtn','heroBtn2','heroNote','heroImage','heroBgImage'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'stats' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Statistika Raqamlari</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.stats')}</h2>
                 <StatsEditor s={settings} onChange={change} onSave={() => save(['statsStudents','statsBranches','statsTeachers','statsGrades'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'about' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Biz Haqimizda Bo'limi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.about')}</h2>
                 <AboutEditor s={settings} onChange={change} onSave={() => save(['aboutLabel','aboutTitle','aboutText','aboutImage'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'subjects' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Yo'nalishlar (Fanlar)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.subjects')}</h2>
                 <SubjectsEditor subjects={settings.subjects || []} onChange={v => change('subjects', v)} onSave={() => save(['subjects'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'extras' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Qo'shimcha Imkoniyatlar</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.extras')}</h2>
                 <ExtrasEditor extras={settings.extras || []} onChange={v => change('extras', v)} onSave={() => save(['extras'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'features' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Nega Bizni Tanlash (Afzalliklar)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.features')}</h2>
                 <FeaturesEditor s={settings} features={settings.features || []} onChange={v => change('features', v)} onChangeKey={change} onSave={() => save(['features','featuresLabel','featuresTitle','featuresSubtitle'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'grants' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Grant Kartalari (Bosh sahifa)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.grants')}</h2>
                 <ScholarshipCardsEditor
                   s={settings}
                   cards={settings.scholarshipCards || []}
@@ -1226,7 +1276,7 @@ const AdminSiteEditor = () => {
             )}
             {active === 'diploma' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Diplom Bo'limi (Bosh sahifa)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.diploma')}</h2>
                 <DiplomaEditor
                   s={settings}
                   onChange={change}
@@ -1238,7 +1288,7 @@ const AdminSiteEditor = () => {
             )}
             {active === 'employment' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Ish bilan ta'minlash (Bosh sahifa)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.employment')}</h2>
                 <EmploymentEditor
                   s={settings}
                   onChange={change}
@@ -1250,7 +1300,7 @@ const AdminSiteEditor = () => {
             )}
             {active === 'titles' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Bo'lim sarlavhalari (Bosh sahifa)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.titles')}</h2>
                 <SectionTitlesEditor
                   s={settings}
                   onChange={change}
@@ -1269,7 +1319,7 @@ const AdminSiteEditor = () => {
             )}
             {active === 'courses_page' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Kurslar Sahifasi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.coursesPage')}</h2>
                 <CoursesPageEditor
                   s={settings}
                   onChange={change}
@@ -1287,19 +1337,19 @@ const AdminSiteEditor = () => {
             )}
             {active === 'gallery_page' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Galereya Sahifasi Hero</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.galleryPage')}</h2>
                 <GalleryHeroEditor s={settings} onChange={change} onSave={() => save(['galleryHeroTitle','galleryHeroSubtitle','galleryHeroImage','galleryHeroBadge','galleryPhotosLabel','galleryPhotosTitle','galleryStudentsTab','galleryTeachersTab'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'blog_page' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Blog Sahifasi Hero</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.blogPage')}</h2>
                 <BlogHeroEditor s={settings} onChange={change} onSave={() => save(['blogHeroTitle','blogHeroSubtitle','blogHeroImage','blogHeroBadge'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'contact_page' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Aloqalar Sahifasi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.contactPage')}</h2>
                 <ContactPageEditor
                   s={settings}
                   onChange={change}
@@ -1311,7 +1361,7 @@ const AdminSiteEditor = () => {
             )}
             {active === 'contact' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Kontakt va Ijtimoiy Tarmoqlar</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.contact')}</h2>
                 <ContactEditor
                   s={settings}
                   onChange={change}
@@ -1330,18 +1380,18 @@ const AdminSiteEditor = () => {
             )}
             {active === 'other' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">Boshqa Bo'limlar</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.other')}</h2>
                 <div className="space-y-3">
-                  <LinkedSection label="Videolar"                     to="/admin/home-videos"  desc="Bosh sahifadagi video galereyani boshqarish" />
-                  <LinkedSection label="FAQ — Savol-Javoblar"         to="/admin/faq"          desc="Tez-tez beriladigan savollarni qo'shish/o'chirish" />
-                  <LinkedSection label="Sharhlar (Otalar fikri)"      to="/admin/testimonials" desc="O'quvchi ota-onalarining sharhlarini boshqarish" />
-                  <LinkedSection label="Kurslar"                      to="/admin/courses"      desc="Kurslarni qo'shish, tahrirlash, o'chirish" />
-                  <LinkedSection label="Blog / Yangiliklar"           to="/admin/blog"         desc="Maqola va yangiliklar" />
-                  <LinkedSection label="Foto Galereya"                to="/admin/gallery"      desc="Rasmlarni yuklash va boshqarish" />
-                  <LinkedSection label="Grantlar va Stipendiyalar"    to="/admin/scholarships" desc="Grant ma'lumotlarini yangilash" />
-                  <LinkedSection label="Aloqa va Ijtimoiy Tarmoqlar"  to="/admin/settings"     desc="Telefon, email, manzil, Instagram, Telegram..." />
-                  <LinkedSection label="O'qituvchilar (Jamoa)"        to="/admin/teachers"     desc="Bosh sahifa 'Jamoa' bo'limidagi ustozlar" />
-                  <LinkedSection label="Yo'nalishlar"                 to="/admin/directions"   desc="'Yo'nalishlar' bo'limidagi yo'nalishlar ro'yxati" />
+                  <LinkedSection label={t('adminSiteEditor.other.videos')}                     to="/admin/home-videos"  desc={t('adminSiteEditor.other.descVideos')} />
+                  <LinkedSection label={t('adminSiteEditor.other.faq')}         to="/admin/faq"          desc={t('adminSiteEditor.other.descFaq')} />
+                  <LinkedSection label={t('adminSiteEditor.other.testimonials')}      to="/admin/testimonials" desc={t('adminSiteEditor.other.descTestimonials')} />
+                  <LinkedSection label={t('adminSiteEditor.other.courses')}                      to="/admin/courses"      desc={t('adminSiteEditor.other.descCourses')} />
+                  <LinkedSection label={t('adminSiteEditor.other.blog')}           to="/admin/blog"         desc={t('adminSiteEditor.other.descBlog')} />
+                  <LinkedSection label={t('adminSiteEditor.other.gallery')}                to="/admin/gallery"      desc={t('adminSiteEditor.other.descGallery')} />
+                  <LinkedSection label={t('adminSiteEditor.other.scholarships')}    to="/admin/scholarships" desc={t('adminSiteEditor.other.descScholarships')} />
+                  <LinkedSection label={t('adminSiteEditor.other.social')}  to="/admin/settings"     desc={t('adminSiteEditor.other.descSocial')} />
+                  <LinkedSection label={t('adminSiteEditor.other.teachers')}        to="/admin/teachers"     desc={t('adminSiteEditor.other.descTeachers')} />
+                  <LinkedSection label={t('adminSiteEditor.other.directions')}                 to="/admin/directions"   desc={t('adminSiteEditor.other.descDirections')} />
                 </div>
               </>
             )}
@@ -1349,13 +1399,13 @@ const AdminSiteEditor = () => {
             {/* ─── PROFI-STYLE bo'limlar (Topex 2026) ─────────── */}
             {active === 'profi_hero' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Hero swiper — 3 slayd</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiHero')}</h2>
                 <HeroSlidesEditor s={settings} onChange={change} onSave={() => save(['heroSlides','heroCtaText','heroNoteText'])} saving={saving} saved={saved} />
               </>
             )}
             {active === 'profi_about' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Texnikum haqida (yangi Profi stili)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiAbout')}</h2>
                 <ProfiAboutEditor s={settings} onChange={change}
                   onSave={() => save(['aboutSectionLabel','aboutSectionTitle','aboutSlogan','aboutParagraph','aboutBtnText','aboutStat1Value','aboutStat1Label','aboutStat2Value','aboutStat2Label','aboutImage1','aboutImage2','aboutImage3','aboutImage4'])}
                   saving={saving} saved={saved} />
@@ -1363,81 +1413,81 @@ const AdminSiteEditor = () => {
             )}
             {active === 'profi_directions' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Yo'nalishlar — Sarlavha qismi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiDirections')}</h2>
                 <SimpleFieldsEditor fields={[
-                  {key:'directionsLabel', label:'Yorliq (kichik oranj matn)'},
-                  {key:'directionsTitle', label:'Sarlavha'},
+                  {key:'directionsLabel', label:t('adminSiteEditor.profiDirections.label')},
+                  {key:'directionsTitle', label:t('adminSiteEditor.profiDirections.title')},
                 ]} s={settings} onChange={change} onSave={() => save(['directionsLabel','directionsTitle'])} saving={saving} saved={saved} />
                 <div className="mt-6">
-                  <LinkedSection label="Yo'nalishlar ro'yxati" to="/admin/directions" desc="Yo'nalish element(lar)ini qo'shish/o'chirish" />
+                  <LinkedSection label={t('adminSiteEditor.profiDirections.listLink')} to="/admin/directions" desc={t('adminSiteEditor.profiDirections.listLinkDesc')} />
                 </div>
               </>
             )}
             {active === 'profi_team' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Jamoa — Sarlavha qismi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiTeam')}</h2>
                 <SimpleFieldsEditor fields={[
-                  {key:'teamLabel', label:'Yorliq'},
-                  {key:'teamTitle', label:'Sarlavha'},
-                  {key:'teamParagraph', label:'Matn', textarea:true},
-                  {key:'teamBtnText', label:"Tugma matni"},
+                  {key:'teamLabel', label:t('adminSiteEditor.profiTeam.label')},
+                  {key:'teamTitle', label:t('adminSiteEditor.profiTeam.title')},
+                  {key:'teamParagraph', label:t('adminSiteEditor.profiTeam.text'), textarea:true},
+                  {key:'teamBtnText', label:t('adminSiteEditor.profiTeam.btnText')},
                 ]} s={settings} onChange={change} onSave={() => save(['teamLabel','teamTitle','teamParagraph','teamBtnText'])} saving={saving} saved={saved} />
                 <div className="mt-6">
-                  <LinkedSection label="O'qituvchilar ro'yxati" to="/admin/teachers" desc="Ustozlarni qo'shish/o'chirish, rasm yuklash" />
+                  <LinkedSection label={t('adminSiteEditor.profiTeam.listLink')} to="/admin/teachers" desc={t('adminSiteEditor.profiTeam.listLinkDesc')} />
                 </div>
               </>
             )}
             {active === 'profi_news' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Yangiliklar — Sarlavha qismi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiNews')}</h2>
                 <SimpleFieldsEditor fields={[
-                  {key:'newsLabel', label:'Yorliq'},
-                  {key:'newsTitle', label:'Sarlavha'},
-                  {key:'newsMoreText', label:"'Batafsil' tugma matni"},
+                  {key:'newsLabel', label:t('adminSiteEditor.profiNews.label')},
+                  {key:'newsTitle', label:t('adminSiteEditor.profiNews.title')},
+                  {key:'newsMoreText', label:t('adminSiteEditor.profiNews.moreText')},
                 ]} s={settings} onChange={change} onSave={() => save(['newsLabel','newsTitle','newsMoreText'])} saving={saving} saved={saved} />
                 <div className="mt-6">
-                  <LinkedSection label="Maqolalar ro'yxati" to="/admin/blog" desc="Yangiliklar maqolalarini qo'shish/o'chirish" />
+                  <LinkedSection label={t('adminSiteEditor.profiNews.listLink')} to="/admin/blog" desc={t('adminSiteEditor.profiNews.listLinkDesc')} />
                 </div>
               </>
             )}
             {active === 'profi_videos' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Videolar — Sarlavha qismi</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiVideos')}</h2>
                 <SimpleFieldsEditor fields={[
-                  {key:'videosLabel', label:'Yorliq'},
-                  {key:'videosTitle', label:'Sarlavha'},
-                  {key:'videosSubtitle', label:'Kartochka pastidagi subtitle'},
+                  {key:'videosLabel', label:t('adminSiteEditor.profiVideos.label')},
+                  {key:'videosTitle', label:t('adminSiteEditor.profiVideos.title')},
+                  {key:'videosSubtitle', label:t('adminSiteEditor.profiVideos.subtitle')},
                 ]} s={settings} onChange={change} onSave={() => save(['videosLabel','videosTitle','videosSubtitle'])} saving={saving} saved={saved} />
                 <div className="mt-6">
-                  <LinkedSection label="Videolar ro'yxati" to="/admin/home-videos" desc="Talabalik hayoti videolarini boshqarish" />
+                  <LinkedSection label={t('adminSiteEditor.profiVideos.listLink')} to="/admin/home-videos" desc={t('adminSiteEditor.profiVideos.listLinkDesc')} />
                 </div>
               </>
             )}
             {active === 'profi_form' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Ariza forma</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiForm')}</h2>
                 <SimpleFieldsEditor fields={[
-                  {key:'formLabel', label:'Yorliq'},
-                  {key:'formTitle', label:'Sarlavha'},
-                  {key:'formParagraph', label:'Tavsif', textarea:true},
-                  {key:'formNameLabel', label:'Ism label'},
-                  {key:'formNamePh',    label:'Ism placeholder'},
-                  {key:'formPhoneLabel',label:'Telefon label'},
-                  {key:'formDirLabel',  label:'Yo\'nalish label'},
-                  {key:'formDirPh',     label:'Yo\'nalish placeholder'},
-                  {key:'formDir9',      label:'9-sinf option'},
-                  {key:'formDir11',     label:'11-sinf option'},
-                  {key:'formAgreeText', label:'Rozilik matni', textarea:true},
-                  {key:'formSubmitText',label:'Submit tugmasi'},
+                  {key:'formLabel', label:t('adminSiteEditor.profiForm.label')},
+                  {key:'formTitle', label:t('adminSiteEditor.profiForm.title')},
+                  {key:'formParagraph', label:t('adminSiteEditor.profiForm.text'), textarea:true},
+                  {key:'formNameLabel', label:t('adminSiteEditor.profiForm.nameLabel')},
+                  {key:'formNamePh',    label:t('adminSiteEditor.profiForm.namePh')},
+                  {key:'formPhoneLabel',label:t('adminSiteEditor.profiForm.phoneLabel')},
+                  {key:'formDirLabel',  label:t('adminSiteEditor.profiForm.dirLabel')},
+                  {key:'formDirPh',     label:t('adminSiteEditor.profiForm.dirPh')},
+                  {key:'formDir9',      label:t('adminSiteEditor.profiForm.dir9')},
+                  {key:'formDir11',     label:t('adminSiteEditor.profiForm.dir11')},
+                  {key:'formAgreeText', label:t('adminSiteEditor.profiForm.agreeText'), textarea:true},
+                  {key:'formSubmitText',label:t('adminSiteEditor.profiForm.submitText')},
                 ]} s={settings} onChange={change} onSave={() => save(['formLabel','formTitle','formParagraph','formNameLabel','formNamePh','formPhoneLabel','formDirLabel','formDirPh','formDir9','formDir11','formAgreeText','formSubmitText','formImage'])} saving={saving} saved={saved} />
                 <div className="mt-6">
-                  <ImageUpload label="Forma yonidagi rasm" value={settings.formImage} onChange={v => change('formImage', v)} />
+                  <ImageUpload label={t('adminSiteEditor.profiForm.formImage')} value={settings.formImage} onChange={v => change('formImage', v)} />
                 </div>
               </>
             )}
             {active === 'profi_footer' && (
               <>
-                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">✨ Footer (4 ustun)</h2>
+                <h2 className="text-lg font-bold text-gray-800 mb-5 pb-4 border-b border-gray-100">{t('adminSiteEditor.heading.profiFooter')}</h2>
                 <ProfiFooterEditor s={settings} onChange={change}
                   onSave={() => save(['footerColAboutTitle','footerColApplicantsTitle','footerColStudentsTitle','footerColContactsTitle','footerCopyText','footerOfertaText','footerLicenseText','address2','footerColAboutLinks','footerColApplicantsLinks','footerColStudentsLinks'])}
                   saving={saving} saved={saved} />
@@ -1454,18 +1504,22 @@ const AdminSiteEditor = () => {
    ─── PROFI-STYLE editorlari ─────────────────────────────────────────
    ════════════════════════════════════════════════════════════════════ */
 
-const SimpleFieldsEditor = ({ fields, s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    {fields.map(f => (
-      f.textarea
-        ? <TextArea key={f.key} label={f.label} value={s[f.key]} onChange={v => onChange(f.key, v)} />
-        : <Field    key={f.key} label={f.label} value={s[f.key]} onChange={v => onChange(f.key, v)} />
-    ))}
-    <SaveBar saving={saving} saved={saved} onSave={onSave} />
-  </div>
-);
+const SimpleFieldsEditor = ({ fields, s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      {fields.map(f => (
+        f.textarea
+          ? <TextArea key={f.key} label={f.label} value={s[f.key]} onChange={v => onChange(f.key, v)} />
+          : <Field    key={f.key} label={f.label} value={s[f.key]} onChange={v => onChange(f.key, v)} />
+      ))}
+      <SaveBar saving={saving} saved={saved} onSave={onSave} />
+    </div>
+  );
+};
 
 const HeroSlidesEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
   const slides = Array.isArray(s.heroSlides) ? s.heroSlides : [];
   const set = (i, key, val) => {
     const next = [...slides];
@@ -1477,31 +1531,31 @@ const HeroSlidesEditor = ({ s, onChange, onSave, saving, saved }) => {
 
   return (
     <div className="space-y-5">
-      <Field    label="CTA tugma matni"           value={s.heroCtaText}  onChange={v => onChange('heroCtaText',  v)} />
-      <TextArea label="Pastdagi eslatma (yorliq)" value={s.heroNoteText} onChange={v => onChange('heroNoteText', v)} rows={2} />
+      <Field    label={t('adminSiteEditor.heroSlides.ctaText')}           value={s.heroCtaText}  onChange={v => onChange('heroCtaText',  v)} />
+      <TextArea label={t('adminSiteEditor.heroSlides.noteText')} value={s.heroNoteText} onChange={v => onChange('heroNoteText', v)} rows={2} />
 
       {slides.map((slide, i) => (
         <div key={i} className="border border-gray-200 rounded-xl p-4 bg-gray-50">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-bold text-gray-700">Slayd {i + 1}</span>
+            <span className="text-sm font-bold text-gray-700">{t('adminSiteEditor.heroSlides.slide')} {i + 1}</span>
             <button onClick={() => del(i)} className="text-red-500 hover:bg-red-50 p-1.5 rounded">
               <Trash2 size={14} />
             </button>
           </div>
           <div className="grid grid-cols-3 gap-3 mb-3">
-            <Field label="Title — 1-qator" value={slide.title1} onChange={v => set(i, 'title1', v)} />
-            <Field label="Title — 2-qator" value={slide.title2} onChange={v => set(i, 'title2', v)} />
-            <Field label="Title — 3-qator" value={slide.title3} onChange={v => set(i, 'title3', v)} />
+            <Field label={t('adminSiteEditor.heroSlides.title1')} value={slide.title1} onChange={v => set(i, 'title1', v)} />
+            <Field label={t('adminSiteEditor.heroSlides.title2')} value={slide.title2} onChange={v => set(i, 'title2', v)} />
+            <Field label={t('adminSiteEditor.heroSlides.title3')} value={slide.title3} onChange={v => set(i, 'title3', v)} />
           </div>
-          <TextArea label="Subtitle" value={slide.subtitle} onChange={v => set(i, 'subtitle', v)} rows={2} />
+          <TextArea label={t('adminSiteEditor.heroSlides.subtitle')} value={slide.subtitle} onChange={v => set(i, 'subtitle', v)} rows={2} />
           <div className="mt-3">
-            <ImageUpload label="Fon rasm" value={slide.image} onChange={v => set(i, 'image', v)} />
+            <ImageUpload label={t('adminSiteEditor.heroSlides.image')} value={slide.image} onChange={v => set(i, 'image', v)} />
           </div>
         </div>
       ))}
 
       <button onClick={add} className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-semibold text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2">
-        <Plus size={16} /> Yangi slayd qo'shish
+        <Plus size={16} /> {t('adminSiteEditor.heroSlides.addSlide')}
       </button>
 
       <SaveBar saving={saving} saved={saved} onSave={onSave} />
@@ -1509,32 +1563,36 @@ const HeroSlidesEditor = ({ s, onChange, onSave, saving, saved }) => {
   );
 };
 
-const ProfiAboutEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <div className="grid grid-cols-2 gap-3">
-      <Field label="Yorliq (oranj)"     value={s.aboutSectionLabel} onChange={v => onChange('aboutSectionLabel', v)} />
-      <Field label="Sarlavha"           value={s.aboutSectionTitle} onChange={v => onChange('aboutSectionTitle', v)} />
+const ProfiAboutEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <Field label={t('adminSiteEditor.profiAbout.label')}     value={s.aboutSectionLabel} onChange={v => onChange('aboutSectionLabel', v)} />
+        <Field label={t('adminSiteEditor.profiAbout.title')}           value={s.aboutSectionTitle} onChange={v => onChange('aboutSectionTitle', v)} />
+      </div>
+      <Field    label={t('adminSiteEditor.profiAbout.slogan')}     value={s.aboutSlogan}    onChange={v => onChange('aboutSlogan',    v)} />
+      <TextArea label={t('adminSiteEditor.profiAbout.paragraph')} value={s.aboutParagraph} onChange={v => onChange('aboutParagraph', v)} rows={5} />
+      <div className="grid grid-cols-4 gap-3">
+        <Field label={t('adminSiteEditor.profiAbout.stat1Value')} value={s.aboutStat1Value} onChange={v => onChange('aboutStat1Value', v)} />
+        <Field label={t('adminSiteEditor.profiAbout.stat1Label')} value={s.aboutStat1Label} onChange={v => onChange('aboutStat1Label', v)} />
+        <Field label={t('adminSiteEditor.profiAbout.stat2Value')} value={s.aboutStat2Value} onChange={v => onChange('aboutStat2Value', v)} />
+        <Field label={t('adminSiteEditor.profiAbout.stat2Label')} value={s.aboutStat2Label} onChange={v => onChange('aboutStat2Label', v)} />
+      </div>
+      <Field label={t('adminSiteEditor.profiAbout.btnText')} value={s.aboutBtnText} onChange={v => onChange('aboutBtnText', v)} />
+      <div className="grid grid-cols-2 gap-3">
+        <ImageUpload label={t('adminSiteEditor.profiAbout.image1')}     value={s.aboutImage1} onChange={v => onChange('aboutImage1', v)} />
+        <ImageUpload label={t('adminSiteEditor.profiAbout.image2')}     value={s.aboutImage2} onChange={v => onChange('aboutImage2', v)} />
+        <ImageUpload label={t('adminSiteEditor.profiAbout.image3')}     value={s.aboutImage3} onChange={v => onChange('aboutImage3', v)} />
+        <ImageUpload label={t('adminSiteEditor.profiAbout.image4')}     value={s.aboutImage4} onChange={v => onChange('aboutImage4', v)} />
+      </div>
+      <SaveBar saving={saving} saved={saved} onSave={onSave} />
     </div>
-    <Field    label="Slogan (qisqa)"     value={s.aboutSlogan}    onChange={v => onChange('aboutSlogan',    v)} />
-    <TextArea label="Uzun matn / paragraf" value={s.aboutParagraph} onChange={v => onChange('aboutParagraph', v)} rows={5} />
-    <div className="grid grid-cols-4 gap-3">
-      <Field label="Stat 1 raqam" value={s.aboutStat1Value} onChange={v => onChange('aboutStat1Value', v)} />
-      <Field label="Stat 1 label" value={s.aboutStat1Label} onChange={v => onChange('aboutStat1Label', v)} />
-      <Field label="Stat 2 raqam" value={s.aboutStat2Value} onChange={v => onChange('aboutStat2Value', v)} />
-      <Field label="Stat 2 label" value={s.aboutStat2Label} onChange={v => onChange('aboutStat2Label', v)} />
-    </div>
-    <Field label="Batafsil tugma matni" value={s.aboutBtnText} onChange={v => onChange('aboutBtnText', v)} />
-    <div className="grid grid-cols-2 gap-3">
-      <ImageUpload label="Rasm 1 (tepa-chap)"     value={s.aboutImage1} onChange={v => onChange('aboutImage1', v)} />
-      <ImageUpload label="Rasm 2 (tepa-o'ng)"     value={s.aboutImage2} onChange={v => onChange('aboutImage2', v)} />
-      <ImageUpload label="Rasm 3 (past-chap)"     value={s.aboutImage3} onChange={v => onChange('aboutImage3', v)} />
-      <ImageUpload label="Rasm 4 (past-o'ng)"     value={s.aboutImage4} onChange={v => onChange('aboutImage4', v)} />
-    </div>
-    <SaveBar saving={saving} saved={saved} onSave={onSave} />
-  </div>
-);
+  );
+};
 
 const LinkArrayEditor = ({ label, items, onChange }) => {
+  const { t } = useTranslation();
   const arr = Array.isArray(items) ? items : [];
   const set = (i, k, v) => {
     const next = [...arr]; next[i] = { ...next[i], [k]: v }; onChange(next);
@@ -1551,9 +1609,9 @@ const LinkArrayEditor = ({ label, items, onChange }) => {
       <div className="space-y-2">
         {arr.map((it, i) => (
           <div key={i} className="flex gap-2">
-            <input className="flex-1 px-3 py-2 rounded-lg text-sm border border-gray-200" placeholder="Matn"
+            <input className="flex-1 px-3 py-2 rounded-lg text-sm border border-gray-200" placeholder={t('adminSiteEditor.linkArray.text')}
                    value={it.label || ''} onChange={e => set(i, 'label', e.target.value)} />
-            <input className="flex-1 px-3 py-2 rounded-lg text-sm border border-gray-200" placeholder="URL"
+            <input className="flex-1 px-3 py-2 rounded-lg text-sm border border-gray-200" placeholder={t('adminSiteEditor.linkArray.url')}
                    value={it.url || ''}   onChange={e => set(i, 'url',   e.target.value)} />
             <button onClick={() => onChange(arr.filter((_, j) => j !== i))}
                     className="text-red-500 hover:bg-red-50 p-1.5 rounded">
@@ -1566,37 +1624,43 @@ const LinkArrayEditor = ({ label, items, onChange }) => {
   );
 };
 
-const ProfiFooterEditor = ({ s, onChange, onSave, saving, saved }) => (
-  <div className="space-y-4">
-    <div className="grid grid-cols-2 gap-3">
-      <Field label="1-ustun sarlavha" value={s.footerColAboutTitle}      onChange={v => onChange('footerColAboutTitle',      v)} />
-      <Field label="2-ustun sarlavha" value={s.footerColApplicantsTitle} onChange={v => onChange('footerColApplicantsTitle', v)} />
-      <Field label="3-ustun sarlavha" value={s.footerColStudentsTitle}   onChange={v => onChange('footerColStudentsTitle',   v)} />
-      <Field label="4-ustun sarlavha" value={s.footerColContactsTitle}   onChange={v => onChange('footerColContactsTitle',   v)} />
+const ProfiFooterEditor = ({ s, onChange, onSave, saving, saved }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <Field label={t('adminSiteEditor.profiFooter.col1Title')} value={s.footerColAboutTitle}      onChange={v => onChange('footerColAboutTitle',      v)} />
+        <Field label={t('adminSiteEditor.profiFooter.col2Title')} value={s.footerColApplicantsTitle} onChange={v => onChange('footerColApplicantsTitle', v)} />
+        <Field label={t('adminSiteEditor.profiFooter.col3Title')}   value={s.footerColStudentsTitle}   onChange={v => onChange('footerColStudentsTitle',   v)} />
+        <Field label={t('adminSiteEditor.profiFooter.col4Title')}   value={s.footerColContactsTitle}   onChange={v => onChange('footerColContactsTitle',   v)} />
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label={t('adminSiteEditor.profiFooter.copyText')} value={s.footerCopyText}   onChange={v => onChange('footerCopyText',   v)} />
+        <Field label={t('adminSiteEditor.profiFooter.ofertaText')} value={s.footerOfertaText} onChange={v => onChange('footerOfertaText', v)} />
+      </div>
+      <Field label={t('adminSiteEditor.profiFooter.licenseText')}          value={s.footerLicenseText} onChange={v => onChange('footerLicenseText', v)} />
+      <Field label={t('adminSiteEditor.profiFooter.address2')} value={s.address2}          onChange={v => onChange('address2',          v)} />
+
+      <LinkArrayEditor label={t('adminSiteEditor.profiFooter.col1Links')} items={s.footerColAboutLinks}      onChange={v => onChange('footerColAboutLinks',      v)} />
+      <LinkArrayEditor label={t('adminSiteEditor.profiFooter.col2Links')}   items={s.footerColApplicantsLinks} onChange={v => onChange('footerColApplicantsLinks', v)} />
+      <LinkArrayEditor label={t('adminSiteEditor.profiFooter.col3Links')}         items={s.footerColStudentsLinks}   onChange={v => onChange('footerColStudentsLinks',   v)} />
+
+      <SaveBar saving={saving} saved={saved} onSave={onSave} />
     </div>
-    <div className="grid grid-cols-2 gap-3">
-      <Field label="Copyright matni" value={s.footerCopyText}   onChange={v => onChange('footerCopyText',   v)} />
-      <Field label="Ommaviy oferta matni" value={s.footerOfertaText} onChange={v => onChange('footerOfertaText', v)} />
+  );
+};
+
+const SaveBar = ({ saving, saved, onSave }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex justify-end mt-2">
+      <button onClick={onSave} disabled={saving}
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors">
+        {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+        {saved ? t('adminSiteEditor.saveBtn.saved') : t('adminSiteEditor.saveBtn.save')}
+      </button>
     </div>
-    <Field label="Litsenziya matni"          value={s.footerLicenseText} onChange={v => onChange('footerLicenseText', v)} />
-    <Field label="2-manzil (Aloqa ustunda)" value={s.address2}          onChange={v => onChange('address2',          v)} />
-
-    <LinkArrayEditor label="1-ustun linklari (Texnikum haqida)" items={s.footerColAboutLinks}      onChange={v => onChange('footerColAboutLinks',      v)} />
-    <LinkArrayEditor label="2-ustun linklari (Abituriyentlar)"   items={s.footerColApplicantsLinks} onChange={v => onChange('footerColApplicantsLinks', v)} />
-    <LinkArrayEditor label="3-ustun linklari (Talabalar)"         items={s.footerColStudentsLinks}   onChange={v => onChange('footerColStudentsLinks',   v)} />
-
-    <SaveBar saving={saving} saved={saved} onSave={onSave} />
-  </div>
-);
-
-const SaveBar = ({ saving, saved, onSave }) => (
-  <div className="flex justify-end mt-2">
-    <button onClick={onSave} disabled={saving}
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors">
-      {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-      {saved ? 'Saqlandi ✓' : 'Saqlash'}
-    </button>
-  </div>
-);
+  );
+};
 
 export default AdminSiteEditor;

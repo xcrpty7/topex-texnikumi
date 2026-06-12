@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Search, UserCheck, UserX, Trash2, RefreshCw, Users } from 'lucide-react';
@@ -34,6 +35,7 @@ const RoleBadge = ({ role }) => {
 };
 
 const AdminUsers = () => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { users, usersMeta, usersLoading: loading } = useSelector((s) => s.admin);
   const { user: me } = useSelector((s) => s.auth);
@@ -46,7 +48,6 @@ const AdminUsers = () => {
 
   useEffect(() => { load({ search, role: roleFilter }); }, []);
 
-  // Re-fetch when role filter changes
   useEffect(() => {
     load({ search, role: roleFilter, page: 1 });
   }, [roleFilter]);
@@ -60,9 +61,9 @@ const AdminUsers = () => {
     try {
       await api.patch(`/admin/users/${userId}/toggle-block`);
       load({ search, role: roleFilter, page: usersMeta?.page });
-      toast.success('Holat yangilandi');
+      toast.success(t('adminUsers.statusUpdated'));
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik');
+      toast.error(err.response?.data?.message || t('admin.error'));
     }
   };
 
@@ -70,9 +71,9 @@ const AdminUsers = () => {
     try {
       await api.put(`/admin/users/${userId}`, { role });
       load({ search, role: roleFilter, page: usersMeta?.page });
-      toast.success('Rol yangilandi');
+      toast.success(t('adminUsers.roleUpdated'));
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik');
+      toast.error(err.response?.data?.message || t('admin.error'));
     }
   };
 
@@ -81,11 +82,11 @@ const AdminUsers = () => {
     try {
       setDeleteLoading(true);
       await api.delete(`/admin/users/${confirmId}`);
-      toast.success("O'chirildi");
+      toast.success(t('admin.deleted'));
       setConfirmId(null);
       load({ search, role: roleFilter, page: usersMeta?.page });
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik');
+      toast.error(err.response?.data?.message || t('admin.error'));
     } finally {
       setDeleteLoading(false);
     }
@@ -93,10 +94,9 @@ const AdminUsers = () => {
 
   return (
     <>
-      <Helmet><title>Foydalanuvchilar – TOPEX Admin</title></Helmet>
+      <Helmet><title>{t('adminUsers.pageTitle')}</title></Helmet>
 
       <div className="space-y-5">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -104,12 +104,11 @@ const AdminUsers = () => {
               <span className="font-mono text-sm font-semibold" style={{ color: '#16A34A' }}>users</span>
             </div>
             <p className="font-mono text-xs" style={{ color: '#61677A' }}>
-              {usersMeta?.total ?? users.length} ta foydalanuvchi
+              {usersMeta?.total ?? users.length} {t('adminUsers.usersCount')}
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Role stats pills */}
             <div className="flex items-center gap-1.5 flex-wrap">
               {ROLE_STATS_STYLE.map(({ role, color, bg }) => {
                 const cnt = users.filter(u => u.role === role).length;
@@ -134,12 +133,11 @@ const AdminUsers = () => {
               onMouseLeave={(e) => (e.currentTarget.style.color = '#61677A')}
             >
               <RefreshCw size={12} />
-              yangilash
+              {t('admin.refresh')}
             </button>
           </div>
         </div>
 
-        {/* Search */}
         <form onSubmit={handleSearch} className="flex items-center gap-2">
           <div className="relative flex-1 max-w-sm">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#61677A' }} />
@@ -147,7 +145,7 @@ const AdminUsers = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-8 font-mono text-[12px]"
-              placeholder="ism yoki email bo'yicha qidirish..."
+              placeholder={t('adminUsers.searchPlaceholder')}
             />
           </div>
           <button
@@ -157,13 +155,12 @@ const AdminUsers = () => {
             onMouseEnter={(e) => (e.currentTarget.style.background = '#F0FDF4')}
             onMouseLeave={(e) => (e.currentTarget.style.background = '#DCFCE7')}
           >
-            qidirish
+            {t('admin.search')}
           </button>
         </form>
 
-        {/* Role filter pills */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs" style={{ color: '#61677A' }}>Rol:</span>
+          <span className="text-xs" style={{ color: '#61677A' }}>{t('adminUsers.role')}:</span>
           {['', 'USER', 'ADMIN', 'SUPER_ADMIN'].map(r => (
             <button
               key={r}
@@ -174,12 +171,11 @@ const AdminUsers = () => {
                 color: roleFilter === r ? '#fff' : '#61677A',
               }}
             >
-              {r || 'Barchasi'}
+              {r || t('admin.filterAll')}
             </button>
           ))}
         </div>
 
-        {/* Table */}
         {loading ? (
           <div className="flex justify-center py-16"><Spinner size="lg" /></div>
         ) : (
@@ -188,12 +184,12 @@ const AdminUsers = () => {
               <table className="tm-table">
                 <thead>
                   <tr>
-                    <th>foydalanuvchi</th>
-                    <th>email</th>
-                    <th>rol</th>
-                    <th>holat</th>
-                    <th>qo'shilgan</th>
-                    <th>amal</th>
+                    <th>{t('adminUsers.table.user')}</th>
+                    <th>{t('adminUsers.table.email')}</th>
+                    <th>{t('adminUsers.table.role')}</th>
+                    <th>{t('adminUsers.table.status')}</th>
+                    <th>{t('adminUsers.table.joined')}</th>
+                    <th>{t('adminUsers.table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -222,11 +218,11 @@ const AdminUsers = () => {
                           }}
                         >
                           <span style={{ fontSize: 7 }}>●</span>
-                          {user.isActive ? 'faol' : 'bloklangan'}
+                          {user.isActive ? t('adminUsers.active') : t('adminUsers.blocked')}
                         </span>
                       </td>
                       <td className="muted font-mono text-[10px]">
-                        <span title={new Date(user.createdAt).toLocaleDateString('uz-UZ')}>
+                        <span title={new Date(user.createdAt).toLocaleDateString(i18n.language === 'uz' ? 'uz-UZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US')}>
                           {timeAgo(user.createdAt)}
                         </span>
                       </td>
@@ -236,7 +232,7 @@ const AdminUsers = () => {
                             <button
                               onClick={() => handleToggleActive(user._id)}
                               className="p-1.5 rounded transition-colors"
-                              title={user.isActive ? 'Bloklash' : 'Faollashtirish'}
+                              title={user.isActive ? t('adminUsers.block') : t('adminUsers.activate')}
                               style={{ color: user.isActive ? '#DC2626' : '#16A34A' }}
                               onMouseEnter={(e) => (e.currentTarget.style.background = user.isActive ? 'rgba(220,38,38,0.08)' : 'rgba(22,163,74,0.08)')}
                               onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
@@ -259,7 +255,7 @@ const AdminUsers = () => {
                             <button
                               onClick={() => setConfirmId(user._id)}
                               className="p-1.5 rounded transition-colors"
-                              title="O'chirish"
+                              title={t('admin.delete')}
                               style={{ color: '#61677A' }}
                               onMouseEnter={(e) => { e.currentTarget.style.color = '#DC2626'; e.currentTarget.style.background = 'rgba(220,38,38,0.08)'; }}
                               onMouseLeave={(e) => { e.currentTarget.style.color = '#61677A'; e.currentTarget.style.background = 'transparent'; }}
@@ -278,8 +274,8 @@ const AdminUsers = () => {
                           <Users size={36} style={{ color: '#D1D5DB' }} />
                           <p className="font-mono text-xs" style={{ color: '#9CA3AF' }}>
                             {roleFilter
-                              ? `"${roleFilter}" roli bo'yicha foydalanuvchi topilmadi`
-                              : 'foydalanuvchilar topilmadi'}
+                              ? t('adminUsers.filterEmpty', { role: roleFilter })
+                              : t('adminUsers.empty')}
                           </p>
                           {roleFilter && (
                             <button
@@ -287,7 +283,7 @@ const AdminUsers = () => {
                               className="font-mono text-xs px-3 py-1 rounded-lg transition-colors"
                               style={{ background: '#F1F2F4', color: '#61677A' }}
                             >
-                              Filtrni tozalash
+                              {t('admin.clearFilter')}
                             </button>
                           )}
                         </div>
@@ -298,11 +294,10 @@ const AdminUsers = () => {
               </table>
             </div>
 
-            {/* Pagination */}
             {usersMeta && usersMeta.pages > 1 && (
               <div className="flex items-center justify-between pt-2">
                 <span className="text-xs font-mono" style={{ color: '#61677A' }}>
-                  {usersMeta.page}/{usersMeta.pages} sahifa · {usersMeta.total} ta
+                  {usersMeta.page}/{usersMeta.pages} {t('adminUsers.page')} · {usersMeta.total} {t('adminUsers.total')}
                 </span>
                 <div className="flex gap-2">
                   <button
@@ -311,7 +306,7 @@ const AdminUsers = () => {
                     className="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors disabled:opacity-40"
                     style={{ background: '#FFFFFF', border: '1px solid #E5E7EA', color: '#272829' }}
                   >
-                    ← Oldingi
+                    {t('admin.prev')}
                   </button>
                   <button
                     onClick={() => load({ search, role: roleFilter, page: usersMeta.page + 1 })}
@@ -319,7 +314,7 @@ const AdminUsers = () => {
                     className="px-3 py-1.5 rounded-lg text-xs font-mono transition-colors disabled:opacity-40"
                     style={{ background: '#FFFFFF', border: '1px solid #E5E7EA', color: '#272829' }}
                   >
-                    Keyingi →
+                    {t('admin.next')}
                   </button>
                 </div>
               </div>
@@ -333,9 +328,9 @@ const AdminUsers = () => {
         onClose={() => setConfirmId(null)}
         onConfirm={handleDeleteConfirm}
         loading={deleteLoading}
-        title="Foydalanuvchini o'chirish"
-        message="Bu foydalanuvchi butunlay o'chiriladi. Bu amalni qaytarib bo'lmaydi."
-        confirmLabel="O'chirish"
+        title={t('adminUsers.confirmTitle')}
+        message={t('adminUsers.confirmMessage')}
+        confirmLabel={t('admin.deleteConfirm')}
         confirmStyle="danger"
       />
     </>

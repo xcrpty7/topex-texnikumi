@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -13,7 +14,9 @@ const resolveImg = (img) => {
 const fmtDate = (d) =>
   d ? new Date(d).toLocaleDateString('uz-UZ', { day: '2-digit', month: 'long', year: 'numeric' }) : '';
 
-export default function NewsCard({ article, index = 0, moreText = 'Batafsil' }) {
+export default function NewsCard({ article, index = 0, moreText }) {
+  const { t } = useTranslation();
+  const btnText = moreText || t('newsCard.moreText');
   const to = `/blog/${article.slug || article._id}`;
 
   return (
@@ -55,7 +58,7 @@ export default function NewsCard({ article, index = 0, moreText = 'Batafsil' }) 
           className="inline-flex items-center justify-center gap-2 self-start bg-orange-grad text-white
                      font-bold text-[12px] uppercase tracking-[0.12em] px-6 py-3 rounded-xl
                      shadow-lg shadow-orange/25 hover:brightness-110 hover:-translate-y-0.5 transition-all">
-          {moreText}
+          {btnText}
           <ArrowRight size={15} />
         </Link>
       </div>

@@ -1,4 +1,5 @@
 import { AlertTriangle, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const ConfirmModal = ({
   isOpen,
@@ -6,10 +7,11 @@ const ConfirmModal = ({
   onConfirm,
   title,
   message,
-  confirmLabel = "O'chirish",
+  confirmLabel,
   confirmStyle = 'danger',
   loading = false,
 }) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   const isDanger = confirmStyle === 'danger';
@@ -51,7 +53,7 @@ const ConfirmModal = ({
               className="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
               style={{ background: '#F1F2F4', color: '#61677A' }}
             >
-              Bekor
+              {t('confirmModal.cancel')}
             </button>
             <button
               onClick={onConfirm}
@@ -62,7 +64,7 @@ const ConfirmModal = ({
                 color: '#fff',
               }}
             >
-              {loading ? 'Yuklanmoqda...' : confirmLabel}
+              {loading ? t('confirmModal.loading') : (confirmLabel || t('confirmModal.delete'))}
             </button>
           </div>
         </div>

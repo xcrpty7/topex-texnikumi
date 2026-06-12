@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Play, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload } from 'lucide-react';
+import { Film, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload, ExternalLink } from 'lucide-react';
 import api from '../../services/api';
+import { uploadVideo } from '../../services/firebase';
 import { toast } from 'react-toastify';
 import Button from '../../components/ui/Button';
 import Modal from '../../components/ui/Modal';
@@ -9,24 +9,14 @@ import Input from '../../components/ui/Input';
 import Spinner from '../../components/ui/Spinner';
 import ConfirmModal from '../../components/ui/ConfirmModal';
 
-const API_URL = import.meta.env.VITE_API_URL || '';
-const EMPTY_FORM = { title: '', url: '', order: 0, isActive: true };
-
-const STATIC_VIDEOS = [
-  { title: 'Amaliy darslar',  url: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4', order: 1 },
-  { title: 'Tadbirlar',        url: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4',  order: 2 },
-  { title: 'Oromgoh',          url: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4', order: 3 },
-  { title: 'Dars jarayoni',   url: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4', order: 4 },
-  { title: 'Bitiruv kechasi', url: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4', order: 5 },
-];
+const EMPTY_FORM = { title: '', description: '', order: 0, isActive: true };
 
 const truncateUrl = (url, max = 40) => {
   if (!url) return '—';
   return url.length > max ? url.slice(0, max) + '...' : url;
 };
 
-const AdminHomeVideos = () => {
-  const { t } = useTranslation();
+const AdminVideos = () => {
   const [items, setItems]         = useState([]);
   const [loading, setLoading]     = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -35,63 +25,32 @@ const AdminHomeVideos = () => {
   const [file, setFile]           = useState(null);
   const [preview, setPreview]     = useState(null);
   const [saving, setSaving]       = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
   const [confirmId, setConfirmId]     = useState(null);
   const [deleting, setDeleting]       = useState(false);
-  const [seedConfirm, setSeedConfirm] = useState(false);
-  const [seeding, setSeeding]         = useState(false);
   const fileRef = useRef();
 
   const load = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/admin/home-videos');
+      const res = await api.get('/admin/videos');
       setItems(res.data.data || []);
     } catch {
-      toast.error(t('admin.loadError'));
+      toast.error('Videolarni yuklab bo\'lmadi');
     } finally {
       setLoading(false);
     }
   };
 
-  const seedDefaults = async () => {
-    try {
-      setSeeding(true);
-      const existing = await api.get('/admin/home-videos');
-      const existingUrls = (existing.data.data || []).map(v => v.url);
-      const toSeed = STATIC_VIDEOS.filter(v => !existingUrls.includes(v.url));
-      if (toSeed.length === 0) {
-        toast.info(t('adminHomeVideos.allDefaultExist'));
-        return;
-      }
-      await Promise.all(
-        toSeed.map(v => {
-          const fd = new FormData();
-          fd.append('title', v.title);
-          fd.append('url', v.url);
-          fd.append('order', String(v.order));
-          fd.append('isActive', 'true');
-          return api.post('/admin/home-videos', fd);
-        })
-      );
-      toast.success(t('adminHomeVideos.defaultSeeded', { count: toSeed.length }));
-      load();
-    } catch {
-      toast.error(t('admin.error'));
-    } finally {
-      setSeeding(false);
-      setSeedConfirm(false);
-    }
-  };
-
-  useEffect(() => {
-    load();
-  }, []);
+  useEffect(() => { load(); }, []);
 
   const openCreate = () => {
     setEditing(null);
     setForm(EMPTY_FORM);
     setFile(null);
     setPreview(null);
+    setUploadProgress(0);
     setShowModal(true);
   };
 
@@ -99,16 +58,13 @@ const AdminHomeVideos = () => {
     setEditing(item._id);
     setForm({
       title: item.title,
-      url: item.url,
+      description: item.description || '',
       order: item.order || 0,
-      isActive: item.isActive
+      isActive: item.isActive,
     });
-    setPreview(item.url
-      ? (item.url.startsWith('http') ? item.url
-        : item.url.startsWith('/uploads') ? `${API_URL}${item.url}`
-        : item.url)
-      : null);
+    setPreview(item.url);
     setFile(null);
+    setUploadProgress(0);
     setShowModal(true);
   };
 
@@ -124,52 +80,69 @@ const AdminHomeVideos = () => {
     e.preventDefault();
     try {
       setSaving(true);
-      const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
-      if (file) fd.append('video', file);
+
+      let videoUrl = editing ? items.find(i => i._id === editing)?.url || '' : '';
+
+      if (file) {
+        setUploading(true);
+        setUploadProgress(0);
+        videoUrl = await uploadVideo(file, (progress) => {
+          setUploadProgress(progress);
+        });
+        setUploading(false);
+      }
+
+      const payload = {
+        title: form.title,
+        description: form.description,
+        url: videoUrl,
+        order: form.order,
+        isActive: form.isActive,
+      };
 
       if (editing) {
-        await api.put(`/admin/home-videos/${editing}`, fd);
-        toast.success(t('admin.updated'));
+        await api.put(`/admin/videos/${editing}`, payload);
+        toast.success('Video yangilandi');
       } else {
-        await api.post('/admin/home-videos', fd);
-        toast.success(t('admin.created'));
+        await api.post('/admin/videos', payload);
+        toast.success('Video qo\'shildi');
       }
+
       setShowModal(false);
       setEditing(null);
       setForm(EMPTY_FORM);
       setFile(null);
       setPreview(null);
+      setUploadProgress(0);
       load();
     } catch (err) {
-      toast.error(err.response?.data?.message || t('admin.error'));
+      toast.error(err.response?.data?.message || err.message || 'Xatolik yuz berdi');
     } finally {
       setSaving(false);
+      setUploading(false);
     }
   };
 
   const toggleActive = async (item) => {
     try {
-      await api.put(`/admin/home-videos/${item._id}`, { isActive: !item.isActive });
+      await api.put(`/admin/videos/${item._id}`, { isActive: !item.isActive });
       setItems(prev => prev.map(i => i._id === item._id ? { ...i, isActive: !i.isActive } : i));
     } catch {
-      toast.error(t('admin.error'));
+      toast.error('Xatolik');
     }
   };
 
-  const deleteItem = (id) => {
-    setConfirmId(id);
-  };
+  const deleteItem = (id) => setConfirmId(id);
 
   const handleConfirmDelete = async () => {
     try {
       setDeleting(true);
-      await api.delete(`/admin/home-videos/${confirmId}`);
-      toast.success(t('admin.deleted'));
+      await api.delete(`/admin/videos/${confirmId}`);
+      toast.success('Video o\'chirildi');
       setItems(prev => prev.filter(i => i._id !== confirmId));
       setConfirmId(null);
     } catch {
-      toast.error(t('admin.deleteError'));
+      toast.error('O\'chirishda xatolik');
     } finally {
       setDeleting(false);
     }
@@ -179,20 +152,15 @@ const AdminHomeVideos = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-mono font-bold text-[#272829]">{t('adminHomeVideos.header')}</h1>
-          <p className="font-mono text-xs mt-1 text-[#61677A]">{items.length} {t('adminHomeVideos.videosCount')}</p>
+          <h1 className="text-xl font-mono font-bold text-[#272829]">Video galereya</h1>
+          <p className="font-mono text-xs mt-1 text-[#61677A]">{items.length} ta video mavjud</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button onClick={load} variant="ghost" size="sm">
-            <RefreshCw size={14} className="mr-1" /> {t('admin.refresh')}
+            <RefreshCw size={14} className="mr-1" /> Yangilash
           </Button>
-          {items.length === 0 && (
-            <Button onClick={() => setSeedConfirm(true)} variant="ghost" size="sm" style={{ borderColor: '#D97706', color: '#D97706' }}>
-              {t('adminHomeVideos.seedDefaults')}
-            </Button>
-          )}
           <Button onClick={openCreate} size="sm">
-            <Plus size={14} className="mr-1" /> {t('adminHomeVideos.addVideo')}
+            <Plus size={14} className="mr-1" /> Video qo'shish
           </Button>
         </div>
       </div>
@@ -209,11 +177,12 @@ const AdminHomeVideos = () => {
             >
               <div className="aspect-video bg-[#FFFFFF] relative group">
                 <video
-                  src={item.url?.startsWith('/uploads') ? `${API_URL}${item.url}` : item.url}
+                  src={item.url}
                   className="w-full h-full object-cover"
+                  preload="metadata"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Play size={32} className="text-white fill-white" />
+                  <Film size={32} className="text-white" />
                 </div>
               </div>
               <div className="p-4 space-y-3">
@@ -227,13 +196,16 @@ const AdminHomeVideos = () => {
                         color: item.isActive ? '#16A34A' : '#61677A',
                       }}
                     >
-                      {item.isActive ? t('admin.statusActive') : t('admin.statusHidden')}
+                      {item.isActive ? 'faol' : 'yashirin'}
                     </span>
                     <span className="font-mono text-[10px] bg-[#FFFFFF] px-2 py-0.5 rounded text-[#61677A]">
                       #{item.order}
                     </span>
                   </div>
                 </div>
+                {item.description && (
+                  <p className="text-xs text-[#61677A] line-clamp-2">{item.description}</p>
+                )}
                 <p className="font-mono text-[10px] text-[#61677A]" title={item.url}>
                   {truncateUrl(item.url)}
                 </p>
@@ -242,22 +214,27 @@ const AdminHomeVideos = () => {
                     onClick={() => openEdit(item)}
                     className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-mono font-semibold transition-all"
                     style={{ background: '#EFF6FF', color: '#2563EB' }}
-                    title={t('admin.edit')}
                   >
                     <Edit2 size={12} />
-                    <span>{t('admin.edit')}</span>
+                    <span>Tahrir</span>
                   </button>
                   <button
                     onClick={() => toggleActive(item)}
                     className={`p-1.5 rounded-lg hover:bg-[#FFFFFF] transition-all ${item.isActive ? 'text-[#D97706]' : 'text-[#16A34A]'}`}
-                    title={item.isActive ? t('admin.hide') : t('admin.show')}
                   >
                     {item.isActive ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 rounded-lg hover:bg-[#FFFFFF] text-[#61677A] hover:text-[#2563EB] transition-all"
+                  >
+                    <ExternalLink size={14} />
+                  </a>
                   <button
                     onClick={() => deleteItem(item._id)}
                     className="p-1.5 rounded-lg hover:bg-[#FFFFFF] text-[#61677A] hover:text-[#DC2626] transition-all ml-auto"
-                    title={t('admin.delete')}
                   >
                     <Trash2 size={14} />
                   </button>
@@ -267,8 +244,8 @@ const AdminHomeVideos = () => {
           ))}
           {items.length === 0 && (
             <div className="col-span-full py-20 text-center glass-card rounded-xl border border-[#E5E7EA]">
-              <Play size={40} className="mx-auto mb-4 text-[#9CA3AF]" />
-              <p className="font-mono text-sm text-[#61677A]">{t('adminHomeVideos.empty')}</p>
+              <Film size={40} className="mx-auto mb-4 text-[#9CA3AF]" />
+              <p className="font-mono text-sm text-[#61677A]">Hali videolar qo'shilmagan</p>
             </div>
           )}
         </div>
@@ -276,21 +253,33 @@ const AdminHomeVideos = () => {
 
       <Modal
         isOpen={showModal}
-        onClose={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); }}
-        title={editing ? t('adminHomeVideos.modalEdit') : t('adminHomeVideos.modalAdd')}
-        size="md"
+        onClose={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setUploadProgress(0); }}
+        title={editing ? 'Videoni tahrirlash' : 'Yangi video qo\'shish'}
+        size="lg"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label={t('adminHomeVideos.form.title')}
+            label="Sarlavha"
             value={form.title}
             onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-            placeholder={t('adminHomeVideos.form.titlePlaceholder')}
+            placeholder="Video sarlavhasi"
             required
           />
 
+          <div className="space-y-1">
+            <label className="text-xs font-mono text-[#61677A]">Tavsif</label>
+            <textarea
+              value={form.description}
+              onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
+              placeholder="Video haqida qisqacha..."
+              rows={3}
+              className="input-field resize-none"
+              style={{ background: '#FFFFFF', border: '1px solid #D8D9DA', borderRadius: 10, padding: '10px 14px', fontSize: 13, width: '100%' }}
+            />
+          </div>
+
           <div className="space-y-2">
-            <label className="text-xs font-mono text-[#61677A]">{t('adminHomeVideos.form.videoFile')}</label>
+            <label className="text-xs font-mono text-[#61677A]">Video fayl</label>
             <div
               className="border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#2563EB] transition-colors"
               style={{ borderColor: preview ? '#272829' : '#D8D9DA', background: '#FFFFFF' }}
@@ -298,9 +287,9 @@ const AdminHomeVideos = () => {
             >
               {preview ? (
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                  <video src={preview} className="w-full h-full object-cover" />
+                  <video src={preview} className="w-full h-full object-cover" preload="metadata" />
                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                    <Play size={24} className="text-white fill-white" />
+                    <Film size={24} className="text-white" />
                   </div>
                   <button
                     type="button"
@@ -313,29 +302,37 @@ const AdminHomeVideos = () => {
               ) : (
                 <>
                   <Upload size={24} className="text-[#9CA3AF] mb-2" />
-                  <p className="text-[10px] text-[#61677A]">{t('adminHomeVideos.form.clickToUpload')}</p>
+                  <p className="text-[10px] text-[#61677A]">Video yuklash uchun bosing</p>
                 </>
               )}
               <input ref={fileRef} type="file" accept="video/*" className="hidden" onChange={handleFile} />
             </div>
-          </div>
 
-          <Input
-            label={t('adminHomeVideos.form.videoUrl')}
-            value={form.url}
-            onChange={e => setForm(p => ({ ...p, url: e.target.value }))}
-            placeholder="https://..."
-          />
+            {uploading && (
+              <div className="space-y-1">
+                <div className="flex justify-between text-[10px] font-mono text-[#61677A]">
+                  <span>Firebase ga yuklanmoqda...</span>
+                  <span>{Math.round(uploadProgress)}%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-[#F1F2F4] overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%`, background: '#2563EB' }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label={t('adminHomeVideos.form.order')}
+              label="Tartib raqami"
               type="number"
               value={form.order}
-              onChange={e => setForm(p => ({ ...p, order: parseInt(e.target.value) }))}
+              onChange={e => setForm(p => ({ ...p, order: parseInt(e.target.value) || 0 }))}
             />
             <div className="flex flex-col">
-              <label className="text-xs font-mono mb-2 text-[#61677A]">{t('adminHomeVideos.form.status')}</label>
+              <label className="text-xs font-mono mb-2 text-[#61677A]">Holati</label>
               <label className="flex items-center gap-2 cursor-pointer h-full">
                 <input
                   type="checkbox"
@@ -343,43 +340,33 @@ const AdminHomeVideos = () => {
                   onChange={e => setForm(p => ({ ...p, isActive: e.target.checked }))}
                   className="rounded border-[#D8D9DA] bg-[#FFFFFF]"
                 />
-                <span className="text-sm text-[#272829]">{t('admin.statusActive')}</span>
+                <span className="text-sm text-[#272829]">Faol</span>
               </label>
             </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-[#E5E7EA]">
-            <Button variant="ghost" type="button" onClick={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); }}>
-              {t('admin.cancel')}
+            <Button variant="ghost" type="button" onClick={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setUploadProgress(0); }}>
+              Bekor qilish
             </Button>
-            <Button type="submit" loading={saving}>
-              {t('admin.save')}
+            <Button type="submit" loading={saving || uploading} disabled={uploading}>
+              {uploading ? 'Yuklanmoqda...' : 'Saqlash'}
             </Button>
           </div>
         </form>
       </Modal>
 
       <ConfirmModal
-        isOpen={seedConfirm}
-        onClose={() => setSeedConfirm(false)}
-        onConfirm={seedDefaults}
-        loading={seeding}
-        confirmStyle="warning"
-        title={t('adminHomeVideos.seedConfirmTitle')}
-        message={t('adminHomeVideos.seedConfirmMessage')}
-        confirmLabel={t('adminHomeVideos.seedConfirmLabel')}
-      />
-      <ConfirmModal
         isOpen={!!confirmId}
         onClose={() => setConfirmId(null)}
         onConfirm={handleConfirmDelete}
         loading={deleting}
-        title={t('adminHomeVideos.deleteConfirmTitle')}
-        message={t('adminHomeVideos.deleteConfirmMessage')}
-        confirmLabel={t('admin.deleteConfirm')}
+        title="Videoni o'chirishni tasdiqlang"
+        message="Bu video butunlay o'chiriladi."
+        confirmLabel="Ha, o'chirish"
       />
     </div>
   );
 };
 
-export default AdminHomeVideos;
+export default AdminVideos;

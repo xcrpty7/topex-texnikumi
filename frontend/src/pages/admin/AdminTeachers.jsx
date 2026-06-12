@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus, Trash2, Edit2, Eye, EyeOff, X, Upload, Users } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -18,6 +19,7 @@ const resolveImg = (img) => {
 };
 
 const AdminTeachers = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +37,7 @@ const AdminTeachers = () => {
       const res = await api.get('/admin/teachers');
       setItems(res.data.data || []);
     } catch {
-      toast.error("O'qituvchilarni yuklab bo'lmadi");
+      toast.error(t('admin.loadError'));
     } finally { setLoading(false); }
   };
   useEffect(() => { load(); }, []);
@@ -43,10 +45,10 @@ const AdminTeachers = () => {
   const openCreate = () => {
     setEditing(null); setForm(EMPTY); setFile(null); setPreview(null); setShowModal(true);
   };
-  const openEdit = (t) => {
-    setEditing(t._id);
-    setForm({ name: t.name, role: t.role || '', order: t.order || 0, active: !!t.active });
-    setPreview(resolveImg(t.image));
+  const openEdit = (tchr) => {
+    setEditing(tchr._id);
+    setForm({ name: tchr.name, role: tchr.role || '', order: tchr.order || 0, active: !!tchr.active });
+    setPreview(resolveImg(tchr.image));
     setFile(null);
     setShowModal(true);
   };
@@ -57,7 +59,7 @@ const AdminTeachers = () => {
   };
 
   const save = async () => {
-    if (!form.name.trim()) { toast.error('Ism kiritilishi shart'); return; }
+    if (!form.name.trim()) { toast.error(t('admin.requiredName')); return; }
     try {
       setSaving(true);
       const fd = new FormData();
@@ -68,21 +70,21 @@ const AdminTeachers = () => {
       if (file) fd.append('image', file);
       if (editing) await api.put(`/admin/teachers/${editing}`, fd);
       else         await api.post('/admin/teachers', fd);
-      toast.success(editing ? 'Yangilandi' : "Qo'shildi");
+      toast.success(editing ? t('admin.updated') : t('admin.created'));
       setShowModal(false);
       load();
     } catch (e) {
-      toast.error(e.response?.data?.message || 'Xatolik');
+      toast.error(e.response?.data?.message || t('admin.error'));
     } finally { setSaving(false); }
   };
 
   const del = async () => {
     try {
       await api.delete(`/admin/teachers/${confirmId}`);
-      toast.success("O'chirildi");
+      toast.success(t('admin.deleted'));
       setConfirmId(null);
       load();
-    } catch { toast.error('Xatolik'); }
+    } catch { toast.error(t('admin.error')); }
   };
 
   return (
@@ -93,12 +95,12 @@ const AdminTeachers = () => {
             <Users size={20} />
           </div>
           <div>
-            <h1 className="text-xl font-bold">O'qituvchilar</h1>
-            <p className="text-sm text-[#61677A]">Jamoa bo'limi uchun ustozlarni boshqarish</p>
+            <h1 className="text-xl font-bold">{t('adminTeachers.header')}</h1>
+            <p className="text-sm text-[#61677A]">{t('adminTeachers.subtitle')}</p>
           </div>
         </div>
         <Button onClick={openCreate} className="btn-orange">
-          <Plus size={16} /> Yangi qo'shish
+          <Plus size={16} /> {t('admin.addNew')}
         </Button>
       </div>
 
@@ -107,7 +109,7 @@ const AdminTeachers = () => {
       ) : items.length === 0 ? (
         <div className="text-center py-16 glass-card">
           <Users size={48} className="mx-auto text-[#9CA3AF] mb-3" />
-          <p className="text-[#61677A]">Hozircha o'qituvchi qo'shilmagan</p>
+          <p className="text-[#61677A]">{t('adminTeachers.empty')}</p>
         </div>
       ) : (
         <div className="glass-card overflow-x-auto">
@@ -115,21 +117,21 @@ const AdminTeachers = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Rasm</th>
-                <th>Ism</th>
-                <th>Lavozim</th>
-                <th>Tartib</th>
-                <th>Status</th>
-                <th>Amallar</th>
+                <th>{t('adminTeachers.table.image')}</th>
+                <th>{t('adminTeachers.table.name')}</th>
+                <th>{t('adminTeachers.table.role')}</th>
+                <th>{t('adminTeachers.table.order')}</th>
+                <th>{t('adminTeachers.table.status')}</th>
+                <th>{t('adminTeachers.table.actions')}</th>
               </tr>
             </thead>
             <tbody>
-              {items.map((t, i) => (
-                <tr key={t._id}>
+              {items.map((tchr, i) => (
+                <tr key={tchr._id}>
                   <td>{i + 1}</td>
                   <td>
-                    {resolveImg(t.image) ? (
-                      <img src={resolveImg(t.image)} alt={t.name}
+                    {resolveImg(tchr.image) ? (
+                      <img src={resolveImg(tchr.image)} alt={tchr.name}
                            className="w-12 h-12 rounded-lg object-cover" />
                     ) : (
                       <div className="w-12 h-12 rounded-lg bg-[#F1F2F4] flex items-center justify-center">
@@ -137,21 +139,21 @@ const AdminTeachers = () => {
                       </div>
                     )}
                   </td>
-                  <td className="font-semibold">{t.name}</td>
-                  <td className="muted">{t.role || '—'}</td>
-                  <td>{t.order || 0}</td>
+                  <td className="font-semibold">{tchr.name}</td>
+                  <td className="muted">{tchr.role || '—'}</td>
+                  <td>{tchr.order || 0}</td>
                   <td>
-                    {t.active
-                      ? <span className="badge-active">Faol</span>
-                      : <span className="badge-draft">Yashirin</span>}
+                    {tchr.active
+                      ? <span className="badge-active">{t('admin.statusActive')}</span>
+                      : <span className="badge-draft">{t('admin.statusHidden')}</span>}
                   </td>
                   <td>
                     <div className="flex gap-2">
-                      <button onClick={() => openEdit(t)}
+                      <button onClick={() => openEdit(tchr)}
                               className="p-2 rounded-md hover:bg-[#F1F2F4] text-[#272829]">
                         <Edit2 size={15} />
                       </button>
-                      <button onClick={() => setConfirmId(t._id)}
+                      <button onClick={() => setConfirmId(tchr._id)}
                               className="p-2 rounded-md hover:bg-red-50 text-red-600">
                         <Trash2 size={15} />
                       </button>
@@ -165,23 +167,23 @@ const AdminTeachers = () => {
       )}
 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}
-             title={editing ? "O'qituvchini tahrirlash" : "Yangi o'qituvchi"}>
+             title={editing ? t('adminTeachers.modalEdit') : t('adminTeachers.modalAdd')}>
         <div className="space-y-4 admin-theme">
           <div>
-            <label className="block text-sm font-semibold mb-1.5">Ism familiya *</label>
+            <label className="block text-sm font-semibold mb-1.5">{t('adminTeachers.form.name')}</label>
             <input className="input-field" value={form.name}
                    onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                   placeholder="Masalan: G'AYRAT SHOUMAROV" />
+                   placeholder={t('adminTeachers.form.namePlaceholder')} />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1.5">Lavozim</label>
+            <label className="block text-sm font-semibold mb-1.5">{t('adminTeachers.form.role')}</label>
             <input className="input-field" value={form.role}
                    onChange={e => setForm(p => ({ ...p, role: e.target.value }))}
-                   placeholder="Masalan: Direktor" />
+                   placeholder={t('adminTeachers.form.rolePlaceholder')} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-semibold mb-1.5">Tartib</label>
+              <label className="block text-sm font-semibold mb-1.5">{t('adminTeachers.form.order')}</label>
               <input type="number" className="input-field" value={form.order}
                      onChange={e => setForm(p => ({ ...p, order: parseInt(e.target.value) || 0 }))} />
             </div>
@@ -189,12 +191,12 @@ const AdminTeachers = () => {
               <button type="button"
                       onClick={() => setForm(p => ({ ...p, active: !p.active }))}
                       className={`w-full input-field flex items-center gap-2 justify-center ${form.active ? 'text-green-700' : 'text-gray-500'}`}>
-                {form.active ? <><Eye size={15} /> Faol</> : <><EyeOff size={15} /> Yashirin</>}
+                {form.active ? <><Eye size={15} /> {t('admin.statusActive')}</> : <><EyeOff size={15} /> {t('admin.statusHidden')}</>}
               </button>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1.5">Rasm</label>
+            <label className="block text-sm font-semibold mb-1.5">{t('adminTeachers.form.image')}</label>
             <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
             <div className="flex items-center gap-3">
               {preview ? (
@@ -211,21 +213,21 @@ const AdminTeachers = () => {
                 </div>
               )}
               <button onClick={() => fileRef.current?.click()} className="btn-outline">
-                <Upload size={14} /> Rasm tanlash
+                <Upload size={14} /> {t('admin.chooseImage')}
               </button>
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-2">
-            <Button onClick={() => setShowModal(false)} className="btn-ghost">Bekor</Button>
+            <Button onClick={() => setShowModal(false)} className="btn-ghost">{t('admin.cancel')}</Button>
             <Button onClick={save} disabled={saving} className="btn-orange">
-              {saving ? 'Saqlanmoqda...' : 'Saqlash'}
+              {saving ? t('admin.saving') : t('admin.save')}
             </Button>
           </div>
         </div>
       </Modal>
 
       <ConfirmModal isOpen={!!confirmId} onClose={() => setConfirmId(null)} onConfirm={del}
-                    title="O'chirish" message="Ushbu o'qituvchi o'chiriladi. Davom etasizmi?" />
+                    title={t('admin.confirmDeleteTitle')} message={t('adminTeachers.confirmMessage')} />
     </div>
   );
 };

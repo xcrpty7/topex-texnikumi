@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { Image as ImageIcon, X, Camera } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 
 const up = (delay = 0) => ({
@@ -11,30 +12,32 @@ const up = (delay = 0) => ({
   transition:  { duration: 0.5, ease: 'easeOut', delay },
 });
 
-const STATIC_ITEMS = [
-  { _id: 's1', src: '/assets/images/DSC01093.jpg', title: "O'quvchilar jamoasi", category: 'students' },
-  { _id: 's2', src: '/assets/images/DSC01036.jpg', title: "Dars jarayoni", category: 'students' },
-  { _id: 's3', src: '/assets/images/DSC00912.jpg', title: "Laboratoriya ishi", category: 'students' },
-  { _id: 's4', src: '/assets/images/DSC00827.jpg', title: "Texnikum hayoti", category: 'students' },
-  { _id: 's10', src: '/assets/famali-photo/DSC00875.jpg', title: "Talabalar hayoti", category: 'students' },
-  { _id: 's11', src: '/assets/famali-photo/DSC00954.jpg', title: "Darsdan lavha", category: 'students' },
-  { _id: 's12', src: '/assets/famali-photo/DSC00955.jpg', title: "Amaliyot", category: 'students' },
-  { _id: 's13', src: '/assets/famali-photo/DSC00964.jpg', title: "Guruh ishi", category: 'students' },
-  { _id: 's14', src: '/assets/famali-photo/DSC00980.jpg', title: "Texnikum tadbiri", category: 'students' },
-  { _id: 's16', src: '/assets/famali-photo/DSC01053.jpg', title: "Laboratoriya", category: 'students' },
-  { _id: 's18', src: '/assets/famali-photo/DSC01065.jpg', title: "Tanaffus", category: 'students' },
-  { _id: 's19', src: '/assets/famali-photo/DSC01086.jpg', title: "Bitiruvchilar", category: 'students' },
-  { _id: 's25', src: '/assets/famali-photo/DSC01268.jpg', title: "Kreativlik", category: 'students' },
-  { _id: 't1', src: '/assets/Ustozlar/DSC01143.jpg', title: "Ilmiy kengash", category: 'teachers' },
-  { _id: 't2', src: '/assets/Ustozlar/DSC01155.jpg', title: "Malakali kadrlar", category: 'teachers' },
-  { _id: 't3', src: '/assets/Ustozlar/DSC01164.jpg', title: "Pedagoglar", category: 'teachers' },
-  { _id: 't4', src: '/assets/Ustozlar/DSC01187.jpg', title: "Kafedra mudirlari", category: 'teachers' },
-  { _id: 't5', src: '/assets/Ustozlar/DSC01199.jpg', title: "Texnikum ustozlari", category: 'teachers' },
+const STATIC_ITEMS = (t) => [
+  { _id: 's1', src: '/assets/images/DSC01093.jpg', title: t('galleryPage.static.s1'), category: 'students' },
+  { _id: 's2', src: '/assets/images/DSC01036.jpg', title: t('galleryPage.static.s2'), category: 'students' },
+  { _id: 's3', src: '/assets/images/DSC00912.jpg', title: t('galleryPage.static.s3'), category: 'students' },
+  { _id: 's4', src: '/assets/images/DSC00827.jpg', title: t('galleryPage.static.s4'), category: 'students' },
+  { _id: 's10', src: '/assets/famali-photo/DSC00875.jpg', title: t('galleryPage.static.s10'), category: 'students' },
+  { _id: 's11', src: '/assets/famali-photo/DSC00954.jpg', title: t('galleryPage.static.s11'), category: 'students' },
+  { _id: 's12', src: '/assets/famali-photo/DSC00955.jpg', title: t('galleryPage.static.s12'), category: 'students' },
+  { _id: 's13', src: '/assets/famali-photo/DSC00964.jpg', title: t('galleryPage.static.s13'), category: 'students' },
+  { _id: 's14', src: '/assets/famali-photo/DSC00980.jpg', title: t('galleryPage.static.s14'), category: 'students' },
+  { _id: 's16', src: '/assets/famali-photo/DSC01053.jpg', title: t('galleryPage.static.s16'), category: 'students' },
+  { _id: 's18', src: '/assets/famali-photo/DSC01065.jpg', title: t('galleryPage.static.s18'), category: 'students' },
+  { _id: 's19', src: '/assets/famali-photo/DSC01086.jpg', title: t('galleryPage.static.s19'), category: 'students' },
+  { _id: 's25', src: '/assets/famali-photo/DSC01268.jpg', title: t('galleryPage.static.s25'), category: 'students' },
+  { _id: 't1', src: '/assets/Ustozlar/DSC01143.jpg', title: t('galleryPage.static.t1'), category: 'teachers' },
+  { _id: 't2', src: '/assets/Ustozlar/DSC01155.jpg', title: t('galleryPage.static.t2'), category: 'teachers' },
+  { _id: 't3', src: '/assets/Ustozlar/DSC01164.jpg', title: t('galleryPage.static.t3'), category: 'teachers' },
+  { _id: 't4', src: '/assets/Ustozlar/DSC01187.jpg', title: t('galleryPage.static.t4'), category: 'teachers' },
+  { _id: 't5', src: '/assets/Ustozlar/DSC01199.jpg', title: t('galleryPage.static.t5'), category: 'teachers' },
 ];
 
 const GalleryPage = () => {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState('students');
+  const [items, setItems] = useState(STATIC_ITEMS(t));
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
@@ -44,12 +47,12 @@ const GalleryPage = () => {
   return (
     <>
       <Helmet>
-        <title>Galereya – Topex Texnikumi</title>
-        <meta name="description" content="Topex Texnikumining kundalik hayotidan eng yorqin foto lavhalar: darslar, tadbirlar, olimpiadalar va o'quvchilar jamoasi." />
-        <meta name="keywords" content="galereya, fotolar, Topex, ta'lim hayoti, tadbirlar" />
+        <title>{t('galleryPage.meta.title')}</title>
+        <meta name="description" content={t('galleryPage.meta.description')} />
+        <meta name="keywords" content={t('galleryPage.meta.keywords')} />
         <link rel="canonical" href="https://topex-texnikumi.vercel.app/gallery" />
-        <meta property="og:title" content="Galereya – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumining hayotidan foto lavhalar." />
+        <meta property="og:title" content={t('galleryPage.meta.ogTitle')} />
+        <meta property="og:description" content={t('galleryPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/gallery" />
         <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>

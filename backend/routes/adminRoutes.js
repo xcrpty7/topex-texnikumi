@@ -17,6 +17,7 @@ const { getSettings, updateSettings, uploadSettingsImage } = require('../control
 const { getAdminHomeVideos, createHomeVideo, updateHomeVideo, deleteHomeVideo } = require('../controllers/homeVideoController');
 const { getAdminTeachers, createTeacher, updateTeacher, deleteTeacher } = require('../controllers/teacherController');
 const { getAdminDirections, createDirection, updateDirection, deleteDirection } = require('../controllers/directionController');
+const { getAdminVideos, createVideo, updateVideo, deleteVideo } = require('../controllers/videoController');
 
 const adminOnly = [protect, restrictTo('ADMIN', 'SUPER_ADMIN')];
 
@@ -87,5 +88,11 @@ router.get('/directions', ...adminOnly, getAdminDirections);
 router.post('/directions', ...adminOnly, createDirection);
 router.put('/directions/:id', ...adminOnly, updateDirection);
 router.delete('/directions/:id', ...adminOnly, deleteDirection);
+
+// Video galereya
+router.get('/videos', ...adminOnly, getAdminVideos);
+router.post('/videos', ...adminOnly, createVideo);
+router.put('/videos/:id', ...adminOnly, updateVideo);
+router.delete('/videos/:id', ...adminOnly, deleteVideo);
 
 module.exports = router;

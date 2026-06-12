@@ -25,6 +25,7 @@ const { getSettings } = require('./controllers/settingsController');
 const { getHomeVideos } = require('./controllers/homeVideoController');
 const { getTeachers } = require('./controllers/teacherController');
 const { getDirections } = require('./controllers/directionController');
+const { getVideos } = require('./controllers/videoController');
 
 const app = express();
 
@@ -153,6 +154,7 @@ app.get('/api/settings', getSettings);
 app.get('/api/home-videos', getHomeVideos);
 app.get('/api/teachers', getTeachers);
 app.get('/api/directions', getDirections);
+app.get('/api/videos', getVideos);
 
 // ─── Sog'lik tekshiruvi ───────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

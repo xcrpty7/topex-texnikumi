@@ -30,15 +30,15 @@ const ContactPage = () => {
   const phone2  = settings?.phone2  || '';
   const email   = settings?.email   || 'info@topex.uz';
   const address = settings?.address || t('contact.addressValue');
-  const hours   = settings?.workingHours || 'Du-Sha: 8:00 - 18:00';
+  const hours   = settings?.workingHours || t('contactPage.workingHours');
   const mapSrc  = settings?.mapLink
     || `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
   const cards = [
-    { Icon: MapPin, title: settings?.contactCard1Title || 'Bizning manzil', lines: [address] },
-    { Icon: Phone,  title: settings?.contactCard2Title || 'Telefon raqam',  lines: [phone, phone2].filter(Boolean), href: `tel:${phone.replace(/\s/g, '')}` },
-    { Icon: Mail,   title: settings?.contactCard3Title || 'E-mail',          lines: [email], href: `mailto:${email}` },
-    { Icon: Clock,  title: settings?.contactCard4Title || settings?.footerHoursTitle || 'Ish vaqti', lines: [hours] },
+    { Icon: MapPin, title: settings?.contactCard1Title || t('contactPage.cardAddress'), lines: [address] },
+    { Icon: Phone,  title: settings?.contactCard2Title || t('contactPage.cardPhone'),  lines: [phone, phone2].filter(Boolean), href: `tel:${phone.replace(/\s/g, '')}` },
+    { Icon: Mail,   title: settings?.contactCard3Title || t('contactPage.cardEmail'),   lines: [email], href: `mailto:${email}` },
+    { Icon: Clock,  title: settings?.contactCard4Title || settings?.footerHoursTitle || t('contactPage.cardHours'), lines: [hours] },
   ];
 
   const submit = async (e) => {
@@ -73,12 +73,12 @@ const ContactPage = () => {
   return (
     <>
       <Helmet>
-        <title>Aloqalar – Topex Texnikumi</title>
-        <meta name="description" content="Topex Texnikumi bilan bog'laning: manzil, telefon, e-mail va ish vaqti. Savollaringiz bo'lsa, ariza qoldiring." />
-        <meta name="keywords" content="aloqa, Topex, manzil, telefon, e-mail, bog'lanish" />
+        <title>{t('contactPage.meta.title')}</title>
+        <meta name="description" content={t('contactPage.meta.description')} />
+        <meta name="keywords" content={t('contactPage.meta.keywords')} />
         <link rel="canonical" href="https://topex-texnikumi.vercel.app/aloqalar" />
-        <meta property="og:title" content="Aloqalar – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumi bilan bog'laning." />
+        <meta property="og:title" content={t('contactPage.meta.ogTitle')} />
+        <meta property="og:description" content={t('contactPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/aloqalar" />
         <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>
@@ -268,7 +268,7 @@ const ContactPage = () => {
           <motion.div {...up(0.1)}
             className="rounded-2xl overflow-hidden shadow-lg border border-gray-200">
             <iframe
-              title="Topex Texnikumi xaritada"
+              title={t('contactPage.mapIframeTitle')}
               src={mapSrc}
               width="100%"
               height="460"

@@ -1,15 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, Plus, Trash2, Eye, EyeOff, Upload, X, Edit2 } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import ConfirmModal from '../../components/ui/ConfirmModal';
 
 const CATEGORIES = [
-  { value: 'all',      label: 'Barchasi' },
-  { value: 'students', label: "O'quvchilar" },
-  { value: 'teachers', label: "O'qituvchilar" },
-  { value: 'events',   label: 'Tadbirlar' },
-  { value: 'other',    label: 'Boshqa' },
+  { value: 'all',      labelKey: 'adminGallery.catAll' },
+  { value: 'students', labelKey: 'adminGallery.catStudents' },
+  { value: 'teachers', labelKey: 'adminGallery.catTeachers' },
+  { value: 'events',   labelKey: 'adminGallery.catEvents' },
+  { value: 'other',    labelKey: 'adminGallery.catOther' },
 ];
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -44,6 +45,7 @@ const imgSrc = (image) => {
 const EMPTY_FORM = { title: '', category: 'students', order: 0 };
 
 const AdminGallery = () => {
+  const { t } = useTranslation();
   const [items, setItems]           = useState([]);
   const [loading, setLoading]       = useState(true);
   const [filter, setFilter]         = useState('all');
@@ -65,7 +67,7 @@ const AdminGallery = () => {
       const res = await api.get('/admin/gallery');
       setItems(res.data.data || []);
     } catch {
-      toast.error('Yuklab bo\'lmadi');
+      toast.error(t('admin.loadError'));
     } finally {
       setLoading(false);
     }
@@ -78,7 +80,7 @@ const AdminGallery = () => {
       const existingImages = (existing.data.data || []).map(i => i.image);
       const toSeed = STATIC_ITEMS.filter(item => !existingImages.includes(item.image));
       if (toSeed.length === 0) {
-        toast.info('Barcha standart rasmlar allaqachon mavjud');
+        toast.info(t('adminGallery.allDefaultExist'));
         setLoading(false);
         return;
       }
@@ -92,10 +94,10 @@ const AdminGallery = () => {
           return api.post('/admin/gallery', fd);
         })
       );
-      toast.success(`${toSeed.length} ta rasm qo'shildi`);
+      toast.success(t('adminGallery.defaultSeeded', { count: toSeed.length }));
       load();
     } catch {
-      toast.error('Xatolik yuz berdi');
+      toast.error(t('admin.error'));
     } finally {
       setSeeding(false);
       setSeedConfirm(false);
@@ -137,8 +139,8 @@ const AdminGallery = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!editing && !file) return toast.error('Rasm tanlang');
-    if (!form.title.trim()) return toast.error('Sarlavha kiriting');
+    if (!editing && !file) return toast.error(t('adminGallery.selectImage'));
+    if (!form.title.trim()) return toast.error(t('adminGallery.enterTitle'));
     try {
       setSaving(true);
       const fd = new FormData();
@@ -149,15 +151,15 @@ const AdminGallery = () => {
 
       if (editing) {
         await api.put(`/admin/gallery/${editing}`, fd);
-        toast.success('Yangilandi');
+        toast.success(t('admin.updated'));
       } else {
         await api.post('/admin/gallery', fd);
-        toast.success("Rasm qo'shildi");
+        toast.success(t('admin.created'));
       }
       closeModal();
       load();
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'Xatolik');
+      toast.error(err?.response?.data?.message || t('admin.error'));
     } finally {
       setSaving(false);
     }
@@ -168,7 +170,7 @@ const AdminGallery = () => {
       await api.put(`/admin/gallery/${item._id}`, { isActive: !item.isActive });
       setItems(prev => prev.map(i => i._id === item._id ? { ...i, isActive: !i.isActive } : i));
     } catch {
-      toast.error('Xatolik');
+      toast.error(t('admin.error'));
     }
   };
 
@@ -180,11 +182,11 @@ const AdminGallery = () => {
     try {
       setDeleting(true);
       await api.delete(`/admin/gallery/${confirmId}`);
-      toast.success("O'chirildi");
+      toast.success(t('admin.deleted'));
       setItems(prev => prev.filter(i => i._id !== confirmId));
       setConfirmId(null);
     } catch (err) {
-      toast.error(err?.response?.data?.message || "O'chirishda xatolik");
+      toast.error(err?.response?.data?.message || t('admin.deleteError'));
     } finally {
       setDeleting(false);
     }
@@ -195,21 +197,25 @@ const AdminGallery = () => {
   const activeCount  = items.filter(i => i.isActive).length;
   const hiddenCount  = items.filter(i => !i.isActive).length;
 
+  const catLabel = (val) => {
+    const found = CATEGORIES.find(c => c.value === val);
+    return found ? t(found.labelKey) : val;
+  };
+
   return (
     <div style={{ color: '#272829' }}>
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-mono font-bold" style={{ color: '#272829' }}>Galereya</h1>
+          <h1 className="text-xl font-mono font-bold" style={{ color: '#272829' }}>{t('adminGallery.header')}</h1>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
-            <p className="font-mono text-xs" style={{ color: '#61677A' }}>{items.length} ta rasm</p>
+            <p className="font-mono text-xs" style={{ color: '#61677A' }}>{items.length} {t('adminGallery.imagesCount')}</p>
             {items.length > 0 && (
               <>
                 <span className="font-mono text-[10px] px-2 py-0.5 rounded-full" style={{ background: '#F0FDF4', color: '#16A34A' }}>
-                  {activeCount} faol
+                  {activeCount} {t('admin.statusActive')}
                 </span>
                 <span className="font-mono text-[10px] px-2 py-0.5 rounded-full" style={{ background: '#F1F2F4', color: '#61677A' }}>
-                  {hiddenCount} yashirin
+                  {hiddenCount} {t('admin.statusHidden')}
                 </span>
               </>
             )}
@@ -222,7 +228,7 @@ const AdminGallery = () => {
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs font-semibold transition-all"
               style={{ background: '#D97706', color: '#fff' }}
             >
-              Standart rasmlarni yuklash
+              {t('adminGallery.seedDefaults')}
             </button>
           )}
           <button
@@ -230,12 +236,11 @@ const AdminGallery = () => {
             className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs font-semibold transition-all"
             style={{ background: '#272829', color: '#fff' }}
           >
-            <Plus size={14} /> Rasm qo'shish
+            <Plus size={14} /> {t('adminGallery.addImage')}
           </button>
         </div>
       </div>
 
-      {/* Category filter */}
       <div className="flex gap-2 flex-wrap mb-6">
         {CATEGORIES.map(c => (
           <button
@@ -247,7 +252,7 @@ const AdminGallery = () => {
               color: filter === c.value ? '#fff' : '#61677A',
             }}
           >
-            {c.label}
+            {t(c.labelKey)}
             {c.value !== 'all' && (
               <span className="ml-1.5 opacity-60">
                 ({items.filter(i => i.category === c.value).length})
@@ -258,11 +263,11 @@ const AdminGallery = () => {
       </div>
 
       {loading ? (
-        <div className="text-center py-20 font-mono text-sm" style={{ color: '#61677A' }}>Yuklanmoqda...</div>
+        <div className="text-center py-20 font-mono text-sm" style={{ color: '#61677A' }}>{t('admin.loading')}</div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
           <Image size={40} style={{ color: '#9CA3AF', margin: '0 auto 12px' }} />
-          <p className="font-mono text-sm" style={{ color: '#61677A' }}>Rasm topilmadi</p>
+          <p className="font-mono text-sm" style={{ color: '#61677A' }}>{t('adminGallery.empty')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
@@ -283,25 +288,24 @@ const AdminGallery = () => {
               <div className="p-2 pb-1">
                 <p className="font-mono text-[10px] font-semibold truncate" style={{ color: '#272829' }}>{item.title}</p>
                 <p className="font-mono text-[9px]" style={{ color: '#9CA3AF' }}>
-                  {CATEGORIES.find(c => c.value === item.category)?.label}
+                  {catLabel(item.category)}
                 </p>
               </div>
-              {/* Action buttons — always visible */}
               <div className="flex items-center gap-1 px-2 pb-2">
                 <button
                   onClick={() => openEdit(item)}
                   className="flex-1 flex items-center justify-center gap-1 py-1 rounded font-mono text-[9px] transition-colors"
                   style={{ background: '#EFF6FF', color: '#2563EB' }}
-                  title="Tahrirlash"
+                  title={t('admin.edit')}
                 >
                   <Edit2 size={10} />
-                  <span>Edit</span>
+                  <span>{t('admin.edit')}</span>
                 </button>
                 <button
                   onClick={() => toggleActive(item)}
                   className="w-7 h-6 rounded flex items-center justify-center transition-colors"
                   style={{ background: item.isActive ? '#FEF3C7' : '#F0FDF4' }}
-                  title={item.isActive ? 'Yashirish' : "Ko'rsatish"}
+                  title={item.isActive ? t('admin.hide') : t('admin.show')}
                 >
                   {item.isActive
                     ? <EyeOff size={10} style={{ color: '#D97706' }} />
@@ -311,7 +315,7 @@ const AdminGallery = () => {
                   onClick={() => deleteItem(item._id)}
                   className="w-7 h-6 rounded flex items-center justify-center transition-colors"
                   style={{ background: '#FEF2F2' }}
-                  title="O'chirish"
+                  title={t('admin.delete')}
                 >
                   <Trash2 size={10} style={{ color: '#DC2626' }} />
                 </button>
@@ -319,7 +323,7 @@ const AdminGallery = () => {
               {!item.isActive && (
                 <div className="absolute top-2 left-2">
                   <span className="font-mono text-[9px] px-1.5 py-0.5 rounded" style={{ background: '#61677A', color: '#fff' }}>
-                    yashirin
+                    {t('admin.statusHidden')}
                   </span>
                 </div>
               )}
@@ -328,18 +332,16 @@ const AdminGallery = () => {
         </div>
       )}
 
-      {/* Edit/Create Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
           <div className="w-full max-w-md rounded-xl p-6" style={{ background: '#FFFFFF', border: '1px solid #D8D9DA' }}>
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-mono font-bold" style={{ color: '#272829' }}>
-                {editing ? 'Rasmni tahrirlash' : "Rasm qo'shish"}
+                {editing ? t('adminGallery.modalEdit') : t('adminGallery.modalAdd')}
               </h2>
               <button onClick={closeModal}><X size={16} style={{ color: '#61677A' }} /></button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Image picker */}
               <div
                 className="border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors overflow-hidden"
                 style={{ borderColor: preview ? '#272829' : '#D8D9DA', minHeight: 160, background: '#FAFAFA' }}
@@ -357,34 +359,32 @@ const AdminGallery = () => {
                       <X size={12} />
                     </button>
                     <p className="text-center font-mono text-[10px] py-2" style={{ color: '#9CA3AF' }}>
-                      {editing ? 'Yangi rasm tanlash uchun bosing' : ''}
+                      {editing ? t('adminGallery.clickToChangeImage') : ''}
                     </p>
                   </div>
                 ) : (
                   <>
                     <Upload size={24} style={{ color: '#9CA3AF', marginBottom: 8 }} />
-                    <p className="font-mono text-xs" style={{ color: '#61677A' }}>Rasm tanlash uchun bosing</p>
+                    <p className="font-mono text-xs" style={{ color: '#61677A' }}>{t('adminGallery.clickToSelectImage')}</p>
                   </>
                 )}
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
               </div>
 
-              {/* Title */}
               <div>
-                <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>Sarlavha</label>
+                <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>{t('adminGallery.form.title')}</label>
                 <input
                   required
                   value={form.title}
                   onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
                   className="w-full px-3 py-2 rounded-lg font-mono text-sm outline-none"
                   style={{ background: '#FFFFFF', border: '1px solid #D8D9DA', color: '#272829' }}
-                  placeholder="Rasm sarlavhasi"
+                  placeholder={t('adminGallery.form.titlePlaceholder')}
                 />
               </div>
 
-              {/* Category */}
               <div>
-                <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>Kategoriya</label>
+                <label className="block font-mono text-xs mb-1" style={{ color: '#61677A' }}>{t('adminGallery.form.category')}</label>
                 <select
                   value={form.category}
                   onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
@@ -392,7 +392,7 @@ const AdminGallery = () => {
                   style={{ background: '#FFFFFF', border: '1px solid #D8D9DA', color: '#272829' }}
                 >
                   {CATEGORIES.filter(c => c.value !== 'all').map(c => (
-                    <option key={c.value} value={c.value}>{c.label}</option>
+                    <option key={c.value} value={c.value}>{t(c.labelKey)}</option>
                   ))}
                 </select>
               </div>
@@ -404,7 +404,7 @@ const AdminGallery = () => {
                   className="flex-1 py-2 rounded-lg font-mono text-sm transition-colors"
                   style={{ background: '#E5E7EA', color: '#61677A' }}
                 >
-                  Bekor
+                  {t('admin.cancel')}
                 </button>
                 <button
                   type="submit"
@@ -412,7 +412,7 @@ const AdminGallery = () => {
                   className="flex-1 py-2 rounded-lg font-mono text-sm font-semibold transition-colors disabled:opacity-50"
                   style={{ background: '#272829', color: '#fff' }}
                 >
-                  {saving ? 'Saqlanmoqda...' : 'Saqlash'}
+                  {saving ? t('admin.saving') : t('admin.save')}
                 </button>
               </div>
             </form>
@@ -426,18 +426,18 @@ const AdminGallery = () => {
         onConfirm={seedDefaults}
         loading={seeding}
         confirmStyle="warning"
-        title="Standart rasmlarni yuklash"
-        message="Bazada mavjud bo'lmagan standart rasmlar qo'shiladi. Allaqachon mavjud rasmlar o'zgartirilmaydi."
-        confirmLabel="Ha, yuklash"
+        title={t('adminGallery.seedConfirmTitle')}
+        message={t('adminGallery.seedConfirmMessage')}
+        confirmLabel={t('adminGallery.seedConfirmLabel')}
       />
       <ConfirmModal
         isOpen={!!confirmId}
         onClose={() => setConfirmId(null)}
         onConfirm={handleConfirmDelete}
         loading={deleting}
-        title="Rasmni o'chirishni tasdiqlang"
-        message="Bu rasm galereyadan butunlay o'chiriladi."
-        confirmLabel="Ha, o'chirish"
+        title={t('adminGallery.deleteConfirmTitle')}
+        message={t('adminGallery.deleteConfirmMessage')}
+        confirmLabel={t('admin.deleteConfirm')}
       />
     </div>
   );

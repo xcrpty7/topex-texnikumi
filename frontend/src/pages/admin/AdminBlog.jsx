@@ -14,16 +14,17 @@ import Spinner from '../../components/ui/Spinner';
 import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
-const EMPTY_FORM = { title: '', content: '', excerpt: '', tags: '', isPublished: false, videoUrl: '', category: 'Yangiliklar' };
+const EMPTY_FORM = { title: '', content: '', excerpt: '', tags: '', isPublished: false, videoUrl: '', category: '' };
 
 const RichEditor = ({ value, onChange }) => {
+  const { t } = useTranslation();
   const ref = useRef(null);
 
   useEffect(() => {
-    if (ref.current && ref.current.innerHTML !== value) {
+    if (ref.current && document.activeElement !== ref.current) {
       ref.current.innerHTML = value || '';
     }
-  }, []); // only on mount
+  }, [value]);
 
   const exec = (cmd, val = null) => {
     document.execCommand(cmd, false, val);
@@ -32,27 +33,27 @@ const RichEditor = ({ value, onChange }) => {
   };
 
   const addLink = () => {
-    const url = window.prompt('Havola URL manzili:');
+    const url = window.prompt(t('adminBlog.editor.linkPrompt'));
     if (url) exec('createLink', url);
   };
 
   const toolBtns = [
-    { cmd: 'bold',                icon: 'B',   title: 'Qalin',              style: { fontWeight: 'bold' } },
-    { cmd: 'italic',              icon: 'I',   title: 'Kursiv',             style: { fontStyle: 'italic' } },
-    { cmd: 'underline',           icon: 'U',   title: 'Tagiga chizish',     style: { textDecoration: 'underline' } },
-    { cmd: 'insertUnorderedList', icon: '•—',  title: "Markerli ro'yxat" },
-    { cmd: 'insertOrderedList',   icon: '1.',  title: "Raqamli ro'yxat" },
-    { cmd: 'formatBlock',         icon: 'H2',  title: 'Sarlavha',           val: 'h2' },
-    { cmd: 'formatBlock',         icon: 'P',   title: 'Paragraf',           val: 'p' },
-    { cmd: 'removeFormat',        icon: 'T×',  title: 'Formatsizlash' },
+    { cmd: 'bold',                icon: 'B',   title: t('adminBlog.editor.bold'),              style: { fontWeight: 'bold' } },
+    { cmd: 'italic',              icon: 'I',   title: t('adminBlog.editor.italic'),             style: { fontStyle: 'italic' } },
+    { cmd: 'underline',           icon: 'U',   title: t('adminBlog.editor.underline'),          style: { textDecoration: 'underline' } },
+    { cmd: 'insertUnorderedList', icon: '\u2022\u2014',  title: t('adminBlog.editor.unorderedList') },
+    { cmd: 'insertOrderedList',   icon: '1.',  title: t('adminBlog.editor.orderedList') },
+    { cmd: 'formatBlock',         icon: 'H2',  title: t('adminBlog.editor.heading'),            val: 'h2' },
+    { cmd: 'formatBlock',         icon: 'P',   title: t('adminBlog.editor.paragraph'),          val: 'p' },
+    { cmd: 'removeFormat',        icon: 'T\u00d7',  title: t('adminBlog.editor.clearFormat') },
   ];
 
   return (
     <div className="rounded-xl border border-gray-200 overflow-hidden">
       <div className="flex items-center gap-1 flex-wrap p-2 bg-gray-50 border-b border-gray-200">
-        {toolBtns.map(({ cmd, icon, title, style, val }) => (
+        {toolBtns.map(({ cmd, icon, title, style, val }, index) => (
           <button
-            key={title}
+            key={index}
             type="button"
             title={title}
             onMouseDown={(e) => { e.preventDefault(); if (val) exec(cmd, val); else exec(cmd); }}
@@ -64,14 +65,14 @@ const RichEditor = ({ value, onChange }) => {
         ))}
         <button
           type="button"
-          title="Havola qo'shish"
+          title={t('adminBlog.editor.addLink')}
           onMouseDown={(e) => { e.preventDefault(); addLink(); }}
           className="px-2 py-1 rounded text-xs font-mono transition-colors hover:bg-gray-200"
           style={{ color: '#2563EB' }}
         >
           🔗
         </button>
-        <div className="ml-auto text-[10px] text-gray-400 pr-1">HTML muharrir</div>
+        <div className="ml-auto text-[10px] text-gray-400 pr-1">{t('adminBlog.editor.htmlEditor')}</div>
       </div>
       <div
         ref={ref}
@@ -138,7 +139,7 @@ const AdminBlog = () => {
       tags: article.tags?.join(', ') || '',
       isPublished: article.isPublished,
       videoUrl: article.videoUrl || '',
-      category: article.category || 'Yangiliklar',
+      category: article.category || '',
     });
     setPreview(article.image ? `${API_URL}${article.image}` : null);
     setFile(null);
@@ -155,15 +156,15 @@ const AdminBlog = () => {
     try {
       if (editing) {
         await api.put(`/blog/${editing}`, fd);
-        toast.success('Maqola yangilandi');
+        toast.success(t('adminBlog.toast.updated'));
       } else {
         await api.post('/blog', fd);
-        toast.success('Maqola yaratildi');
+        toast.success(t('adminBlog.toast.created'));
       }
       setModal(false);
       dispatch(fetchArticles({ limit: 50 }));
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik yuz berdi');
+      toast.error(err.response?.data?.message || t('adminBlog.toast.error'));
     } finally {
       setSaving(false);
     }
@@ -174,9 +175,9 @@ const AdminBlog = () => {
     setDeleting(true);
     try {
       await dispatch(deleteArticle(confirmId));
-      toast.success("Maqola o'chirildi!");
+      toast.success(t('adminBlog.toast.deleted'));
     } catch {
-      toast.error('Xatolik yuz berdi');
+      toast.error(t('adminBlog.toast.error'));
     } finally {
       setDeleting(false);
       setConfirmId(null);
@@ -188,42 +189,46 @@ const AdminBlog = () => {
       await api.patch(`/blog/${id}/publish`);
       dispatch(fetchArticles({ limit: 50 }));
     } catch (err) {
-      toast.error('Xatolik yuz berdi');
+      toast.error(t('adminBlog.toast.error'));
     }
   };
 
-  const categories = ['Yangiliklar', "E'lonlar", 'Maqolalar', 'Tadbirlar'];
+  const categoryConfig = [
+    { value: 'Yangiliklar', label: t('adminBlog.categories.yangiliklar') },
+    { value: "E'lonlar", label: t('adminBlog.categories.elonlar') },
+    { value: 'Maqolalar', label: t('adminBlog.categories.maqolalar') },
+    { value: 'Tadbirlar', label: t('adminBlog.categories.tadbirlar') },
+  ];
 
   return (
     <>
-      <Helmet><title>Blog – TOPEX Admin</title></Helmet>
+      <Helmet><title>{t('adminBlog.pageTitle')}</title></Helmet>
       <div className="space-y-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#272829' }}>Blog / Maqolalar</h1>
-            <p className="text-xs" style={{ color: '#61677A' }}>{filtered.length}/{articles.length} ta maqola</p>
+            <h1 className="text-2xl font-bold" style={{ color: '#272829' }}>{t('adminBlog.header')}</h1>
+            <p className="text-xs" style={{ color: '#61677A' }}>{t('adminBlog.articlesCount', { filtered: filtered.length, total: articles.length })}</p>
             <div className="flex gap-2 mt-1">
               <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
                 style={{ background: '#DCFCE7', color: '#16A34A' }}>
-                {articles.filter(a => a.isPublished).length} chop etilgan
+                {articles.filter(a => a.isPublished).length} {t('adminBlog.published')}
               </span>
               <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
                 style={{ background: '#F1F2F4', color: '#61677A' }}>
-                {articles.filter(a => !a.isPublished).length} qoralama
+                {articles.filter(a => !a.isPublished).length} {t('adminBlog.draft')}
               </span>
             </div>
           </div>
           <Button onClick={openCreate} size="sm"><Plus size={16} /> {t('admin.create')}</Button>
         </div>
 
-        {/* Search + Category filter */}
         <div className="flex flex-wrap gap-3 items-center">
           <div className="relative">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#9CA3AF' }} />
             <input
               value={searchQ}
               onChange={e => setSearchQ(e.target.value)}
-              placeholder="Maqola nomi yoki kategoriya..."
+              placeholder={t('adminBlog.searchPlaceholder')}
               className="pl-8 pr-3 py-2 rounded-xl text-sm outline-none"
               style={{ background: '#FFFFFF', border: '1px solid #E5E7EA', color: '#272829', width: 240 }}
             />
@@ -237,19 +242,19 @@ const AdminBlog = () => {
                 color: catFilter === 'all' ? '#fff' : '#61677A',
               }}
             >
-              Barchasi
+              {t('adminBlog.all')}
             </button>
-            {categories.map(cat => (
+            {categoryConfig.map(cat => (
               <button
-                key={cat}
-                onClick={() => setCatFilter(cat)}
+                key={cat.value}
+                onClick={() => setCatFilter(cat.value)}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
                 style={{
-                  background: catFilter === cat ? '#272829' : '#F1F2F4',
-                  color: catFilter === cat ? '#fff' : '#61677A',
+                  background: catFilter === cat.value ? '#272829' : '#F1F2F4',
+                  color: catFilter === cat.value ? '#fff' : '#61677A',
                 }}
               >
-                {cat}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -263,15 +268,15 @@ const AdminBlog = () => {
             style={{ background: '#FFFFFF', border: '1px solid #E5E7EA' }}
           >
             <Search size={32} style={{ color: '#9CA3AF' }} className="mb-3" />
-            <p className="text-sm" style={{ color: '#61677A' }}>Maqola topilmadi</p>
+            <p className="text-sm" style={{ color: '#61677A' }}>{t('adminBlog.notFound')}</p>
           </div>
         ) : (
-          <div className="glass-card overflow-x-auto">
+          <div className="glass-card overflow-hidden">
             <table className="tm-table">
               <thead>
                 <tr>
-                  {['rasm', 'sarlavha', 'kategoriya', 'holat', "ko'rishlar", 'amal'].map((h) => (
-                    <th key={h}>{h}</th>
+                  {[t('adminBlog.table.image'), t('adminBlog.table.title'), t('adminBlog.table.category'), t('adminBlog.table.status'), t('adminBlog.table.views'), t('adminBlog.table.actions')].map((h, i) => (
+                    <th key={i}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -306,7 +311,7 @@ const AdminBlog = () => {
                         className="font-mono text-[10px] px-2 py-0.5 rounded"
                         style={{ background: '#E5E7EA', color: '#61677A', border: '1px solid #D8D9DA' }}
                       >
-                        {article.category || '—'}
+                        {article.category || '\u2014'}
                       </span>
                     </td>
                     <td>
@@ -316,7 +321,7 @@ const AdminBlog = () => {
                           ? { background: '#F0FDF4', color: '#16A34A', border: '1px solid #27282930' }
                           : { background: '#E5E7EA', color: '#61677A', border: '1px solid #D8D9DA' }}
                       >
-                        {article.isPublished ? 'chop etilgan' : 'qoralama'}
+                        {article.isPublished ? t('adminBlog.statusPublished') : t('adminBlog.statusDraft')}
                       </span>
                     </td>
                     <td className="muted font-mono text-[11px]">{article.views || 0}</td>
@@ -325,7 +330,7 @@ const AdminBlog = () => {
                         <button
                           onClick={() => handlePublish(article._id)}
                           className="p-1.5 rounded transition-colors"
-                          title={article.isPublished ? 'Yashirish' : 'Chop etish'}
+                          title={article.isPublished ? t('adminBlog.tooltip.hide') : t('adminBlog.tooltip.publish')}
                           style={{ color: article.isPublished ? '#D97706' : '#16A34A' }}
                           onMouseEnter={(e) => (e.currentTarget.style.background = article.isPublished ? 'rgba(217,119,6,0.08)' : 'rgba(22,163,74,0.08)')}
                           onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
@@ -340,7 +345,7 @@ const AdminBlog = () => {
                           style={{ color: '#61677A' }}
                           onMouseEnter={(e) => { e.currentTarget.style.color = '#2563EB'; e.currentTarget.style.background = 'rgba(37,99,235,0.08)'; }}
                           onMouseLeave={(e) => { e.currentTarget.style.color = '#61677A'; e.currentTarget.style.background = 'transparent'; }}
-                          title="Saytda ko'rish"
+                          title={t('adminBlog.tooltip.viewOnSite')}
                         >
                           <ExternalLink size={13} />
                         </a>
@@ -372,7 +377,7 @@ const AdminBlog = () => {
         )}
       </div>
 
-      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? 'Maqolani tahrirlash' : 'Yangi maqola'} size="xl">
+      <Modal isOpen={modal} onClose={() => setModal(false)} title={editing ? t('adminBlog.modalEdit') : t('adminBlog.modalAdd')} size="xl">
         <form onSubmit={handleSave} className="space-y-4">
           <div className="flex items-center gap-4">
             <div
@@ -385,14 +390,14 @@ const AdminBlog = () => {
               ) : (
                 <>
                   <Upload size={20} style={{ color: '#9CA3AF' }} />
-                  <span className="text-[10px] mt-1" style={{ color: '#61677A' }}>Muqova</span>
+                  <span className="text-[10px] mt-1" style={{ color: '#61677A' }}>{t('adminBlog.form.coverImage')}</span>
                 </>
               )}
             </div>
             <div className="flex-1">
-              <p className="text-xs font-mono mb-2" style={{ color: '#61677A' }}>Maqola muqovasi (landscape tavsiya etiladi)</p>
+              <p className="text-xs font-mono mb-2" style={{ color: '#61677A' }}>{t('adminBlog.form.coverImageHint')}</p>
               <Button type="button" variant="ghost" size="sm" onClick={() => fileRef.current?.click()}>
-                Rasm tanlash
+                {t('adminBlog.form.selectImage')}
               </Button>
               {preview && (
                 <button
@@ -408,28 +413,27 @@ const AdminBlog = () => {
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
           </div>
 
-          <Input label="Sarlavha" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required minLength={5} />
+          <Input label={t('adminBlog.form.title')} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required minLength={5} />
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-accent">Kategoriya</label>
+              <label className="block text-sm font-medium text-accent">{t('adminBlog.form.category')}</label>
               <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input-field">
-                <option value="Yangiliklar">Yangiliklar</option>
-                <option value="E'lonlar">E'lonlar</option>
-                <option value="Maqolalar">Maqolalar</option>
-                <option value="Tadbirlar">Tadbirlar</option>
+                {categoryConfig.map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
               </select>
             </div>
-            <Input label="Video URL" value={form.videoUrl} onChange={(e) => setForm({ ...form, videoUrl: e.target.value })} placeholder="YouTube link..." />
+            <Input label={t('adminBlog.form.videoUrl')} value={form.videoUrl} onChange={(e) => setForm({ ...form, videoUrl: e.target.value })} placeholder={t('adminBlog.form.videoUrlPlaceholder')} />
           </div>
           <div className="space-y-1">
-            <label className="block text-sm font-medium" style={{ color: '#272829' }}>Kontent (matn)</label>
+            <label className="block text-sm font-medium" style={{ color: '#272829' }}>{t('adminBlog.form.content')}</label>
             <RichEditor value={form.content} onChange={(v) => setForm(f => ({ ...f, content: v }))} />
           </div>
-          <Input label="Qisqacha tavsif (ixtiyoriy)" value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} maxLength={500} />
-          <Input label="Teglar (vergul bilan ajrating)" value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} placeholder="javascript, react, tutorial" />
+          <Input label={t('adminBlog.form.excerpt')} value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} maxLength={500} />
+          <Input label={t('adminBlog.form.tags')} value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} placeholder={t('adminBlog.form.tagsPlaceholder')} />
           <label className="flex items-center gap-2 cursor-pointer w-fit">
             <input type="checkbox" checked={form.isPublished} onChange={(e) => setForm({ ...form, isPublished: e.target.checked })} className="rounded" />
-            <span className="text-accent text-sm">Darhol chop etish</span>
+            <span className="text-accent text-sm">{t('adminBlog.form.publishNow')}</span>
           </label>
           <div className="flex justify-end gap-3 pt-2">
             <Button variant="ghost" type="button" onClick={() => setModal(false)}>{t('common.cancel')}</Button>
@@ -443,9 +447,9 @@ const AdminBlog = () => {
         onClose={() => setConfirmId(null)}
         onConfirm={handleDelete}
         loading={deleting}
-        title="Maqolani o'chirishni tasdiqlang"
-        message="Bu amalni bekor qilib bo'lmaydi. Maqola butunlay o'chiriladi."
-        confirmLabel="Ha, o'chirish"
+        title={t('adminBlog.confirmTitle')}
+        message={t('adminBlog.confirmMessage')}
+        confirmLabel={t('adminBlog.confirmLabel')}
       />
     </>
   );
