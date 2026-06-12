@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
 import 'swiper/css';
 
 export default function VideosSwiper({ videos = [], onOpen, settings }) {
@@ -36,25 +36,7 @@ export default function VideosSwiper({ videos = [], onOpen, settings }) {
             </motion.h2>
           </div>
 
-          {/* Arrows */}
-          <div className="flex gap-3">
-            <button
-              onClick={() => swiperRef.current?.slidePrev()}
-              aria-label="Oldingi"
-              className="w-14 h-14 rounded-full border-2 border-gray-300 hover:border-orange hover:bg-orange
-                         text-gray-500 hover:text-white flex items-center justify-center
-                         transition-all duration-200 hover:-translate-x-0.5">
-              <ChevronLeft size={22} />
-            </button>
-            <button
-              onClick={() => swiperRef.current?.slideNext()}
-              aria-label="Keyingi"
-              className="w-14 h-14 rounded-full border-2 border-gray-300 hover:border-orange hover:bg-orange
-                         text-gray-500 hover:text-white flex items-center justify-center
-                         transition-all duration-200 hover:translate-x-0.5">
-              <ChevronRight size={22} />
-            </button>
-          </div>
+
         </div>
 
         {/* Swiper — vertical 3:4 cards */}

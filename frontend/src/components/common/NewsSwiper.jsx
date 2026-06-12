@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import 'swiper/css';
 
@@ -19,8 +19,6 @@ const NEWS_IMAGES = [
 export default function NewsSwiper({ articles, settings }) {
   const { t } = useTranslation();
   const swiperRef = useRef(null);
-  const [isEnd, setIsEnd] = useState(false);
-  const [isBeginning, setIsBeginning] = useState(true);
 
   const items = (articles && articles.length > 0)
     ? articles.map((a, i) => ({
@@ -60,36 +58,13 @@ export default function NewsSwiper({ articles, settings }) {
             </motion.h2>
           </div>
 
-          {/* Arrows */}
-          <div className="flex gap-3">
-            <button
-              onClick={() => swiperRef.current?.slidePrev()}
-              disabled={isBeginning}
-              aria-label="Oldingi"
-              className="w-14 h-14 rounded-full border-2 border-gray-300 hover:border-orange hover:bg-orange
-                         text-gray-500 hover:text-white flex items-center justify-center
-                         transition-all duration-200 hover:-translate-x-0.5
-                         disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-500 disabled:hover:border-gray-300">
-              <ChevronLeft size={22} />
-            </button>
-            <button
-              onClick={() => swiperRef.current?.slideNext()}
-              disabled={isEnd}
-              aria-label="Keyingi"
-              className="w-14 h-14 rounded-full border-2 border-gray-300 hover:border-orange hover:bg-orange
-                         text-gray-500 hover:text-white flex items-center justify-center
-                         transition-all duration-200 hover:translate-x-0.5
-                         disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-500 disabled:hover:border-gray-300">
-              <ChevronRight size={22} />
-            </button>
-          </div>
+
         </div>
 
         {/* Swiper */}
         <Swiper
-          modules={[Autoplay, Navigation]}
-          onSwiper={(sw) => { swiperRef.current = sw; setIsEnd(sw.isEnd); setIsBeginning(sw.isBeginning); }}
-          onSlideChange={(sw) => { setIsEnd(sw.isEnd); setIsBeginning(sw.isBeginning); }}
+          modules={[Autoplay]}
+          onSwiper={(sw) => { swiperRef.current = sw; }}
           spaceBetween={28}
           slidesPerView={1}
           breakpoints={{

@@ -67,9 +67,7 @@ const Navbar = () => {
                 alt="Topex"
                 className="h-14 w-auto object-contain"
               />
-              <span className="hidden sm:block text-brand font-bold text-[22px] leading-none">
-                Texnikumi
-              </span>
+              
             </Link>
 
             {/* Contacts */}

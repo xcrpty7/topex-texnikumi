@@ -90,7 +90,7 @@ const Footer = () => {
                 alt="Topex"
                 className="h-12 w-auto object-contain brightness-0 invert"
               />
-              <span className="text-white font-bold text-[16px] leading-none">Texnikumi</span>
+              
             </Link>
 
             {/* Socials */}
