@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { logout, selectUser } from '../features/auth/authSlice';
 import { fetchDashboard } from '../features/admin/adminSlice';
+import LanguageSwitcher from '../components/common/LanguageSwitcher';
 
 const AdminLayout = () => {
   const { t, i18n } = useTranslation();
@@ -197,6 +198,7 @@ const AdminLayout = () => {
                 {time}
               </span>
             </span>
+            <LanguageSwitcher compact />
             <Link
               to="/"
               target="_blank"
