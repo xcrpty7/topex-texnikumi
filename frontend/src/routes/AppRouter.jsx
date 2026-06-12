@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
@@ -39,6 +39,7 @@ const Loader = () => (
 );
 
 const AppRouter = () => (
+  <Suspense fallback={<Loader />}>
   <Routes>
       {/* Auth pages — без хедера/футера */}
       <Route path="/login" element={<LoginPage />} />
@@ -86,6 +87,7 @@ const AppRouter = () => (
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+  </Suspense>
 );
 
 export default AppRouter;
