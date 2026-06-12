@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import 'swiper/css';
 
 const TEACHERS_RAW = [
   { name: "G'AYRAT SHOUMAROV", roleKey: 'new1',   img: '/assets/Ustozlar/DSC01143.webp' },
@@ -21,6 +24,7 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 
 export default function TeamSection({ teachers = [], settings }) {
   const { t } = useTranslation();
+  const swiperRef = useRef(null);
   const FALLBACK = TEACHERS_RAW.map(x => ({ ...x, role: t(`team.roles.${x.roleKey}`) }));
   const TEACHERS = teachers.length > 0
     ? teachers.map(x => ({
@@ -29,13 +33,11 @@ export default function TeamSection({ teachers = [], settings }) {
         img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC01143.webp',
       }))
     : FALLBACK;
-  const [page, setPage] = useState(0);
-  const perView = 2;
-  const pages = Math.max(1, Math.ceil(TEACHERS.length / perView));
-  const visible = TEACHERS.slice(page * perView, page * perView + perView);
 
-  const prev = () => setPage(p => (p - 1 + pages) % pages);
-  const next = () => setPage(p => (p + 1) % pages);
+  const chunks = [];
+  for (let i = 0; i < TEACHERS.length; i += 2) {
+    chunks.push(TEACHERS.slice(i, i + 2));
+  }
 
   return (
     <section className="relative bg-white py-20 lg:py-28 overflow-hidden">
@@ -85,10 +87,9 @@ export default function TeamSection({ teachers = [], settings }) {
 
           {/* RIGHT — teacher cards */}
           <div className="relative">
-            {/* Arrows above cards (top-right) */}
             <div className="flex justify-end gap-3 mb-6">
               <button
-                onClick={prev}
+                onClick={() => swiperRef.current?.slidePrev()}
                 aria-label="Oldingi"
                 className="w-12 h-12 rounded-full border-2 border-gray-300 hover:border-orange hover:bg-orange
                            text-gray-500 hover:text-white flex items-center justify-center
@@ -96,7 +97,7 @@ export default function TeamSection({ teachers = [], settings }) {
                 <ChevronLeft size={20} />
               </button>
               <button
-                onClick={next}
+                onClick={() => swiperRef.current?.slideNext()}
                 aria-label="Keyingi"
                 className="w-12 h-12 rounded-full border-2 border-gray-300 hover:border-orange hover:bg-orange
                            text-gray-500 hover:text-white flex items-center justify-center
@@ -105,57 +106,44 @@ export default function TeamSection({ teachers = [], settings }) {
               </button>
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={page}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4 }}
-                className="grid grid-cols-2 gap-5">
-                {visible.map((t, i) => (
-                  <motion.div
-                    key={t.name}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + i * 0.1 }}
-                    className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer">
-                    <img
-                      src={t.img}
-                      alt={t.name}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover
-                                 group-hover:scale-105 transition-transform duration-700"
-                    />
-                    {/* Bottom navy banner */}
-                    <div className="absolute left-3 right-3 bottom-3 bg-brand/95 backdrop-blur-sm
-                                    rounded-lg px-4 py-3 text-center
-                                    group-hover:bg-orange transition-colors duration-300">
-                      <p className="text-white font-bold text-[13px] md:text-[14px] uppercase tracking-wide leading-tight">
-                        {t.name}
-                      </p>
-                      <p className="text-white/80 text-[11px] mt-1">
-                        {t.role}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
-
-            {/* page indicator */}
-            <div className="flex items-center justify-end gap-2 mt-5">
-              {[...Array(pages)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPage(i)}
-                  aria-label={`Sahifa ${i+1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    page === i ? 'w-8 bg-orange' : 'w-1.5 bg-gray-300'
-                  }`}
-                />
+            <Swiper
+              modules={[Autoplay]}
+              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              loop={chunks.length > 1}
+              speed={600}
+              onSwiper={(sw) => { swiperRef.current = sw; }}
+              className="w-full"
+            >
+              {chunks.map((chunk, ci) => (
+                <SwiperSlide key={ci}>
+                  <div className="grid grid-cols-2 gap-5">
+                    {chunk.map((t, i) => (
+                      <div
+                        key={t.name}
+                        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer">
+                        <img
+                          src={t.img}
+                          alt={t.name}
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover
+                                     group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute left-3 right-3 bottom-3 bg-brand/95 backdrop-blur-sm
+                                        rounded-lg px-4 py-3 text-center
+                                        group-hover:bg-orange transition-colors duration-300">
+                          <p className="text-white font-bold text-[13px] md:text-[14px] uppercase tracking-wide leading-tight">
+                            {t.name}
+                          </p>
+                          <p className="text-white/80 text-[11px] mt-1">
+                            {t.role}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         </div>
       </div>
