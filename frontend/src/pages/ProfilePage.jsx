@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Camera, BookOpen, CheckCircle } from 'lucide-react';
+import {
+  Camera, BookOpen, CheckCircle, Award, TrendingUp, Clock, Star, GraduationCap,
+} from 'lucide-react';
 import { selectUser } from '../features/auth/authSlice';
 import { setCredentials } from '../features/auth/authSlice';
 import api from '../services/api';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import Badge from '../components/ui/Badge';
 import { toast } from 'react-toastify';
 
 const ProfilePage = () => {
@@ -52,89 +51,242 @@ const ProfilePage = () => {
     }
   };
 
+  const enrolled = user?.enrolledCourses || [];
+  const completed = enrolled.filter(e => e.progress === 100).length;
+  const totalProgress = enrolled.length
+    ? Math.round(enrolled.reduce((s, e) => s + e.progress, 0) / enrolled.length)
+    : 0;
+
   return (
     <>
       <Helmet><title>Profile – TOPEX</title></Helmet>
 
-      <div className="page-container py-12 max-w-4xl mx-auto">
-        <h1 className="section-title mb-8">{t('profile.title')}</h1>
+      <div className="py-10 lg:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-1">
-            <div className="glass-card p-6 text-center">
-              <div className="relative inline-block mb-4">
-                <div className="w-24 h-24 rounded-full bg-secondary mx-auto flex items-center justify-center text-white text-3xl font-bold overflow-hidden">
+          {/* ── Profile Header ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative bg-gradient-to-br from-brand to-brand-dark rounded-3xl overflow-hidden mb-8"
+          >
+            <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
+              style={{
+                backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+                backgroundSize: '24px 24px',
+              }}
+            />
+            <div className="relative p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6">
+              <div className="relative">
+                <div className="w-28 h-28 rounded-full border-4 border-white/20 overflow-hidden shadow-xl">
                   {user?.avatar ? (
-                    <img src={user.avatar} alt="" className="w-24 h-24 object-cover rounded-full" />
-                  ) : user?.name?.[0]}
+                    <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-orange flex items-center justify-center text-white text-4xl font-black">
+                      {user?.name?.[0] || '?'}
+                    </div>
+                  )}
                 </div>
                 <button
                   onClick={() => fileRef.current?.click()}
-                  className="absolute bottom-0 right-0 w-8 h-8 bg-secondary hover:bg-secondary-light rounded-full flex items-center justify-center transition-colors"
+                  className="absolute -bottom-1 -right-1 w-9 h-9 bg-orange hover:bg-orange-dark rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
                 >
-                  {uploading ? <div className="w-4 h-4 border border-white border-t-transparent rounded-full animate-spin" /> : <Camera size={14} className="text-white" />}
+                  {uploading
+                    ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    : <Camera size={15} className="text-white" />
+                  }
                 </button>
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatar} />
               </div>
-
-              <h2 className="text-surface font-bold text-lg">{user?.name}</h2>
-              <p className="text-accent text-sm mb-3">{user?.email}</p>
-              <Badge variant={user?.role === 'SUPER_ADMIN' ? 'danger' : user?.role === 'ADMIN' ? 'warning' : 'primary'}>
-                {user?.role}
-              </Badge>
-            </div>
-          </div>
-
-          <div className="lg:col-span-2 space-y-6">
-            <div className="glass-card p-6">
-              <h2 className="text-surface font-bold text-lg mb-5">{t('profile.editProfile')}</h2>
-              <form onSubmit={handleSave} className="space-y-4">
-                <Input
-                  label={t('auth.name')}
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  minLength={2}
-                  required
-                />
-                <div className="space-y-1">
-                  <label className="block text-sm font-medium text-accent">{t('profile.bio')}</label>
-                  <textarea
-                    value={form.bio}
-                    onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                    rows={3}
-                    maxLength={500}
-                    className="input-field resize-none"
-                    placeholder="Tell us about yourself..."
-                  />
-                </div>
-                <Button type="submit" loading={saving}>{t('profile.saveChanges')}</Button>
-              </form>
-            </div>
-
-            {user?.enrolledCourses?.length > 0 && (
-              <div className="glass-card p-6">
-                <h2 className="text-surface font-bold text-lg mb-5">{t('profile.enrolledCourses')}</h2>
-                <div className="space-y-3">
-                  {user.enrolledCourses.map((enrollment) => (
-                    <div key={enrollment.course?._id || enrollment.course} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
-                      <div className="w-10 h-10 bg-secondary/20 rounded-lg flex items-center justify-center">
-                        <BookOpen size={18} className="text-secondary" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-surface text-sm font-medium">{enrollment.course?.title || 'Course'}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-secondary rounded-full transition-all" style={{ width: `${enrollment.progress}%` }} />
-                          </div>
-                          <span className="text-accent text-xs">{enrollment.progress}%</span>
-                        </div>
-                      </div>
-                      {enrollment.progress === 100 && <CheckCircle size={18} className="text-green-400" />}
-                    </div>
-                  ))}
-                </div>
+              <div className="text-center sm:text-left">
+                <h1 className="text-white text-3xl sm:text-4xl font-black mb-1">{user?.name}</h1>
+                <p className="text-white/70 text-sm mb-3">{user?.email}</p>
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                  user?.role === 'SUPER_ADMIN' ? 'bg-coral/20 text-coral' :
+                  user?.role === 'ADMIN' ? 'bg-orange/20 text-orange' :
+                  'bg-white/10 text-white/80'
+                }`}>
+                  {user?.role}
+                </span>
               </div>
-            )}
+            </div>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+
+            {/* ── Left Column: Stats ── */}
+            <div className="space-y-5">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="bg-white border border-gray-100 rounded-2xl shadow-card p-6"
+              >
+                <h3 className="text-navy font-bold text-sm uppercase tracking-wider mb-5">{t('profile.stats') || 'Статистика'}</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-blue/10 flex items-center justify-center">
+                      <BookOpen size={20} className="text-blue" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-navy">{enrolled.length}</p>
+                      <p className="text-gray-500 text-xs">{t('profile.enrolledCourses')}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-teal/10 flex items-center justify-center">
+                      <CheckCircle size={20} className="text-teal-dark" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-navy">{completed}</p>
+                      <p className="text-gray-500 text-xs">{t('profile.completed') || 'Завершено'}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center">
+                      <TrendingUp size={20} className="text-coral-dark" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-navy">{totalProgress}%</p>
+                      <p className="text-gray-500 text-xs">{t('profile.avgProgress') || 'Общий прогресс'}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white border border-gray-100 rounded-2xl shadow-card p-6"
+              >
+                <h3 className="text-navy font-bold text-sm uppercase tracking-wider mb-4">{t('profile.achievements') || 'Достижения'}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {completed > 0 && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-teal/10 text-teal-dark text-xs font-bold">
+                      <Award size={14} /> {completed} {t('profile.coursesDone') || 'курсов завершено'}
+                    </span>
+                  )}
+                  {totalProgress >= 50 && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue/10 text-blue text-xs font-bold">
+                      <Star size={14} /> {t('profile.halfWay') || 'Пол пути пройдено'}
+                    </span>
+                  )}
+                  {totalProgress === 100 && enrolled.length > 0 && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-coral/10 text-coral-dark text-xs font-bold">
+                      <GraduationCap size={14} /> {t('profile.allDone') || 'Всё завершено!'}
+                    </span>
+                  )}
+                  {enrolled.length === 0 && (
+                    <span className="text-gray-400 text-xs">{t('profile.noAchievements') || 'Нет достижений'}</span>
+                  )}
+                </div>
+              </motion.div>
+            </div>
+
+            {/* ── Right Column: Edit + Courses ── */}
+            <div className="lg:col-span-2 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="bg-white border border-gray-100 rounded-2xl shadow-card p-6 sm:p-8"
+              >
+                <h2 className="text-navy font-black text-xl mb-6">{t('profile.editProfile')}</h2>
+                <form onSubmit={handleSave} className="space-y-5">
+                  <div>
+                    <label className="block text-navy font-semibold text-sm mb-2">{t('auth.name')}</label>
+                    <input
+                      type="text"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      minLength={2}
+                      required
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-navy text-sm
+                                 placeholder-gray-400 focus:outline-none focus:border-orange/50 focus:ring-2 focus:ring-orange/10 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-navy font-semibold text-sm mb-2">{t('profile.bio')}</label>
+                    <textarea
+                      value={form.bio}
+                      onChange={(e) => setForm({ ...form, bio: e.target.value })}
+                      rows={3}
+                      maxLength={500}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-navy text-sm
+                                 placeholder-gray-400 focus:outline-none focus:border-orange/50 focus:ring-2 focus:ring-orange/10 transition-all resize-none"
+                      placeholder="Расскажите о себе..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="inline-flex items-center justify-center gap-2 bg-orange hover:brightness-110
+                               text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-orange/20
+                               hover:-translate-y-0.5 transition-all duration-200 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {saving ? (
+                      <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Сохранение...</>
+                    ) : t('profile.saveChanges')}
+                  </button>
+                </form>
+              </motion.div>
+
+              {enrolled.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-card p-6 sm:p-8"
+                >
+                  <h2 className="text-navy font-black text-xl mb-6">{t('profile.enrolledCourses')}</h2>
+                  <div className="space-y-3">
+                    {enrolled.map((enrollment) => (
+                      <div
+                        key={enrollment.course?._id || enrollment.course}
+                        className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-faint transition-colors"
+                      >
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue to-blue-dark flex items-center justify-center shadow-md flex-shrink-0">
+                          <BookOpen size={20} className="text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-navy font-bold text-sm truncate">{enrollment.course?.title || 'Course'}</p>
+                          <div className="flex items-center gap-3 mt-2">
+                            <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-gradient-to-r from-orange to-orange-dark rounded-full transition-all duration-500"
+                                style={{ width: `${enrollment.progress}%` }}
+                              />
+                            </div>
+                            <span className="text-gray-500 text-xs font-semibold min-w-[3rem] text-right">{enrollment.progress}%</span>
+                          </div>
+                        </div>
+                        {enrollment.progress === 100 && (
+                          <div className="w-9 h-9 rounded-full bg-teal/10 flex items-center justify-center flex-shrink-0">
+                            <CheckCircle size={18} className="text-teal-dark" />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {enrolled.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-card p-8 text-center"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                    <GraduationCap size={28} className="text-gray-400" />
+                  </div>
+                  <p className="text-navy font-bold text-lg mb-2">{t('profile.noCourses') || 'Нет записанных курсов'}</p>
+                  <p className="text-gray-500 text-sm">{t('profile.noCoursesDesc') || 'Запишитесь на курс, чтобы он отображался здесь'}</p>
+                </motion.div>
+              )}
+            </div>
           </div>
         </div>
       </div>
