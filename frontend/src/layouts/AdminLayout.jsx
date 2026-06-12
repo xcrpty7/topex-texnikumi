@@ -40,7 +40,7 @@ const AdminLayout = () => {
       { to: '/admin/site-editor',  label: t('adminLayout.siteEditor'),   icon: Globe },
       { to: '/admin/settings',     label: t('adminLayout.settings'),     icon: Settings },
     ]},
-  ], [t]);
+  ], [t, i18n.language]);
   const user = useSelector(selectUser);
   const { dashboard, applications } = useSelector((s) => s.admin);
   const [mobileOpen, setMobileOpen] = useState(false);

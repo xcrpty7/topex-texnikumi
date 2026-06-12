@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
+const hpp = require('hpp');
 const xss = require('xss-clean');
 const path = require('path');
 
@@ -33,19 +34,32 @@ const app = express();
 // ─── Ma'lumotlar bazasiga ulanish ───────────────────────────────────────────
 connectDB();
 
-// ─── Xavfsizlik middleware'lari ──────────────────────────────────────────────
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
-  })
-);
-
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:3000',
   'http://localhost:5173',
   'http://127.0.0.1:3000',
 ].filter(Boolean);
+
+// ─── Xavfsizlik middleware'lari ──────────────────────────────────────────────
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+        imgSrc: ["'self'", 'data:', 'blob:'],
+        connectSrc: ["'self'", ...allowedOrigins.filter(Boolean)],
+        frameSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+    },
+  })
+);
 
 app.use(
   cors({
@@ -62,6 +76,7 @@ app.use(
 
 app.use(mongoSanitize());
 app.use(xss());
+app.use(hpp({ whitelist: [] }));
 
 // ─── Rate Limiting ────────────────────────────────────────────────────────────
 const isDev = process.env.NODE_ENV === 'development';
@@ -90,6 +105,24 @@ app.use(globalLimit);
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
+
+// Prototype pollution — maksimal nesting 10 daraja
+const MAX_DEPTH = 10;
+const checkDepth = (obj, depth = 0) => {
+  if (depth > MAX_DEPTH) throw new Error('Object too nested');
+  if (obj === null || typeof obj !== 'object') return;
+  for (const v of Object.values(obj)) {
+    if (typeof v === 'object') checkDepth(v, depth + 1);
+  }
+};
+app.use((req, res, next) => {
+  try {
+    if (req.body && typeof req.body === 'object') checkDepth(req.body);
+    next();
+  } catch {
+    return res.status(400).json({ success: false, message: 'Noto\'g\'ri ma\'lumot formati' });
+  }
+});
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -186,6 +219,8 @@ const server = app.listen(PORT, () => {
   console.log('═'.repeat(50));
   console.log('');
 });
+
+server.timeout = 30000; // 30 sek — slow-loris DoS dan himoya
 
 process.on('unhandledRejection', (err) => {
   console.error('❌ Boshqarilmagan xato:', err.message);
