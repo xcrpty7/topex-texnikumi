@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { fetchMe, setCredentials, markInitialized } from './features/auth/authSlice';
 import AppRouter from './routes/AppRouter';
 
@@ -45,10 +46,23 @@ const App = () => {
     if (saved && !isTokenExpired(saved)) {
       dispatch(setCredentials({ accessToken: saved }));
       dispatch(fetchMe());
-    } else {
-      if (saved) {
+    } else if (saved) {
+      // Token expired — пробуем обновить через httpOnly refresh cookie
+      (async () => {
+        try {
+          const BASE = `${import.meta.env.VITE_API_URL || ''}/api`;
+          const { data } = await axios.post(`${BASE}/auth/refresh`, {}, { withCredentials: true });
+          const newToken = data.accessToken || data.data?.accessToken;
+          if (newToken) {
+            dispatch(setCredentials({ accessToken: newToken }));
+            dispatch(fetchMe());
+            return;
+          }
+        } catch {}
         try { localStorage.removeItem('accessToken'); } catch {}
-      }
+        dispatch(markInitialized());
+      })();
+    } else {
       dispatch(markInitialized());
     }
   }, [dispatch]);
