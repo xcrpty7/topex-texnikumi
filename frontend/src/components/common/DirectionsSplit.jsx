@@ -1,7 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
-import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { BookOpen } from 'lucide-react';
 import {
@@ -25,6 +24,7 @@ const PAGE_SIZE = 6;
 export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
   const { t } = useTranslation();
   const swiperRef = useRef(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const isFromDB = subjects[0]?._id != null;
   const localized = isFromDB
@@ -44,12 +44,12 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
       <div className="grid lg:grid-cols-2 min-h-[680px]">
 
         {/* LEFT — Photo */}
-        <div className="relative overflow-hidden bg-gray-900 min-h-[400px] lg:min-h-[680px]">
+        <div className="relative overflow-hidden bg-gray-900 h-full min-h-[400px] lg:min-h-[680px]">
           <Swiper
             modules={[Autoplay]}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             loop
-            className="w-full h-full"
+            className="absolute inset-0 w-full h-full"
           >
             {PHOTOS.map((src, i) => (
               <SwiperSlide key={i}>
@@ -61,32 +61,29 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
         </div>
 
         {/* RIGHT — Navy block with directions */}
-        <div className="relative bg-brand px-6 sm:px-10 lg:px-16 py-16 lg:py-20 overflow-hidden">
+        <div className="relative bg-brand px-6 sm:px-10 lg:px-16 py-16 lg:py-24 overflow-hidden">
           <div className="absolute inset-0 opacity-[0.06] pointer-events-none"
                style={{
                  backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
                  backgroundSize: '24px 24px',
                }} />
 
-          <div className="relative max-w-2xl">
-            <motion.span
-              initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              transition={{ duration: 0.5 }}
+          <div className="relative">
+            <span
               className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
               {t('directions.label')}
-            </motion.span>
-            <motion.h2
-              initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              transition={{ duration: 0.5, delay:0.1 }}
-              className="text-white text-[48px] md:text-[56px] lg:text-[64px] font-black leading-[1.05] mb-12">
+            </span>
+            <h2
+              className="text-white text-[36px] md:text-[48px] lg:text-[56px] font-black leading-[1.05] mb-10">
               {t('directions.title')}
-            </motion.h2>
+            </h2>
 
             <Swiper
-              modules={[Autoplay]}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              modules={[]}
               onSwiper={(sw) => { swiperRef.current = sw; }}
+              onSlideChange={(sw) => setActiveIdx(sw.realIndex)}
               className="w-full"
+              autoHeight
             >
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
@@ -96,14 +93,11 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                         ? s.icon
                         : (ICON_MAP[s.iconName] || ICON_MAP[s.icon] || BookOpen);
                       return (
-                        <motion.li
+                        <li
                           key={s.id || s.name || i}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.05 + i * 0.06 }}
                           onClick={() => onSelect?.(s)}
-                          className="group flex items-center gap-5 cursor-pointer">
+                          className="group flex items-center gap-5 cursor-pointer py-1"
+                        >
                           <div className="w-14 h-14 rounded-xl bg-orange flex items-center justify-center
                                           flex-shrink-0 shadow-lg group-hover:scale-110 group-hover:rotate-3
                                           transition-all duration-300">
@@ -113,7 +107,7 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                                            group-hover:text-orange transition-colors duration-300">
                             {s.name}
                           </span>
-                        </motion.li>
+                        </li>
                       );
                     })}
                   </ul>
@@ -127,8 +121,10 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                 <button
                   key={ci}
                   onClick={() => swiperRef.current?.slideTo(ci)}
-                  className="w-2.5 h-2.5 rounded-full border border-white/40 hover:bg-orange transition-all duration-200"
-                  aria-label={`Sahifa ${ci + 1}`}
+                  className={`w-2.5 h-2.5 rounded-full border transition-all duration-200 ${
+                    activeIdx === ci ? 'bg-orange border-orange' : 'border-white/40 hover:bg-orange'
+                  }`}
+                  aria-label={`${t('directions.next')} ${ci + 1}`}
                 />
               ))}
             </div>
