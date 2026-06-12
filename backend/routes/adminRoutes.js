@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { body } = require('express-validator');
+const validate = require('../middleware/validate');
 const { protect, restrictTo } = require('../middleware/auth');
 const { uploadGallery, uploadTestimonial, uploadVideo, uploadTeacher, handleMulterError } = require('../middleware/upload');
 
@@ -50,19 +52,26 @@ router.delete('/gallery/:id', ...adminOnly, deleteGalleryItem);
 
 // Sharhlar (Testimonials)
 router.get('/testimonials', ...adminOnly, getAdminTestimonials);
-router.post('/testimonials', ...adminOnly, uploadTestimonial.single('avatar'), handleMulterError, createTestimonial);
+router.post('/testimonials', ...adminOnly, uploadTestimonial.single('avatar'), handleMulterError, [
+  body('name').notEmpty().withMessage('Ism kiritilishi shart'),
+], validate, createTestimonial);
 router.put('/testimonials/:id', ...adminOnly, uploadTestimonial.single('avatar'), handleMulterError, updateTestimonial);
 router.delete('/testimonials/:id', ...adminOnly, deleteTestimonial);
 
 // FAQ
 router.get('/faq', ...adminOnly, getAdminFaqs);
-router.post('/faq', ...adminOnly, createFaq);
+router.post('/faq', ...adminOnly, [
+  body('question').notEmpty().withMessage('Savol kiritilishi shart'),
+  body('answer').notEmpty().withMessage('Javob kiritilishi shart'),
+], validate, createFaq);
 router.put('/faq/:id', ...adminOnly, updateFaq);
 router.delete('/faq/:id', ...adminOnly, deleteFaq);
 
 // Grantlar
 router.get('/scholarships', ...adminOnly, getAdminScholarships);
-router.post('/scholarships', ...adminOnly, createScholarship);
+router.post('/scholarships', ...adminOnly, [
+  body('title').notEmpty().withMessage('Grant nomi kiritilishi shart'),
+], validate, createScholarship);
 router.put('/scholarships/:id', ...adminOnly, updateScholarship);
 router.delete('/scholarships/:id', ...adminOnly, deleteScholarship);
 
@@ -73,25 +82,34 @@ router.post('/settings/upload-image', ...adminOnly, uploadGallery.single('image'
 
 // Bosh sahifa videolari
 router.get('/home-videos', ...adminOnly, getAdminHomeVideos);
-router.post('/home-videos', ...adminOnly, uploadVideo.single('video'), handleMulterError, createHomeVideo);
+router.post('/home-videos', ...adminOnly, uploadVideo.single('video'), handleMulterError, [
+  body('title').notEmpty().withMessage('Video sarlavhasi kiritilishi shart'),
+], validate, createHomeVideo);
 router.put('/home-videos/:id', ...adminOnly, uploadVideo.single('video'), handleMulterError, updateHomeVideo);
 router.delete('/home-videos/:id', ...adminOnly, deleteHomeVideo);
 
 // O'qituvchilar
 router.get('/teachers', ...adminOnly, getAdminTeachers);
-router.post('/teachers', ...adminOnly, uploadTeacher.single('image'), handleMulterError, createTeacher);
+router.post('/teachers', ...adminOnly, uploadTeacher.single('image'), handleMulterError, [
+  body('name').notEmpty().withMessage('O\'qituvchi ismi kiritilishi shart'),
+], validate, createTeacher);
 router.put('/teachers/:id', ...adminOnly, uploadTeacher.single('image'), handleMulterError, updateTeacher);
 router.delete('/teachers/:id', ...adminOnly, deleteTeacher);
 
 // Yo'nalishlar
 router.get('/directions', ...adminOnly, getAdminDirections);
-router.post('/directions', ...adminOnly, createDirection);
+router.post('/directions', ...adminOnly, [
+  body('name').notEmpty().withMessage('Yo\'nalish nomi kiritilishi shart'),
+], validate, createDirection);
 router.put('/directions/:id', ...adminOnly, updateDirection);
 router.delete('/directions/:id', ...adminOnly, deleteDirection);
 
 // Video galereya
 router.get('/videos', ...adminOnly, getAdminVideos);
-router.post('/videos', ...adminOnly, createVideo);
+router.post('/videos', ...adminOnly, [
+  body('title').notEmpty().withMessage('Video sarlavhasi kiritilishi shart'),
+  body('url').notEmpty().withMessage('Video URL kiritilishi shart'),
+], validate, createVideo);
 router.put('/videos/:id', ...adminOnly, updateVideo);
 router.delete('/videos/:id', ...adminOnly, deleteVideo);
 

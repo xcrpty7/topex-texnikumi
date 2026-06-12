@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const path = require('path');
 
 const connectDB = require('./config/db');
@@ -60,6 +61,7 @@ app.use(
 );
 
 app.use(mongoSanitize());
+app.use(xss());
 
 // ─── Rate Limiting ────────────────────────────────────────────────────────────
 const isDev = process.env.NODE_ENV === 'development';
