@@ -27,15 +27,15 @@ export default function HeroSwiper({ settings }) {
 
   // 1) DB slaydlari bo'lsa — ulardan foydalan
   // 2) Aks holda i18n + statik rasm
-  const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0
-    ? settings.heroSlides
-    : null;
+  const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
   const slides = dbSlides
-    ? dbSlides.map((s, i) => ({
-        title: [s.title1 || '', s.title2 || '', s.title3 || ''].filter(Boolean),
-        subtitle: s.subtitle || '',
-        image: IMAGES[i % IMAGES.length],
+    ? settings.heroSlides.map((s, i) => ({
+        title: i < 3
+          ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
+          : [s.title1, s.title2, s.title3].filter(Boolean),
+        subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
+        image: i === 0 ? resolveImg(settings?.heroImage, IMAGES[0]) : IMAGES[i % IMAGES.length],
       }))
     : [0, 1, 2].map((i) => ({
         title: [
