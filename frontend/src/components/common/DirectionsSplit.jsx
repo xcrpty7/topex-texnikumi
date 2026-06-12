@@ -41,10 +41,10 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
 
   return (
     <section className="relative bg-white">
-      <div className="grid lg:grid-cols-2 min-h-[680px]">
+      <div className="grid lg:grid-cols-2">
 
         {/* LEFT — Photo */}
-        <div className="relative overflow-hidden bg-gray-900 h-full min-h-[400px] lg:min-h-[680px]">
+        <div className="relative overflow-hidden bg-gray-900 h-full min-h-[300px]">
           <Swiper
             modules={[Autoplay]}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
