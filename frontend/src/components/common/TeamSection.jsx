@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TEACHERS_RAW = [
-  { name: "G'AYRAT SHOUMAROV", roleKey: 'director',   img: '/assets/Ustozlar/DSC01143.jpg' },
+  { name: "G'AYRAT SHOUMAROV", roleKey: 'new1',   img: '/assets/Ustozlar/DSC01143.jpg' },
   { name: 'OLGERD FILLIPOV',   roleKey: 'programming',img: '/assets/Ustozlar/DSC01155.jpg' },
   { name: 'RUSTAM KARIMOV',    roleKey: 'marketing',  img: '/assets/Ustozlar/DSC01164.jpg' },
   { name: 'DILSHOD AZIZOV',    roleKey: 'design',     img: '/assets/Ustozlar/DSC01187.jpg' },
