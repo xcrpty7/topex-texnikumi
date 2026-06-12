@@ -221,6 +221,9 @@ const server = app.listen(PORT, () => {
 
 server.timeout = 30000; // 30 sek — slow-loris DoS dan himoya
 
+// Auto-seed (faqat bo'sh DB ga yozadi)
+require('./utils/seed')().catch(() => {});
+
 process.on('unhandledRejection', (err) => {
   console.error('❌ Boshqarilmagan xato:', err.message);
   server.close(() => process.exit(1));
