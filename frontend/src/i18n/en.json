@@ -533,6 +533,7 @@
     "header": "Directions",
     "subtitle": "Manage study directions",
     "empty": "No directions yet",
+    "seed": "Import default directions",
     "table": {
       "name": "Name",
       "icon": "Icon",

@@ -538,6 +538,7 @@
     "header": "Yo'nalishlar",
     "subtitle": "Yo'nalishlarni boshqarish",
     "empty": "Hozircha yo'nalishlar mavjud emas",
+    "seed": "Standart yo'nalishlarni import qilish",
     "table": {
       "name": "Nomi",
       "icon": "Ikonka",

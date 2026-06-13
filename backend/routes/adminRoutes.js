@@ -19,6 +19,7 @@ const { getSettings, updateSettings, uploadSettingsImage } = require('../control
 const { getAdminHomeVideos, createHomeVideo, updateHomeVideo, deleteHomeVideo } = require('../controllers/homeVideoController');
 const { getAdminTeachers, createTeacher, updateTeacher, deleteTeacher } = require('../controllers/teacherController');
 const Teacher = require('../models/Teacher');
+const Direction = require('../models/Direction');
 const { getAdminDirections, createDirection, updateDirection, deleteDirection } = require('../controllers/directionController');
 const { getAdminVideos, createVideo, updateVideo, deleteVideo } = require('../controllers/videoController');
 
@@ -126,6 +127,21 @@ router.post('/directions', ...adminOnly, [
 ], validate, createDirection);
 router.put('/directions/:id', ...adminOnly, updateDirection);
 router.delete('/directions/:id', ...adminOnly, deleteDirection);
+
+router.post('/seed-directions', ...adminOnly, async (req, res) => {
+  try {
+    const count = await Direction.countDocuments();
+    if (count > 0) return res.json({ success: true, message: `Yo'nalishlar allaqachon mavjud: ${count} ta` });
+    const list = [
+      { name: 'Dasturlash', desc: 'Zamonaviy dasturlash tillari va texnologiyalari', img: '/assets/images/DSC00827.jpg', icon: 'Code', duration: '6 oy', features: ['Python, JavaScript, PHP', 'Web va mobil ilovalar', 'Real loyihalar bilan ishlash', 'Sertifikat olish imkoniyati'], order: 1, active: true },
+      { name: 'Marketing', desc: 'Raqamli marketing strategiyalari', img: '/assets/images/DSC00912.jpg', icon: 'TrendingUp', duration: '6 oy', features: ['SMM, SEO, Google Ads', 'Brend va mahsulot tahlili', 'Analitika va hisobot', 'Amaliy loyihalar'], order: 2, active: true },
+      { name: 'Grafik Dizayn', desc: 'Vizual dizayn va kompyuter grafikasi', img: '/assets/images/DSC01036.jpg', icon: 'Palette', duration: '5 oy', features: ['Photoshop, Illustrator, Figma', 'Logo va brending dizayn', 'UI/UX asoslari', 'Portfolio tayyorlash'], order: 3, active: true },
+      { name: 'Bank ishi', desc: 'Bank va moliya tizimi asoslari', img: '/assets/images/DSC01093.jpg', icon: 'ShieldCheck', duration: '8 oy', features: ['Bank operatsiyalari', 'Moliyaviy tahlil', 'Kredit va depozit turlari', 'Amaliy mashg\'ulotlar'], order: 4, active: true },
+    ];
+    for (const d of list) await Direction.create(d);
+    res.json({ success: true, message: `${list.length} ta yo'nalish qo'shildi` });
+  } catch (e) { res.status(500).json({ success: false, message: e.message }); }
+});
 
 // Video galereya
 router.get('/videos', ...adminOnly, getAdminVideos);

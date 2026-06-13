@@ -8,7 +8,7 @@ import Modal from '../../components/ui/Modal';
 import Spinner from '../../components/ui/Spinner';
 import ConfirmModal from '../../components/ui/ConfirmModal';
 
-const EMPTY = { name: '', icon: 'BookOpen', order: 0, active: true };
+const EMPTY = { name: '', icon: 'BookOpen', order: 0, active: true, desc: '', duration: '', img: '', features: '' };
 
 const ICONS = ['Code','TrendingUp','Palette','ShieldCheck','Hotel','BarChart3','FlaskConical','Sprout','BookOpen','Globe','Cpu','Music','Camera','Award','GraduationCap'];
 
@@ -38,7 +38,7 @@ const AdminDirections = () => {
   };
   const openEdit = (d) => {
     setEditing(d._id);
-    setForm({ name: d.name, icon: d.icon || 'BookOpen', order: d.order || 0, active: !!d.active });
+    setForm({ name: d.name, icon: d.icon || 'BookOpen', order: d.order || 0, active: !!d.active, desc: d.desc || '', duration: d.duration || '', img: d.img || '', features: d.features ? d.features.join(', ') : '' });
     setShowModal(true);
   };
 
@@ -91,7 +91,16 @@ const AdminDirections = () => {
       ) : items.length === 0 ? (
         <div className="text-center py-16 glass-card">
           <BookOpen size={48} className="mx-auto text-[#9CA3AF] mb-3" />
-          <p className="text-[#61677A]">{t('adminDirections.empty')}</p>
+          <p className="text-[#61677A] mb-4">{t('adminDirections.empty')}</p>
+          <Button onClick={async () => {
+            try {
+              await api.post('/admin/seed-directions');
+              toast.success(t('admin.success'));
+              load();
+            } catch (e) { toast.error(e.response?.data?.message || t('admin.error')); }
+          }} className="btn-orange">
+            <Plus size={16} /> {t('adminDirections.seed')}
+          </Button>
         </div>
       ) : (
         <div className="glass-card overflow-x-auto">
