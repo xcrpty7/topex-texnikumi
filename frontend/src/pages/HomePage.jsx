@@ -425,7 +425,7 @@ const HomePage = () => {
               <span className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
                 {t('about.label')}
               </span>
-              <h2 className="text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-7">
+              <h2 className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[52px] font-black text-brand leading-[1.05] mb-7">
                 {t('about.title')}
               </h2>
               <p className="text-gray-600 text-base mb-5">
@@ -493,7 +493,7 @@ const HomePage = () => {
               <motion.h2
                 initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                 transition={{ delay:0.1 }}
-                className="text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-black text-brand leading-[1.05] mb-8">
+                className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[52px] font-black text-brand leading-[1.05] mb-8">
                 {t('form.title')}
               </motion.h2>
               <motion.p
@@ -638,7 +638,7 @@ const HomePage = () => {
                   alt={selected.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent md:hidden"></div>
               </div>
-              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col bg-white text-left">
+              <div className="w-full md:w-1/2 p-5 md:p-8 lg:p-12 flex flex-col bg-white text-left">
                 {(() => { const SelIcon = selected.icon || ICON_MAP[selected.iconName] || BookOpen; return (
                   <div className="w-16 h-16 rounded-2xl bg-blue/10 flex items-center justify-center text-blue mb-6">
                     <SelIcon size={32} strokeWidth={2} />

@@ -53,7 +53,7 @@ export default function NewsSwiper({ articles, settings }) {
             <motion.h2
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               transition={{ delay:0.1 }}
-              className="text-[42px] md:text-[52px] lg:text-[56px] font-black text-brand leading-[1.05]">
+              className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[52px] font-black text-brand leading-[1.05]">
               {t('news.title')}
             </motion.h2>
           </div>

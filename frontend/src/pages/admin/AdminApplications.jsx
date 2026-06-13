@@ -274,7 +274,7 @@ const AdminApplications = () => {
           </div>
         ) : (
           <>
-          <div className="glass-card overflow-hidden">
+          <div className="glass-card overflow-x-auto">
             <table className="tm-table">
               <thead>
                 <tr>

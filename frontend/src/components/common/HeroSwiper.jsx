@@ -65,9 +65,9 @@ export default function HeroSwiper({ settings }) {
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
-            <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+            <div className="grid lg:grid-cols-2 min-h-[450px] lg:min-h-[720px]">
 
-              <div className="relative flex items-center px-6 sm:px-10 lg:px-20 py-16 lg:py-0 overflow-hidden bg-brand-deep">
+              <div className="relative flex items-center px-6 sm:px-10 lg:px-20 py-14 lg:py-0 overflow-hidden bg-brand-deep">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url('${slide.image}')` }}
@@ -85,7 +85,7 @@ export default function HeroSwiper({ settings }) {
                       transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
                       className="relative z-10 max-w-xl">
                       <h1 className="text-white font-black uppercase leading-[1.05]
-                                     text-[42px] sm:text-[54px] lg:text-[64px] tracking-tight">
+                                     text-[32px] sm:text-[48px] lg:text-[60px] tracking-tight">
                         {slide.title.map((line, j) => (
                           <motion.span
                             key={j}
@@ -132,7 +132,7 @@ export default function HeroSwiper({ settings }) {
                 </AnimatePresence>
               </div>
 
-              <div className="relative h-[420px] lg:h-auto overflow-hidden bg-gray-900">
+              <div className="relative h-[260px] sm:h-[320px] lg:h-auto overflow-hidden bg-gray-900">
                 <AnimatePresence mode="wait">
                   {activeIdx === i && (
                     <motion.img

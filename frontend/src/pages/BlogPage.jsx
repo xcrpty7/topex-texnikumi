@@ -54,7 +54,7 @@ const FeaturedNews = ({ article, moreText }) => {
         </div>
 
         {/* Text */}
-        <div className="flex flex-col justify-center p-8 lg:p-14">
+        <div className="flex flex-col justify-center p-6 lg:p-14">
           <div className="flex items-center gap-2 text-gray-400 text-[13px] font-medium mb-4">
             <Calendar size={14} className="text-orange" />
             {fmtDate(article.publishedAt || article.createdAt)}

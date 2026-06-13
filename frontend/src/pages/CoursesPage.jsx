@@ -305,7 +305,7 @@ const CoursesPage = () => {
                   <img src={selImg} alt={selected.name} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent md:hidden"></div>
                 </div>
-                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col bg-white">
+                <div className="w-full md:w-1/2 p-5 md:p-8 lg:p-12 flex flex-col bg-white">
                   <div className="w-16 h-16 rounded-2xl bg-blue/10 flex items-center justify-center text-blue mb-6">
                     <SelIcon size={32} strokeWidth={2} />
                   </div>

@@ -100,12 +100,12 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                           onClick={() => onSelect?.(s)}
                           className="group flex items-center gap-5 cursor-pointer py-1"
                         >
-                          <div className="w-14 h-14 rounded-xl bg-orange flex items-center justify-center
+                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-orange flex items-center justify-center
                                           flex-shrink-0 shadow-lg group-hover:scale-110 group-hover:rotate-3
                                           transition-all duration-300">
-                            <Icon size={26} className="text-white" strokeWidth={2} />
+                            <Icon size={24} className="text-white" strokeWidth={2} />
                           </div>
-                          <span className="text-white font-bold text-[17px] md:text-[19px] uppercase tracking-wide
+                          <span className="text-white font-bold text-[15px] md:text-[19px] uppercase tracking-wide
                                            group-hover:text-orange transition-colors duration-300">
                             {s.name}
                           </span>

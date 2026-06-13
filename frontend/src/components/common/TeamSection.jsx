@@ -63,7 +63,7 @@ export default function TeamSection({ teachers = [], settings }) {
             <motion.h2
               initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               transition={{ delay:0.1 }}
-              className="text-[42px] md:text-[52px] lg:text-[56px] font-black text-brand leading-[1.05] mb-8">
+              className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[52px] font-black text-brand leading-[1.05] mb-8">
               {t('team.title')}
             </motion.h2>
             <motion.p
@@ -116,7 +116,7 @@ export default function TeamSection({ teachers = [], settings }) {
             >
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {chunk.map((t, i) => (
                       <div
                         key={t.name}

@@ -178,7 +178,7 @@ const AdminCourses = () => {
             <p className="text-sm" style={{ color: '#61677A' }}>{t('adminCourses.notFound')}</p>
           </div>
         ) : (
-          <div className="glass-card overflow-hidden">
+          <div className="glass-card overflow-x-auto">
             <table className="tm-table">
               <thead>
                 <tr>
