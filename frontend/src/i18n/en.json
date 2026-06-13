@@ -561,6 +561,7 @@
     "header": "Teachers",
     "subtitle": "Manage teacher profiles",
     "empty": "No teachers yet",
+    "seed": "Import default teachers",
     "table": {
       "image": "Image",
       "name": "Name",

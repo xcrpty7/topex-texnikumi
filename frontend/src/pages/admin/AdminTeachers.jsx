@@ -109,7 +109,16 @@ const AdminTeachers = () => {
       ) : items.length === 0 ? (
         <div className="text-center py-16 glass-card">
           <Users size={48} className="mx-auto text-[#9CA3AF] mb-3" />
-          <p className="text-[#61677A]">{t('adminTeachers.empty')}</p>
+          <p className="text-[#61677A] mb-4">{t('adminTeachers.empty')}</p>
+          <Button onClick={async () => {
+            try {
+              await api.post('/admin/seed-teachers');
+              toast.success(t('admin.success'));
+              load();
+            } catch (e) { toast.error(e.response?.data?.message || t('admin.error')); }
+          }} className="btn-orange">
+            <Plus size={16} /> {t('adminTeachers.seed')}
+          </Button>
         </div>
       ) : (
         <div className="glass-card overflow-x-auto">

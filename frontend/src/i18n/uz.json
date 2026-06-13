@@ -566,6 +566,7 @@
     "header": "O'qituvchilar",
     "subtitle": "O'qituvchilarni boshqarish",
     "empty": "Hozircha o'qituvchilar mavjud emas",
+    "seed": "O'qituvchilarni yuklash",
     "table": {
       "image": "Rasm",
       "name": "Ism",

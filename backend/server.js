@@ -31,13 +31,7 @@ const { getVideos } = require('./controllers/videoController');
 const app = express();
 
 // ─── Ma'lumotlar bazasiga ulanish ───────────────────────────────────────────
-connectDB().then(() => {
-  require('./utils/seed')().then(() => {
-    console.log('🌱 Seed tugadi');
-  }).catch((err) => {
-    console.error('❌ Seed xatosi:', err.message);
-  });
-});
+connectDB();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
