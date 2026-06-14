@@ -56,8 +56,8 @@ const getSettings = async (req, res) => {
     if (!settings) settings = await SiteSettings.create({});
     return sendSuccess(res, { data: settings });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const updateSettings = async (req, res) => {
@@ -78,8 +78,8 @@ const updateSettings = async (req, res) => {
     await settings.save();
     return sendSuccess(res, { data: settings }, 'Sayt sozlamalari saqlandi');
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const uploadSettingsImage = async (req, res) => {
@@ -88,8 +88,8 @@ const uploadSettingsImage = async (req, res) => {
     const url = `/uploads/gallery/${req.file.filename}`;
     return sendSuccess(res, { data: { url } }, 'Rasm yuklandi');
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 module.exports = { getSettings, updateSettings, uploadSettingsImage };

@@ -177,7 +177,7 @@ const AdminDashboard = () => {
           const statusData = (stats.applicationsByStatus || []).reduce((acc, s) => { acc[s._id] = s.count; return acc; }, {});
           const rows = [
             { key: 'yangi',              label: t('adminDashboard.status.new'),         color: '#2563EB', count: statusData['yangi'] ?? stats.newApplications ?? 0 },
-            { key: "ko'rib_chiqilmoqda", label: t('adminDashboard.status.reviewing'),    color: '#D97706', count: statusData["ko'rib_chiqilmoqda"] ?? 0 },
+            { key: "ko'rib chiqilmoqda", label: t('adminDashboard.status.reviewing'),    color: '#D97706', count: statusData["ko'rib chiqilmoqda"] ?? 0 },
             { key: 'qabul_qilindi',      label: t('adminDashboard.status.accepted'),     color: '#16A34A', count: statusData['qabul_qilindi'] ?? 0 },
             { key: 'rad_etildi',         label: t('adminDashboard.status.rejected'),     color: '#DC2626', count: statusData['rad_etildi'] ?? 0 },
           ];
@@ -259,7 +259,7 @@ const AdminDashboard = () => {
                         <p className="text-[11px] truncate" style={{ color: '#61677A' }}>{u.email}</p>
                       </div>
                       <span className="text-[11px]" style={{ color: '#9CA3AF' }} title={new Date(u.createdAt).toLocaleDateString(locale)}>
-                        {timeAgo(u.createdAt)}
+                        {timeAgo(u.createdAt, i18n.language)}
                       </span>
                     </div>
                   )) : (

@@ -40,6 +40,9 @@ const AdminHomeVideos = () => {
   const [seedConfirm, setSeedConfirm] = useState(false);
   const [seeding, setSeeding]         = useState(false);
   const fileRef = useRef();
+  const blobUrl = useRef(null);
+
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   const load = async () => {
     try {
@@ -61,6 +64,7 @@ const AdminHomeVideos = () => {
       const toSeed = STATIC_VIDEOS.filter(v => !existingUrls.includes(v.url));
       if (toSeed.length === 0) {
         toast.info(t('adminHomeVideos.allDefaultExist'));
+        setSeeding(false);
         return;
       }
       await Promise.all(
@@ -115,8 +119,11 @@ const AdminHomeVideos = () => {
   const handleFile = (e) => {
     const f = e.target.files[0];
     if (f) {
+      if (blobUrl.current) URL.revokeObjectURL(blobUrl.current);
+      const url = URL.createObjectURL(f);
+      blobUrl.current = url;
       setFile(f);
-      setPreview(URL.createObjectURL(f));
+      setPreview(url);
     }
   };
 

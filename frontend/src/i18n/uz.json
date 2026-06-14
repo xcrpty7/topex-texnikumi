@@ -753,6 +753,37 @@
     "confirmTitle": "O'chirishni tasdiqlaysizmi?",
     "confirmMessage": "Bu sharhni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
   },
+  "adminVideos": {
+    "header": "Video galereya",
+    "videosCount": "ta video",
+    "refresh": "Yangilash",
+    "addVideo": "Video qo'shish",
+    "loadError": "Videolarni yuklab bo'lmadi",
+    "created": "Video qo'shildi",
+    "updated": "Video yangilandi",
+    "deleted": "Video o'chirildi",
+    "deleteError": "O'chirishda xatolik",
+    "active": "Faol",
+    "hidden": "Yashirin",
+    "edit": "Tahrir",
+    "empty": "Hali videolar qo'shilmagan",
+    "modalEdit": "Videoni tahrirlash",
+    "modalAdd": "Yangi video qo'shish",
+    "form": {
+      "title": "Sarlavha",
+      "titlePlaceholder": "Video sarlavhasi",
+      "description": "Tavsif",
+      "descriptionPlaceholder": "Video haqida qisqacha...",
+      "videoFile": "Video fayl",
+      "clickToUpload": "Video yuklash uchun bosing",
+      "uploading": "Firebase ga yuklanmoqda...",
+      "order": "Tartib raqami",
+      "status": "Holat"
+    },
+    "deleteConfirmTitle": "Videoni o'chirishni tasdiqlang",
+    "deleteConfirmMessage": "Bu video butunlay o'chiriladi.",
+    "deleteConfirmLabel": "Ha, o'chirish"
+  },
   "adminHomeVideos": {
     "header": "Bosh sahifa videolari",
     "videosCount": "ta video",

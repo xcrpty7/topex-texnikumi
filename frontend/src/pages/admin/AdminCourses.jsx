@@ -13,6 +13,11 @@ import Spinner from '../../components/ui/Spinner';
 import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
+const resolveImg = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http') || url.startsWith('/assets')) return url;
+  return `${API_URL}${url}`;
+};
 const EMPTY_FORM = { title: '', description: '', shortDescription: '', level: 'beginner', price: 0, isFree: true, category: '', videoUrl: '', duration: '', isActive: true, isFeatured: false };
 
 const AdminCourses = () => {
@@ -30,8 +35,10 @@ const AdminCourses = () => {
   const [confirmId, setConfirmId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const fileRef = useRef();
+  const blobUrl = useRef(null);
 
   useEffect(() => { dispatch(fetchCourses({ limit: 100 })); }, [dispatch]);
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   const filtered = courses.filter(c => {
     const q = searchQ.toLowerCase();
@@ -42,7 +49,13 @@ const AdminCourses = () => {
 
   const handleFile = (e) => {
     const f = e.target.files[0];
-    if (f) { setFile(f); setPreview(URL.createObjectURL(f)); }
+    if (f) {
+      if (blobUrl.current) URL.revokeObjectURL(blobUrl.current);
+      const url = URL.createObjectURL(f);
+      blobUrl.current = url;
+      setFile(f);
+      setPreview(url);
+    }
   };
 
   const openCreate = () => { setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setModal(true); };
@@ -62,7 +75,7 @@ const AdminCourses = () => {
       isActive: course.isActive ?? true,
       isFeatured: course.isFeatured ?? false,
     });
-    setPreview(course.image ? `${API_URL}${course.image}` : null);
+    setPreview(resolveImg(course.image));
     setFile(null);
     setModal(true);
   };
@@ -193,7 +206,7 @@ const AdminCourses = () => {
                     <td style={{ width: 48 }}>
                       {course.image ? (
                         <img
-                          src={`${API_URL}${course.image}`}
+                          src={resolveImg(course.image)}
                           alt={course.title}
                           className="w-10 h-10 rounded-lg object-cover"
                           style={{ border: '1px solid #E5E7EA' }}

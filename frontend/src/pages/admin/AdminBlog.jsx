@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { Plus, Edit, Trash2, Eye, EyeOff, ExternalLink, Upload, X, Search } from 'lucide-react';
 import { fetchArticles, deleteArticle } from '../../features/blog/blogSlice';
 import api from '../../services/api';
-import Badge from '../../components/ui/Badge';
 import Button from '../../components/ui/Button';
 import Modal from '../../components/ui/Modal';
 import ConfirmModal from '../../components/ui/ConfirmModal';
@@ -14,6 +13,11 @@ import Spinner from '../../components/ui/Spinner';
 import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
+const resolveImg = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http') || url.startsWith('/assets')) return url;
+  return `${API_URL}${url}`;
+};
 const EMPTY_FORM = { title: '', content: '', excerpt: '', tags: '', isPublished: false, videoUrl: '', category: '' };
 
 const RichEditor = ({ value, onChange }) => {
@@ -102,6 +106,9 @@ const AdminBlog = () => {
   const [confirmId, setConfirmId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const fileRef = useRef();
+  const blobUrl = useRef(null);
+
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   useEffect(() => {
     dispatch(fetchArticles({ limit: 50 }));
@@ -117,8 +124,11 @@ const AdminBlog = () => {
   const handleFile = (e) => {
     const f = e.target.files[0];
     if (f) {
+      if (blobUrl.current) URL.revokeObjectURL(blobUrl.current);
+      const url = URL.createObjectURL(f);
+      blobUrl.current = url;
       setFile(f);
-      setPreview(URL.createObjectURL(f));
+      setPreview(url);
     }
   };
 
@@ -141,7 +151,7 @@ const AdminBlog = () => {
       videoUrl: article.videoUrl || '',
       category: article.category || '',
     });
-    setPreview(article.image ? `${API_URL}${article.image}` : null);
+    setPreview(resolveImg(article.image));
     setFile(null);
     setModal(true);
   };
@@ -174,7 +184,7 @@ const AdminBlog = () => {
     if (!confirmId) return;
     setDeleting(true);
     try {
-      await dispatch(deleteArticle(confirmId));
+      await dispatch(deleteArticle(confirmId)).unwrap();
       toast.success(t('adminBlog.toast.deleted'));
     } catch {
       toast.error(t('adminBlog.toast.error'));
@@ -286,7 +296,7 @@ const AdminBlog = () => {
                     <td style={{ width: 48 }}>
                       {article.image ? (
                         <img
-                          src={`${API_URL}${article.image}`}
+                          src={resolveImg(article.image)}
                           alt={article.title}
                           className="w-10 h-10 rounded-lg object-cover"
                           style={{ border: '1px solid #E5E7EA' }}

@@ -22,8 +22,8 @@ const getGallery = async (req, res) => {
     });
     return sendSuccess(res, { data: valid });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const getAdminGallery = async (req, res) => {
@@ -31,8 +31,8 @@ const getAdminGallery = async (req, res) => {
     const items = await Gallery.find().sort({ order: 1, createdAt: -1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const createGalleryItem = async (req, res) => {
@@ -43,8 +43,8 @@ const createGalleryItem = async (req, res) => {
     const item = await Gallery.create({ title, category, order: order || 0, image });
     return sendSuccess(res, { data: item }, "Rasm qo'shildi", 201);
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const updateGalleryItem = async (req, res) => {
@@ -64,8 +64,8 @@ const updateGalleryItem = async (req, res) => {
     await item.save();
     return sendSuccess(res, { data: item }, 'Yangilandi');
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const deleteGalleryItem = async (req, res) => {
@@ -75,8 +75,8 @@ const deleteGalleryItem = async (req, res) => {
     safeDeleteFile(item.image);
     return sendSuccess(res, { data: null }, "O'chirildi");
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 module.exports = { getGallery, getAdminGallery, createGalleryItem, updateGalleryItem, deleteGalleryItem };

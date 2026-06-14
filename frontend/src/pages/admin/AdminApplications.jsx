@@ -35,7 +35,7 @@ const StatusBadge = ({ status, t }) => {
 };
 
 const AdminApplications = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { applications, applicationsLoading, applicationsMeta } = useSelector((s) => s.admin);
   const [filterStatus, setFilterStatus] = useState('');
@@ -58,7 +58,7 @@ const AdminApplications = () => {
     dispatch(fetchAdminApplications(params));
   };
 
-  useEffect(() => { load(); }, [filterStatus, filterGrade]);
+  useEffect(() => { load(); }, [load, filterStatus, filterGrade]);
 
   const openDetail = (app) => {
     setSelected(app);
@@ -312,7 +312,7 @@ const AdminApplications = () => {
                     </td>
                     <td className="muted font-mono text-[10px]">
                       <span title={new Date(app.createdAt).toLocaleDateString('uz-UZ')}>
-                        {timeAgo(app.createdAt)}
+                        {timeAgo(app.createdAt, i18n.language)}
                       </span>
                     </td>
                     <td>

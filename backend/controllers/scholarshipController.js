@@ -6,8 +6,8 @@ const getScholarships = async (req, res) => {
     const items = await Scholarship.find({ isActive: true }).sort({ order: 1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const getAdminScholarships = async (req, res) => {
@@ -15,8 +15,8 @@ const getAdminScholarships = async (req, res) => {
     const items = await Scholarship.find().sort({ order: 1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const createScholarship = async (req, res) => {
@@ -25,8 +25,8 @@ const createScholarship = async (req, res) => {
     const item = await Scholarship.create({ title, description, requirement, icon, color, order: order || 0 });
     return sendSuccess(res, { data: item }, "Grant qo'shildi", 201);
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const updateScholarship = async (req, res) => {
@@ -44,8 +44,8 @@ const updateScholarship = async (req, res) => {
     if (!item) return sendError(res, 'Topilmadi', 404);
     return sendSuccess(res, { data: item }, 'Yangilandi');
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const deleteScholarship = async (req, res) => {
@@ -54,8 +54,8 @@ const deleteScholarship = async (req, res) => {
     if (!item) return sendError(res, 'Topilmadi', 404);
     return sendSuccess(res, { data: null }, "O'chirildi");
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 module.exports = { getScholarships, getAdminScholarships, createScholarship, updateScholarship, deleteScholarship };

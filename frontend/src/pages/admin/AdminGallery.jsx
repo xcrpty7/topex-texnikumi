@@ -60,6 +60,9 @@ const AdminGallery = () => {
   const [seedConfirm, setSeedConfirm] = useState(false);
   const [seeding, setSeeding]         = useState(false);
   const fileRef = useRef();
+  const blobUrl = useRef(null);
+
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   const load = async () => {
     try {
@@ -81,16 +84,19 @@ const AdminGallery = () => {
       const toSeed = STATIC_ITEMS.filter(item => !existingImages.includes(item.image));
       if (toSeed.length === 0) {
         toast.info(t('adminGallery.allDefaultExist'));
-        setLoading(false);
+        setSeeding(false);
         return;
       }
       await Promise.all(
-        toSeed.map(item => {
+        toSeed.map(async (item) => {
           const fd = new FormData();
           fd.append('title', item.title);
           fd.append('category', item.category);
           fd.append('order', String(item.order));
-          fd.append('image', item.image);
+          const resp = await fetch(item.image);
+          const blob = await resp.blob();
+          const filename = item.image.split('/').pop();
+          fd.append('image', new File([blob], filename, { type: blob.type }));
           return api.post('/admin/gallery', fd);
         })
       );
@@ -109,8 +115,11 @@ const AdminGallery = () => {
   const handleFile = (e) => {
     const f = e.target.files[0];
     if (!f) return;
+    if (blobUrl.current) URL.revokeObjectURL(blobUrl.current);
+    const url = URL.createObjectURL(f);
+    blobUrl.current = url;
     setFile(f);
-    setPreview(URL.createObjectURL(f));
+    setPreview(url);
   };
 
   const openCreate = () => {

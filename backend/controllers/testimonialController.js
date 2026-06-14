@@ -8,8 +8,8 @@ const getTestimonials = async (req, res) => {
     const items = await Testimonial.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const getAdminTestimonials = async (req, res) => {
@@ -17,19 +17,19 @@ const getAdminTestimonials = async (req, res) => {
     const items = await Testimonial.find().sort({ order: 1, createdAt: -1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const createTestimonial = async (req, res) => {
   try {
     const { name, role, text, rating, order } = req.body;
     const avatar = req.file ? `/uploads/testimonials/${req.file.filename}` : '';
-    const item = await Testimonial.create({ name, role, text, rating: rating || 5, avatar, order: order || 0 });
+    const item = await Testimonial.create({ name, role, text, rating: rating ?? 5, avatar, order: order || 0 });
     return sendSuccess(res, { data: item }, "Sharh qo'shildi", 201);
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const updateTestimonial = async (req, res) => {
@@ -54,8 +54,8 @@ const updateTestimonial = async (req, res) => {
     await item.save();
     return sendSuccess(res, { data: item }, 'Yangilandi');
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const deleteTestimonial = async (req, res) => {
@@ -68,8 +68,8 @@ const deleteTestimonial = async (req, res) => {
     }
     return sendSuccess(res, { data: null }, "O'chirildi");
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 module.exports = { getTestimonials, getAdminTestimonials, createTestimonial, updateTestimonial, deleteTestimonial };

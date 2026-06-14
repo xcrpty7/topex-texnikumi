@@ -34,6 +34,8 @@ router.put(
   restrictTo('ADMIN', 'SUPER_ADMIN'),
   uploadImage.single('image'),
   handleMulterError,
+  [body('title').optional().notEmpty().withMessage('Kurs nomi bo\'sh bo\'lishi mumkin emas')],
+  validate,
   updateCourse
 );
 

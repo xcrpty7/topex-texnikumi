@@ -33,6 +33,8 @@ router.put(
   restrictTo('ADMIN', 'SUPER_ADMIN'),
   uploadPost.single('image'),
   handleMulterError,
+  [body('title').optional().notEmpty().withMessage('Maqola sarlavhasi bo\'sh bo\'lishi mumkin emas')],
+  validate,
   updateArticle
 );
 

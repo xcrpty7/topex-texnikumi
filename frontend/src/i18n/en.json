@@ -748,6 +748,37 @@
     "confirmTitle": "Delete review",
     "confirmMessage": "Are you sure you want to delete this testimonial?"
   },
+  "adminVideos": {
+    "header": "Video Gallery",
+    "videosCount": "videos",
+    "refresh": "Refresh",
+    "addVideo": "Add video",
+    "loadError": "Failed to load videos",
+    "created": "Video added",
+    "updated": "Video updated",
+    "deleted": "Video deleted",
+    "deleteError": "Failed to delete video",
+    "active": "Active",
+    "hidden": "Hidden",
+    "edit": "Edit",
+    "empty": "No videos yet",
+    "modalEdit": "Edit video",
+    "modalAdd": "Add video",
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Video title",
+      "description": "Description",
+      "descriptionPlaceholder": "A short description of the video...",
+      "videoFile": "Video file",
+      "clickToUpload": "Click to upload a video file",
+      "uploading": "Uploading to Firebase...",
+      "order": "Order",
+      "status": "Status"
+    },
+    "deleteConfirmTitle": "Delete video",
+    "deleteConfirmMessage": "This video will be permanently deleted.",
+    "deleteConfirmLabel": "Yes, delete"
+  },
   "adminHomeVideos": {
     "header": "Home Videos",
     "videosCount": "videos",

@@ -6,8 +6,8 @@ const getFaqs = async (req, res) => {
     const items = await Faq.find({ isActive: true }).sort({ order: 1, createdAt: 1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const getAdminFaqs = async (req, res) => {
@@ -15,8 +15,8 @@ const getAdminFaqs = async (req, res) => {
     const items = await Faq.find().sort({ order: 1, createdAt: 1 });
     return sendSuccess(res, { data: items });
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const createFaq = async (req, res) => {
@@ -25,8 +25,8 @@ const createFaq = async (req, res) => {
     const item = await Faq.create({ question, answer, order: order || 0 });
     return sendSuccess(res, { data: item }, "FAQ qo'shildi", 201);
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const updateFaq = async (req, res) => {
@@ -41,8 +41,8 @@ const updateFaq = async (req, res) => {
     if (!item) return sendError(res, 'Topilmadi', 404);
     return sendSuccess(res, { data: item }, 'Yangilandi');
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 const deleteFaq = async (req, res) => {
@@ -51,8 +51,8 @@ const deleteFaq = async (req, res) => {
     if (!item) return sendError(res, 'Topilmadi', 404);
     return sendSuccess(res, { data: null }, "O'chirildi");
   } catch (e) {
-    return sendError(res, e.message);
-  }
+    return sendError(res, e.message, 500);
+    }
 };
 
 module.exports = { getFaqs, getAdminFaqs, createFaq, updateFaq, deleteFaq };

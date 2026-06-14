@@ -181,6 +181,15 @@ const deleteUser = async (req, res) => {
       return sendError(res, 'Super admin hisobini o\'chirish mumkin emas', 403);
     }
 
+    const enrollments = await Enrollment.find({ user: req.params.id });
+    const courseIds = enrollments.map((e) => e.course);
+    if (courseIds.length > 0) {
+      await Course.updateMany(
+        { _id: { $in: courseIds } },
+        { $inc: { enrollmentCount: -1 } }
+      );
+    }
+
     await User.findByIdAndDelete(req.params.id);
     await Enrollment.deleteMany({ user: req.params.id });
 

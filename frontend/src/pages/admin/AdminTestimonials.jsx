@@ -18,6 +18,9 @@ const AdminTestimonials = () => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [saving, setSaving] = useState(false);
+  const blobUrl = useRef(null);
+
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
   const [searchQ, setSearchQ] = useState('');
   const [visFilter, setVisFilter] = useState('all');
   const [confirmId, setConfirmId] = useState(null);
@@ -236,7 +239,7 @@ const AdminTestimonials = () => {
                 </div>
                 <p className="font-mono text-xs" style={{ color: '#61677A' }}>{t('adminTestimonials.uploadImage')}</p>
                 <input ref={fileRef} type="file" accept="image/*" className="hidden"
-                  onChange={e => { const f = e.target.files[0]; if (f) { setFile(f); setPreview(URL.createObjectURL(f)); } }} />
+                  onChange={e => { const f = e.target.files[0]; if (f) { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); const url = URL.createObjectURL(f); blobUrl.current = url; setFile(f); setPreview(url); } }} />
               </div>
               {[
                 { key: 'name', label: t('adminTestimonials.form.name'), placeholder: t('adminTestimonials.form.namePlaceholder') },

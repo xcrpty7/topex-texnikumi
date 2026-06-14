@@ -96,6 +96,10 @@ const deleteCourse = async (req, res) => {
     if (!course) return sendError(res, 'Kurs topilmadi', 404);
 
     await Enrollment.deleteMany({ course: req.params.id });
+    await User.updateMany(
+      { enrolledCourses: req.params.id },
+      { $pull: { enrolledCourses: req.params.id } }
+    );
 
     return sendSuccess(res, {}, 'Kurs o\'chirildi');
   } catch (error) {

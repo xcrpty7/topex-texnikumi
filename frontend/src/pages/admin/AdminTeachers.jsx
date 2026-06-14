@@ -30,6 +30,9 @@ const AdminTeachers = () => {
   const [saving, setSaving] = useState(false);
   const [confirmId, setConfirmId] = useState(null);
   const fileRef = useRef();
+  const blobUrl = useRef(null);
+
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   const load = async () => {
     try {
@@ -55,7 +58,7 @@ const AdminTeachers = () => {
 
   const handleFile = (e) => {
     const f = e.target.files[0];
-    if (f) { setFile(f); setPreview(URL.createObjectURL(f)); }
+    if (f) { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); const url = URL.createObjectURL(f); blobUrl.current = url; setFile(f); setPreview(url); }
   };
 
   const save = async () => {

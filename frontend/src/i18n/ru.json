@@ -748,6 +748,37 @@
     "confirmTitle": "Подтверждение удаления",
     "confirmMessage": "Вы уверены, что хотите удалить этот отзыв?"
   },
+  "adminVideos": {
+    "header": "Видео галерея",
+    "videosCount": "видео",
+    "refresh": "Обновить",
+    "addVideo": "Добавить видео",
+    "loadError": "Не удалось загрузить видео",
+    "created": "Видео добавлено",
+    "updated": "Видео обновлено",
+    "deleted": "Видео удалено",
+    "deleteError": "Ошибка при удалении",
+    "active": "Активно",
+    "hidden": "Скрыто",
+    "edit": "Редактировать",
+    "empty": "Видео пока не добавлены",
+    "modalEdit": "Редактировать видео",
+    "modalAdd": "Добавить видео",
+    "form": {
+      "title": "Название",
+      "titlePlaceholder": "Название видео",
+      "description": "Описание",
+      "descriptionPlaceholder": "Краткое описание видео...",
+      "videoFile": "Видео файл",
+      "clickToUpload": "Нажмите, чтобы загрузить видео",
+      "uploading": "Загрузка в Firebase...",
+      "order": "Порядок",
+      "status": "Статус"
+    },
+    "deleteConfirmTitle": "Подтверждение удаления",
+    "deleteConfirmMessage": "Это видео будет полностью удалено.",
+    "deleteConfirmLabel": "Да, удалить"
+  },
   "adminHomeVideos": {
     "header": "Видео главной",
     "videosCount": "видео",

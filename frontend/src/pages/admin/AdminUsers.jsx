@@ -46,11 +46,9 @@ const AdminUsers = () => {
 
   const load = (params = {}) => dispatch(fetchAdminUsers(params));
 
-  useEffect(() => { load({ search, role: roleFilter }); }, []);
-
   useEffect(() => {
     load({ search, role: roleFilter, page: 1 });
-  }, [roleFilter]);
+  }, [search, roleFilter]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -223,7 +221,7 @@ const AdminUsers = () => {
                       </td>
                       <td className="muted font-mono text-[10px]">
                         <span title={new Date(user.createdAt).toLocaleDateString(i18n.language === 'uz' ? 'uz-UZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US')}>
-                          {timeAgo(user.createdAt)}
+                          {timeAgo(user.createdAt, i18n.language)}
                         </span>
                       </td>
                       <td>

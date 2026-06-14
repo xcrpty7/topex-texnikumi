@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Film, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload, ExternalLink } from 'lucide-react';
 import api from '../../services/api';
 import { uploadVideo } from '../../services/firebase';
@@ -17,6 +18,7 @@ const truncateUrl = (url, max = 40) => {
 };
 
 const AdminVideos = () => {
+  const { t } = useTranslation();
   const [items, setItems]         = useState([]);
   const [loading, setLoading]     = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -30,6 +32,9 @@ const AdminVideos = () => {
   const [confirmId, setConfirmId]     = useState(null);
   const [deleting, setDeleting]       = useState(false);
   const fileRef = useRef();
+  const blobUrl = useRef(null);
+
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   const load = async () => {
     try {
@@ -37,7 +42,7 @@ const AdminVideos = () => {
       const res = await api.get('/admin/videos');
       setItems(res.data.data || []);
     } catch {
-      toast.error('Videolarni yuklab bo\'lmadi');
+      toast.error(t('adminVideos:loadError'));
     } finally {
       setLoading(false);
     }
@@ -71,8 +76,11 @@ const AdminVideos = () => {
   const handleFile = (e) => {
     const f = e.target.files[0];
     if (f) {
+      if (blobUrl.current) URL.revokeObjectURL(blobUrl.current);
+      const url = URL.createObjectURL(f);
+      blobUrl.current = url;
       setFile(f);
-      setPreview(URL.createObjectURL(f));
+      setPreview(url);
     }
   };
 
@@ -102,10 +110,10 @@ const AdminVideos = () => {
 
       if (editing) {
         await api.put(`/admin/videos/${editing}`, payload);
-        toast.success('Video yangilandi');
+        toast.success(t('adminVideos:updated'));
       } else {
         await api.post('/admin/videos', payload);
-        toast.success('Video qo\'shildi');
+        toast.success(t('adminVideos:created'));
       }
 
       setShowModal(false);
@@ -116,7 +124,7 @@ const AdminVideos = () => {
       setUploadProgress(0);
       load();
     } catch (err) {
-      toast.error(err.response?.data?.message || err.message || 'Xatolik yuz berdi');
+      toast.error(err.response?.data?.message || err.message || t('common:error'));
     } finally {
       setSaving(false);
       setUploading(false);
@@ -128,7 +136,7 @@ const AdminVideos = () => {
       await api.put(`/admin/videos/${item._id}`, { isActive: !item.isActive });
       setItems(prev => prev.map(i => i._id === item._id ? { ...i, isActive: !i.isActive } : i));
     } catch {
-      toast.error('Xatolik');
+      toast.error(t('common:error'));
     }
   };
 
@@ -138,11 +146,11 @@ const AdminVideos = () => {
     try {
       setDeleting(true);
       await api.delete(`/admin/videos/${confirmId}`);
-      toast.success('Video o\'chirildi');
+      toast.success(t('adminVideos:deleted'));
       setItems(prev => prev.filter(i => i._id !== confirmId));
       setConfirmId(null);
     } catch {
-      toast.error('O\'chirishda xatolik');
+      toast.error(t('adminVideos:deleteError'));
     } finally {
       setDeleting(false);
     }
@@ -152,15 +160,15 @@ const AdminVideos = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-mono font-bold text-[#272829]">Video galereya</h1>
-          <p className="font-mono text-xs mt-1 text-[#61677A]">{items.length} ta video mavjud</p>
+          <h1 className="text-xl font-mono font-bold text-[#272829]">{t('adminVideos:header')}</h1>
+          <p className="font-mono text-xs mt-1 text-[#61677A]">{items.length} {t('adminVideos:videosCount')}</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button onClick={load} variant="ghost" size="sm">
-            <RefreshCw size={14} className="mr-1" /> Yangilash
+            <RefreshCw size={14} className="mr-1" /> {t('adminVideos:refresh')}
           </Button>
           <Button onClick={openCreate} size="sm">
-            <Plus size={14} className="mr-1" /> Video qo'shish
+            <Plus size={14} className="mr-1" /> {t('adminVideos:addVideo')}
           </Button>
         </div>
       </div>
@@ -196,7 +204,7 @@ const AdminVideos = () => {
                         color: item.isActive ? '#16A34A' : '#61677A',
                       }}
                     >
-                      {item.isActive ? 'faol' : 'yashirin'}
+                      {item.isActive ? t('adminVideos:active') : t('adminVideos:hidden')}
                     </span>
                     <span className="font-mono text-[10px] bg-[#FFFFFF] px-2 py-0.5 rounded text-[#61677A]">
                       #{item.order}
@@ -216,7 +224,7 @@ const AdminVideos = () => {
                     style={{ background: '#EFF6FF', color: '#2563EB' }}
                   >
                     <Edit2 size={12} />
-                    <span>Tahrir</span>
+                    <span>{t('adminVideos:edit')}</span>
                   </button>
                   <button
                     onClick={() => toggleActive(item)}
@@ -245,7 +253,7 @@ const AdminVideos = () => {
           {items.length === 0 && (
             <div className="col-span-full py-20 text-center glass-card rounded-xl border border-[#E5E7EA]">
               <Film size={40} className="mx-auto mb-4 text-[#9CA3AF]" />
-              <p className="font-mono text-sm text-[#61677A]">Hali videolar qo'shilmagan</p>
+              <p className="font-mono text-sm text-[#61677A]">{t('adminVideos:empty')}</p>
             </div>
           )}
         </div>
@@ -254,24 +262,24 @@ const AdminVideos = () => {
       <Modal
         isOpen={showModal}
         onClose={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setUploadProgress(0); }}
-        title={editing ? 'Videoni tahrirlash' : 'Yangi video qo\'shish'}
+        title={editing ? t('adminVideos:modalEdit') : t('adminVideos:modalAdd')}
         size="lg"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label="Sarlavha"
+            label={t('adminVideos:form.title')}
             value={form.title}
             onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-            placeholder="Video sarlavhasi"
+            placeholder={t('adminVideos:form.titlePlaceholder')}
             required
           />
 
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[#61677A]">Tavsif</label>
+            <label className="text-xs font-mono text-[#61677A]">{t('adminVideos:form.description')}</label>
             <textarea
               value={form.description}
               onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
-              placeholder="Video haqida qisqacha..."
+              placeholder={t('adminVideos:form.descriptionPlaceholder')}
               rows={3}
               className="input-field resize-none"
               style={{ background: '#FFFFFF', border: '1px solid #D8D9DA', borderRadius: 10, padding: '10px 14px', fontSize: 13, width: '100%' }}
@@ -279,7 +287,7 @@ const AdminVideos = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-mono text-[#61677A]">Video fayl</label>
+            <label className="text-xs font-mono text-[#61677A]">{t('adminVideos:form.videoFile')}</label>
             <div
               className="border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#2563EB] transition-colors"
               style={{ borderColor: preview ? '#272829' : '#D8D9DA', background: '#FFFFFF' }}
@@ -302,7 +310,7 @@ const AdminVideos = () => {
               ) : (
                 <>
                   <Upload size={24} className="text-[#9CA3AF] mb-2" />
-                  <p className="text-[10px] text-[#61677A]">Video yuklash uchun bosing</p>
+                  <p className="text-[10px] text-[#61677A]">{t('adminVideos:form.clickToUpload')}</p>
                 </>
               )}
               <input ref={fileRef} type="file" accept="video/*" className="hidden" onChange={handleFile} />
@@ -311,7 +319,7 @@ const AdminVideos = () => {
             {uploading && (
               <div className="space-y-1">
                 <div className="flex justify-between text-[10px] font-mono text-[#61677A]">
-                  <span>Firebase ga yuklanmoqda...</span>
+                  <span>{t('adminVideos:form.uploading')}</span>
                   <span>{Math.round(uploadProgress)}%</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-[#F1F2F4] overflow-hidden">
@@ -326,13 +334,13 @@ const AdminVideos = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label="Tartib raqami"
+              label={t('adminVideos:form.order')}
               type="number"
               value={form.order}
               onChange={e => setForm(p => ({ ...p, order: parseInt(e.target.value) || 0 }))}
             />
             <div className="flex flex-col">
-              <label className="text-xs font-mono mb-2 text-[#61677A]">Holati</label>
+              <label className="text-xs font-mono mb-2 text-[#61677A]">{t('adminVideos:form.status')}</label>
               <label className="flex items-center gap-2 cursor-pointer h-full">
                 <input
                   type="checkbox"
@@ -340,17 +348,17 @@ const AdminVideos = () => {
                   onChange={e => setForm(p => ({ ...p, isActive: e.target.checked }))}
                   className="rounded border-[#D8D9DA] bg-[#FFFFFF]"
                 />
-                <span className="text-sm text-[#272829]">Faol</span>
+                <span className="text-sm text-[#272829]">{t('adminVideos:active')}</span>
               </label>
             </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-[#E5E7EA]">
             <Button variant="ghost" type="button" onClick={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setUploadProgress(0); }}>
-              Bekor qilish
+              {t('common:cancel')}
             </Button>
             <Button type="submit" loading={saving || uploading} disabled={uploading}>
-              {uploading ? 'Yuklanmoqda...' : 'Saqlash'}
+              {uploading ? t('adminVideos:form.uploading') : t('common:save')}
             </Button>
           </div>
         </form>
@@ -361,9 +369,9 @@ const AdminVideos = () => {
         onClose={() => setConfirmId(null)}
         onConfirm={handleConfirmDelete}
         loading={deleting}
-        title="Videoni o'chirishni tasdiqlang"
-        message="Bu video butunlay o'chiriladi."
-        confirmLabel="Ha, o'chirish"
+        title={t('adminVideos:deleteConfirmTitle')}
+        message={t('adminVideos:deleteConfirmMessage')}
+        confirmLabel={t('adminVideos:deleteConfirmLabel')}
       />
     </div>
   );
