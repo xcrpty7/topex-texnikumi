@@ -54,6 +54,10 @@ const getSettings = async (req, res) => {
   try {
     let settings = await SiteSettings.findOne();
     if (!settings) settings = await SiteSettings.create({});
+    if (settings.formImage === '/assets/images/DSC00912.jpg') {
+      settings.formImage = '/assets/images/form-photo.jpg';
+      await settings.save();
+    }
     return sendSuccess(res, { data: settings });
   } catch (e) {
     return sendError(res, e.message, 500);

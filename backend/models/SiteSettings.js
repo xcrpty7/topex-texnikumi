@@ -279,7 +279,7 @@ const siteSettingsSchema = new mongoose.Schema({
   formDir11:        { type: String, default: '11-sinfdan keyin (2 yil)' },
   formAgreeText:    { type: String, default: "Men shaxsiy ma'lumotlarni qayta ishlashga rozilik beraman va maxfiylik siyosatiga roziman." },
   formSubmitText:   { type: String, default: 'Ariza topshirish' },
-  formImage:        { type: String, default: '/assets/images/DSC00912.jpg' },
+  formImage:        { type: String, default: '/assets/images/form-photo.jpg' },
 
   // ── Footer ────────────────────────────────────────────────
   footerColAboutTitle:      { type: String, default: 'Texnikum haqida' },
