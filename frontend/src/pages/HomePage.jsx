@@ -597,7 +597,7 @@ const HomePage = () => {
                    style={{ borderRadius: '210px 210px 24px 24px' }} />
               {/* Photo on top */}
               <img
-                src={settings?.formImage
+                src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
                   ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
                   : '/assets/images/form-photo.jpg'}
                 alt="Topex talabasi"
