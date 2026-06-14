@@ -111,9 +111,8 @@ export default function TeamSection({ teachers = [], settings }) {
               autoplay={{ delay: 5000, disableOnInteraction: false }}
               loop={chunks.length > 1}
               speed={600}
+              spaceBetween={0}
               slidesPerView={1}
-              watchSlidesProgress={true}
-              resizeObserver={true}
               onSwiper={(sw) => { swiperRef.current = sw; }}
               className="w-full min-h-[200px]"
             >
