@@ -111,8 +111,11 @@ export default function TeamSection({ teachers = [], settings }) {
               autoplay={{ delay: 5000, disableOnInteraction: false }}
               loop={chunks.length > 1}
               speed={600}
+              slidesPerView={1}
+              watchSlidesProgress={true}
+              resizeObserver={true}
               onSwiper={(sw) => { swiperRef.current = sw; }}
-              className="w-full"
+              className="w-full min-h-[200px]"
             >
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
@@ -120,7 +123,7 @@ export default function TeamSection({ teachers = [], settings }) {
                     {chunk.map((t, i) => (
                       <div
                         key={t.name}
-                        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer">
+                        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer bg-brand-dark">
                         <img
                           src={t.img}
                           alt={t.name}
