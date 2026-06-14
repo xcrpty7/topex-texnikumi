@@ -86,7 +86,7 @@ export default function TeamSection({ teachers = [], settings }) {
           </div>
 
           {/* RIGHT — teacher cards */}
-          <div className="relative">
+          <div className="relative min-w-0">
             <div className="flex justify-end gap-3 mb-6">
               <button
                 onClick={() => swiperRef.current?.slidePrev()}
