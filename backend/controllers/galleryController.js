@@ -15,12 +15,7 @@ const getGallery = async (req, res) => {
     const filter = { isActive: true };
     if (category && category !== 'all') filter.category = category;
     const items = await Gallery.find(filter).sort({ order: 1, createdAt: -1 });
-    const valid = items.filter(i => {
-      if (!i.image || i.image.startsWith('/assets') || i.image.startsWith('http')) return true;
-      if (i.image.startsWith('/uploads')) return fs.existsSync(path.join(__dirname, '..', i.image));
-      return true;
-    });
-    return sendSuccess(res, { data: valid });
+    return sendSuccess(res, { data: items });
   } catch (e) {
     return sendError(res, e.message, 500);
     }

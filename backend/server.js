@@ -101,8 +101,8 @@ const authLimit = rateLimit({
 app.use(globalLimit);
 
 // ─── Umumiy middleware'lar ────────────────────────────────────────────────────
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 app.use(cookieParser());
 
 // Prototype pollution — maksimal nesting 10 daraja
@@ -157,20 +157,22 @@ const signAccessToken = (user) =>
     { expiresIn: process.env.JWT_ACCESS_EXPIRE || '15m' }
   );
 
-app.get(
-  '/api/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'], session: false })
-);
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  app.get(
+    '/api/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+  );
 
-app.get(
-  '/api/auth/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: `${GOOGLE_CLIENT_URL}/login?error=google_failed` }),
-  (req, res) => {
-    if (!req.user) return res.redirect(`${GOOGLE_CLIENT_URL}/login?error=no_user`);
-    const token = signAccessToken(req.user);
-    res.redirect(`${GOOGLE_CLIENT_URL}/login?google=${encodeURIComponent(token)}`);
-  }
-);
+  app.get(
+    '/api/auth/google/callback',
+    passport.authenticate('google', { session: false, failureRedirect: `${GOOGLE_CLIENT_URL}/login?error=google_failed` }),
+    (req, res) => {
+      if (!req.user) return res.redirect(`${GOOGLE_CLIENT_URL}/login?error=no_user`);
+      const token = signAccessToken(req.user);
+      res.redirect(`${GOOGLE_CLIENT_URL}/login?google=${encodeURIComponent(token)}`);
+    }
+  );
+}
 
 // ─── API yo'llari ─────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);

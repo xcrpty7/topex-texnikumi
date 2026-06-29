@@ -2,13 +2,26 @@ const User = require('../models/User');
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwt');
 const { sendSuccess, sendError } = require('../utils/response');
 
+// Telefon raqamini standartlashtirish: bo'shliq/chiziqcha/qavslarni olib tashlash
+const normalizePhone = (p) => (p ? String(p).replace(/[\s\-()]/g, '').trim() : '');
+
 const register = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
+    let { name, email, password, phone } = req.body;
+    email = email ? String(email).toLowerCase().trim() : undefined;
+    phone = phone ? normalizePhone(phone) : undefined;
 
-    const existing = await User.findOne({ email });
+    if (!email && !phone) {
+      return sendError(res, 'Email yoki telefon raqami kiritilishi shart', 400);
+    }
+
+    // Email yoki telefon allaqachon bandligini tekshirish
+    const orConds = [];
+    if (email) orConds.push({ email });
+    if (phone) orConds.push({ phone });
+    const existing = await User.findOne({ $or: orConds });
     if (existing) {
-      return sendError(res, 'Bu email allaqachon ro\'yxatdan o\'tgan', 400);
+      return sendError(res, 'Bu email yoki telefon raqami allaqachon ro\'yxatdan o\'tgan', 400);
     }
 
     const user = await User.create({ name, email, password, phone });
@@ -40,11 +53,20 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { identifier, email, phone, login, password } = req.body;
+    // Foydalanuvchi telefon, login (username) yoki email orqali kirishi mumkin
+    const idRaw = String(identifier || email || phone || login || '').trim();
+    if (!idRaw) {
+      return sendError(res, 'Telefon yoki login kiritilishi shart', 400);
+    }
 
-    const user = await User.findOne({ email }).select('+password');
+    const conds = [{ email: idRaw.toLowerCase() }, { login: idRaw.toLowerCase() }];
+    const normPhone = normalizePhone(idRaw);
+    if (normPhone) conds.push({ phone: normPhone });
+
+    const user = await User.findOne({ $or: conds }).select('+password');
     if (!user || !(await user.comparePassword(password))) {
-      return sendError(res, 'Email yoki parol noto\'g\'ri', 401);
+      return sendError(res, 'Login yoki parol noto\'g\'ri', 401);
     }
 
     if (!user.isActive) {
@@ -148,10 +170,11 @@ const getMe = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { name, phone } = req.body;
+    const { name, phone, login } = req.body;
     const updates = {};
     if (name) updates.name = name;
-    if (phone) updates.phone = phone;
+    if (phone !== undefined) updates.phone = phone ? normalizePhone(phone) : phone;
+    if (login !== undefined && login !== '') updates.login = String(login).toLowerCase().trim();
     if (req.file) updates.avatar = `/uploads/avatars/${req.file.filename}`;
 
     const user = await User.findByIdAndUpdate(req.user._id, updates, {
@@ -161,6 +184,9 @@ const updateProfile = async (req, res) => {
 
     return sendSuccess(res, { user }, 'Profil yangilandi');
   } catch (error) {
+    if (error.code === 11000) {
+      return sendError(res, 'Bu login yoki telefon raqami allaqachon band', 400);
+    }
     return sendError(res, error.message, 500);
   }
 };
@@ -175,6 +201,7 @@ const changePassword = async (req, res) => {
     }
 
     user.password = newPassword;
+    user.refreshTokens = [];
     await user.save();
 
     return sendSuccess(res, {}, 'Parol muvaffaqiyatli o\'zgartirildi');

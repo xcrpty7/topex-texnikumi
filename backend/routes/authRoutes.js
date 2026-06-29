@@ -30,8 +30,14 @@ router.post(
   loginLimit,
   [
     body('name').trim().notEmpty().withMessage('Ism kiritilishi shart'),
-    body('email').isEmail().withMessage('Email noto\'g\'ri formatda'),
-    body('password').isLength({ min: 6 }).withMessage('Parol kamida 6 ta belgi bo\'lishi kerak'),
+    body('password').isLength({ min: 4 }).withMessage('Parol kamida 4 ta belgi bo\'lishi kerak'),
+    body('email').optional({ checkFalsy: true }).isEmail().withMessage('Email noto\'g\'ri formatda'),
+    body().custom((_, { req }) => {
+      if (!req.body.email && !req.body.phone) {
+        throw new Error('Email yoki telefon raqami kiritilishi shart');
+      }
+      return true;
+    }),
   ],
   validate,
   register
@@ -41,8 +47,13 @@ router.post(
   '/login',
   loginLimit,
   [
-    body('email').isEmail().withMessage('Email noto\'g\'ri formatda'),
     body('password').notEmpty().withMessage('Parol kiritilishi shart'),
+    body().custom((_, { req }) => {
+      if (!req.body.identifier && !req.body.email && !req.body.phone && !req.body.login) {
+        throw new Error('Email, telefon yoki login kiritilishi shart');
+      }
+      return true;
+    }),
   ],
   validate,
   login
@@ -60,8 +71,8 @@ router.put(
   [
     body('currentPassword').notEmpty().withMessage('Joriy parol kiritilishi shart'),
     body('newPassword')
-      .isLength({ min: 6 })
-      .withMessage('Yangi parol kamida 6 ta belgi bo\'lishi kerak'),
+      .isLength({ min: 4 })
+      .withMessage('Yangi parol kamida 4 ta belgi bo\'lishi kerak'),
   ],
   validate,
   changePassword

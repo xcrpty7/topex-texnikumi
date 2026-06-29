@@ -1,8 +1,8 @@
 const sendSuccess = (res, data = {}, message = 'Muvaffaqiyatli', statusCode = 200) => {
   return res.status(statusCode).json({
+    ...data,
     success: true,
     message,
-    ...data,
   });
 };
 
