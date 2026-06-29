@@ -77,9 +77,11 @@ const Footer = () => {
   ]);
   const COL2 = mapLinks(settings?.footerColApplicantsLinks, [
     { url: '/courses',           label: t('footer.links.directions') },
-    { url: '/imtihon-natijalari', label: t('footer.links.examResult') },
     { url: '/vakansiyalar',       label: t('footer.links.vacancies') },
   ]);
+  if (!COL2.some(l => l.to === '/imtihon-natijalari')) {
+    COL2.push({ to: '/imtihon-natijalari', label: t('footer.links.examResult') });
+  }
   const COL3 = mapLinks(settings?.footerColStudentsLinks, [
     { url: '/profile',     label: t('footer.links.contract') },
     { url: '/gallery',     label: t('footer.links.studentLife') },
