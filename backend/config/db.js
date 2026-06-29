@@ -1,29 +1,23 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-  if (process.env.MONGO_URI) {
-    try {
-      const conn = await mongoose.connect(process.env.MONGO_URI, {
-        serverSelectionTimeoutMS: 10000,
-      });
-      console.log(`✅ MongoDB ulandi: ${conn.connection.host}`);
-      return;
-    } catch (error) {
-      console.error(`❌ MongoDB ulanish xatosi: ${error.message}`);
-      if (process.env.NODE_ENV !== 'production') {
-        process.exit(1);
-      }
-      console.log('⚠️  In-memory MongoDB ga o\'tilmoqda...');
-    }
+  if (!process.env.MONGO_URI) {
+    console.warn('⚠️  MONGO_URI aniqlanmagan — MongoDB ulanmadi');
+    return mongoose;
   }
-
-  const { MongoMemoryServer } = require('mongodb-memory-server');
-  const mongod = await MongoMemoryServer.create({
-    instance: { dbName: 'topex' },
-  });
-  const uri = mongod.getUri();
-  await mongoose.connect(uri);
-  console.log(`✅ In-memory MongoDB ulandi: ${uri}`);
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 10000,
+    });
+    console.log(`✅ MongoDB ulandi: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`❌ MongoDB ulanish xatosi: ${error.message}`);
+    if (process.env.NODE_ENV === 'development') {
+      process.exit(1);
+    }
+    console.warn('⚠️  MongoDB ulanmadi — server DB siz ishga tushdi');
+  }
+  return mongoose;
 };
 
 module.exports = connectDB;

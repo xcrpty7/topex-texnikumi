@@ -224,8 +224,10 @@ const server = app.listen(PORT, () => {
 server.timeout = 30000; // 30 sek — slow-loris DoS dan himoya
 
 process.on('unhandledRejection', (err) => {
-  console.error('❌ Boshqarilmagan xato:', err.message);
-  server.close(() => process.exit(1));
+  console.error('❌ Boshqarilmagan xato:', err?.message);
+  if (process.env.NODE_ENV !== 'production') {
+    server.close(() => process.exit(1));
+  }
 });
 
 process.on('SIGTERM', () => {
