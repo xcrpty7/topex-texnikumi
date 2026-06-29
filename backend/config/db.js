@@ -1,22 +1,29 @@
 const mongoose = require('mongoose');
 
-const MAX_RETRIES = 3;
-
-const connectDB = async (retryCount = 0) => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 10000,
-    });
-    console.log(`✅ MongoDB ulandi: ${conn.connection.host}`);
-  } catch (error) {
-    if (retryCount < MAX_RETRIES) {
-      console.error(`❌ MongoDB ulanish xatosi (${retryCount + 1}/${MAX_RETRIES}): ${error.message}`);
-      await new Promise(r => setTimeout(r, 3000));
-      return connectDB(retryCount + 1);
+const connectDB = async () => {
+  if (process.env.MONGO_URI) {
+    try {
+      const conn = await mongoose.connect(process.env.MONGO_URI, {
+        serverSelectionTimeoutMS: 10000,
+      });
+      console.log(`✅ MongoDB ulandi: ${conn.connection.host}`);
+      return;
+    } catch (error) {
+      console.error(`❌ MongoDB ulanish xatosi: ${error.message}`);
+      if (process.env.NODE_ENV !== 'production') {
+        process.exit(1);
+      }
+      console.log('⚠️  In-memory MongoDB ga o\'tilmoqda...');
     }
-    console.error(`❌ MongoDB ulanish xatosi: ${error.message}`);
-    process.exit(1);
   }
+
+  const { MongoMemoryServer } = require('mongodb-memory-server');
+  const mongod = await MongoMemoryServer.create({
+    instance: { dbName: 'topex' },
+  });
+  const uri = mongod.getUri();
+  await mongoose.connect(uri);
+  console.log(`✅ In-memory MongoDB ulandi: ${uri}`);
 };
 
 module.exports = connectDB;
