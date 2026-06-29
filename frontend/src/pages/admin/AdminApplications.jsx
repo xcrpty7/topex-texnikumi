@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -49,16 +49,16 @@ const AdminApplications = () => {
   const [confirmId, setConfirmId]       = useState(null);
   const [deleting, setDeleting]         = useState(false);
 
-  const load = (page) => {
+  const load = useCallback((page) => {
     const params = {};
     if (filterStatus)  params.status = filterStatus;
     if (filterGrade)   params.grade  = filterGrade;
     if (search.trim()) params.search = search.trim();
     if (page)          params.page   = page;
     dispatch(fetchAdminApplications(params));
-  };
+  }, [filterStatus, filterGrade, search, dispatch]);
 
-  useEffect(() => { load(); }, [load, filterStatus, filterGrade]);
+  useEffect(() => { load(); }, [load]);
 
   const openDetail = (app) => {
     setSelected(app);

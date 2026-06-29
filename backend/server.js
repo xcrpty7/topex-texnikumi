@@ -81,10 +81,10 @@ app.use(hpp({ whitelist: [] }));
 const isDev = process.env.NODE_ENV === 'development';
 
 const globalLimit = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200,
+  windowMs: 60 * 1000,
+  max: 100,
   skip: () => isDev,
-  message: { success: false, message: 'Juda ko\'p so\'rov. 15 daqiqadan keyin qayta urinib ko\'ring' },
+  message: { success: false, message: 'Juda ko\'p so\'rov. Biroz kuting' },
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -98,6 +98,7 @@ const authLimit = rateLimit({
   legacyHeaders: false,
 });
 
+app.use('/api/auth', authLimit);
 app.use(globalLimit);
 
 // ─── Umumiy middleware'lar ────────────────────────────────────────────────────
