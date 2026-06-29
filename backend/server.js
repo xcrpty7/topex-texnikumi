@@ -82,8 +82,8 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const globalLimit = rateLimit({
   windowMs: 60 * 1000,
-  max: 100,
-  skip: () => isDev,
+  max: 300,
+  skip: (req) => isDev || req.path === '/api/health',
   message: { success: false, message: 'Juda ko\'p so\'rov. Biroz kuting' },
   standardHeaders: true,
   legacyHeaders: false,
