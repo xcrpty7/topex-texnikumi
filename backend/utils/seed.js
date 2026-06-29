@@ -9,17 +9,26 @@ const Teacher = require('../models/Teacher');
 const seed = async () => {
   console.log('🌱 Seed boshlandi...');
 
+  const ADMIN_PHONE = (process.env.ADMIN_PHONE || '+998 99 999 99 99').replace(/[\s\-()]/g, '').trim();
+  const ADMIN_LOGIN = process.env.ADMIN_LOGIN || 'admin';
   const existingAdmin = await User.findOne({ email: process.env.ADMIN_EMAIL });
   if (!existingAdmin) {
     const admin = await User.create({
       name: process.env.ADMIN_NAME || 'Super Admin',
       email: process.env.ADMIN_EMAIL || 'admin@topex.uz',
+      phone: ADMIN_PHONE,
+      login: ADMIN_LOGIN,
       password: process.env.ADMIN_PASSWORD || 'Admin@topex2024',
       role: 'SUPER_ADMIN',
     });
-    console.log(`✅ Super Admin yaratildi: ${admin.email}`);
+    console.log(`✅ Super Admin yaratildi: login=${admin.login} / tel=${admin.phone}`);
   } else {
-    console.log(`ℹ️  Super Admin allaqachon mavjud: ${existingAdmin.email}`);
+    // Telefon (normallashtirilgan) va login orqali kirish uchun to'g'rilaymiz
+    let changed = false;
+    if (existingAdmin.phone !== ADMIN_PHONE) { existingAdmin.phone = ADMIN_PHONE; changed = true; }
+    if (!existingAdmin.login) { existingAdmin.login = ADMIN_LOGIN; changed = true; }
+    if (changed) await existingAdmin.save({ validateBeforeSave: false });
+    console.log(`ℹ️  Super Admin mavjud: login=${existingAdmin.login} / tel=${existingAdmin.phone}`);
   }
 
   const coursesCount = await Course.countDocuments();
@@ -32,7 +41,7 @@ const seed = async () => {
       { title: 'Bank va Moliya Nazoratchisi', shortDescription: 'Moliya sohasida karyerangizni boshlang', category: 'Bank', level: 'O\'rta', duration: '8 oy', price: 0, isActive: true, isFeatured: false, createdBy: admin._id },
       { title: 'Raqamli Ma\'lumotlar Tahlili', shortDescription: 'Data Science sohasiga kirish', category: 'Ma\'lumotlar Tahlili', level: 'O\'rta', duration: '6 oy', price: 0, isActive: true, isFeatured: true, createdBy: admin._id },
     ];
-    for (const c of courses) await Course.create(c);
+    for (const c of courses) await Course.create({ description: c.shortDescription, ...c });
     console.log(`✅ ${courses.length} ta kurs yaratildi`);
   } else {
     console.log(`ℹ️  Kurslar allaqachon mavjud: ${coursesCount} ta`);
@@ -46,7 +55,7 @@ const seed = async () => {
       { title: 'Grant va Stipendiyalar: Kimlar Olishi Mumkin?', excerpt: '2 million so\'mgacha grant olish imkoniyatlari haqida.', category: 'Granlar', author: admin._id, isPublished: true, publishedAt: new Date(Date.now() - 86400000), tags: ['grant', 'stipendiya', 'SAT', 'IELTS'] },
       { title: 'Bitiruvchilarimiz Qanday Natijalar Qo\'lga Kiritdi?', excerpt: 'Muvaffaqiyatli bitiruvchilarimizning ish va karyera tajribalari.', category: 'Muvaffaqiyatlar', author: admin._id, isPublished: true, publishedAt: new Date(Date.now() - 172800000), tags: ['bitiruvchilar', 'muvaffaqiyat', 'karyera'] },
     ];
-    for (const a of articles) await Article.create(a);
+    for (const a of articles) await Article.create({ content: a.excerpt, ...a });
     console.log(`✅ ${articles.length} ta maqola yaratildi`);
   } else {
     console.log(`ℹ️  Maqolalar allaqachon mavjud: ${articlesCount} ta`);

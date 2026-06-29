@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard, Users, BookOpen, FileText,
   LogOut, ClipboardList, Menu, X,
-  Image, Star, HelpCircle, Award, Settings, Play, Film, ExternalLink, Globe,
+  Image, Star, HelpCircle, Award, Settings, Play, Film, ExternalLink, Globe, UserCog,
 } from 'lucide-react';
 import { logout, selectUser } from '../features/auth/authSlice';
 import { fetchDashboard } from '../features/admin/adminSlice';
@@ -39,6 +39,7 @@ const AdminLayout = () => {
     { section: t('adminLayout.section.settings'), items: [
       { to: '/admin/site-editor',  label: t('adminLayout.siteEditor'),   icon: Globe },
       { to: '/admin/settings',     label: t('adminLayout.settings'),     icon: Settings },
+      { to: '/profile',            label: t('adminMisc.profile'),        icon: UserCog },
     ]},
   ], [t, i18n.language]);
   const user = useSelector(selectUser);
@@ -87,12 +88,12 @@ const AdminLayout = () => {
         {/* Brand */}
         <div className="flex items-center justify-between px-5 py-5 flex-shrink-0" style={{ borderBottom: '1px solid #3a3b3c' }}>
           <Link to="/" className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-base flex-shrink-0"
-              style={{ background: '#D8D9DA', color: '#272829' }}>
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center font-black text-base flex-shrink-0 shadow-md"
+              style={{ background: 'linear-gradient(135deg, #2949a8, #1d3a8a)', color: '#fff' }}>
               T
             </div>
             <div className="min-w-0">
-              <p className="font-bold text-[15px] truncate" style={{ color: '#fff' }}>TOPEX</p>
+              <p className="font-bold text-[15px] truncate" style={{ color: '#6f9aee' }}>TOPEX</p>
               <p className="text-[11px] truncate" style={{ color: '#9ca0ad' }}>{t('adminLayout.adminPanel')}</p>
             </div>
           </Link>
@@ -198,7 +199,7 @@ const AdminLayout = () => {
                 {time}
               </span>
             </span>
-            <LanguageSwitcher compact />
+            <LanguageSwitcher />
             <Link
               to="/"
               target="_blank"

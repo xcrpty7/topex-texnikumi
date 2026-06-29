@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { fetchMe, setCredentials, markInitialized } from './features/auth/authSlice';
+import { warmupBackend } from './services/api';
 import AppRouter from './routes/AppRouter';
 
 // JWT exp claim'ini lokal dekodlash — server'ga so'rovsiz muddati o'tganligini bilish
@@ -27,6 +28,11 @@ const PLACEHOLDER =
 
 const App = () => {
   const dispatch = useDispatch();
+
+  // Backendni darhol "uyg'otamiz" — ariza/login so'rovlari tez ishlashi uchun
+  useEffect(() => {
+    warmupBackend();
+  }, []);
 
   useEffect(() => {
     document.addEventListener('error', (e) => {

@@ -6,6 +6,11 @@ import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import Spinner from '../components/ui/Spinner';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+// Yuklangan videolar (/uploads/...) productionда to'g'ri ochilishi uchun to'liq URL
+const resolveVideo = (u) =>
+  !u ? '' : (u.startsWith('http') || u.startsWith('/assets')) ? u : `${API_URL}${u}`;
+
 const up = (delay = 0) => ({
   initial:     { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -65,7 +70,7 @@ const VideosPage = () => {
                 >
                   <div className="aspect-video bg-[#F1F2F4] relative overflow-hidden">
                     <video
-                      src={item.url}
+                      src={resolveVideo(item.url)}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       preload="metadata"
                     />
@@ -112,7 +117,7 @@ const VideosPage = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <video
-                src={selected.url}
+                src={resolveVideo(selected.url)}
                 controls
                 autoPlay
                 className="w-full rounded-2xl shadow-2xl"

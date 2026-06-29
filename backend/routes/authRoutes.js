@@ -49,8 +49,8 @@ router.post(
   [
     body('password').notEmpty().withMessage('Parol kiritilishi shart'),
     body().custom((_, { req }) => {
-      if (!req.body.identifier && !req.body.email && !req.body.phone && !req.body.login) {
-        throw new Error('Email, telefon yoki login kiritilishi shart');
+      if (!req.body.identifier && !req.body.email && !req.body.phone) {
+        throw new Error('Email yoki telefon raqami kiritilishi shart');
       }
       return true;
     }),

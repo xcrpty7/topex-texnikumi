@@ -5,13 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, User, LogOut, Shield, Phone, MapPin, Mail, ChevronDown } from 'lucide-react';
 import { logout, selectUser, selectIsAuthenticated } from '../features/auth/authSlice';
+import LanguageSwitcher from '../components/common/LanguageSwitcher';
 import api from '../services/api';
-
-const LANGS = [
-  { code: 'uz', label: 'UZ', flag: '🇺🇿' },
-  { code: 'ru', label: 'RU', flag: '🇷🇺' },
-  { code: 'en', label: 'EN', flag: '🇬🇧' },
-];
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -21,7 +16,6 @@ const Navbar = () => {
   const isAuth      = useSelector(selectIsAuthenticated);
   const [open,   setOpen]   = useState(false);
   const [uMenu,  setUMenu]  = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
   const [siteSettings, setSiteSettings] = useState(null);
 
   useEffect(() => {
@@ -43,7 +37,6 @@ const Navbar = () => {
   };
 
   const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
-  const currentLang = LANGS.find(l => l.code === i18n.language) || LANGS[0];
 
   const links = [
     { to: '/',         label: t('nav.about') },
@@ -54,20 +47,30 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="bg-white w-full border-b border-gray-200/60">
+    <header className="bg-white w-full border-b border-gray-200/60 sticky top-0 z-50 shadow-sm">
       {/* ═══ ROW 1: LOGO + CONTACTS ═══ */}
       <div className="border-b border-gray-100">
         <div className="w-full px-6 lg:px-12 py-5">
           <div className="flex items-center justify-between gap-8">
 
-            {/* Logo — image already contains "Topex" word */}
-            <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
-              <img
-                src={logoSrc}
-                alt="Topex"
-                className="h-14 w-auto object-contain"
+            {/* Logo — brendli ko'k rang (CSS mask orqali, shakl saqlanadi) */}
+            <Link to="/" className="flex items-center gap-3 group flex-shrink-0" aria-label="Topex">
+              <span
+                className="block h-12 lg:h-14"
+                style={{
+                  width: '13.5rem',
+                  maxWidth: '52vw',
+                  backgroundColor: '#1d3a8a',
+                  WebkitMaskImage: `url(${logoSrc})`,
+                  maskImage: `url(${logoSrc})`,
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskPosition: 'left center',
+                  maskPosition: 'left center',
+                }}
               />
-              
             </Link>
 
             {/* Contacts */}
@@ -118,32 +121,7 @@ const Navbar = () => {
             {/* Right actions */}
             <div className="flex items-center gap-3">
               {/* Lang */}
-              <div className="relative">
-                <button onClick={() => setLangOpen(v => !v)}
-                  className="flex items-center gap-1.5 px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors">
-                  <span className="text-base leading-none">{currentLang.flag}</span>
-                  <span className="text-brand font-semibold text-[13px]">{currentLang.label}</span>
-                  <ChevronDown size={13} className="text-gray-400" />
-                </button>
-                <AnimatePresence>
-                  {langOpen && (
-                    <motion.div
-                      initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:6 }}
-                      transition={{ duration:0.15 }}
-                      className="absolute right-0 top-full mt-1 w-32 bg-white border border-gray-100 rounded-xl shadow-lg py-1 overflow-hidden z-50">
-                      {LANGS.map(({ code, label, flag }) => (
-                        <button key={code}
-                          onClick={() => { i18n.changeLanguage(code); localStorage.setItem('topex_lang', code); setLangOpen(false); }}
-                          className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                            i18n.language === code ? 'bg-orange-faint text-orange font-semibold' : 'text-gray-700 hover:bg-gray-50'
-                          }`}>
-                          <span>{flag}</span> {label}
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <LanguageSwitcher />
 
               {isAuth ? (
                 <div className="relative">
@@ -257,16 +235,8 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-1 px-4 pt-3">
-                {LANGS.map(({ code, label, flag }) => (
-                  <button key={code}
-                    onClick={() => { i18n.changeLanguage(code); localStorage.setItem('topex_lang', code); setOpen(false); }}
-                    className={`flex items-center gap-1 px-2.5 py-1.5 rounded text-xs font-semibold transition-colors ${
-                      i18n.language === code ? 'text-orange bg-orange-faint' : 'text-gray-500 hover:text-brand'
-                    }`}>
-                    <span>{flag}</span> {label}
-                  </button>
-                ))}
+              <div className="px-4 pt-3">
+                <LanguageSwitcher />
               </div>
             </div>
           </motion.div>

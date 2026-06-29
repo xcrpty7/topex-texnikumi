@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
@@ -12,7 +12,9 @@ const CoursesPage = lazy(() => import('../pages/CoursesPage'));
 const CourseDetailPage = lazy(() => import('../pages/CourseDetailPage'));
 const GalleryPage = lazy(() => import('../pages/GalleryPage'));
 const VideosPage = lazy(() => import('../pages/VideosPage'));
-const ContactPage = lazy(() => import('../pages/ContactPage'));
+const ContactPage   = lazy(() => import('../pages/ContactPage'));
+const VakansiyaPage = lazy(() => import('../pages/VakansiyaPage'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
 import BlogPage from '../pages/BlogPage';
 import ArticleDetailPage from '../pages/ArticleDetailPage';
 const ProfilePage = lazy(() => import('../pages/ProfilePage'));
@@ -51,13 +53,19 @@ const AppRouter = () => (
         <Route path="/courses/:slug" element={<CourseDetailPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/videos" element={<VideosPage />} />
-        <Route path="/aloqalar" element={<ContactPage />} />
+        <Route path="/aloqalar"    element={<ContactPage />} />
+        <Route path="/vakansiyalar" element={<VakansiyaPage />} />
+        <Route
+          path="/imtihon-natijalari"
+          element={<NotFoundPage variant="soon" />}
+        />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticleDetailPage />} />
         <Route
           path="/profile"
           element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
 
       <Route
@@ -84,8 +92,6 @@ const AppRouter = () => (
         <Route path="directions"   element={<AdminDirections />} />
         <Route path="videos"       element={<AdminVideos />} />
       </Route>
-
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   </Suspense>
 );

@@ -157,6 +157,79 @@
     "loading": "Loading...",
     "delete": "Delete"
   },
+  "loginPage": {
+    "backHome": "Home",
+    "brand": "Topex Texnikumi",
+    "heroTitle": "Time to get back\nto learning!",
+    "heroParagraph": "Your future profession started at our college. Keep going and track your study progress.",
+    "statStudents": "Students",
+    "statTeachers": "Teachers",
+    "statBranches": "Branches",
+    "sectionLabel": "Sign in",
+    "formTitle": "Sign in to\nyour account",
+    "noAccount": "No account?",
+    "signUp": "Sign up",
+    "tabPhone": "Phone",
+    "tabLogin": "Login",
+    "loginLabel": "Login",
+    "loginPlaceholder": "e.g. admin",
+    "passwordLabel": "Password",
+    "forgot": "Forgot?",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "errPhone": "Enter your full phone number",
+    "errLogin": "Login must be at least 3 characters"
+  },
+  "consent": {
+    "prefix": "I agree to the processing of my personal data and the",
+    "brand": "Topex Texnikumi",
+    "suffix": "privacy terms."
+  },
+  "formToast": {
+    "errName": "Enter your name",
+    "errPhone": "Enter your phone number",
+    "errGrade": "Grade must be 9 or 11",
+    "success": "Thank you, {{name}}! Your application is received. We'll contact you soon.",
+    "errTimeout": "The server is waking up. Please try again in a few seconds.",
+    "errNetwork": "Internet connection problem. Please try again later.",
+    "errGeneric": "Error submitting the application. Please try again."
+  },
+  "profileCred": {
+    "title": "Login details",
+    "subtitle": "You sign in with your phone number or login",
+    "loginLabel": "Login (optional)",
+    "loginPlaceholder": "e.g. admin",
+    "phoneLabel": "Phone number",
+    "save": "Save",
+    "saving": "Saving...",
+    "passwordTitle": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password (at least 4 characters)",
+    "updatePassword": "Update password",
+    "errLogin": "Login must be at least 3 characters",
+    "errNewPassword": "New password must be at least 4 characters",
+    "credUpdated": "Login details updated!",
+    "passwordUpdated": "Password changed!",
+    "profileUpdated": "Profile updated!",
+    "saveError": "Save error",
+    "passwordError": "Error changing password",
+    "avatarUpdated": "Avatar updated!",
+    "avatarError": "Upload failed"
+  },
+  "notFound": {
+    "soonTitle": "Coming soon!",
+    "soonDefault": "This section is being prepared. Entrance exam results will appear here soon.",
+    "title404": "Page not found",
+    "text404": "Sorry, the page you are looking for does not exist or has been moved.",
+    "home": "Go home",
+    "back": "Back"
+  },
+  "diplomaSection": {
+    "badge": "Document"
+  },
+  "adminMisc": {
+    "profile": "Profile & login"
+  },
   "registerPage": {
     "backHome": "Home",
     "heroBadge": "Study at Topex Texnikumi",
@@ -174,12 +247,15 @@
     "orDivider": "or",
     "nameLabel": "Full name",
     "namePlaceholder": "Aziz Rahimov",
+    "phoneLabel": "Phone number",
+    "optional": "optional",
+    "identifierHint": "Phone or email — enter at least one",
     "emailLabel": "Email address",
     "emailPlaceholder": "you@example.com",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Create a strong password",
     "passwordCheck": {
-      "minChars": "8+ characters",
+      "minChars": "At least 4 characters",
       "upperCase": "Uppercase letter",
       "number": "Number"
     },
@@ -286,6 +362,8 @@
     "photosTitle": "Photo Gallery",
     "studentTab": "Students",
     "teacherTab": "Teachers",
+    "soonTitle": "Gallery coming soon!",
+    "soonText": "This is where the brightest moments of the academic year — lessons, events and photos of our students — will soon be collected. It's still being prepared, so stay tuned!",
     "meta": {
       "title": "Gallery – Topex Texnikumi",
       "description": "Bright photos from the daily life of Topex Texnikumi: lessons, events, olympiads, and the student community.",

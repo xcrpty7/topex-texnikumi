@@ -201,16 +201,8 @@ const deleteUser = async (req, res) => {
 
 const toggleUserBlock = async (req, res) => {
   try {
-    if (req.params.id === req.user._id.toString()) {
-      return sendError(res, 'O\'zingizni bloklay olmaysiz', 400);
-    }
-
     const user = await User.findById(req.params.id).select('-password -refreshTokens');
     if (!user) return sendError(res, 'Foydalanuvchi topilmadi', 404);
-
-    if (user.role === 'SUPER_ADMIN') {
-      return sendError(res, 'Super adminni bloklash mumkin emas', 403);
-    }
 
     user.isActive = !user.isActive;
     await user.save({ validateBeforeSave: false });

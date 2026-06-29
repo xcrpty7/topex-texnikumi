@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
-  Camera, BookOpen, CheckCircle, TrendingUp,
+  Camera, BookOpen, CheckCircle, TrendingUp, Phone, AtSign, KeyRound, Eye, EyeOff,
 } from 'lucide-react';
 import { selectUser } from '../features/auth/authSlice';
 import { setCredentials } from '../features/auth/authSlice';
+import PhoneInput from '../components/ui/PhoneInput';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 
@@ -20,17 +21,61 @@ const ProfilePage = () => {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
 
+  // Kirish ma'lumotlari (login + telefon)
+  const [cred, setCred] = useState({ login: user?.login || '', phone: user?.phone || '' });
+  const [savingCred, setSavingCred] = useState(false);
+  // Parolni o'zgartirish
+  const [pwd, setPwd] = useState({ currentPassword: '', newPassword: '' });
+  const [showPwd, setShowPwd] = useState(false);
+  const [savingPwd, setSavingPwd] = useState(false);
+
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
     try {
-      const { data } = await api.put('/users/profile', form);
-      dispatch(setCredentials({ user: data.data }));
-      toast.success('Profile updated!');
+      const { data } = await api.put('/auth/profile', { name: form.name });
+      dispatch(setCredentials({ user: data.user }));
+      toast.success(t('profileCred.profileUpdated'));
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Update failed');
+      toast.error(err.response?.data?.message || t('profileCred.saveError'));
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleSaveCred = async (e) => {
+    e.preventDefault();
+    if (cred.login && cred.login.trim().length < 3) {
+      toast.error(t('profileCred.errLogin'));
+      return;
+    }
+    setSavingCred(true);
+    try {
+      const { data } = await api.put('/auth/profile', { login: cred.login, phone: cred.phone });
+      dispatch(setCredentials({ user: data.user }));
+      toast.success(t('profileCred.credUpdated'));
+    } catch (err) {
+      toast.error(err.response?.data?.message || t('profileCred.saveError'));
+    } finally {
+      setSavingCred(false);
+    }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if ((pwd.newPassword || '').length < 4) {
+      toast.error(t('profileCred.errNewPassword'));
+      return;
+    }
+    setSavingPwd(true);
+    try {
+      await api.put('/auth/change-password', pwd);
+      toast.success(t('profileCred.passwordUpdated'));
+      setPwd({ currentPassword: '', newPassword: '' });
+    } catch (err) {
+      toast.error(err.response?.data?.message || t('profileCred.passwordError'));
+    } finally {
+      setSavingPwd(false);
     }
   };
 
@@ -41,11 +86,11 @@ const ProfilePage = () => {
     fd.append('avatar', file);
     setUploading(true);
     try {
-      const { data } = await api.post('/users/avatar', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-      dispatch(setCredentials({ user: data.data }));
-      toast.success('Avatar updated!');
+      const { data } = await api.put('/auth/profile', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      dispatch(setCredentials({ user: data.user }));
+      toast.success(t('profileCred.avatarUpdated'));
     } catch {
-      toast.error('Upload failed');
+      toast.error(t('profileCred.avatarError'));
     } finally {
       setUploading(false);
     }
@@ -199,6 +244,96 @@ const ProfilePage = () => {
                     {saving ? (
                       <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Сохранение...</>
                     ) : t('profile.saveChanges')}
+                  </button>
+                </form>
+              </motion.div>
+
+              {/* ── Kirish ma'lumotlari (login / telefon / parol) ── */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.18 }}
+                className="bg-white border border-gray-100 rounded-2xl shadow-card p-6 sm:p-8"
+              >
+                <h2 className="text-navy font-black text-xl mb-1">{t('profileCred.title')}</h2>
+                <p className="text-gray-500 text-sm mb-6">{t('profileCred.subtitle')}</p>
+
+                <form onSubmit={handleSaveCred} className="space-y-5">
+                  <div>
+                    <label className="block text-navy font-semibold text-sm mb-2 flex items-center gap-1.5">
+                      <AtSign size={15} className="text-orange" /> {t('profileCred.loginLabel')}
+                    </label>
+                    <input
+                      type="text"
+                      value={cred.login}
+                      onChange={(e) => setCred({ ...cred, login: e.target.value })}
+                      placeholder={t('profileCred.loginPlaceholder')}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-navy text-sm
+                                 placeholder-gray-400 focus:outline-none focus:border-orange/50 focus:ring-2 focus:ring-orange/10 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-navy font-semibold text-sm mb-2 flex items-center gap-1.5">
+                      <Phone size={15} className="text-orange" /> {t('profileCred.phoneLabel')}
+                    </label>
+                    <PhoneInput
+                      value={cred.phone}
+                      onChange={(v) => setCred({ ...cred, phone: v })}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3.5 pr-4 text-navy text-sm
+                                 placeholder-gray-400 focus:outline-none focus:border-orange/50 focus:ring-2 focus:ring-orange/10 transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={savingCred}
+                    className="inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-dark
+                               text-white font-bold px-8 py-3.5 rounded-xl shadow-lg
+                               hover:-translate-y-0.5 transition-all duration-200 text-sm disabled:opacity-60"
+                  >
+                    {savingCred ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {t('profileCred.saving')}</> : t('profileCred.save')}
+                  </button>
+                </form>
+
+                <div className="border-t border-gray-100 my-7" />
+
+                <h3 className="text-navy font-bold text-base mb-5 flex items-center gap-1.5">
+                  <KeyRound size={17} className="text-orange" /> {t('profileCred.passwordTitle')}
+                </h3>
+                <form onSubmit={handleChangePassword} className="space-y-4">
+                  <div className="relative">
+                    <input
+                      type={showPwd ? 'text' : 'password'}
+                      value={pwd.currentPassword}
+                      onChange={(e) => setPwd({ ...pwd, currentPassword: e.target.value })}
+                      placeholder={t('profileCred.currentPassword')}
+                      required
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-navy text-sm
+                                 placeholder-gray-400 focus:outline-none focus:border-orange/50 focus:ring-2 focus:ring-orange/10 transition-all"
+                    />
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={showPwd ? 'text' : 'password'}
+                      value={pwd.newPassword}
+                      onChange={(e) => setPwd({ ...pwd, newPassword: e.target.value })}
+                      placeholder={t('profileCred.newPassword')}
+                      required
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-12 text-navy text-sm
+                                 placeholder-gray-400 focus:outline-none focus:border-orange/50 focus:ring-2 focus:ring-orange/10 transition-all"
+                    />
+                    <button type="button" onClick={() => setShowPwd(v => !v)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange transition-colors">
+                      {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={savingPwd}
+                    className="inline-flex items-center justify-center gap-2 bg-orange hover:brightness-110
+                               text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-orange/20
+                               hover:-translate-y-0.5 transition-all duration-200 text-sm disabled:opacity-60"
+                  >
+                    {savingPwd ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {t('profileCred.saving')}</> : t('profileCred.updatePassword')}
                   </button>
                 </form>
               </motion.div>

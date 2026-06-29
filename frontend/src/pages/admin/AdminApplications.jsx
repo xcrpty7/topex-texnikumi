@@ -121,6 +121,31 @@ const AdminApplications = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Excel (.xls) eksport — qo'shimcha kutubxonasiz, Excel/Sheets to'g'ri ochadi
+  const exportExcel = () => {
+    const headers = [t('adminApplications.csvName'), t('adminApplications.csvPhone'), t('adminApplications.csvGrade'), t('adminApplications.csvCourse'), t('adminApplications.csvStatus'), t('adminApplications.csvDate'), t('adminApplications.csvNote')];
+    const rows = filtered.map(app => [
+      app.fullName || '',
+      app.phone || '',
+      `${app.grade}-${t('adminApplications.grade')}`,
+      app.course?.title || '',
+      app.status || '',
+      new Date(app.createdAt).toLocaleDateString('uz-UZ'),
+      app.note || '',
+    ]);
+    const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const thead = `<tr>${headers.map(h => `<th style="background:#16A34A;color:#fff;font-weight:bold;border:1px solid #cbd5e1;padding:6px">${esc(h)}</th>`).join('')}</tr>`;
+    const tbody = rows.map(r => `<tr>${r.map(c => `<td style="border:1px solid #cbd5e1;padding:6px;mso-number-format:'\\@'">${esc(c)}</td>`).join('')}</tr>`).join('');
+    const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body><table>${thead}${tbody}</table></body></html>`;
+    const blob = new Blob(['﻿' + html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `arizalar_${new Date().toISOString().split('T')[0]}.xls`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const list = applications || [];
 
   const todayCount = list.filter(app => {
@@ -178,6 +203,15 @@ const AdminApplications = () => {
               onMouseLeave={(e) => (e.currentTarget.style.background = '#F0FDF4')}
             >
               ↓ {t('adminApplications.csvExport')}
+            </button>
+            <button
+              onClick={exportExcel}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded font-mono text-xs transition-colors"
+              style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0' }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#D1FAE5')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = '#ECFDF5')}
+            >
+              ↓ Excel
             </button>
             <button
               onClick={load}

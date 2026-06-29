@@ -124,7 +124,7 @@
     "colStudents": "Talabalar uchun",
     "colContacts": "Aloqalar",
     "license": "Texnikum litsenziyasi",
-    "copyright": "©Copyright",
+    "copyright": "© Topex Texnikumi · Barcha huquqlar himoyalangan ·",
     "oferta": "Ommaviy oferta",
     "links": {
       "about": "Biz haqimizda",
@@ -162,6 +162,83 @@
     "loading": "Yuklanmoqda...",
     "delete": "O'chirish"
   },
+  "loginPage": {
+    "backHome": "Bosh sahifa",
+    "brand": "Topex Texnikumi",
+    "heroTitle": "Bilimga qaytish\nvaqti keldi!",
+    "heroParagraph": "Kelajak kasbingiz bizning texnikumdan boshlangan. Davom eting va o'qishingizdagi yutuqlarni kuzating.",
+    "statStudents": "O'quvchi",
+    "statTeachers": "O'qituvchi",
+    "statBranches": "Filial",
+    "sectionLabel": "Kirish",
+    "formTitle": "Akkauntingizga\nkiring",
+    "noAccount": "Hisobingiz yo'qmi?",
+    "signUp": "Ro'yxatdan o'ting",
+    "tabPhone": "Telefon raqam",
+    "tabLogin": "Login",
+    "loginLabel": "Login",
+    "loginPlaceholder": "masalan: admin",
+    "passwordLabel": "Parol",
+    "forgot": "Unutdingizmi?",
+    "submit": "Kirish",
+    "submitting": "Kiritilmoqda...",
+    "errPhone": "Telefon raqamingizni to'liq kiriting",
+    "errLogin": "Login kamida 3 ta belgidan iborat bo'lishi kerak"
+  },
+  "consent": {
+    "prefix": "Shaxsiy ma'lumotlarim qayta ishlanishiga va",
+    "brand": "Topex Texnikumi",
+    "suffix": "maxfiylik shartlariga roziman."
+  },
+  "formToast": {
+    "errName": "Ismingizni kiriting",
+    "errPhone": "Telefon raqamingizni kiriting",
+    "errGrade": "Sinf 9 yoki 11 bo'lishi kerak",
+    "success": "Rahmat, {{name}}! Arizangiz qabul qilindi. Tez orada bog'lanamiz.",
+    "errTimeout": "Server hozir uyg'onmoqda. Iltimos, bir necha soniyadan so'ng qayta urinib ko'ring.",
+    "errNetwork": "Internet bilan bog'lanishda muammo. Iltimos, keyinroq urinib ko'ring.",
+    "errGeneric": "Ariza yuborishda xatolik. Qayta urinib ko'ring."
+  },
+  "profileCred": {
+    "title": "Kirish ma'lumotlari",
+    "subtitle": "Telefon raqami yoki login orqali tizimga kirasiz",
+    "loginLabel": "Login (ixtiyoriy)",
+    "loginPlaceholder": "masalan: admin",
+    "phoneLabel": "Telefon raqam",
+    "save": "Saqlash",
+    "saving": "Saqlanmoqda...",
+    "passwordTitle": "Parolni o'zgartirish",
+    "currentPassword": "Joriy parol",
+    "newPassword": "Yangi parol (kamida 4 ta belgi)",
+    "updatePassword": "Parolni yangilash",
+    "errLogin": "Login kamida 3 ta belgidan iborat bo'lishi kerak",
+    "errNewPassword": "Yangi parol kamida 4 ta belgidan iborat bo'lishi kerak",
+    "credUpdated": "Kirish ma'lumotlari yangilandi!",
+    "passwordUpdated": "Parol o'zgartirildi!",
+    "profileUpdated": "Profil yangilandi!",
+    "saveError": "Saqlashda xatolik",
+    "passwordError": "Parolni o'zgartirishda xatolik",
+    "avatarUpdated": "Avatar yangilandi!",
+    "avatarError": "Yuklab bo'lmadi"
+  },
+  "notFound": {
+    "soonTitle": "Tez orada!",
+    "soonDefault": "Bu bo'lim hozircha tayyorlanmoqda. Kirish imtihon natijalari yaqin kunlarda shu yerda e'lon qilinadi.",
+    "title404": "Sahifa topilmadi",
+    "text404": "Kechirasiz, siz qidirgan sahifa mavjud emas yoki ko'chirilgan bo'lishi mumkin.",
+    "home": "Bosh sahifaga",
+    "back": "Orqaga"
+  },
+  "diplomaSection": {
+    "badge": "Hujjat"
+  },
+  "adminMisc": {
+    "profile": "Profil va kirish"
+  },
+  "loginErr": {
+    "phoneIncomplete": "Telefon raqamingizni to'liq kiriting",
+    "loginShort": "Login kamida 3 ta belgidan iborat bo'lishi kerak"
+  },
   "registerPage": {
     "backHome": "Bosh sahifa",
     "heroBadge": "Topex Texnikumida o'qish",
@@ -179,12 +256,15 @@
     "orDivider": "yoki",
     "nameLabel": "To'liq ism",
     "namePlaceholder": "Aziz Rahimov",
+    "phoneLabel": "Telefon raqam",
+    "optional": "ixtiyoriy",
+    "identifierHint": "Telefon yoki email — kamida bittasini kiriting",
     "emailLabel": "Email manzil",
     "emailPlaceholder": "siz@example.com",
     "passwordLabel": "Parol",
     "passwordPlaceholder": "Kuchli parol o'ylab toping",
     "passwordCheck": {
-      "minChars": "8+ belgi",
+      "minChars": "Kamida 4 ta belgi",
       "upperCase": "Katta harf",
       "number": "Raqam"
     },
@@ -291,6 +371,8 @@
     "photosTitle": "Rasmlar galereyasi",
     "studentTab": "O'quvchilar",
     "teacherTab": "O'qituvchilar",
+    "soonTitle": "Galereya tez orada!",
+    "soonText": "Bu yerda tez orada o'quv yili davomidagi eng yorqin lavhalar — darslar, tadbirlar va talabalarimizning suratlari joylashtiriladi. Hozircha tayyorlanmoqda, biz bilan qoling!",
     "meta": {
       "title": "Galereya – Topex Texnikumi",
       "description": "Topex Texnikumining kundalik hayotidan eng yorqin foto lavhalar: darslar, tadbirlar, olimpiadalar va o'quvchilar jamoasi.",

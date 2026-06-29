@@ -201,7 +201,6 @@ const changePassword = async (req, res) => {
     }
 
     user.password = newPassword;
-    user.refreshTokens = [];
     await user.save();
 
     return sendSuccess(res, {}, 'Parol muvaffaqiyatli o\'zgartirildi');

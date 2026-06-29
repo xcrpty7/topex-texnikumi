@@ -32,7 +32,20 @@ const releaseSlot = () => {
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
+  // Render bepul tarifdagi backend "uyqudan" uyg'onishi 30-50s olishi mumkin,
+  // shuning uchun timeout yetarlicha katta — lekin cheksiz emas (UI osilib qolmasin).
+  timeout: 60000,
 });
+
+// Backendni oldindan "uyg'otish" — sahifa ochilganda bir marta chaqiriladi,
+// shunda foydalanuvchi ariza yuborgunicha server tayyor bo'ladi (cold start muammosi).
+let warmedUp = false;
+export const warmupBackend = () => {
+  if (warmedUp) return;
+  warmedUp = true;
+  // fire-and-forget, xatolarni e'tiborsiz qoldiramiz
+  axios.get(`${BASE_URL}/health`, { timeout: 90000 }).catch(() => {});
+};
 
 api.interceptors.request.use(async (config) => {
   await acquireSlot();

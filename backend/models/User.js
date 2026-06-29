@@ -10,10 +10,12 @@ const userSchema = new mongoose.Schema(
       minlength: [2, 'Ism kamida 2 ta belgi bo\'lishi kerak'],
       maxlength: [100, 'Ism 100 ta belgidan oshmasligi kerak'],
     },
+    // Email yoki telefon — kamida bittasi bo'lishi shart (controller'da tekshiriladi).
+    // sparse: bir nechta foydalanuvchi email/telefonsiz bo'lsa ham unique buzilmaydi.
     email: {
       type: String,
-      required: [true, 'Email kiritilishi shart'],
       unique: true,
+      sparse: true,
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Email noto\'g\'ri formatda'],
@@ -21,12 +23,23 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, 'Parol kiritilishi shart'],
-      minlength: [6, 'Parol kamida 6 ta belgi bo\'lishi kerak'],
+      minlength: [4, 'Parol kamida 4 ta belgi bo\'lishi kerak'],
       select: false,
     },
     phone: {
       type: String,
       trim: true,
+      unique: true,
+      sparse: true,
+    },
+    // Admin o'zi o'ylab topadigan login (username) — telefon o'rniga ham kirish mumkin
+    login: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      sparse: true,
+      minlength: [3, 'Login kamida 3 ta belgi bo\'lishi kerak'],
     },
     role: {
       type: String,
@@ -61,6 +74,14 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Telefon raqamini har doim normallashtiramiz (bo'shliq/chiziqcha olib tashlanadi)
+userSchema.pre('save', function (next) {
+  if (this.isModified('phone') && this.phone) {
+    this.phone = this.phone.replace(/[\s\-()]/g, '').trim();
+  }
+  next();
+});
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

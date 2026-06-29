@@ -20,10 +20,12 @@ import CourseCard from '../components/common/CourseCard';
 import HeroSwiper from '../components/common/HeroSwiper';
 import DirectionsSplit from '../components/common/DirectionsSplit';
 import TeamSection from '../components/common/TeamSection';
+import DiplomaSection from '../components/common/DiplomaSection';
 import NewsSwiper from '../components/common/NewsSwiper';
 import VideosSwiper from '../components/common/VideosSwiper';
 import ArticleCard from '../components/common/ArticleCard';
 import Spinner from '../components/ui/Spinner';
+import PhoneInput from '../components/ui/PhoneInput';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 
@@ -328,21 +330,24 @@ const HomePage = () => {
     const phone = (form.phone || '').trim();
     const grade = String(form.grade || '').trim();
 
-    if (!fullName) { toast.error("Ismingizni kiriting"); return; }
-    if (!phone)    { toast.error("Telefon raqamingizni kiriting"); return; }
-    if (grade !== '9' && grade !== '11') { toast.error("Sinf 9 yoki 11 bo'lishi kerak"); return; }
+    if (!fullName) { toast.error(t('formToast.errName')); return; }
+    if (!phone)    { toast.error(t('formToast.errPhone')); return; }
+    if (grade !== '9' && grade !== '11') { toast.error(t('formToast.errGrade')); return; }
 
     try {
       setSubmitting(true);
       await api.post('/applications', { fullName, phone, grade });
-      toast.success(`Rahmat, ${fullName}! Arizangiz qabul qilindi. Tez orada bog'lanamiz.`);
+      toast.success(t('formToast.success', { name: fullName }));
       setForm({ name: '', phone: '', grade: '9' });
     } catch (err) {
+      const isTimeout = err?.code === 'ECONNABORTED' || /timeout/i.test(err?.message || '');
       const msg = err?.response?.data?.message
         || err?.response?.data?.errors?.[0]?.msg
-        || (err?.message === 'Network Error'
-            ? "Internet bilan bog'lanishda muammo. Iltimos, keyinroq urinib ko'ring."
-            : "Ariza yuborishda xatolik. Qayta urinib ko'ring.");
+        || (isTimeout
+            ? t('formToast.errTimeout')
+            : err?.message === 'Network Error'
+            ? t('formToast.errNetwork')
+            : t('formToast.errGeneric'));
       toast.error(msg);
     } finally {
       setSubmitting(false);
@@ -461,6 +466,9 @@ const HomePage = () => {
       {/* ══ 5. JAMOA — Bizning mutaxassislar ═════════════════ */}
       <TeamSection teachers={dbTeachers} settings={settings} />
 
+      {/* ══ 6. HUJJAT / SERTIFIKAT — Diplom bo'limi ═══════════ */}
+      <DiplomaSection settings={settings} />
+
       {/* ══ 7. VIDEO — Talabalik hayoti ═════════════════════ */}
       <VideosSwiper videos={displayVideos} onOpen={setActiveVideo} settings={settings} />
 
@@ -524,18 +532,13 @@ const HomePage = () => {
 
                 <div>
                   <label className="block text-brand font-semibold text-[14px] mb-2">{t('form.phoneLabel')}</label>
-                  <div className="relative">
-                    <span className="absolute left-5 top-1/2 -translate-y-1/2 text-base leading-none">🇺🇿</span>
-                    <input
-                      type="tel"
-                      placeholder="+998 __ ___-__-__"
-                      className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 pl-14 pr-5 text-brand text-[15px]
-                                 placeholder:text-gray-400 focus:outline-none focus:border-orange transition-all"
-                      value={form.phone}
-                      onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                      required
-                    />
-                  </div>
+                  <PhoneInput
+                    value={form.phone}
+                    onChange={(v) => setForm(p => ({ ...p, phone: v }))}
+                    required
+                    className="w-full bg-white border-2 border-gray-200 rounded-xl py-4 pr-5 text-brand text-[15px]
+                               placeholder:text-gray-400 focus:outline-none focus:border-orange transition-all"
+                  />
                 </div>
 
                 <div>
@@ -561,7 +564,9 @@ const HomePage = () => {
                     className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2 cursor-pointer"
                   />
                   <span className="text-gray-500 text-[13px] leading-relaxed">
-                    {t('form.agree')}
+                    {t('consent.prefix')}{' '}
+                    <Link to="/" className="text-brand font-semibold hover:underline">{t('consent.brand')}</Link>{' '}
+                    {t('consent.suffix')}
                   </span>
                 </label>
 
@@ -586,24 +591,28 @@ const HomePage = () => {
               </motion.form>
             </div>
 
-            {/* RIGHT — photo with orange arch */}
+            {/* RIGHT — photo, toza va zamonaviy (orange yo'q) */}
             <motion.div
               initial={{ opacity:0, scale:0.95 }} whileInView={{ opacity:1, scale:1 }} viewport={{ once:true }}
               transition={{ duration:0.7 }}
-              className="relative hidden lg:flex items-end justify-center min-h-[600px]">
-              {/* Orange arch background */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[420px] h-[560px]
-                              bg-orange-grad shadow-2xl shadow-orange/20"
-                   style={{ borderRadius: '210px 210px 24px 24px' }} />
-              {/* Photo on top */}
-              <img
-                src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
-                  ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                  : '/assets/images/form-photo.jpg'}
-                alt="Topex talabasi"
-                className="relative z-10 w-[400px] h-[540px] object-cover rounded-t-[200px]
-                           shadow-2xl"
-              />
+              className="relative hidden lg:flex items-center justify-center min-h-[620px]">
+              {/* Yumshoq brend nur (orqada) */}
+              <div className="absolute w-[360px] h-[480px] rounded-[60px] bg-brand/5 blur-3xl" />
+              {/* Dekorativ nuqtalar (tepa-o'ng) */}
+              <div className="absolute top-6 right-10 w-32 h-32 opacity-20 pointer-events-none"
+                   style={{ backgroundImage: 'radial-gradient(circle, #1d3a8a 1.6px, transparent 1.6px)', backgroundSize: '18px 18px' }} />
+              {/* Foto — toza arch, oq chekka, bosh to'liq (object-top) */}
+              <div className="relative z-10 w-[400px] h-[560px] overflow-hidden ring-4 ring-white
+                              shadow-2xl bg-gray-100"
+                   style={{ borderRadius: '180px 180px 36px 36px' }}>
+                <img
+                  src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
+                    ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
+                    : '/assets/images/form-photo.jpg'}
+                  alt="Topex talabasi"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
             </motion.div>
           </div>
         </div>

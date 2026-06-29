@@ -7,12 +7,10 @@ const paginate = async (Model, query = {}, options = {}) => {
     select = null,
   } = options;
 
-  const safePage = Math.max(1, parseInt(page) || 1);
-  const safeLimit = Math.min(Math.max(1, parseInt(limit) || 12), 100);
-  const skip = (safePage - 1) * safeLimit;
+  const skip = (parseInt(page) - 1) * parseInt(limit);
   const total = await Model.countDocuments(query);
 
-  let dbQuery = Model.find(query).sort(sort).skip(skip).limit(safeLimit);
+  let dbQuery = Model.find(query).sort(sort).skip(skip).limit(parseInt(limit));
 
   if (populate) {
     if (Array.isArray(populate)) {
@@ -30,9 +28,9 @@ const paginate = async (Model, query = {}, options = {}) => {
     data,
     meta: {
       total,
-      page: safePage,
-      limit: safeLimit,
-      pages: Math.ceil(total / safeLimit),
+      page: parseInt(page),
+      limit: parseInt(limit),
+      pages: Math.ceil(total / parseInt(limit)),
     },
   };
 };
