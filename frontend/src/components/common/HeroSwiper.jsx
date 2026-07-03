@@ -29,8 +29,9 @@ export default function HeroSwiper({ settings }) {
   // 2) Aks holda i18n + statik rasm
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
+  const heroImg = settings?.heroImage || '';
   const heroImages = [
-    resolveImg(settings?.heroImage, IMAGES[0]),
+    heroImg && !heroImg.startsWith('/uploads/') ? resolveImg(heroImg, IMAGES[0]) : IMAGES[0],
     IMAGES[1],
     IMAGES[2],
   ];
