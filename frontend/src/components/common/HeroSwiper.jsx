@@ -42,7 +42,7 @@ export default function HeroSwiper({ settings }) {
     IMAGES[2],
   ];
 
-  const imgBg = (i) => heroImages[i] || IMAGES[0];
+  const imgBg = (i) => (heroImages[i] || IMAGES[0]).replace('.webp', '-960w.webp');
   const imgFg = (i) => heroImages[(i + 1) % heroImages.length] || IMAGES[0];
 
   const slides = dbSlides
