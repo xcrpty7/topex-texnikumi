@@ -180,7 +180,7 @@ const AdminDirections = () => {
             <label className="block text-sm font-semibold mb-1.5">{t('adminDirections.form.img')}</label>
             <input className="input-field" value={form.img}
                    onChange={e => setForm(p => ({ ...p, img: e.target.value }))}
-                   placeholder="/assets/images/DSC00827.jpg" />
+                   placeholder="/assets/images/DSC00827.webp" />
           </div>
           <div>
             <label className="block text-sm font-semibold mb-1.5">{t('adminDirections.form.features')}</label>

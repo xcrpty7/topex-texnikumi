@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 import 'swiper/css';
 
 const NEWS_IMAGES = [
-  '/assets/posts/smm-01.jpg',
-  '/assets/posts/smm-02.jpg',
-  '/assets/posts/smm-03.jpg',
-  '/assets/images/DSC00827.jpg',
-  '/assets/images/DSC01036.jpg',
-  '/assets/images/DSC01093.jpg',
+  '/assets/posts/smm-01.webp',
+  '/assets/posts/smm-02.webp',
+  '/assets/posts/smm-03.webp',
+  '/assets/images/DSC00827.webp',
+  '/assets/images/DSC01036.webp',
+  '/assets/images/DSC01093.webp',
 ];
 
 export default function NewsSwiper({ articles, settings }) {

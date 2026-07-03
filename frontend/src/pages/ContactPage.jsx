@@ -143,7 +143,7 @@ const ContactPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${settings?.contactHeroImage || '/assets/images/DSC01036.jpg'}')` }}
+          style={{ backgroundImage: `url('${settings?.contactHeroImage || '/assets/images/DSC01036.webp'}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
@@ -309,7 +309,7 @@ const ContactPage = () => {
                 <img
                   src={settings?.formImage
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/form-photo.jpg'}
+                    : '/assets/images/form-photo.webp'}
                   alt="Topex talabasi"
                   className="w-full h-full object-cover object-top"
                 />

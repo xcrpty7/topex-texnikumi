@@ -100,7 +100,7 @@ const ArticleDetailPage = () => {
       <section className="relative py-20 md:py-28 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${settings?.blogHeroImage || '/assets/images/DSC01036.jpg'}')` }}
+          style={{ backgroundImage: `url('${settings?.blogHeroImage || '/assets/images/DSC01036.webp'}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">

@@ -35,21 +35,21 @@ const up = (delay = 0) => ({
 });
 
 const DEFAULT_HIGHLIGHTS = (t) => [
-  { img: '/assets/icons/icon-02.jpg', title: t('coursesPage.highlights.chemistry'),   students: '120+' },
-  { img: '/assets/icons/icon-04.jpg', title: t('coursesPage.highlights.literature'),  students: '85+' },
-  { img: '/assets/icons/icon-06.jpg', title: t('coursesPage.highlights.olympiads'),   students: '200+' },
-  { img: '/assets/icons/icon-08.jpg', title: t('coursesPage.highlights.research'),    students: '60+' },
+  { img: '/assets/icons/icon-02.webp', title: t('coursesPage.highlights.chemistry'),   students: '120+' },
+  { img: '/assets/icons/icon-04.webp', title: t('coursesPage.highlights.literature'),  students: '85+' },
+  { img: '/assets/icons/icon-06.webp', title: t('coursesPage.highlights.olympiads'),   students: '200+' },
+  { img: '/assets/icons/icon-08.webp', title: t('coursesPage.highlights.research'),    students: '60+' },
 ];
 
 const DEFAULT_SUBJECTS = (t) => [
-  { icon: Code,        name: t('coursesPage.subjects.programming'),            desc: t('coursesPage.subjects.programmingDesc'),           img: '/assets/images/DSC00827.jpg',       duration: '2 yil', features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
-  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),              desc: t('coursesPage.subjects.marketingDesc'),             img: '/assets/images/DSC00912.jpg',       duration: '2 yil', features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
-  { icon: Palette,     name: t('coursesPage.subjects.design'),                 desc: t('coursesPage.subjects.designDesc'),                img: '/assets/images/DSC01093.jpg',       duration: '2 yil', features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
-  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),                desc: t('coursesPage.subjects.bankingDesc'),               img: '/assets/famali-photo/DSC00875.jpg', duration: '2 yil', features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
-  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),                  desc: t('coursesPage.subjects.hotelDesc'),                 img: '/assets/famali-photo/DSC00954.jpg', duration: '2 yil', features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
-  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),              desc: t('coursesPage.subjects.analyticsDesc'),             img: '/assets/famali-photo/DSC00955.jpg', duration: '2 yil', features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
-  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),               desc: t('coursesPage.subjects.laborantDesc'),              img: '/assets/famali-photo/DSC00964.jpg', duration: '2 yil', features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
-  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),               desc: t('coursesPage.subjects.phytolabDesc'),              img: '/assets/famali-photo/DSC00980.jpg', duration: '2 yil', features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
+  { icon: Code,        name: t('coursesPage.subjects.programming'),            desc: t('coursesPage.subjects.programmingDesc'),           img: '/assets/images/DSC00827.webp',       duration: '2 yil', features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
+  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),              desc: t('coursesPage.subjects.marketingDesc'),             img: '/assets/images/DSC00912.webp',       duration: '2 yil', features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
+  { icon: Palette,     name: t('coursesPage.subjects.design'),                 desc: t('coursesPage.subjects.designDesc'),                img: '/assets/images/DSC01093.webp',       duration: '2 yil', features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
+  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),                desc: t('coursesPage.subjects.bankingDesc'),               img: '/assets/famali-photo/DSC00875.webp', duration: '2 yil', features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
+  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),                  desc: t('coursesPage.subjects.hotelDesc'),                 img: '/assets/famali-photo/DSC00954.webp', duration: '2 yil', features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
+  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),              desc: t('coursesPage.subjects.analyticsDesc'),             img: '/assets/famali-photo/DSC00955.webp', duration: '2 yil', features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
+  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),               desc: t('coursesPage.subjects.laborantDesc'),              img: '/assets/famali-photo/DSC00964.webp', duration: '2 yil', features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
+  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),               desc: t('coursesPage.subjects.phytolabDesc'),              img: '/assets/famali-photo/DSC00980.webp', duration: '2 yil', features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
 ];
 
 const CoursesPage = () => {
@@ -125,7 +125,7 @@ const CoursesPage = () => {
             backgroundImage: `url('${
               settings?.coursesHeroImage
                 ? resolveImg(settings.coursesHeroImage)
-                : '/assets/famali-photo/DSC01053.jpg'
+                : '/assets/famali-photo/DSC01053.webp'
             }')`,
           }}
         />

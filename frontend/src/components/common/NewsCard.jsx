@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 const resolveImg = (img) => {
-  if (!img) return '/assets/posts/smm-01.jpg';
+  if (!img) return '/assets/posts/smm-01.webp';
   if (img.startsWith('http') || img.startsWith('/assets')) return img;
   return `${API_URL}${img}`;
 };

@@ -64,7 +64,7 @@ const SUBJECTS = [
     icon: Code,           
     name: 'Dasturlash',                    
     desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
-    img: '/assets/images/DSC00827.jpg',
+    img: '/assets/images/DSC00827.webp',
     duration: '2 yil',
     features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
   },
@@ -72,7 +72,7 @@ const SUBJECTS = [
     icon: TrendingUp,     
     name: 'Marketing va Agrobiznes',       
     desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.", 
-    img: '/assets/images/DSC00912.jpg',
+    img: '/assets/images/DSC00912.webp',
     duration: '2 yil',
     features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
   },
@@ -80,7 +80,7 @@ const SUBJECTS = [
     icon: Palette,        
     name: 'Kompyuter Grafikasi',           
     desc: '3D modellashtirish, brending va vizual kontent.', 
-    img: '/assets/images/DSC01093.jpg',
+    img: '/assets/images/DSC01093.webp',
     duration: '2 yil',
     features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
   },
@@ -88,7 +88,7 @@ const SUBJECTS = [
     icon: ShieldCheck,    
     name: 'Bank Nazoratchisi',             
     desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', 
-    img: '/assets/famali-photo/DSC00875.jpg',
+    img: '/assets/famali-photo/DSC00875.webp',
     duration: '2 yil',
     features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
   },
@@ -96,7 +96,7 @@ const SUBJECTS = [
     icon: Hotel,          
     name: 'Mehmonxona Boshqaruvi',         
     desc: "Xalqaro servis va mehmondo'stlik san'ati.", 
-    img: '/assets/famali-photo/DSC00954.jpg',
+    img: '/assets/famali-photo/DSC00954.webp',
     duration: '2 yil',
     features: ['Service Management', 'Event planning', 'Xorijiy tillar']
   },
@@ -104,7 +104,7 @@ const SUBJECTS = [
     icon: BarChart3,      
     name: 'Raqamli Axborotlar Analitigi',   
     desc: "Ma'lumotlar tahlili va biznes-bashorat.",
-    img: '/assets/famali-photo/DSC00955.jpg',
+    img: '/assets/famali-photo/DSC00955.webp',
     duration: '2 yil',
     features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
   },
@@ -112,7 +112,7 @@ const SUBJECTS = [
     icon: FlaskConical,   
     name: 'Laborant-Analitik',             
     desc: 'Tibbiy va sanoat tahlillari ustasi.', 
-    img: '/assets/famali-photo/DSC00964.jpg',
+    img: '/assets/famali-photo/DSC00964.webp',
     duration: '2 yil',
     features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
   },
@@ -120,7 +120,7 @@ const SUBJECTS = [
     icon: Sprout,         
     name: "Dorivor O'simliklar Laboranti",
     desc: 'Farmatsevtika va fitoterapiya sirlari.', 
-    img: '/assets/famali-photo/DSC00980.jpg',
+    img: '/assets/famali-photo/DSC00980.webp',
     duration: '2 yil',
     features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
   },
@@ -190,9 +190,9 @@ const STATIC_FAQS = [
 ];
 
 const STATIC_REVIEWS = [
-  { _id: 'r1', name: 'Zulfiya Xasanova', role: "9-sinf o'quvchisining onasi", avatar: '/assets/posts/avatar-02.jpg', text: "Topex texnikumiga o'tganidan beri o'g'lim matematika va fizikadan sezilarli yutuqlar ko'rsatyapti. O'qituvchilar juda mehribon va tajribali.", rating: 5 },
-  { _id: 'r2', name: 'Behruz Toshmatov', role: '11-sinf bitiruvchisi', avatar: '/assets/posts/avatar-01.jpg', text: "Topexda o'qigan 3 yilim hayotimning eng foydali davri bo'ldi. Olimpiadada birinchi o'rin oldim va universitetga kirish oson bo'ldi.", rating: 5 },
-  { _id: 'r3', name: 'Nilufar Rahimova', role: "6-sinf o'quvchisining otasi", avatar: '/assets/posts/avatar-02.jpg', text: "Individual yondashuv va zamonaviy usullar tufayli qizimning o'zlashtirishi keskin yaxshilandi. Texnikum bilan juda mamnunmiz.", rating: 5 },
+  { _id: 'r1', name: 'Zulfiya Xasanova', role: "9-sinf o'quvchisining onasi", avatar: '/assets/posts/avatar-02.webp', text: "Topex texnikumiga o'tganidan beri o'g'lim matematika va fizikadan sezilarli yutuqlar ko'rsatyapti. O'qituvchilar juda mehribon va tajribali.", rating: 5 },
+  { _id: 'r2', name: 'Behruz Toshmatov', role: '11-sinf bitiruvchisi', avatar: '/assets/posts/avatar-01.webp', text: "Topexda o'qigan 3 yilim hayotimning eng foydali davri bo'ldi. Olimpiadada birinchi o'rin oldim va universitetga kirish oson bo'ldi.", rating: 5 },
+  { _id: 'r3', name: 'Nilufar Rahimova', role: "6-sinf o'quvchisining otasi", avatar: '/assets/posts/avatar-02.webp', text: "Individual yondashuv va zamonaviy usullar tufayli qizimning o'zlashtirishi keskin yaxshilandi. Texnikum bilan juda mamnunmiz.", rating: 5 },
 ];
 
 /* ─── Accordion item ─────────────────────────────────────── */
@@ -411,10 +411,10 @@ const HomePage = () => {
             <motion.div {...up(0)} className="relative">
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { src: '/assets/images/about/about-1.jpg', cls: 'aspect-[3/4] sm:-mt-6' },
-                  { src: '/assets/images/about/about-2.jpg', cls: 'aspect-[3/4] sm:mt-6' },
-                  { src: '/assets/images/about/about-3.jpg', cls: 'aspect-[4/3]' },
-                  { src: '/assets/images/about/about-4.jpg', cls: 'aspect-[4/3] sm:mt-8' },
+                  { src: '/assets/images/about/about-1.webp', cls: 'aspect-[3/4] sm:-mt-6' },
+                  { src: '/assets/images/about/about-2.webp', cls: 'aspect-[3/4] sm:mt-6' },
+                  { src: '/assets/images/about/about-3.webp', cls: 'aspect-[4/3]' },
+                  { src: '/assets/images/about/about-4.webp', cls: 'aspect-[4/3] sm:mt-8' },
                 ].map((im, i) => {
                   const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
                   return (
@@ -612,7 +612,7 @@ const HomePage = () => {
                 <img
                   src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/form-photo.jpg'}
+                    : '/assets/images/form-photo.webp'}
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"

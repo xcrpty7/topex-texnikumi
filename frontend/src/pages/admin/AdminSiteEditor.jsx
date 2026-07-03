@@ -933,14 +933,14 @@ const AdminSiteEditor = () => {
       // Ensure array fields exist with defaults
       if (!d.subjects || d.subjects.length === 0) {
         d.subjects = [
-          { id: 1, name: 'Dasturlash', desc: "Kod yozishdan tortib, murakkab tizimlar yaratishgacha.", duration: '2 yil', features: "Frontend & Backend, Mobil ilovalar, Portfolio yaratish", imgUrl: '/assets/images/DSC00827.jpg', iconName: 'Code' },
-          { id: 2, name: 'Marketing va Agrobiznes', desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.", duration: '2 yil', features: "SMM & Brending, Bozor tahlili, Eksport-import", imgUrl: '/assets/images/DSC00912.jpg', iconName: 'TrendingUp' },
-          { id: 3, name: 'Kompyuter Grafikasi', desc: '3D modellashtirish, brending va vizual kontent.', duration: '2 yil', features: "Adobe Photoshop/Illustrator, 3D Blender, Motion dizayn", imgUrl: '/assets/images/DSC01093.jpg', iconName: 'Palette' },
-          { id: 4, name: 'Bank Nazoratchisi', desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', duration: '2 yil', features: "Kredit tahlili, Xavfsizlik tizimlari, Bank auditi", imgUrl: '/assets/famali-photo/DSC00875.jpg', iconName: 'ShieldCheck' },
-          { id: 5, name: 'Mehmonxona Boshqaruvi', desc: "Xalqaro servis va mehmondo'stlik san'ati.", duration: '2 yil', features: "Service Management, Event planning, Xorijiy tillar", imgUrl: '/assets/famali-photo/DSC00954.jpg', iconName: 'Hotel' },
-          { id: 6, name: 'Raqamli Axborotlar Analitigi', desc: "Ma'lumotlar tahlili va biznes-bashorat.", duration: '2 yil', features: 'Big Data, Excel & SQL, Biznes strategiya', imgUrl: '/assets/famali-photo/DSC00955.jpg', iconName: 'BarChart3' },
-          { id: 7, name: 'Laborant-Analitik', desc: 'Tibbiy va sanoat tahlillari ustasi.', duration: '2 yil', features: "Kimyoviy tahlil, Sanoat laboratoriyasi, Sifat nazorati", imgUrl: '/assets/famali-photo/DSC00964.jpg', iconName: 'FlaskConical' },
-          { id: 8, name: "Dorivor O'simliklar Laboranti", desc: 'Farmatsevtika va fitoterapiya sirlari.', duration: '2 yil', features: "Botanika, Dori tayyorlash, Fitoterapiya", imgUrl: '/assets/famali-photo/DSC00980.jpg', iconName: 'Sprout' },
+          { id: 1, name: 'Dasturlash', desc: "Kod yozishdan tortib, murakkab tizimlar yaratishgacha.", duration: '2 yil', features: "Frontend & Backend, Mobil ilovalar, Portfolio yaratish", imgUrl: '/assets/images/DSC00827.webp', iconName: 'Code' },
+          { id: 2, name: 'Marketing va Agrobiznes', desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.", duration: '2 yil', features: "SMM & Brending, Bozor tahlili, Eksport-import", imgUrl: '/assets/images/DSC00912.webp', iconName: 'TrendingUp' },
+          { id: 3, name: 'Kompyuter Grafikasi', desc: '3D modellashtirish, brending va vizual kontent.', duration: '2 yil', features: "Adobe Photoshop/Illustrator, 3D Blender, Motion dizayn", imgUrl: '/assets/images/DSC01093.webp', iconName: 'Palette' },
+          { id: 4, name: 'Bank Nazoratchisi', desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', duration: '2 yil', features: "Kredit tahlili, Xavfsizlik tizimlari, Bank auditi", imgUrl: '/assets/famali-photo/DSC00875.webp', iconName: 'ShieldCheck' },
+          { id: 5, name: 'Mehmonxona Boshqaruvi', desc: "Xalqaro servis va mehmondo'stlik san'ati.", duration: '2 yil', features: "Service Management, Event planning, Xorijiy tillar", imgUrl: '/assets/famali-photo/DSC00954.webp', iconName: 'Hotel' },
+          { id: 6, name: 'Raqamli Axborotlar Analitigi', desc: "Ma'lumotlar tahlili va biznes-bashorat.", duration: '2 yil', features: 'Big Data, Excel & SQL, Biznes strategiya', imgUrl: '/assets/famali-photo/DSC00955.webp', iconName: 'BarChart3' },
+          { id: 7, name: 'Laborant-Analitik', desc: 'Tibbiy va sanoat tahlillari ustasi.', duration: '2 yil', features: "Kimyoviy tahlil, Sanoat laboratoriyasi, Sifat nazorati", imgUrl: '/assets/famali-photo/DSC00964.webp', iconName: 'FlaskConical' },
+          { id: 8, name: "Dorivor O'simliklar Laboranti", desc: 'Farmatsevtika va fitoterapiya sirlari.', duration: '2 yil', features: "Botanika, Dori tayyorlash, Fitoterapiya", imgUrl: '/assets/famali-photo/DSC00980.webp', iconName: 'Sprout' },
         ];
       }
       if (!d.extras || d.extras.length === 0) {
@@ -956,10 +956,10 @@ const AdminSiteEditor = () => {
       }
       if (!d.coursesHighlights || d.coursesHighlights.length === 0) {
         d.coursesHighlights = [
-          { img: '/assets/icons/icon-02.jpg', title: 'Kimyo',       students: '120+' },
-          { img: '/assets/icons/icon-04.jpg', title: 'Adabiyot',    students: '85+' },
-          { img: '/assets/icons/icon-06.jpg', title: 'Olimpiadalar', students: '200+' },
-          { img: '/assets/icons/icon-08.jpg', title: 'Tadqiqot',    students: '60+' },
+          { img: '/assets/icons/icon-02.webp', title: 'Kimyo',       students: '120+' },
+          { img: '/assets/icons/icon-04.webp', title: 'Adabiyot',    students: '85+' },
+          { img: '/assets/icons/icon-06.webp', title: 'Olimpiadalar', students: '200+' },
+          { img: '/assets/icons/icon-08.webp', title: 'Tadqiqot',    students: '60+' },
         ];
       }
       if (!d.scholarshipCards || d.scholarshipCards.length === 0) {
@@ -970,10 +970,10 @@ const AdminSiteEditor = () => {
           { title: 'Fan sertifikati', subtitle: 'B+ darajasi',  amount: '500 MING', amountUnit: "so'm", badge: 'Stipendiya',           colorType: 'coral' },
         ];
       }
-      if (!d.blogHeroImage)    d.blogHeroImage    = '/assets/images/DSC01036.jpg';
-      if (!d.galleryHeroImage) d.galleryHeroImage = '/assets/images/DSC01036.jpg';
-      if (!d.coursesHeroImage) d.coursesHeroImage = '/assets/images/DSC01036.jpg';
-      if (!d.heroBgImage)      d.heroBgImage      = '/assets/images/DSC01093.jpg';
+      if (!d.blogHeroImage)    d.blogHeroImage    = '/assets/images/DSC01036.webp';
+      if (!d.galleryHeroImage) d.galleryHeroImage = '/assets/images/DSC01036.webp';
+      if (!d.coursesHeroImage) d.coursesHeroImage = '/assets/images/DSC01036.webp';
+      if (!d.heroBgImage)      d.heroBgImage      = '/assets/images/DSC01093.webp';
       if (!d.footerDescription) d.footerDescription = "Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Sifatli ta'lim, tajribali o'qituvchilar.";
       setSettings(d);
       setOriginalSettings(JSON.parse(JSON.stringify(d)));

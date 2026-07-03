@@ -64,7 +64,7 @@ const LitsenziyaPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/images/DSC01036.jpg')" }}
+          style={{ backgroundImage: "url('/assets/images/DSC01036.webp')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
@@ -192,7 +192,7 @@ const LitsenziyaPage = () => {
               <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-gray-200">
                 {!imgErrors['main-license'] ? (
                   <img
-                    src="/assets/license/license-main.jpg"
+                    src="/assets/license/license-main.webp"
                     alt="Topex Texnikumi Litsenziyasi - asosiy sahifa"
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                     onError={() => setImgErrors(prev => ({ ...prev, 'main-license': true }))}
@@ -236,7 +236,7 @@ const LitsenziyaPage = () => {
               <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-gray-200">
                 {!imgErrors['directions-license'] ? (
                   <img
-                    src="/assets/license/license-directions.jpg"
+                    src="/assets/license/license-directions.webp"
                     alt="Topex Texnikumi Litsenziyasi - yo'nalishlar"
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                     onError={() => setImgErrors(prev => ({ ...prev, 'directions-license': true }))}

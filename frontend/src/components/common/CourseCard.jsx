@@ -13,9 +13,9 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 
 /* Cycle through the 3 SMM post images as fallback thumbnails */
 const FALLBACK_IMGS = [
-  '/assets/posts/smm-01.jpg',
-  '/assets/posts/smm-02.jpg',
-  '/assets/posts/smm-03.jpg',
+  '/assets/posts/smm-01.webp',
+  '/assets/posts/smm-02.webp',
+  '/assets/posts/smm-03.webp',
 ];
 
 const resolveImg = (url) => {

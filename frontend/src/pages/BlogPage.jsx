@@ -14,7 +14,7 @@ import { STATIC_NEWS } from '../data/staticNews';
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 const resolveImg = (img) => {
-  if (!img) return '/assets/posts/smm-01.jpg';
+  if (!img) return '/assets/posts/smm-01.webp';
   if (img.startsWith('http') || img.startsWith('/assets')) return img;
   return `${API_URL}${img}`;
 };
@@ -126,7 +126,7 @@ const BlogPage = () => {
       <section className="relative py-28 md:py-36 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center scale-105"
-          style={{ backgroundImage: `url('${settings?.blogHeroImage || '/assets/images/DSC01036.jpg'}')` }}
+          style={{ backgroundImage: `url('${settings?.blogHeroImage || '/assets/images/DSC01036.webp'}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/90 via-navy/80 to-navy/95" />
         {/* glow accents */}

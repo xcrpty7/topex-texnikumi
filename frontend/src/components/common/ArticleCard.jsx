@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { Clock, ArrowRight, Calendar } from 'lucide-react';
 
 const FALLBACK_IMGS = [
-  '/assets/posts/smm-01.jpg',
-  '/assets/posts/smm-02.jpg',
-  '/assets/posts/smm-03.jpg',
+  '/assets/posts/smm-01.webp',
+  '/assets/posts/smm-02.webp',
+  '/assets/posts/smm-03.webp',
 ];
 
 const AVATAR_IMGS = [
-  '/assets/posts/avatar-01.jpg',
-  '/assets/posts/avatar-02.jpg',
+  '/assets/posts/avatar-01.webp',
+  '/assets/posts/avatar-02.webp',
 ];
 
 const ArticleCard = ({ article, index = 0 }) => {

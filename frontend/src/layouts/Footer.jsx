@@ -162,8 +162,8 @@ const Footer = () => {
   ]);
 
   const LICENSE_IMGS = [
-    { src: '/assets/license/license-main.jpg',       label: 'Litsenziya № 420567' },
-    { src: '/assets/license/license-directions.jpg', label: "Ta'lim yo'nalishlari" },
+    { src: '/assets/license/license-main.webp',       label: 'Litsenziya № 420567' },
+    { src: '/assets/license/license-directions.webp', label: "Ta'lim yo'nalishlari" },
   ];
 
   return (

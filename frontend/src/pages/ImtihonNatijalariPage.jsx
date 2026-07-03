@@ -65,7 +65,7 @@ const ImtihonNatijalariPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/images/DSC01093.jpg')" }}
+          style={{ backgroundImage: "url('/assets/images/DSC01093.webp')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">

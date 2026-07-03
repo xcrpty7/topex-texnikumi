@@ -15,9 +15,9 @@ const resolveImg = (val, fallback) => {
 };
 
 const IMAGES = [
-  '/assets/images/hero/hero-1.jpg',
-  '/assets/images/hero/hero-2.jpg',
-  '/assets/images/hero/hero-3.jpg',
+  '/assets/images/hero/hero-1.webp',
+  '/assets/images/hero/hero-2.webp',
+  '/assets/images/hero/hero-3.webp',
 ];
 
 export default function HeroSwiper({ settings }) {

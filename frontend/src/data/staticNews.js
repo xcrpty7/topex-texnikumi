@@ -8,7 +8,7 @@ export const STATIC_NEWS = [
     slug: 'botirjonov-azizbek-matematika-sertifikat',
     title: "O'quvchimiz Botirjonov Azizbek matematika fanidan sertifikat sohibi bo'ldi!",
     category: 'Yutuqlar',
-    image: '/assets/famali-photo/photo_2026-06-03_01-11-25.jpg',
+    image: '/assets/famali-photo/photo_2026-06-03_01-11-25.webp',
     publishedAt: '2026-03-26T00:00:00.000Z',
     createdAt: '2026-03-26T00:00:00.000Z',
     excerpt:
@@ -82,7 +82,7 @@ export const STATIC_NEWS = [
     slug: 'nega-topex-texnikumini-tanlash-kerak',
     title: "Nega aynan TOPEX Texnikumi? 5 ta sabab",
     category: "Maqolalar",
-    image: '/assets/famali-photo/photo_2026-06-03_01-11-25.jpg',
+    image: '/assets/famali-photo/photo_2026-06-03_01-11-25.webp',
     publishedAt: '2026-06-10T00:00:00.000Z',
     createdAt: '2026-06-10T00:00:00.000Z',
     excerpt: "TOPEX Texnikumini tanlash uchun 5 ta sabab: sifatli ta'lim, tajribali ustozlar, grant imkoniyatlari, zamonaviy yo'nalishlar va amaliy bilim.",

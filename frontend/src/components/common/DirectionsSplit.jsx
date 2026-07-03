@@ -13,10 +13,10 @@ const ICON_MAP = { Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, Fla
 const TRANS_KEYS = ['programming','marketing','graphics','bank','hotel','analytics','lab','pharma'];
 
 const PHOTOS = [
-  '/assets/images/DSC00827.jpg',
-  '/assets/images/DSC00912.jpg',
-  '/assets/images/DSC01036.jpg',
-  '/assets/images/DSC01093.jpg',
+  '/assets/images/DSC00827.webp',
+  '/assets/images/DSC00912.webp',
+  '/assets/images/DSC01036.webp',
+  '/assets/images/DSC01093.webp',
 ];
 
 const PAGE_SIZE = 6;

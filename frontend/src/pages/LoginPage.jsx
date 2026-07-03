@@ -64,7 +64,7 @@ const LoginPage = () => {
         {/* ════ LEFT — visual ════ */}
         <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-brand-deep">
           <div className="absolute inset-0 bg-cover bg-center opacity-30"
-               style={{ backgroundImage: "url('/assets/images/DSC00827.jpg')" }} />
+               style={{ backgroundImage: "url('/assets/images/DSC00827.webp')" }} />
           <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/95 via-brand/85 to-brand-deep/95" />
 
           {/* Decorative pattern */}
