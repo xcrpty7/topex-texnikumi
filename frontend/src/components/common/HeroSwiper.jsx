@@ -35,7 +35,7 @@ export default function HeroSwiper({ settings }) {
           ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
           : [s.title1, s.title2, s.title3].filter(Boolean),
         subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
-        image: i === 0 ? resolveImg(settings?.heroImage, IMAGES[0]) : IMAGES[i % IMAGES.length],
+        image: resolveImg(s.image, i === 0 ? resolveImg(settings?.heroImage, IMAGES[0]) : IMAGES[i % IMAGES.length]),
       }))
     : [0, 1, 2].map((i) => ({
         title: [
