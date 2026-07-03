@@ -57,6 +57,7 @@ const Lightbox = ({ src, alt, onClose }) => {
       <img
         src={src}
         alt={alt}
+        loading="lazy"
         className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       />
@@ -199,6 +200,7 @@ const Footer = () => {
                 <img
                   src={logoSrc}
                   alt="Topex"
+                  loading="lazy"
                   className="h-12 w-auto object-contain brightness-0 invert"
                 />
               </Link>
@@ -231,6 +233,7 @@ const Footer = () => {
                     <img
                       src={src}
                       alt={label}
+                      loading="lazy"
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200 flex items-center justify-center">
