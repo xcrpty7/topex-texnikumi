@@ -14,6 +14,12 @@ const resolveImg = (val, fallback) => {
   return val.startsWith('/assets') ? val : `${API_URL}${val}`;
 };
 
+const srcSetFor = (path) => {
+  const base = path?.replace('.webp', '');
+  if (!base || !base.startsWith('/assets')) return undefined;
+  return `${base}-480w.webp 480w, ${base}-960w.webp 960w, ${base}-1440w.webp 1440w, ${path} 1920w`;
+};
+
 const IMAGES = [
   '/assets/images/hero/hero-1.webp',
   '/assets/images/hero/hero-2.webp',
@@ -152,6 +158,8 @@ export default function HeroSwiper({ settings }) {
                       src={slide.imageFg}
                       alt=""
                       fetchpriority={i === 0 ? 'high' : undefined}
+                      srcSet={srcSetFor(slide.imageFg)}
+                      sizes="(max-width: 480px) 480px, (max-width: 960px) 960px, (max-width: 1440px) 1440px, 1920px"
                       width={1920}
                       height={1080}
                       initial={{ scale: 1.12, opacity: 0 }}
