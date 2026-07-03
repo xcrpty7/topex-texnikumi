@@ -4,7 +4,7 @@
   "description": "TOPEX Education Platform Frontend",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node postbuild.js",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "keywords": [],
