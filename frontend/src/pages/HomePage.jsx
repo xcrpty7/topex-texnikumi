@@ -422,7 +422,7 @@ const HomePage = () => {
                       initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                       transition={{ duration:0.6, delay: i*0.1 }}
                       className={`${im.cls} rounded-2xl overflow-hidden shadow-xl`}>
-                      <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                      <img src={src} alt="" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                     </motion.div>
                   );
                 })}
@@ -614,6 +614,7 @@ const HomePage = () => {
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
                     : '/assets/images/form-photo.jpg'}
                   alt="Topex talabasi"
+                  loading="lazy"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -648,7 +649,9 @@ const HomePage = () => {
               <div className="w-full md:w-1/2 h-64 md:h-auto relative">
                 <img
                   src={selected.imgUrl ? (selected.imgUrl.startsWith('/assets') ? selected.imgUrl : `${API_URL}${selected.imgUrl}`) : (selected.img || '')}
-                  alt={selected.name} className="w-full h-full object-cover" />
+                  alt={selected.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent md:hidden"></div>
               </div>
               <div className="w-full md:w-1/2 p-5 md:p-8 lg:p-12 flex flex-col bg-white text-left">

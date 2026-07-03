@@ -189,6 +189,7 @@ const CoursesPage = () => {
                     <img
                       src={s.img}
                       alt={s.name}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[600ms] ease-out"
                     />
                     <div className="absolute top-3 left-3 w-10 h-10 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-blue shadow">
@@ -317,7 +318,7 @@ const CoursesPage = () => {
                 onClick={e => e.stopPropagation()}
               >
                 <div className="w-full md:w-1/2 h-64 md:h-auto relative">
-                  <img src={selImg} alt={selected.name} className="w-full h-full object-cover" />
+                  <img src={selImg} alt={selected.name} loading="lazy" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent md:hidden"></div>
                 </div>
                 <div className="w-full md:w-1/2 p-5 md:p-8 lg:p-12 flex flex-col bg-white">

@@ -32,6 +32,7 @@ export default function NewsCard({ article, index = 0, moreText }) {
         <img
           src={resolveImg(article.image)}
           alt={article.title}
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         {article.category && (

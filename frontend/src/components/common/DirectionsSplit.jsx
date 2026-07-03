@@ -55,6 +55,7 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
               key={i}
               src={src}
               alt=""
+              loading="lazy"
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === photoIdx ? 'opacity-100' : 'opacity-0'}`}
             />
           ))}

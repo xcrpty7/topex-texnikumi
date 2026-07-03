@@ -51,7 +51,7 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Structured Data: Organization / EducationalOrganization -->
+    <!-- Structured Data: EducationalOrganization + LocalBusiness (3 branches) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,17 +61,66 @@
       "url": "https://topex-texnikumi.vercel.app/",
       "logo": "https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png",
       "image": "https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png",
-      "description": "Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10–11 sinflar uchun sifatli ta'lim.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Сергели-3, ул. Янги Сергели Йули, д. 49",
-        "addressLocality": "Toshkent",
-        "addressRegion": "Sergeli",
-        "addressCountry": "UZ"
+      "description": "Toshkentdagi zamonaviy xususiy texnikum. 10–11 sinflar uchun sifatli ta'lim. 3 ta filial: Chilonzor, Sergeli, Yunusobod.",
+      "foundingDate": "2024",
+      "telephone": "+998787774477",
+      "email": "info@topex.uz",
+      "areaServed": "Toshkent, O'zbekiston",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Ta'lim yo'nalishlari",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "EducationalOccupationalProgram", "name": "Dasturlash" } },
+          { "@type": "Offer", "itemOffered": { "@type": "EducationalOccupationalProgram", "name": "Dizayn" } },
+          { "@type": "Offer", "itemOffered": { "@type": "EducationalOccupationalProgram", "name": "Marketing" } },
+          { "@type": "Offer", "itemOffered": { "@type": "EducationalOccupationalProgram", "name": "Filologiya" } },
+          { "@type": "Offer", "itemOffered": { "@type": "EducationalOccupationalProgram", "name": "Buxgalteriya" } }
+        ]
       },
+      "location": [
+        { "@type": "Place", "name": "Chilonzor filiali", "address": { "@type": "PostalAddress", "streetAddress": "Chilonzor tumani, 6-mavze, 59", "addressLocality": "Toshkent", "addressRegion": "Chilonzor", "addressCountry": "UZ" } },
+        { "@type": "Place", "name": "Sergeli filiali", "address": { "@type": "PostalAddress", "streetAddress": "Sergeli-3, Yangi Sergeli Yo'li, 49", "addressLocality": "Toshkent", "addressRegion": "Sergeli", "addressCountry": "UZ" } },
+        { "@type": "Place", "name": "Yunusobod filiali", "address": { "@type": "PostalAddress", "streetAddress": "Bog'ishamol ko'chasi, 276", "addressLocality": "Toshkent", "addressRegion": "Yunusobod", "addressCountry": "UZ" } }
+      ],
       "sameAs": [
         "https://t.me/topex_uz",
-        "https://www.instagram.com/topex.uz"
+        "https://www.instagram.com/topex.uz",
+        "https://www.goldenpages.uz/uz/company/?Id=114878"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQ (common questions) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "TOPEX Texnikumi qayerda joylashgan?",
+          "acceptedAnswer": { "@type": "Answer", "text": "TOPEX Texnikumining 3 ta filiali bor: Chilonzor (6-mavze, 59), Sergeli (Yangi Sergeli Yo'li, 49), Yunusobod (Bog'ishamol ko'chasi, 276)." }
+        },
+        {
+          "@type": "Question",
+          "name": "TOPEXga qanday hujjatlar kerak?",
+          "acceptedAnswer": { "@type": "Answer", "text": "9-sinf attestati, pasport yoki tug'ilganlik haqidagi guvohnoma, 3x4 rasmlar va ariza." }
+        },
+        {
+          "@type": "Question",
+          "name": "TOPEXda qanday yo'nalishlar bor?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Dasturlash, Dizayn, Marketing, Filologiya va Buxgalteriya yo'nalishlari mavjud." }
+        },
+        {
+          "@type": "Question",
+          "name": "TOPEXda grant va chegirmalar bormi?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ha, olimpiada g'oliblari va iqtidorli talabalar uchun grantlar va chegirmalar mavjud." }
+        },
+        {
+          "@type": "Question",
+          "name": "TOPEXga qabul qachon boshlanadi?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Qabul har yili iyun-sentyabr oylarida olib boriladi. Aniq sanalar uchun admin bilan bog'lanishingiz mumkin." }
+        }
       ]
     }
     </script>

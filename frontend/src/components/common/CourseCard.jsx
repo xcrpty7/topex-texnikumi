@@ -42,6 +42,7 @@ const CourseCard = ({ course, index = 0 }) => {
         <div className="relative h-48 overflow-hidden bg-gray-100 flex-shrink-0">
           <img
             src={thumb}
+            loading="lazy"
             alt={course.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[600ms] ease-out"
           />

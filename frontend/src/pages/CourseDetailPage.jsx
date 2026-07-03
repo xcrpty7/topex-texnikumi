@@ -78,7 +78,7 @@ const CourseDetailPage = () => {
                 <div className="flex items-center gap-3 mt-6">
                   <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white font-semibold">
                     {data.instructor.avatar
-                      ? <img src={data.instructor.avatar} className="w-10 h-10 rounded-full object-cover" alt="" />
+                      ? <img src={data.instructor.avatar} className="w-10 h-10 rounded-full object-cover" alt="" loading="lazy" />
                       : data.instructor.name?.[0]}
                   </div>
                   <div>
@@ -131,7 +131,7 @@ const CourseDetailPage = () => {
             <div className="sticky top-24 glass-card overflow-hidden">
               <div className="h-48 bg-primary-dark">
                 {data.image ? (
-                  <img src={data.image.startsWith('/assets') || data.image.startsWith('http') ? data.image : `${import.meta.env.VITE_API_URL || ''}${data.image}`} alt={data.title} className="w-full h-full object-cover" />
+                  <img src={data.image.startsWith('/assets') || data.image.startsWith('http') ? data.image : `${import.meta.env.VITE_API_URL || ''}${data.image}`} alt={data.title} loading="lazy" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary/30 to-primary">
                     <BookOpen size={48} className="text-accent/30" />

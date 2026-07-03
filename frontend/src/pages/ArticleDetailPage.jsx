@@ -122,7 +122,7 @@ const ArticleDetailPage = () => {
         <article className="w-full max-w-4xl mx-auto px-6">
           {data.image && (
             <motion.div {...up(0)} className="rounded-[1.75rem] overflow-hidden shadow-xl mb-10 aspect-[16/9]">
-              <img src={resolveImg(data.image)} alt={data.title} className="w-full h-full object-cover" />
+              <img src={resolveImg(data.image)} alt={data.title} loading="lazy" className="w-full h-full object-cover" />
             </motion.div>
           )}
 
