@@ -36,13 +36,17 @@ export default function HeroSwiper({ settings }) {
     IMAGES[2],
   ];
 
+  const imgBg = (i) => heroImages[i] || IMAGES[0];
+  const imgFg = (i) => heroImages[(i + 1) % heroImages.length] || IMAGES[0];
+
   const slides = dbSlides
     ? settings.heroSlides.map((s, i) => ({
         title: i < 3
           ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
           : [s.title1, s.title2, s.title3].filter(Boolean),
         subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
-        image: heroImages[i] || IMAGES[0],
+        imageBg: imgBg(i),
+        imageFg: imgFg(i),
       }))
     : [0, 1, 2].map((i) => ({
         title: [
@@ -51,7 +55,8 @@ export default function HeroSwiper({ settings }) {
           t(`hero.slide${i+1}Title3`),
         ],
         subtitle: t(`hero.slide${i+1}Sub`),
-        image: heroImages[i] || IMAGES[0],
+        imageBg: imgBg(i),
+        imageFg: imgFg(i),
       }));
 
   const ctaText  = t('hero.ctaApply');
@@ -77,7 +82,7 @@ export default function HeroSwiper({ settings }) {
               <div className="relative flex items-center px-6 sm:px-10 lg:px-20 py-14 lg:py-0 overflow-hidden bg-brand-deep">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url('${slide.image}')` }}
+                  style={{ backgroundImage: `url('${slide.imageBg}')` }}
                 />
                 <div className="absolute inset-0 bg-brand-deep/80" />
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/30 via-transparent to-brand-deep/40" />
@@ -144,7 +149,7 @@ export default function HeroSwiper({ settings }) {
                   {activeIdx === i && (
                     <motion.img
                       key={`img-${i}`}
-                      src={slide.image}
+                      src={slide.imageFg}
                       alt=""
                       initial={{ scale: 1.12, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
