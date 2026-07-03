@@ -29,13 +29,19 @@ export default function HeroSwiper({ settings }) {
   // 2) Aks holda i18n + statik rasm
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
+  const heroImages = [
+    resolveImg(settings?.heroImage, IMAGES[0]),
+    IMAGES[1],
+    IMAGES[2],
+  ];
+
   const slides = dbSlides
     ? settings.heroSlides.map((s, i) => ({
         title: i < 3
           ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
           : [s.title1, s.title2, s.title3].filter(Boolean),
         subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
-        image: resolveImg(s.image, i === 0 ? resolveImg(settings?.heroImage, IMAGES[0]) : IMAGES[i % IMAGES.length]),
+        image: heroImages[i] || IMAGES[0],
       }))
     : [0, 1, 2].map((i) => ({
         title: [
@@ -44,7 +50,7 @@ export default function HeroSwiper({ settings }) {
           t(`hero.slide${i+1}Title3`),
         ],
         subtitle: t(`hero.slide${i+1}Sub`),
-        image: i === 0 ? resolveImg(settings?.heroImage, IMAGES[0]) : IMAGES[i],
+        image: heroImages[i] || IMAGES[0],
       }));
 
   const ctaText  = t('hero.ctaApply');
