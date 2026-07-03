@@ -28,7 +28,7 @@ const Navbar = () => {
        : `${import.meta.env.VITE_API_URL || ''}${u}`;
   const logoSrc    = resolveImg(siteSettings?.logo);
   const navPhone   = siteSettings?.phone   || '+998 78 777 44 77';
-  const navAddress = siteSettings?.address || t('contact.addressValue');
+  const navAddress = t('contact.addressValue') || siteSettings?.address;
   const navEmail   = siteSettings?.email   || 'info@topex.uz';
 
   const handleLogout = () => {

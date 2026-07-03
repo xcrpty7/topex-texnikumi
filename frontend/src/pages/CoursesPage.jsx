@@ -168,13 +168,14 @@ const CoursesPage = () => {
                   key={i}
                   {...up(i * 0.05)}
                   onClick={() => setSelected(s)}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all text-left border border-gray-100"
+                  className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl
+                             hover:-translate-y-1.5 transition-all duration-300 ease-out text-left border border-gray-100"
                 >
                   <div className="relative h-44 overflow-hidden">
                     <img
                       src={s.img}
                       alt={s.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[600ms] ease-out"
                     />
                     <div className="absolute top-3 left-3 w-10 h-10 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-blue shadow">
                       <Icon size={20} strokeWidth={2} />

@@ -47,11 +47,12 @@ const AdminDashboard = () => {
     return t('adminDashboard.greeting.evening');
   };
 
+  // Kalitlar backend enum bilan bir xil bo'lishi shart: ['yangi','ko'rib_chiqilmoqda','qabul_qilindi','rad_etildi']
   const STATUS_BADGE = {
     'yangi':              { bg: '#EFF6FF', color: '#1E40AF', label: t('adminDashboard.status.new') },
-    'qabul qilindi':      { bg: '#DCFCE7', color: '#166534', label: t('adminDashboard.status.accepted') },
-    'rad etildi':         { bg: '#FEE2E2', color: '#991B1B', label: t('adminDashboard.status.rejected') },
-    "ko'rib chiqilmoqda": { bg: '#FEF3C7', color: '#92400E', label: t('adminDashboard.status.reviewing') },
+    'qabul_qilindi':      { bg: '#DCFCE7', color: '#166534', label: t('adminDashboard.status.accepted') },
+    'rad_etildi':         { bg: '#FEE2E2', color: '#991B1B', label: t('adminDashboard.status.rejected') },
+    "ko'rib_chiqilmoqda": { bg: '#FEF3C7', color: '#92400E', label: t('adminDashboard.status.reviewing') },
   };
 
   return (
@@ -177,7 +178,7 @@ const AdminDashboard = () => {
           const statusData = (stats.applicationsByStatus || []).reduce((acc, s) => { acc[s._id] = s.count; return acc; }, {});
           const rows = [
             { key: 'yangi',              label: t('adminDashboard.status.new'),         color: '#2563EB', count: statusData['yangi'] ?? stats.newApplications ?? 0 },
-            { key: "ko'rib chiqilmoqda", label: t('adminDashboard.status.reviewing'),    color: '#D97706', count: statusData["ko'rib chiqilmoqda"] ?? 0 },
+            { key: "ko'rib_chiqilmoqda", label: t('adminDashboard.status.reviewing'),    color: '#D97706', count: statusData["ko'rib_chiqilmoqda"] ?? 0 },
             { key: 'qabul_qilindi',      label: t('adminDashboard.status.accepted'),     color: '#16A34A', count: statusData['qabul_qilindi'] ?? 0 },
             { key: 'rad_etildi',         label: t('adminDashboard.status.rejected'),     color: '#DC2626', count: statusData['rad_etildi'] ?? 0 },
           ];

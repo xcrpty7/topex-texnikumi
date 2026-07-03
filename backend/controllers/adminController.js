@@ -144,23 +144,35 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { name, phone, role, isActive } = req.body;
+    const isSuperAdmin = req.user.role === 'SUPER_ADMIN';
 
     if (req.params.id === req.user._id.toString() && role) {
       return sendError(res, 'O\'zingizning rolingizni o\'zgartira olmaysiz', 400);
     }
 
+    const target = await User.findById(req.params.id);
+    if (!target) return sendError(res, 'Foydalanuvchi topilmadi', 404);
+
+    // SUPER_ADMIN hisobini faqat SUPER_ADMIN tahrirlay oladi
+    if (target.role === 'SUPER_ADMIN' && !isSuperAdmin) {
+      return sendError(res, 'Super Admin hisobini tahrirlash mumkin emas', 403);
+    }
+
+    // Rolni faqat SUPER_ADMIN o'zgartira oladi (privilege escalation himoyasi)
+    if (role !== undefined && role !== target.role && !isSuperAdmin) {
+      return sendError(res, 'Foydalanuvchi rolini faqat Super Admin o\'zgartira oladi', 403);
+    }
+
     const updates = {};
     if (name !== undefined) updates.name = name;
     if (phone !== undefined) updates.phone = phone;
-    if (role !== undefined) updates.role = role;
+    if (role !== undefined && isSuperAdmin) updates.role = role;
     if (isActive !== undefined) updates.isActive = isActive;
 
     const user = await User.findByIdAndUpdate(req.params.id, updates, {
       new: true,
       runValidators: true,
     }).select('-password -refreshTokens');
-
-    if (!user) return sendError(res, 'Foydalanuvchi topilmadi', 404);
 
     return sendSuccess(res, { user }, 'Foydalanuvchi yangilandi');
   } catch (error) {
@@ -179,6 +191,11 @@ const deleteUser = async (req, res) => {
 
     if (user.role === 'SUPER_ADMIN') {
       return sendError(res, 'Super admin hisobini o\'chirish mumkin emas', 403);
+    }
+
+    // Boshqa ADMIN hisobini faqat SUPER_ADMIN o'chira oladi
+    if (user.role === 'ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+      return sendError(res, 'Admin hisobini o\'chirish uchun Super Admin huquqi kerak', 403);
     }
 
     const enrollments = await Enrollment.find({ user: req.params.id });
@@ -203,6 +220,15 @@ const toggleUserBlock = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password -refreshTokens');
     if (!user) return sendError(res, 'Foydalanuvchi topilmadi', 404);
+
+    // O'zini bloklab qo'ymaslik
+    if (req.params.id === req.user._id.toString()) {
+      return sendError(res, 'O\'z hisobingizni bloklay olmaysiz', 400);
+    }
+    // Privilege himoyasi: ADMIN, SUPER_ADMIN'ni bloklay olmaydi
+    if (user.role === 'SUPER_ADMIN' && req.user.role !== 'SUPER_ADMIN') {
+      return sendError(res, 'Super Admin hisobini bloklash mumkin emas', 403);
+    }
 
     user.isActive = !user.isActive;
     await user.save({ validateBeforeSave: false });
@@ -246,9 +272,16 @@ const getApplications = async (req, res) => {
   }
 };
 
+const ALLOWED_APPLICATION_STATUSES = ['yangi', 'ko\'rib_chiqilmoqda', 'qabul_qilindi', 'rad_etildi'];
+
 const updateApplicationStatus = async (req, res) => {
   try {
     const { status, note } = req.body;
+
+    // Status enum'dan tashqarida bo'lsa — rad etamiz (filtr/statistika buzilmasligi uchun)
+    if (status !== undefined && !ALLOWED_APPLICATION_STATUSES.includes(status)) {
+      return sendError(res, 'Noto\'g\'ri ariza holati', 400);
+    }
 
     const application = await Application.findByIdAndUpdate(
       req.params.id,
@@ -258,7 +291,7 @@ const updateApplicationStatus = async (req, res) => {
         handledBy: req.user._id,
         handledAt: new Date(),
       },
-      { new: true }
+      { new: true, runValidators: true }
     ).populate('course', 'title');
 
     if (!application) return sendError(res, 'Ariza topilmadi', 404);

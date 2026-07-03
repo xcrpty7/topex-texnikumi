@@ -44,10 +44,10 @@ const CourseCard = ({ course, index = 0 }) => {
           <img
             src={thumb}
             alt={course.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[600ms] ease-out"
           />
           {/* Dark overlay on hover */}
-          <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/20 transition-all duration-300" />
+          <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/20 transition-all duration-300 ease-out" />
 
           {/* Price badge */}
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
@@ -66,7 +66,8 @@ const CourseCard = ({ course, index = 0 }) => {
           </div>
 
           {/* Arrow on hover */}
-          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute bottom-3 right-3 opacity-0 translate-y-1 group-hover:opacity-100
+                          group-hover:translate-y-0 transition-all duration-300 ease-out">
             <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-lg">
               <ArrowRight size={15} className="text-navy" />
             </div>

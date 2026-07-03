@@ -14,6 +14,8 @@ const GalleryPage = lazy(() => import('../pages/GalleryPage'));
 const VideosPage = lazy(() => import('../pages/VideosPage'));
 const ContactPage   = lazy(() => import('../pages/ContactPage'));
 const VakansiyaPage = lazy(() => import('../pages/VakansiyaPage'));
+const ImtihonNatijalariPage = lazy(() => import('../pages/ImtihonNatijalariPage'));
+const LitsenziyaPage = lazy(() => import('../pages/LitsenziyaPage'));
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
 import BlogPage from '../pages/BlogPage';
 import ArticleDetailPage from '../pages/ArticleDetailPage';
@@ -55,10 +57,8 @@ const AppRouter = () => (
         <Route path="/videos" element={<VideosPage />} />
         <Route path="/aloqalar"    element={<ContactPage />} />
         <Route path="/vakansiyalar" element={<VakansiyaPage />} />
-        <Route
-          path="/imtihon-natijalari"
-          element={<NotFoundPage variant="soon" />}
-        />
+        <Route path="/imtihon-natijalari" element={<ImtihonNatijalariPage />} />
+        <Route path="/litsenziya" element={<LitsenziyaPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticleDetailPage />} />
         <Route

@@ -67,9 +67,15 @@ api.interceptors.response.use(
   },
   async (error) => {
     releaseSlot();
-    const originalRequest = error.config;
+    const originalRequest = error.config || {};
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Auth endpointlari (login/register/refresh/logout) 401 qaytarsa — bu
+    // "token eskirgan" emas, balki oddiy "noto'g'ri parol / sessiya yo'q".
+    // Ularni refresh qilib qayta urinmaymiz (aks holda konsolda dublikat 401 chiqadi).
+    const url = originalRequest.url || '';
+    const isAuthEndpoint = /\/auth\/(login|register|refresh|logout)/.test(url);
+
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           refreshQueue.push({ resolve, reject });

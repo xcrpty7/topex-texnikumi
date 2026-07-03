@@ -10,3 +10,4 @@ AGENT_SUMMARY.md
 .vercel/
 mongodb/
 mongodb-data/
+backend/.env

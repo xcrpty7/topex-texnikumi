@@ -214,7 +214,7 @@ const AdminApplications = () => {
               ↓ Excel
             </button>
             <button
-              onClick={load}
+              onClick={() => load()}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded font-mono text-xs transition-colors"
               style={{ background: '#FFFFFF', color: '#61677A', border: '1px solid #E5E7EA' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#272829')}

@@ -23,29 +23,23 @@ const seed = async () => {
     });
     console.log(`✅ Super Admin yaratildi: login=${admin.login} / tel=${admin.phone}`);
   } else {
-    // Telefon (normallashtirilgan) va login orqali kirish uchun to'g'rilaymiz
+    // Telefon, login va PAROLNI .env bilan sinxronlaymiz (.env — yagona manba).
     let changed = false;
     if (existingAdmin.phone !== ADMIN_PHONE) { existingAdmin.phone = ADMIN_PHONE; changed = true; }
     if (!existingAdmin.login) { existingAdmin.login = ADMIN_LOGIN; changed = true; }
+    if (process.env.ADMIN_PASSWORD) {
+      // password o'zgartirilsa pre('save') hook uni qayta hash qiladi
+      existingAdmin.password = process.env.ADMIN_PASSWORD;
+      changed = true;
+    }
     if (changed) await existingAdmin.save({ validateBeforeSave: false });
-    console.log(`ℹ️  Super Admin mavjud: login=${existingAdmin.login} / tel=${existingAdmin.phone}`);
+    console.log(`ℹ️  Super Admin yangilandi: login=${existingAdmin.login} / parol .env dan o'rnatildi`);
   }
 
+  // Demo kurslar o'chirildi — kurslar faqat admin panel orqali qo'shiladi.
+  // "Yo'nalishlar" sahifasidagi pastki kurs-kartochkalar bo'sh bo'lsa ko'rinmaydi.
   const coursesCount = await Course.countDocuments();
-  if (coursesCount === 0) {
-    const admin = await User.findOne({ role: 'SUPER_ADMIN' });
-    const courses = [
-      { title: 'Dasturlash Asoslari', shortDescription: 'Dasturlash dunyosiga birinchi qadamingiz', category: 'Dasturlash', level: 'Boshlang\'ich', duration: '6 oy', price: 0, isActive: true, isFeatured: true, createdBy: admin._id, requirements: ['Kompyuter va internet', 'O\'rganishga hohish'], outcomes: ['Python dasturlash', 'Web sayt yaratish', 'Portfolio loyiha'] },
-      { title: 'Marketing va Raqamli Savdo', shortDescription: 'Zamonaviy marketing texnikalarini egallang', category: 'Marketing', level: 'Boshlang\'ich', duration: '4 oy', price: 0, isActive: true, isFeatured: true, createdBy: admin._id },
-      { title: 'Kompyuter Grafikasi va Dizayn', shortDescription: 'Kreativ dizayn bo\'yicha mutaxassis bo\'ling', category: 'Grafik Dizayn', level: 'Boshlang\'ich', duration: '5 oy', price: 0, isActive: true, isFeatured: false, createdBy: admin._id },
-      { title: 'Bank va Moliya Nazoratchisi', shortDescription: 'Moliya sohasida karyerangizni boshlang', category: 'Bank', level: 'O\'rta', duration: '8 oy', price: 0, isActive: true, isFeatured: false, createdBy: admin._id },
-      { title: 'Raqamli Ma\'lumotlar Tahlili', shortDescription: 'Data Science sohasiga kirish', category: 'Ma\'lumotlar Tahlili', level: 'O\'rta', duration: '6 oy', price: 0, isActive: true, isFeatured: true, createdBy: admin._id },
-    ];
-    for (const c of courses) await Course.create({ description: c.shortDescription, ...c });
-    console.log(`✅ ${courses.length} ta kurs yaratildi`);
-  } else {
-    console.log(`ℹ️  Kurslar allaqachon mavjud: ${coursesCount} ta`);
-  }
+  console.log(`ℹ️  Mavjud kurslar: ${coursesCount} ta (demo seed o'chirilgan)`);
 
   const articlesCount = await Article.countDocuments();
   if (articlesCount === 0) {

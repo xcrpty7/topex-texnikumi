@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, X, ZoomIn } from 'lucide-react';
 import api from '../services/api';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
-/* ─── Brand SVG icons (lucide v1 brand ikonkalarini bermaydi) ───────── */
+/* ─── Brand SVG icons ───────────────────────────────────────────── */
 const YouTubeIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z" />
@@ -31,10 +31,44 @@ const TelegramIcon = ({ size = 20 }) => (
   </svg>
 );
 
+/* ─── Lightbox ──────────────────────────────────────────────────── */
+const Lightbox = ({ src, alt, onClose }) => {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <button
+        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+        onClick={onClose}
+      >
+        <X size={20} />
+      </button>
+      <img
+        src={src}
+        alt={alt}
+        className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  );
+};
+
 const Footer = () => {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
   const [settings, setSettings] = useState(null);
+  const [lightbox, setLightbox] = useState(null);
 
   useEffect(() => {
     api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
@@ -47,14 +81,13 @@ const Footer = () => {
   const logoSrc   = resolveImg(settings?.logo);
   const phone     = settings?.phone     || '+998 78 777 44 77';
   const email     = settings?.email     || 'info@topex.uz';
-  const address1  = settings?.address   || t('contact.addressValue');
-  const address2  = settings?.address2  || t('contact.addressValue2');
+  const address1  = t('contact.addressValue') || settings?.address;
+  const address2  = t('contact.addressValue2') || settings?.address2;
   const instagram = settings?.instagram || 'https://www.instagram.com/topex.uz/';
   const facebook  = settings?.facebook  || 'https://www.facebook.com/topex.uz';
   const telegram  = settings?.telegram  || 'https://t.me/topex_uz';
   const youtube   = settings?.youtube   || 'https://www.youtube.com/@topex.uz';
 
-  // Faqat sozlamada (admin) qiymat bo'lsa ko'rsatamiz — bo'sh havolalar chiqmasin
   const socials = [
     { Icon: TelegramIcon,  href: telegram,  label: 'Telegram' },
     { Icon: InstagramIcon, href: instagram, label: 'Instagram' },
@@ -62,128 +95,200 @@ const Footer = () => {
     { Icon: FacebookIcon,  href: facebook,  label: 'Facebook' },
   ];
 
-  // Keraksiz bo'limlarni (admin/DB'dan kelsa ham) butunlay olib tashlaymiz
-  const REMOVED = ['jurnal', 'savol', 'galer'];
+  const normalizeUrl = (url) => {
+    if (!url) return '/';
+    if (url.startsWith('http') || url.startsWith('#')) return url;
+    return url.startsWith('/') ? url : '/' + url;
+  };
+
+  // Fix known wrong URL mappings from DB, keyed by label substring
+  const LABEL_URL_FIX = [
+    { match: 'vakansiy', url: '/vakansiyalar' },
+    { match: 'imtihon',  url: '/imtihon-natijalari' },
+    { match: 'aloqalar', url: '/aloqalar' },
+    { match: 'contact',  url: '/aloqalar' },
+  ];
+
+  // Translated label by URL (always takes priority over DB label)
+  const urlLabel = (to) => ({
+    '/':                    t('footer.links.about'),
+    '/blog':                t('footer.links.news'),
+    '/courses':             t('footer.links.directions'),
+    '/vakansiyalar':        t('footer.links.vacancies'),
+    '/gallery':             t('footer.links.team'),
+    '/imtihon-natijalari':  t('footer.links.examResult'),
+    '/profile':             t('footer.links.contract'),
+    '/aloqalar':            t('nav.contacts'),
+  }[to]);
+
+  const REMOVED = ['jurnal', 'savol'];
   const mapLinks = (arr, fallback) =>
     (Array.isArray(arr) && arr.length ? arr : fallback)
-      .map(x => ({ to: x.url || x.to || '/', label: x.label || '' }))
+      .map(x => {
+        let to = normalizeUrl(x.url || x.to);
+        const raw = (x.label || '').toLowerCase();
+        // Correct wrong URLs based on label
+        for (const fix of LABEL_URL_FIX) {
+          if (raw.includes(fix.match)) { to = fix.url; break; }
+        }
+        const label = urlLabel(to) || x.label || '';
+        return { to, label };
+      })
       .filter(l => !REMOVED.some(r => l.label.toLowerCase().includes(r)));
 
   const COL1 = mapLinks(settings?.footerColAboutLinks, [
-    { url: '/',         label: t('footer.links.about') },
-    { url: '/blog',     label: t('footer.links.news') },
-    { url: '/courses',  label: t('footer.links.partners') },
-    { url: '/gallery',  label: t('footer.links.team') },
+    { url: '/',             label: t('footer.links.about') },
+    { url: '/blog',         label: t('footer.links.news') },
+    { url: '/vakansiyalar', label: t('footer.links.vacancies') },
+    { url: '/gallery',      label: t('footer.links.team') },
   ]);
+
   const COL2 = mapLinks(settings?.footerColApplicantsLinks, [
-    { url: '/courses',           label: t('footer.links.directions') },
-    { url: '/vakansiyalar',       label: t('footer.links.vacancies') },
+    { url: '/courses',      label: t('footer.links.directions') },
+    { url: '/vakansiyalar', label: t('footer.links.vacancies') },
   ]);
-  if (!COL2.some(l => l.to === '/imtihon-natijalari')) {
+  if (!COL2.some(l => l.to === '/imtihon-natijalari' || l.label.toLowerCase().includes('imtihon'))) {
     COL2.push({ to: '/imtihon-natijalari', label: t('footer.links.examResult') });
+  } else {
+    COL2.forEach(l => {
+      if (l.label.toLowerCase().includes('imtihon')) l.to = '/imtihon-natijalari';
+    });
   }
+
   const COL3 = mapLinks(settings?.footerColStudentsLinks, [
-    { url: '/profile',     label: t('footer.links.contract') },
-    { url: '/gallery',     label: t('footer.links.studentLife') },
+    { url: '/profile', label: t('footer.links.contract') },
+    { url: '/gallery', label: t('footer.links.studentLife') },
   ]);
+
+  const LICENSE_IMGS = [
+    { src: '/assets/license/license-main.jpg',       label: 'Litsenziya № 420567' },
+    { src: '/assets/license/license-directions.jpg', label: "Ta'lim yo'nalishlari" },
+  ];
 
   return (
-    <footer className="relative bg-brand-deep text-white overflow-hidden">
-      {/* Wavy background lines */}
-      <svg
-        className="absolute inset-0 w-full h-full opacity-[0.12] pointer-events-none"
-        viewBox="0 0 1500 600"
-        preserveAspectRatio="none"
-        fill="none">
-        {[...Array(14)].map((_, i) => (
-          <path
-            key={i}
-            d={`M -100 ${80 + i * 35} Q 400 ${10 + i * 35}, 800 ${100 + i * 35} T 1700 ${60 + i * 35}`}
-            stroke="white"
-            strokeWidth="1"
-            fill="none"
-          />
-        ))}
-      </svg>
+    <>
+      {lightbox && (
+        <Lightbox src={lightbox.src} alt={lightbox.label} onClose={() => setLightbox(null)} />
+      )}
 
-      <div className="relative w-full max-w-[1500px] mx-auto px-6 lg:px-16 pt-20 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+      <footer className="relative bg-brand-deep text-white overflow-hidden">
+        {/* Wavy background lines */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-[0.12] pointer-events-none"
+          viewBox="0 0 1500 600"
+          preserveAspectRatio="none"
+          fill="none">
+          {[...Array(14)].map((_, i) => (
+            <path
+              key={i}
+              d={`M -100 ${80 + i * 35} Q 400 ${10 + i * 35}, 800 ${100 + i * 35} T 1700 ${60 + i * 35}`}
+              stroke="white"
+              strokeWidth="1"
+              fill="none"
+            />
+          ))}
+        </svg>
 
-          {/* Brand column */}
-          <div className="lg:col-span-1">
-            <Link to="/" className="inline-flex items-center gap-3 mb-6">
-              <img
-                src={logoSrc}
-                alt="Topex"
-                className="h-12 w-auto object-contain brightness-0 invert"
-              />
-              
-            </Link>
+        <div className="relative w-full max-w-[1500px] mx-auto px-6 lg:px-16 pt-20 pb-10">
+          {/* ── Main columns ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
 
-            {/* Socials */}
-            <div className="flex gap-2.5">
-              {socials.map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-10 h-10 bg-white/10 hover:bg-orange rounded-lg flex items-center
-                             justify-center text-white transition-all duration-200 hover:-translate-y-0.5">
-                  <Icon size={20} />
-                </a>
-              ))}
+            {/* Brand column */}
+            <div className="lg:col-span-1">
+              <Link to="/" className="inline-flex items-center gap-3 mb-6">
+                <img
+                  src={logoSrc}
+                  alt="Topex"
+                  className="h-12 w-auto object-contain brightness-0 invert"
+                />
+              </Link>
+              <div className="flex gap-2.5 mb-5">
+                {socials.map(({ Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-10 h-10 bg-white/10 hover:bg-orange rounded-lg flex items-center
+                               justify-center text-white transition-all duration-200 hover:-translate-y-0.5">
+                    <Icon size={20} />
+                  </a>
+                ))}
+              </div>
+              {/* License thumbnails */}
+              <div className="flex gap-2">
+                {LICENSE_IMGS.map(({ src, label }) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setLightbox({ src, label })}
+                    className="group relative flex-shrink-0 w-[84px] h-[116px] rounded-md overflow-hidden
+                               border border-white/20 hover:border-orange/70 transition-all duration-200
+                               hover:shadow-lg hover:shadow-orange/20 hover:-translate-y-0.5"
+                    title={label}
+                  >
+                    <img
+                      src={src}
+                      alt={label}
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200 flex items-center justify-center">
+                      <ZoomIn size={14} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <FooterCol title={settings?.footerColAboutTitle      || t('footer.colAbout')}      links={COL1} />
+            <FooterCol title={settings?.footerColApplicantsTitle || t('footer.colApplicants')} links={COL2} />
+            <FooterCol title={settings?.footerColStudentsTitle   || t('footer.colStudents')}   links={COL3} />
+
+            {/* Column 4: Aloqalar */}
+            <div>
+              <h4 className="text-white font-bold text-[18px] mb-6">{settings?.footerColContactsTitle || t('footer.colContacts')}</h4>
+              <ul className="space-y-5">
+                <li>
+                  <a href={`tel:${phone.replace(/\s/g,'')}`}
+                     className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors">
+                    <Phone size={16} className="text-orange mt-0.5 flex-shrink-0" />
+                    <span className="text-[14px]">{phone}</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`mailto:${email}`}
+                     className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors">
+                    <Mail size={16} className="text-orange mt-0.5 flex-shrink-0" />
+                    <span className="text-[14px]">{email}</span>
+                  </a>
+                </li>
+                <li className="flex items-start gap-3 text-white/85">
+                  <MapPin size={16} className="text-orange mt-0.5 flex-shrink-0" />
+                  <span className="text-[14px] leading-relaxed">{address1}</span>
+                </li>
+                {address2 && (
+                  <li className="flex items-start gap-3 text-white/85">
+                    <MapPin size={16} className="text-orange mt-0.5 flex-shrink-0" />
+                    <span className="text-[14px] leading-relaxed">{address2}</span>
+                  </li>
+                )}
+              </ul>
             </div>
           </div>
 
-          <FooterCol title={settings?.footerColAboutTitle      || t('footer.colAbout')}      links={COL1} />
-          <FooterCol title={settings?.footerColApplicantsTitle || t('footer.colApplicants')} links={COL2} />
-          <FooterCol title={settings?.footerColStudentsTitle   || t('footer.colStudents')}   links={COL3} />
-
-          {/* Column 4: Aloqalar */}
-          <div>
-            <h4 className="text-white font-bold text-[18px] mb-6">{settings?.footerColContactsTitle || t('footer.colContacts')}</h4>
-            <ul className="space-y-5">
-              <li>
-                <a href={`tel:${phone.replace(/\s/g,'')}`}
-                   className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors">
-                  <Phone size={16} className="text-orange mt-0.5 flex-shrink-0" />
-                  <span className="text-[14px]">{phone}</span>
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${email}`}
-                   className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors">
-                  <Mail size={16} className="text-orange mt-0.5 flex-shrink-0" />
-                  <span className="text-[14px]">{email}</span>
-                </a>
-              </li>
-              <li className="flex items-start gap-3 text-white/85">
-                <MapPin size={16} className="text-orange mt-0.5 flex-shrink-0" />
-                <span className="text-[14px] leading-relaxed">{address1}</span>
-              </li>
-              {address2 && (
-                <li className="flex items-start gap-3 text-white/85">
-                  <MapPin size={16} className="text-orange mt-0.5 flex-shrink-0" />
-                  <span className="text-[14px] leading-relaxed">{address2}</span>
-                </li>
-              )}
-            </ul>
+          {/* ── Copyright ── */}
+          <div className="mt-8 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-white/60 text-[13px]">
+              {settings?.footerCopyText || t('footer.copyright')} {year}
+            </p>
+            <a href="#" className="text-white/60 hover:text-orange text-[13px] underline-offset-2 hover:underline transition-colors">
+              {settings?.footerOfertaText || t('footer.oferta')}
+            </a>
           </div>
         </div>
-
-        {/* Bottom divider + copyright */}
-        <div className="mt-16 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/60 text-[13px]">
-            {settings?.footerCopyText || t('footer.copyright')} {year}
-          </p>
-          <a href="#" className="text-white/60 hover:text-orange text-[13px] underline-offset-2 hover:underline transition-colors">
-            {settings?.footerOfertaText || t('footer.oferta')}
-          </a>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 

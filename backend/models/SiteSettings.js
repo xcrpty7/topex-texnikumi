@@ -297,18 +297,17 @@ const siteSettingsSchema = new mongoose.Schema({
     default: [
       { label: 'Biz haqimizda', url: '/' },
       { label: 'Yangiliklar', url: '/blog' },
-      { label: 'Hamkorlar', url: '/courses' },
-      { label: 'Vakansiyalar', url: '/courses' },
+      { label: 'Vakansiyalar', url: '/vakansiyalar' },
       { label: '"Topex" jamoasi', url: '/gallery' },
-      { label: 'Jurnallar', url: '/blog' },
+      { label: 'Litsenziya', url: '/litsenziya' },
     ],
   },
   footerColApplicantsLinks: {
     type: [{ label: String, url: String }],
     default: [
       { label: "Yo'nalishlar", url: '/courses' },
-      { label: 'Savol-javoblar', url: '/#ariza' },
-      { label: 'Kirish imtihon natijasi', url: '/blog' },
+      { label: 'Kirish imtihon natijasi', url: '/imtihon-natijalari' },
+      { label: 'Vakansiyalar', url: '/vakansiyalar' },
     ],
   },
   footerColStudentsLinks: {
@@ -316,6 +315,7 @@ const siteSettingsSchema = new mongoose.Schema({
     default: [
       { label: 'Shartnoma olish', url: '/profile' },
       { label: 'Talabalik hayoti', url: '/gallery' },
+      { label: 'Aloqalar', url: '/aloqalar' },
     ],
   },
 

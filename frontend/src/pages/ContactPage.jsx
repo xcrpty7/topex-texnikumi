@@ -31,7 +31,7 @@ const ContactPage = () => {
   const phone   = settings?.phone   || '+998 78 777 44 77';
   const phone2  = settings?.phone2  || '';
   const email   = settings?.email   || 'info@topex.uz';
-  const address = settings?.address || t('contact.addressValue');
+  const address = t('contact.addressValue') || settings?.address;
   const hours   = settings?.workingHours || t('contactPage.workingHours');
   const mapSrc  = settings?.mapLink
     || `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;

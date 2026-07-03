@@ -42,7 +42,7 @@ const AdminVideos = () => {
       const res = await api.get('/admin/videos');
       setItems(res.data.data || []);
     } catch {
-      toast.error(t('adminVideos:loadError'));
+      toast.error(t('adminVideos.loadError'));
     } finally {
       setLoading(false);
     }
@@ -110,10 +110,10 @@ const AdminVideos = () => {
 
       if (editing) {
         await api.put(`/admin/videos/${editing}`, payload);
-        toast.success(t('adminVideos:updated'));
+        toast.success(t('adminVideos.updated'));
       } else {
         await api.post('/admin/videos', payload);
-        toast.success(t('adminVideos:created'));
+        toast.success(t('adminVideos.created'));
       }
 
       setShowModal(false);
@@ -124,7 +124,7 @@ const AdminVideos = () => {
       setUploadProgress(0);
       load();
     } catch (err) {
-      toast.error(err.response?.data?.message || err.message || t('common:error'));
+      toast.error(err.response?.data?.message || err.message || t('common.error'));
     } finally {
       setSaving(false);
       setUploading(false);
@@ -136,7 +136,7 @@ const AdminVideos = () => {
       await api.put(`/admin/videos/${item._id}`, { isActive: !item.isActive });
       setItems(prev => prev.map(i => i._id === item._id ? { ...i, isActive: !i.isActive } : i));
     } catch {
-      toast.error(t('common:error'));
+      toast.error(t('common.error'));
     }
   };
 
@@ -146,11 +146,11 @@ const AdminVideos = () => {
     try {
       setDeleting(true);
       await api.delete(`/admin/videos/${confirmId}`);
-      toast.success(t('adminVideos:deleted'));
+      toast.success(t('adminVideos.deleted'));
       setItems(prev => prev.filter(i => i._id !== confirmId));
       setConfirmId(null);
     } catch {
-      toast.error(t('adminVideos:deleteError'));
+      toast.error(t('adminVideos.deleteError'));
     } finally {
       setDeleting(false);
     }
@@ -160,15 +160,15 @@ const AdminVideos = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-mono font-bold text-[#272829]">{t('adminVideos:header')}</h1>
-          <p className="font-mono text-xs mt-1 text-[#61677A]">{items.length} {t('adminVideos:videosCount')}</p>
+          <h1 className="text-xl font-mono font-bold text-[#272829]">{t('adminVideos.header')}</h1>
+          <p className="font-mono text-xs mt-1 text-[#61677A]">{items.length} {t('adminVideos.videosCount')}</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button onClick={load} variant="ghost" size="sm">
-            <RefreshCw size={14} className="mr-1" /> {t('adminVideos:refresh')}
+            <RefreshCw size={14} className="mr-1" /> {t('adminVideos.refresh')}
           </Button>
           <Button onClick={openCreate} size="sm">
-            <Plus size={14} className="mr-1" /> {t('adminVideos:addVideo')}
+            <Plus size={14} className="mr-1" /> {t('adminVideos.addVideo')}
           </Button>
         </div>
       </div>
@@ -204,7 +204,7 @@ const AdminVideos = () => {
                         color: item.isActive ? '#16A34A' : '#61677A',
                       }}
                     >
-                      {item.isActive ? t('adminVideos:active') : t('adminVideos:hidden')}
+                      {item.isActive ? t('adminVideos.active') : t('adminVideos.hidden')}
                     </span>
                     <span className="font-mono text-[10px] bg-[#FFFFFF] px-2 py-0.5 rounded text-[#61677A]">
                       #{item.order}
@@ -224,7 +224,7 @@ const AdminVideos = () => {
                     style={{ background: '#EFF6FF', color: '#2563EB' }}
                   >
                     <Edit2 size={12} />
-                    <span>{t('adminVideos:edit')}</span>
+                    <span>{t('adminVideos.edit')}</span>
                   </button>
                   <button
                     onClick={() => toggleActive(item)}
@@ -253,7 +253,7 @@ const AdminVideos = () => {
           {items.length === 0 && (
             <div className="col-span-full py-20 text-center glass-card rounded-xl border border-[#E5E7EA]">
               <Film size={40} className="mx-auto mb-4 text-[#9CA3AF]" />
-              <p className="font-mono text-sm text-[#61677A]">{t('adminVideos:empty')}</p>
+              <p className="font-mono text-sm text-[#61677A]">{t('adminVideos.empty')}</p>
             </div>
           )}
         </div>
@@ -262,24 +262,24 @@ const AdminVideos = () => {
       <Modal
         isOpen={showModal}
         onClose={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setUploadProgress(0); }}
-        title={editing ? t('adminVideos:modalEdit') : t('adminVideos:modalAdd')}
+        title={editing ? t('adminVideos.modalEdit') : t('adminVideos.modalAdd')}
         size="lg"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label={t('adminVideos:form.title')}
+            label={t('adminVideos.form.title')}
             value={form.title}
             onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-            placeholder={t('adminVideos:form.titlePlaceholder')}
+            placeholder={t('adminVideos.form.titlePlaceholder')}
             required
           />
 
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[#61677A]">{t('adminVideos:form.description')}</label>
+            <label className="text-xs font-mono text-[#61677A]">{t('adminVideos.form.description')}</label>
             <textarea
               value={form.description}
               onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
-              placeholder={t('adminVideos:form.descriptionPlaceholder')}
+              placeholder={t('adminVideos.form.descriptionPlaceholder')}
               rows={3}
               className="input-field resize-none"
               style={{ background: '#FFFFFF', border: '1px solid #D8D9DA', borderRadius: 10, padding: '10px 14px', fontSize: 13, width: '100%' }}
@@ -287,7 +287,7 @@ const AdminVideos = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-mono text-[#61677A]">{t('adminVideos:form.videoFile')}</label>
+            <label className="text-xs font-mono text-[#61677A]">{t('adminVideos.form.videoFile')}</label>
             <div
               className="border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#2563EB] transition-colors"
               style={{ borderColor: preview ? '#272829' : '#D8D9DA', background: '#FFFFFF' }}
@@ -310,7 +310,7 @@ const AdminVideos = () => {
               ) : (
                 <>
                   <Upload size={24} className="text-[#9CA3AF] mb-2" />
-                  <p className="text-[10px] text-[#61677A]">{t('adminVideos:form.clickToUpload')}</p>
+                  <p className="text-[10px] text-[#61677A]">{t('adminVideos.form.clickToUpload')}</p>
                 </>
               )}
               <input ref={fileRef} type="file" accept="video/*" className="hidden" onChange={handleFile} />
@@ -319,7 +319,7 @@ const AdminVideos = () => {
             {uploading && (
               <div className="space-y-1">
                 <div className="flex justify-between text-[10px] font-mono text-[#61677A]">
-                  <span>{t('adminVideos:form.uploading')}</span>
+                  <span>{t('adminVideos.form.uploading')}</span>
                   <span>{Math.round(uploadProgress)}%</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-[#F1F2F4] overflow-hidden">
@@ -334,13 +334,13 @@ const AdminVideos = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label={t('adminVideos:form.order')}
+              label={t('adminVideos.form.order')}
               type="number"
               value={form.order}
               onChange={e => setForm(p => ({ ...p, order: parseInt(e.target.value) || 0 }))}
             />
             <div className="flex flex-col">
-              <label className="text-xs font-mono mb-2 text-[#61677A]">{t('adminVideos:form.status')}</label>
+              <label className="text-xs font-mono mb-2 text-[#61677A]">{t('adminVideos.form.status')}</label>
               <label className="flex items-center gap-2 cursor-pointer h-full">
                 <input
                   type="checkbox"
@@ -348,17 +348,17 @@ const AdminVideos = () => {
                   onChange={e => setForm(p => ({ ...p, isActive: e.target.checked }))}
                   className="rounded border-[#D8D9DA] bg-[#FFFFFF]"
                 />
-                <span className="text-sm text-[#272829]">{t('adminVideos:active')}</span>
+                <span className="text-sm text-[#272829]">{t('adminVideos.active')}</span>
               </label>
             </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-[#E5E7EA]">
             <Button variant="ghost" type="button" onClick={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); setUploadProgress(0); }}>
-              {t('common:cancel')}
+              {t('common.cancel')}
             </Button>
             <Button type="submit" loading={saving || uploading} disabled={uploading}>
-              {uploading ? t('adminVideos:form.uploading') : t('common:save')}
+              {uploading ? t('adminVideos.form.uploading') : t('common.save')}
             </Button>
           </div>
         </form>
@@ -369,9 +369,9 @@ const AdminVideos = () => {
         onClose={() => setConfirmId(null)}
         onConfirm={handleConfirmDelete}
         loading={deleting}
-        title={t('adminVideos:deleteConfirmTitle')}
-        message={t('adminVideos:deleteConfirmMessage')}
-        confirmLabel={t('adminVideos:deleteConfirmLabel')}
+        title={t('adminVideos.deleteConfirmTitle')}
+        message={t('adminVideos.deleteConfirmMessage')}
+        confirmLabel={t('adminVideos.deleteConfirmLabel')}
       />
     </div>
   );

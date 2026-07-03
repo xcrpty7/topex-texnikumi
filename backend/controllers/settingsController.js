@@ -54,7 +54,9 @@ const getSettings = async (req, res) => {
   try {
     let settings = await SiteSettings.findOne();
     if (!settings) settings = await SiteSettings.create({});
-    if (settings.formImage === '/assets/images/DSC00912.jpg' || settings.formImage.startsWith('/uploads/')) {
+    // formImage null/bo'sh bo'lsa startsWith TypeError bermasligi uchun tip tekshiruvi
+    if (typeof settings.formImage === 'string' &&
+        (settings.formImage === '/assets/images/DSC00912.jpg' || settings.formImage.startsWith('/uploads/'))) {
       settings.formImage = '/assets/images/form-photo.jpg';
       await settings.save();
     }
