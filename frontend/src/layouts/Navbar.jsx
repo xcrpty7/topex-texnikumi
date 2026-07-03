@@ -75,7 +75,16 @@ const Navbar = () => {
 
             {/* Contacts */}
             <div className="hidden lg:flex items-center gap-8">
-              <ContactItem icon={<MapPin size={18} className="text-orange" />} title={t('contact.address')} lines={navAddress.split('\n')} />
+              <button onClick={() => navigate('/aloqalar#map-section')}
+                className="flex items-center gap-3 hover:opacity-80 transition-opacity text-left">
+                <div className="w-10 h-10 rounded-full bg-orange-faint flex items-center justify-center flex-shrink-0">
+                  <MapPin size={18} className="text-orange" />
+                </div>
+                <div className="leading-tight">
+                  <div className="text-brand font-bold text-[14px]">{t('contact.address')}</div>
+                  <div className="text-gray-500 text-[12px] mt-0.5">{navAddress.split('\n')[0]}</div>
+                </div>
+              </button>
               <div className="w-px h-12 bg-gray-200" />
               <ContactItem icon={<Phone size={18} className="text-orange" />} title={t('contact.phone')} lines={[navPhone]} href={`tel:${navPhone.replace(/\s/g,'')}`} />
               <div className="w-px h-12 bg-gray-200" />

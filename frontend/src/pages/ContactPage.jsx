@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +37,18 @@ const ContactPage = () => {
     || `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 
   const mapQueryUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === '#map-section') {
+      const id = setTimeout(() => {
+        const el = document.getElementById('map-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+      return () => clearTimeout(id);
+    }
+  }, [location.hash]);
 
   const scrollToMap = (e) => {
     e.preventDefault();
