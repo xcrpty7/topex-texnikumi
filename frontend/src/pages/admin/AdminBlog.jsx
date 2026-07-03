@@ -11,6 +11,7 @@ import ConfirmModal from '../../components/ui/ConfirmModal';
 import Input from '../../components/ui/Input';
 import Spinner from '../../components/ui/Spinner';
 import { toast } from 'react-toastify';
+import DOMPurify from 'dompurify';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 const resolveImg = (url) => {
@@ -26,7 +27,7 @@ const RichEditor = ({ value, onChange }) => {
 
   useEffect(() => {
     if (ref.current && document.activeElement !== ref.current) {
-      ref.current.innerHTML = value || '';
+      ref.current.innerHTML = DOMPurify.sanitize(value || '');
     }
   }, [value]);
 

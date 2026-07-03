@@ -35,6 +35,16 @@ const VideosPage = () => {
     <>
       <Helmet>
         <title>{t('nav.videos') || 'Videolar'} — TOPEX</title>
+        <meta name="description" content="Topex Texnikumi video galereyasi. Tadbirlar, dars jarayonlari va texnikum hayotidan videolar." />
+        <link rel="canonical" href="https://topex-texnikumi.vercel.app/videolar" />
+        <meta property="og:title" content="Videolar – Topex Texnikumi" />
+        <meta property="og:description" content="Topex Texnikumi video galereyasi." />
+        <meta property="og:url" content="https://topex-texnikumi.vercel.app/videolar" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Videolar – Topex Texnikumi" />
+        <meta name="twitter:description" content="Topex Texnikumi video galereyasi." />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>
 
       <section className="w-full pt-36 pb-24">

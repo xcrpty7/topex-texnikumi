@@ -138,7 +138,7 @@ const Navbar = () => {
                     className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 hover:border-orange/40 transition-all">
                     <div className="w-7 h-7 rounded-full bg-brand flex items-center justify-center text-white font-bold text-sm overflow-hidden">
                       {user?.avatar
-                        ? <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+                        ? <img src={user.avatar} alt={user?.name || "User avatar"} className="w-full h-full object-cover" />
                         : user?.name?.[0]}
                     </div>
                     <span className="text-brand text-sm font-semibold max-w-[90px] truncate">{user?.name}</span>

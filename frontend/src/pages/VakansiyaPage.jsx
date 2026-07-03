@@ -19,6 +19,15 @@ const VakansiyaPage = () => {
       <Helmet>
         <title>Vakansiyalar – Topex Texnikumi</title>
         <meta name="description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
+        <link rel="canonical" href="https://topex-texnikumi.vercel.app/vakansiya" />
+        <meta property="og:title" content="Vakansiyalar – Topex Texnikumi" />
+        <meta property="og:description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
+        <meta property="og:url" content="https://topex-texnikumi.vercel.app/vakansiya" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Vakansiyalar – Topex Texnikumi" />
+        <meta name="twitter:description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>
 
       {/* ── HERO ── */}

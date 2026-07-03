@@ -50,6 +50,15 @@ const ImtihonNatijalariPage = () => {
       <Helmet>
         <title>Kirish imtihon natijalari – Topex Texnikumi</title>
         <meta name="description" content="Topex Texnikumiga kirish imtihon natijalari. Qabul jarayoni, imtihon sanasi va natijalar haqida ma'lumot." />
+        <link rel="canonical" href="https://topex-texnikumi.vercel.app/imtihon-natijalari" />
+        <meta property="og:title" content="Kirish imtihon natijalari – Topex Texnikumi" />
+        <meta property="og:description" content="Topex Texnikumiga kirish imtihon natijalari." />
+        <meta property="og:url" content="https://topex-texnikumi.vercel.app/imtihon-natijalari" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Kirish imtihon natijalari – Topex Texnikumi" />
+        <meta name="twitter:description" content="Topex Texnikumiga kirish imtihon natijalari." />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>
 
       {/* ── HERO ───────────────────────────────────────────────── */}

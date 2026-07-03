@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Clock, Eye, FileText, ArrowRight, Calendar } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { Clock, ArrowRight, Calendar } from 'lucide-react';
 
 const FALLBACK_IMGS = [
   '/assets/posts/smm-01.jpg',
@@ -15,7 +14,6 @@ const AVATAR_IMGS = [
 ];
 
 const ArticleCard = ({ article, index = 0 }) => {
-  const { t } = useTranslation();
   const thumb = article.thumbnail || FALLBACK_IMGS[index % FALLBACK_IMGS.length];
   const avatar = AVATAR_IMGS[index % AVATAR_IMGS.length];
 

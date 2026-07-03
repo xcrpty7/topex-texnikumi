@@ -31,7 +31,7 @@ export default function HeroSwiper({ settings }) {
 
   const heroImg = settings?.heroImage || '';
   const heroImages = [
-    heroImg && !heroImg.startsWith('/uploads/') ? resolveImg(heroImg, IMAGES[0]) : IMAGES[0],
+    heroImg ? resolveImg(heroImg, IMAGES[0]) : IMAGES[0],
     IMAGES[1],
     IMAGES[2],
   ];

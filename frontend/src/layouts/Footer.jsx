@@ -282,7 +282,7 @@ const Footer = () => {
             <p className="text-white/60 text-[13px]">
               {settings?.footerCopyText || t('footer.copyright')} {year}
             </p>
-            <a href="#" className="text-white/60 hover:text-orange text-[13px] underline-offset-2 hover:underline transition-colors">
+            <a href="#" onClick={(e) => e.preventDefault()} className="text-white/60 hover:text-orange text-[13px] underline-offset-2 hover:underline transition-colors">
               {settings?.footerOfertaText || t('footer.oferta')}
             </a>
           </div>

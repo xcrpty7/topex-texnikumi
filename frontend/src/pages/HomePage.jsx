@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import {
-  ArrowRight, CheckCircle2, Plus, Minus,
+  CheckCircle2, Plus, Minus,
   Users, Award, Star, GraduationCap, BookOpen,
-  Phone, Mail, MapPin, Clock, ChevronRight, Play,
+  MapPin,
   Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout, X,
   Cpu, Music, Camera, Globe,
 } from 'lucide-react';
@@ -365,8 +365,12 @@ const HomePage = () => {
         <meta property="og:description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum."} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/" />
         <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:title" content={settings?.siteTitle || "Topex Texnikumi"} />
         <meta name="twitter:description" content={settings?.siteDescription || "Toshkentdagi zamonaviy xususiy texnikum."} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
       </Helmet>
 
       {/* ══ 1. HERO — Profi-style split ══════════════════════ */}

@@ -62,6 +62,7 @@ const RegisterPage = () => {
     <>
       <Helmet>
         <title>{t('auth.signUp')} — Topex Texnikumi</title>
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <div className="min-h-screen flex bg-white">

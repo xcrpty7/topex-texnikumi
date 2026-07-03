@@ -108,6 +108,18 @@ const BlogPage = () => {
         <meta property="og:description" content={t('blogPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/blog" />
         <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={t('blogPage.meta.ogTitle')} />
+        <meta name="twitter:description" content={t('blogPage.meta.ogDescription')} />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topex-texnikumi.vercel.app/blog" }
+          ]
+        })}</script>
       </Helmet>
 
       {/* ══ HERO ══════════════════════════════════════════════ */}

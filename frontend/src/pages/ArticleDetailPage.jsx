@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/common/NewsCard';
 import Spinner from '../components/ui/Spinner';
 import { STATIC_NEWS } from '../data/staticNews';
+import DOMPurify from 'dompurify';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -80,6 +81,19 @@ const ArticleDetailPage = () => {
         <meta property="og:url" content={`https://topex-texnikumi.vercel.app/blog/${data.slug || slug}`} />
         <meta property="og:image" content={resolveImg(data.image) || 'https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png'} />
         {data.createdAt && <meta property="article:published_time" content={new Date(data.createdAt).toISOString()} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${data.title} – Topex Texnikumi`} />
+        <meta name="twitter:description" content={data.excerpt || ''} />
+        <meta name="twitter:image" content={resolveImg(data.image) || 'https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png'} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topex-texnikumi.vercel.app/blog" },
+            { "@type": "ListItem", "position": 3, "name": data.title, "item": `https://topex-texnikumi.vercel.app/blog/${data.slug || slug}` }
+          ]
+        })}</script>
       </Helmet>
 
       {/* ══ HERO ══════════════════════════════════════════════ */}
@@ -142,7 +156,7 @@ const ArticleDetailPage = () => {
           {/* Content */}
           <div
             className="article-content"
-            dangerouslySetInnerHTML={{ __html: data.content || '' }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.content || '') }}
           />
 
           {/* Tags */}

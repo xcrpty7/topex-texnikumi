@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -33,12 +34,30 @@ const INFO_CARDS = [
 
 const LitsenziyaPage = () => {
   const { t } = useTranslation();
+  const [imgErrors, setImgErrors] = useState({});
 
   return (
     <>
       <Helmet>
         <title>Litsenziya – Topex Texnikumi</title>
         <meta name="description" content="Topex Texnikumi davlat litsenziyasi № 420567. O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi tomonidan berilgan." />
+        <link rel="canonical" href="https://topex-texnikumi.vercel.app/litsenziya" />
+        <meta property="og:title" content="Litsenziya – Topex Texnikumi" />
+        <meta property="og:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
+        <meta property="og:url" content="https://topex-texnikumi.vercel.app/litsenziya" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Litsenziya – Topex Texnikumi" />
+        <meta name="twitter:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Litsenziya", "item": "https://topex-texnikumi.vercel.app/litsenziya" }
+          ]
+        })}</script>
       </Helmet>
 
       {/* ── HERO ───────────────────────────────────────────────── */}
@@ -171,17 +190,15 @@ const LitsenziyaPage = () => {
             {/* Main license photo */}
             <motion.div {...up(0.1)} className="group">
               <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-gray-200">
-                <img
-                  src="/assets/license/license-main.jpg"
-                  alt="Topex Texnikumi Litsenziyasi - asosiy sahifa"
-                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-                {/* Fallback card */}
-                <div className="hidden border-2 border-blue-200 rounded-2xl p-8 bg-gradient-to-br from-blue-50 to-white min-h-[500px] flex-col justify-between">
+                {!imgErrors['main-license'] ? (
+                  <img
+                    src="/assets/license/license-main.jpg"
+                    alt="Topex Texnikumi Litsenziyasi - asosiy sahifa"
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={() => setImgErrors(prev => ({ ...prev, 'main-license': true }))}
+                  />
+                ) : (
+                  <div className="border-2 border-blue-200 rounded-2xl p-8 bg-gradient-to-br from-blue-50 to-white min-h-[500px] flex-col justify-between">
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4 leading-relaxed">
                       O'ZBEKISTON RESPUBLIKASI OLIY TA'LIM,<br/>FAN VA INNOVATSIYALAR VAZIRLIGI
@@ -209,6 +226,7 @@ const LitsenziyaPage = () => {
                   </div>
                   <p className="text-[11px] text-gray-400 mt-4">Taqdim etilgan: 30.09.2024 22:17</p>
                 </div>
+                )}
               </div>
               <p className="text-center text-gray-500 text-sm mt-3 font-medium">Litsenziya — asosiy sahifa</p>
             </motion.div>
@@ -216,17 +234,15 @@ const LitsenziyaPage = () => {
             {/* Directions page photo */}
             <motion.div {...up(0.15)} className="group">
               <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-gray-200">
-                <img
-                  src="/assets/license/license-directions.jpg"
-                  alt="Topex Texnikumi Litsenziyasi - yo'nalishlar"
-                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-                {/* Fallback card */}
-                <div className="hidden border-2 border-blue-200 rounded-2xl p-8 bg-gradient-to-br from-blue-50 to-white min-h-[500px] flex-col">
+                {!imgErrors['directions-license'] ? (
+                  <img
+                    src="/assets/license/license-directions.jpg"
+                    alt="Topex Texnikumi Litsenziyasi - yo'nalishlar"
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={() => setImgErrors(prev => ({ ...prev, 'directions-license': true }))}
+                  />
+                ) : (
+                  <div className="border-2 border-blue-200 rounded-2xl p-8 bg-gradient-to-br from-blue-50 to-white min-h-[500px] flex-col">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Litsenziya</p>
                   <p className="text-right text-gray-500 text-sm mb-6">№ 420567</p>
                   <h4 className="text-brand font-black text-lg mb-1">Faoliyat turi</h4>
@@ -238,6 +254,7 @@ const LitsenziyaPage = () => {
                     ))}
                   </div>
                 </div>
+                )}
               </div>
               <p className="text-center text-gray-500 text-sm mt-3 font-medium">Litsenziya — ta'lim yo'nalishlari</p>
             </motion.div>

@@ -104,7 +104,10 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Helmet><title>Profile – TOPEX</title></Helmet>
+      <Helmet>
+        <title>Profile – TOPEX</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
 
       <div className="py-10 lg:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

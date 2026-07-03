@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Users, Star, Clock, ArrowRight } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+
 
 const LEVEL_MAP = {
   beginner:     { label: 'Boshlang\'ich', cls: 'badge-teal' },
@@ -25,7 +25,6 @@ const resolveImg = (url) => {
 };
 
 const CourseCard = ({ course, index = 0 }) => {
-  const { t } = useTranslation();
   const level = course.level || 'beginner';
   const lvl   = LEVEL_MAP[level] || LEVEL_MAP.beginner;
   const rawImg = course.image || course.thumbnail;

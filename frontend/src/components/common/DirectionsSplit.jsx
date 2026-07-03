@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+
 import { useTranslation } from 'react-i18next';
 import { BookOpen } from 'lucide-react';
 import {
@@ -39,7 +39,6 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
         ...s,
         name: t(`directions.items.${TRANS_KEYS[i]}`),
       }));
-  const PAGE_SIZE = 6;
   const chunks = [];
   for (let i = 0; i < localized.length; i += PAGE_SIZE) {
     chunks.push(localized.slice(i, i + PAGE_SIZE));
