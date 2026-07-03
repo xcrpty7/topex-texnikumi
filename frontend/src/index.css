@@ -10,7 +10,8 @@
   html  { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
   body  { @apply text-navy font-sans; min-height: 100vh; background-color: #ffffff; overflow-x: hidden; }
   h1,h2,h3,h4,h5,h6 { @apply font-bold leading-tight text-navy; }
-  img   { display: block; }
+  img   { display: block; height: auto; }
+  img[loading="lazy"] { aspect-ratio: auto; }
 
   ::-webkit-scrollbar       { width: 5px; }
   ::-webkit-scrollbar-track  { @apply bg-gray-100; }

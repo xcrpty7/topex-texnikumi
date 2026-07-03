@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
     <loc>https://topex-texnikumi.vercel.app/</loc>
     <changefreq>daily</changefreq>
@@ -46,5 +47,30 @@
     <loc>https://topex-texnikumi.vercel.app/videolar</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://topex-texnikumi.vercel.app/blog/botirjonov-azizbek-matematika-sertifikat</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://topex-texnikumi.vercel.app/blog/topex-texnikumiga-qabul-2026</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://topex-texnikumi.vercel.app/blog/nega-topex-texnikumini-tanlash-kerak</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://topex-texnikumi.vercel.app/blog/xususiy-texnikum-toshkent-narxi-2026</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://topex-texnikumi.vercel.app/blog/10-sinfdan-keyin-texnikum-eng-yaxshi-yonalishlar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

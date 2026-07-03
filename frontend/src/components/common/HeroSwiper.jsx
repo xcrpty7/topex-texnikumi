@@ -151,6 +151,9 @@ export default function HeroSwiper({ settings }) {
                       key={`img-${i}`}
                       src={slide.imageFg}
                       alt=""
+                      fetchpriority={i === 0 ? 'high' : undefined}
+                      width={1920}
+                      height={1080}
                       initial={{ scale: 1.12, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 1, opacity: 0 }}

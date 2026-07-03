@@ -107,5 +107,80 @@ export const STATIC_NEWS = [
       <h2>Xulosa</h2>
       <p>TOPEX Texnikumi — bu nafaqat bilim, balki kelajakka ishonch. Sifatli ta'lim, tajribali ustozlar va qulay shart-sharoitlar sizni kutmoqda. <a href="/contact">Bog'lanish uchun</a> admin bilan aloqaga chiqing yoki bevosita filialga tashrif buyuring.</p>
     `
+  },
+  {
+    _id: 'static-xususiy-texnikum-narxi',
+    slug: 'xususiy-texnikum-toshkent-narxi-2026',
+    title: "Xususiy texnikum Toshkent narxi 2026 — o'qish to'lovlari va grantlar",
+    category: "Maqolalar",
+    image: '/assets/images/DSC01036.webp',
+    publishedAt: '2026-06-20T00:00:00.000Z',
+    createdAt: '2026-06-20T00:00:00.000Z',
+    excerpt: "2026 yilda Toshkentdagi xususiy texnikumlarning o'qish narxlari, TOPEX Texnikumidagi to'lov tizimi, grant va chegirma imkoniyatlari haqida batafsil ma'lumot.",
+    content: `
+      <p>Toshkentda xususiy texnikumda o'qish narxi yo'nalish va texnikumga qarab farq qiladi. Ushbu maqolada TOPEX Texnikumidagi o'qish to'lovlari, grant va chegirma imkoniyatlari haqida batafsil ma'lumot beramiz.</p>
+
+      <h2>TOPEX Texnikumida o'qish narxi</h2>
+      <p>TOPEX Texnikumida o'qish to'lovi yo'nalishga qarab belgilanadi. Eng ommabop yo'nalishlar — <strong>Dasturlash</strong>, <strong>Dizayn</strong>, <strong>Marketing</strong>, <strong>Filologiya</strong> va <strong>Buxgalteriya</strong> — bo'lib, har biri uchun to'lov shartlari farq qilishi mumkin.</p>
+
+      <p>Aniq narxlar haqida ma'lumot olish uchun <a href="/contact">aloqalar sahifasi</a> orqali biz bilan bog'lanishingiz yoki +998787774477 raqamiga qo'ng'iroq qilishingiz mumkin.</p>
+
+      <h2>TOPEXdagi grant va chegirmalar</h2>
+      <ul>
+        <li><strong>Olimpiada g'oliblari</strong> — bepul o'qish imkoniyati</li>
+        <li><strong>A'lo o'quvchilar</strong> — maxsus grant dasturlari</li>
+        <li><strong>Imkoniyati cheklangan oilalar</strong> — chegirma tizimi</li>
+        <li><strong>Ko'p bolali oilalar</strong> — maxsus shartlar</li>
+      </ul>
+
+      <h2>Toshkentdagi boshqa xususiy texnikumlar bilan solishtirganda</h2>
+      <p>TOPEX Texnikumi sifatli ta'lim, tajribali o'qituvchilar va qulay narxlar bilan boshqa xususiy texnikumlardan ajralib turadi. 3 ta filial (Chilonzor, Sergeli, Yunusobod) shaharning turli hududlarida joylashgan bo'lib, siz o'zingizga eng yaqin filialni tanlashingiz mumkin.</p>
+
+      <h2>Xulosa</h2>
+      <p>TOPEX Texnikumida o'qish narxi bo'yicha eng aniq ma'lumotni olish uchun admin bilan bog'laning. Grant va chegirma imkoniyatlaridan foydalanib, sifatli ta'limni arzon narxda olishingiz mumkin.</p>
+    `
+  },
+  {
+    _id: 'static-10-sinf-texnikum',
+    slug: '10-sinfdan-keyin-texnikum-eng-yaxshi-yonalishlar',
+    title: "10-sinfdan keyin texnikum — eng yaxshi yo'nalishlar va qabul shartlari",
+    category: "Maqolalar",
+    image: '/assets/famali-photo/DSC01240.webp',
+    publishedAt: '2026-06-25T00:00:00.000Z',
+    createdAt: '2026-06-25T00:00:00.000Z',
+    excerpt: "10-sinfdan keyin texnikumga o'qishga kirish, eng yaxshi yo'nalishlar, qabul shartlari va TOPEX Texnikumining afzalliklari haqida batafsil ma'lumot.",
+    content: `
+      <p>10-sinfni tugatgandan so'ng, ko'plab o'quvchilar texnikumda o'qishni davom ettirishni tanlaydi. Bu maqolada 10-sinfdan keyin texnikumga kirish shartlari, eng yaxshi yo'nalishlar va TOPEX Texnikumining afzalliklari haqida gapirib beramiz.</p>
+
+      <h2>10-sinfdan keyin texnikumga kirish mumkinmi?</h2>
+      <p>Ha, TOPEX Texnikumi 10 va 11-sinf o'quvchilarini ham qabul qiladi. Agar siz boshqa litsey yoki maktabda 10-sinfni boshlagan bo'lsangiz, TOPEXga ko'chib o'tishingiz mumkin. Buning uchun quyidagi hujjatlar kerak:</p>
+      <ul>
+        <li>Shaxsiy hujjat (pasport yoki tug'ilganlik guvohnomasi)</li>
+        <li>Oxirgi o'qish joyidan ma'lumotnoma</li>
+        <li>Belgilangan namunadagi ariza</li>
+        <li>3x4 rasmlar</li>
+      </ul>
+
+      <h2>Eng yaxshi yo'nalishlar</h2>
+      <p>TOPEXda 10-sinfdan keyin o'qish mumkin bo'lgan yo'nalishlar:</p>
+      <ul>
+        <li><strong>Dasturlash</strong> — IT sohasi bugungi kunda eng talab qilinadigan soha</li>
+        <li><strong>Kompyuter Grafikasi</strong> — dizayn va 3D modellashtirish</li>
+        <li><strong>Marketing va Agrobiznes</strong> — biznes va marketing asoslari</li>
+        <li><strong>Filologiya</strong> — xorijiy tillar</li>
+        <li><strong>Buxgalteriya</strong> — moliya va hisob-kitob</li>
+      </ul>
+
+      <h2>Nega TOPEX Texnikumi?</h2>
+      <ul>
+        <li>3 ta filial — Toshkent bo'ylab qulay joylashuv</li>
+        <li>Grant va chegirmalar mavjud</li>
+        <li>Tajribali o'qituvchilar</li>
+        <li>Zamonaviy o'quv dasturlari</li>
+        <li>Sertifikat olish imkoniyati</li>
+      </ul>
+
+      <p>Batafsil ma'lumot uchun <a href="/courses">kurslar sahifasini</a> ko'ring yoki <a href="/contact">bog'laning</a>.</p>
+    `
   }
 ];
