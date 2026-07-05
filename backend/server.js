@@ -10,6 +10,7 @@ const hpp = require('hpp');
 const path = require('path');
 
 const connectDB = require('./config/db');
+const seed = require('./utils/seed');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/authRoutes');
@@ -30,8 +31,12 @@ const { getVideos } = require('./controllers/videoController');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 // ─── Ma'lumotlar bazasiga ulanish ───────────────────────────────────────────
-connectDB();
+connectDB().then(() => {
+  seed().catch((err) => console.error('Seed error:', err?.message));
+});
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
