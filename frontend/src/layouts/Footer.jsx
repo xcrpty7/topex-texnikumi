@@ -108,6 +108,7 @@ const Footer = () => {
     { match: 'imtihon',  url: '/imtihon-natijalari' },
     { match: 'aloqalar', url: '/aloqalar' },
     { match: 'contact',  url: '/aloqalar' },
+    { match: 'narx',     url: '/narx' },
   ];
 
   // Translated label by URL (always takes priority over DB label)
@@ -120,6 +121,7 @@ const Footer = () => {
     '/imtihon-natijalari':  t('footer.links.examResult'),
     '/profile':             t('footer.links.contract'),
     '/aloqalar':            t('nav.contacts'),
+    '/narx':                t('footer.links.prices'),
   }[to]);
 
   const REMOVED = ['jurnal', 'savol'];
@@ -147,6 +149,8 @@ const Footer = () => {
   const COL2 = mapLinks(settings?.footerColApplicantsLinks, [
     { url: '/courses',      label: t('footer.links.directions') },
     { url: '/vakansiyalar', label: t('footer.links.vacancies') },
+    { url: '/imtihon-natijalari', label: t('footer.links.examResult') },
+    { url: '/narx', label: t('footer.links.prices') },
   ]);
   if (!COL2.some(l => l.to === '/imtihon-natijalari' || l.label.toLowerCase().includes('imtihon'))) {
     COL2.push({ to: '/imtihon-natijalari', label: t('footer.links.examResult') });

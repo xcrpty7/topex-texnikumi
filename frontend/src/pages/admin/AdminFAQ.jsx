@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { HelpCircle, Plus, Trash2, Edit2, Eye, EyeOff, X, ChevronDown, Search } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -84,6 +85,7 @@ const AdminFAQ = () => {
   const activeCount = items.filter(i => i.isActive).length;
 
   return (
+    <><Helmet><title>{t('adminFAQ.pageTitle')}</title></Helmet>
     <div style={{ color: '#272829' }}>
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -257,6 +259,7 @@ const AdminFAQ = () => {
         confirmStyle="danger"
       />
     </div>
+    </>
   );
 };
 

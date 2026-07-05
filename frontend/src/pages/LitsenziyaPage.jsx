@@ -45,11 +45,11 @@ const LitsenziyaPage = () => {
         <meta property="og:title" content="Litsenziya – Topex Texnikumi" />
         <meta property="og:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/litsenziya" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Litsenziya – Topex Texnikumi" />
         <meta name="twitter:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",

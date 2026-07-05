@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Image, Plus, Trash2, Eye, EyeOff, Upload, X, Edit2 } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -212,6 +213,7 @@ const AdminGallery = () => {
   };
 
   return (
+    <><Helmet><title>{t('adminGallery.pageTitle')}</title></Helmet>
     <div style={{ color: '#272829' }}>
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -449,6 +451,7 @@ const AdminGallery = () => {
         confirmLabel={t('admin.deleteConfirm')}
       />
     </div>
+    </>
   );
 };
 

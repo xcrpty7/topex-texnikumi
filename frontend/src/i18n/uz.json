@@ -136,6 +136,7 @@
       "directions": "Yo'nalishlar",
       "faq": "Savol-javoblar",
       "examResult": "Kirish imtihon natijasi",
+      "prices": "Narxlar",
       "contract": "Shartnoma olish",
       "studentLife": "Talabalik hayoti"
     }
@@ -348,7 +349,13 @@
       "phytolabF1": "Botanika",
       "phytolabF2": "Dori tayyorlash",
       "phytolabF3": "Fitoterapiya"
-    }
+    },
+    "pricingTitle": "O'qish narxlari",
+    "pricingSubtitle": "Barcha yo'nalishlar bo'yicha to'lov shartlari",
+    "pricingMonthly": "2 500 000 so'm/oy",
+    "pricingYearly": "25 000 000 so'm/yil (10 oy)",
+    "pricingNote": "To'lovni oylik, choraklik yoki yillik amalga oshirish mumkin",
+    "pricingGrant": "1 milliard so'mlik grant va stipendiya fondi mavjud"
   },
   "blogPage": {
     "fallbackCategory": "Yangiliklar",
@@ -617,6 +624,7 @@
     "create": "Yaratish"
   },
   "adminDirections": {
+    "pageTitle": "Yo'nalishlar – TOPEX Admin",
     "header": "Yo'nalishlar",
     "subtitle": "Yo'nalishlarni boshqarish",
     "empty": "Hozircha yo'nalishlar mavjud emas",
@@ -646,6 +654,7 @@
     "confirmMessage": "Bu yo'nalishni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
   },
   "adminTeachers": {
+    "pageTitle": "O'qituvchilar – TOPEX Admin",
     "header": "O'qituvchilar",
     "subtitle": "O'qituvchilarni boshqarish",
     "empty": "Hozircha o'qituvchilar mavjud emas",
@@ -671,6 +680,7 @@
     "confirmMessage": "Bu o'qituvchini o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
   },
   "adminFAQ": {
+    "pageTitle": "Savol-Javob – TOPEX Admin",
     "header": "Savol-Javoblar",
     "questionsCount": "ta savol",
     "addQuestion": "Savol qo'shish",
@@ -689,6 +699,7 @@
     "confirmMessage": "Bu savol-javobni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
   },
   "adminScholarships": {
+    "pageTitle": "Grantlar – TOPEX Admin",
     "header": "Grantlar",
     "grantsCount": "ta grant",
     "addGrant": "Grant qo'shish",
@@ -784,6 +795,7 @@
     }
   },
   "adminGallery": {
+    "pageTitle": "Galereya – TOPEX Admin",
     "header": "Galereya",
     "imagesCount": "ta rasm",
     "seedDefaults": "Standart rasmlarni joylash",
@@ -814,6 +826,7 @@
     "catOther": "Boshqa"
   },
   "adminTestimonials": {
+    "pageTitle": "Sharhlar – TOPEX Admin",
     "header": "Sharhlar",
     "reviewsCount": "ta sharh",
     "addReview": "Sharh qo'shish",
@@ -836,6 +849,7 @@
     "confirmMessage": "Bu sharhni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
   },
   "adminVideos": {
+    "pageTitle": "Video galereya – TOPEX Admin",
     "header": "Video galereya",
     "videosCount": "ta video",
     "refresh": "Yangilash",
@@ -867,6 +881,7 @@
     "deleteConfirmLabel": "Ha, o'chirish"
   },
   "adminHomeVideos": {
+    "pageTitle": "Bosh sahifa videolari – TOPEX Admin",
     "header": "Bosh sahifa videolari",
     "videosCount": "ta video",
     "seedDefaults": "Standart videolarni joylash",
@@ -892,6 +907,7 @@
     "defaultSeeded": "{{count}} ta standart video joylandi"
   },
   "adminSettings": {
+    "pageTitle": "Sayt sozlamalari – TOPEX Admin",
     "header": "Sayt sozlamalari",
     "subtitle": "Saytning asosiy sozlamalarini boshqarish",
     "saved": "Sozlamalar saqlandi",
@@ -930,7 +946,7 @@
   "adminBlog": {
     "pageTitle": "Blog – TOPEX Admin",
     "header": "Blog / Maqolalar",
-    "articlesCount": "ta maqola",
+    "articlesCount": "{{filtered}}/{{total}} ta maqola",
     "published": "chop etilgan",
     "draft": "qoralama",
     "searchPlaceholder": "Maqola nomi yoki kategoriya...",
@@ -1051,6 +1067,13 @@
       "created": "Kurs yaratildi!",
       "deleted": "O'chirildi!",
       "error": "Xatolik yuz berdi"
+    }
+  },
+  "courses": {
+    "level": {
+      "beginner": "Boshlang'ich",
+      "intermediate": "O'rta",
+      "advanced": "Yuqori"
     }
   },
   "adminSiteEditor": {

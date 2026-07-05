@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -70,6 +71,7 @@ const AdminDirections = () => {
   };
 
   return (
+    <><Helmet><title>{t('adminDirections.pageTitle')}</title></Helmet>
     <div className="admin-theme p-6 md:p-8">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div className="flex items-center gap-3">
@@ -214,6 +216,7 @@ const AdminDirections = () => {
       <ConfirmModal isOpen={!!confirmId} onClose={() => setConfirmId(null)} onConfirm={del}
                     title={t('admin.confirmDeleteTitle')} message={t('adminDirections.confirmMessage')} />
     </div>
+    </>
   );
 };
 

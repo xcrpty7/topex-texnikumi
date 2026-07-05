@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Film, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload, ExternalLink } from 'lucide-react';
 import api from '../../services/api';
 import { uploadVideo } from '../../services/firebase';
@@ -157,6 +158,7 @@ const AdminVideos = () => {
   };
 
   return (
+    <><Helmet><title>{t('adminVideos.pageTitle')}</title></Helmet>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -374,6 +376,7 @@ const AdminVideos = () => {
         confirmLabel={t('adminVideos.deleteConfirmLabel')}
       />
     </div>
+    </>
   );
 };
 

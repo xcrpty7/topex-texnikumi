@@ -142,5 +142,88 @@ export const STATIC_NEWS = [
 
       <p><a href="/courses">Yo'nalishlar haqida batafsil</a> yoki <a href="/contact">bog'lanish</a>.</p>
     `
+  },
+  {
+    _id: 'static-grant-2026',
+    slug: 'topex-texnikumi-grant-2026',
+    title: "TOPEX Texnikumi grant 2026 — 1 milliard so'mlik grant va stipendiyalar",
+    category: "Grantlar",
+    image: '/assets/images/DSC00827.webp',
+    publishedAt: '2026-06-25T00:00:00.000Z',
+    createdAt: '2026-06-25T00:00:00.000Z',
+    excerpt: "TOPEX Texnikumi 2026 yilgi grant dasturi: 1 milliard so'mlik grant fondi, SAT 1200+ egalari uchun bepul o'qish, IELTS sertifikat egalari va olimpiada g'oliblari uchun stipendiyalar.",
+    content: `
+      <p>TOPEX Texnikumi — Toshkentdagi yetakchi <strong>xususiy texnikum</strong> bo'lib, 2026 yilda jami <strong>1 milliard so'mlik grant fondi</strong>ni taqdim etadi. Ushbu maqolada TOPEX grantlari, stipendiyalari va chegirmalari haqida batafsil ma'lumot olasiz.</p>
+
+      <h2>TOPEX grant turlari</h2>
+
+      <h3>1. SAT 1200+ granti — deyarli bepul o'qish</h3>
+      <p>Agar siz SAT imtihonida 1200 va undan yuqori ball to'plagan bo'lsangiz, TOPEX Texnikumida o'qish uchun oyiga atiga <strong>2 000 000 so'm</strong> to'lab, deyarli bepul o'qish imkoniyatiga ega bo'lasiz.</p>
+
+      <h3>2. Chet tili granti — IELTS 7.0+</h3>
+      <p>Chet tilini mukammal biladigan o'quvchilar uchun maxsus grant. IELTS 7.0 va undan yuqori natija ko'rsatgan talabalar oyiga <strong>1 000 000 so'm</strong> chegirma bilan o'qishi mumkin.</p>
+
+      <h3>3. Chet tili B2 granti</h3>
+      <p>IELTS 5.5-6.5 yoki CEFR B2 darajasidagi sertifikat egalari oyiga <strong>500 000 so'm</strong> stipendiya olish huquqiga ega.</p>
+
+      <h3>4. Fan sertifikati granti</h3>
+      <p>Bilim va malakalarni baholash agentligi imtihonlarida B+ va undan yuqori darajali sertifikat olgan o'quvchilar oyiga <strong>500 000 so'm</strong> stipendiya bilan taqdirlanadi.</p>
+
+      <h2>Olimpiada g'oliblari uchun grantlar</h2>
+      <p>Respublika va xalqaro olimpiadalarda g'olib bo'lgan o'quvchilar TOPEXda <strong>bepul o'qish</strong> imkoniyatiga ega. Imkoniyati cheklangan oilalar farzandlari uchun ham maxsus chegirma tizimi mavjud.</p>
+
+      <h2>TOPEXga qanday hujjatlar kerak?</h2>
+      <ul>
+        <li>9-sinf attestati (asl nusxa va nusxa)</li>
+        <li>Pasport yoki tug'ilganlik haqidagi guvohnoma</li>
+        <li>3x4 hajmdagi 6 ta rasm</li>
+        <li>Sertifikat yoki diplom (grant olish uchun)</li>
+      </ul>
+
+      <p>Grant olish uchun <a href="/">bosh sahifadagi ariza formasini</a> to'ldiring yoki +998787774477 raqamiga qo'ng'iroq qiling.</p>
+    `
+  },
+  {
+    _id: 'static-9-sinf-texnikum',
+    slug: '9-sinfdan-keyin-texnikumda-oqish-2026',
+    title: "9-sinfdan keyin texnikumda o'qish 2026 — to'liq qo'llanma",
+    category: "Maqolalar",
+    image: '/assets/famali-photo/DSC00980.webp',
+    publishedAt: '2026-07-01T00:00:00.000Z',
+    createdAt: '2026-07-01T00:00:00.000Z',
+    excerpt: "9-sinfdan keyin texnikumda o'qish: qabul shartlari, zarur hujjatlar, eng yaxshi texnikumlar, TOPEX Texnikumi afzalliklari va grant imkoniyatlari haqida to'liq qo'llanma.",
+    content: `
+      <p>9-sinfni tugatgach, ko'plab o'quvchilar va ota-onalar oldida muhim savol turadi: <strong>"9-sinfdan keyin texnikumda o'qishni davom ettirish kerakmi?"</strong>. Bu maqolada 9-sinfdan keyin texnikumga qabul qilish tartibi, zarur hujjatlar, Toshkentdagi eng yaxshi texnikumlar va TOPEX Texnikumining afzalliklari haqida batafsil ma'lumot beramiz.</p>
+
+      <h2>9-sinfdan keyin texnikumga o'tish: asosiy ma'lumot</h2>
+      <p>O'zbekistonda 9-sinfdan keyin o'quvchilar <strong>akademik litsey, kollej yoki texnikum</strong>da o'qishni davom ettirishi mumkin. Texnikum — bu o'rta maxsus ta'lim muassasasi bo'lib, 2 yil davomida (10-11 sinflar) o'quvchilarga kasbiy ta'lim beradi va davlat namunasidagi diplom bilan ta'minlaydi.</p>
+
+      <h2>9-sinfdan keyin texnikumga qabul uchun hujjatlar</h2>
+      <ul>
+        <li><strong>9-sinf attestati</strong> — asl nusxa va nusxa</li>
+        <li><strong>Pasport yoki tug'ilganlik haqidagi guvohnoma</strong></li>
+        <li><strong>3x4 hajmdagi 6 ta rasm</strong></li>
+        <li><strong>Ariza</strong> — belgilangan namunada</li>
+        <li><strong>Tibbiy ma'lumotnoma</strong> — 086-U shaklida</li>
+      </ul>
+
+      <h2>Toshkentdagi xususiy texnikum: TOPEX</h2>
+      <p>TOPEX Texnikumi — Toshkent shahridagi zamonaviy <strong>xususiy texnikum</strong>. 3 ta filialda (Chilonzor, Sergeli, Yunusobod) faoliyat yuritadi. TOPEXning asosiy afzalliklari:</p>
+
+      <ul>
+        <li><strong>Tajribali o'qituvchilar</strong> — har bir fandan yuqori malakali pedagoglar</li>
+        <li><strong>Zamonaviy yo'nalishlar</strong> — Dasturlash, Dizayn, Marketing, Filologiya, Buxgalteriya</li>
+        <li><strong>Grant va stipendiyalar</strong> — 1 milliard so'mlik grant fondi, olimpiada g'oliblari uchun bepul o'qish</li>
+        <li><strong>Sertifikat imkoniyati</strong> — BITTA sertifikati oliy o'quv yurtlariga kirishda imtiyoz</li>
+      </ul>
+
+      <h2>TOPEXda o'qish narxi</h2>
+      <p>TOPEX Texnikumida o'qish narxi — <strong>oyiga 2 500 000 so'm</strong> (yiliga 10 oy). Biroq, iqtidorli o'quvchilar uchun grant va chegirmalar mavjud. <a href="/">Batafsil ma'lumot olish uchun ariza qoldiring</a>.</p>
+
+      <h2>Xususiy texnikum vs akademik litsey</h2>
+      <p>Xususiy texnikumlar (TOPEX kabi) akademik litseylardan farqli ravishda ko'proq amaliy bilim va kasbiy ko'nikmalar beradi. Texnikum bitiruvchilari davlat namunasidagi diplom bilan bir qatorda, tanlangan soha bo'yicha amaliy tajribaga ega bo'lishadi. <a href="/courses">Yo'nalishlar bilan tanishish</a>.</p>
+
+      <p>Telefon: +998787774477<br/>Telegram: @topex_uz<br/>Manzil: Chilonzor, Sergeli, Yunusobod filiallari</p>
+    `
   }
 ];

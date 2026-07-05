@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Award, Plus, Trash2, Edit2, Eye, EyeOff, X, Search } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -79,6 +80,7 @@ const AdminScholarships = () => {
   );
 
   return (
+    <><Helmet><title>{t('adminScholarships.pageTitle')}</title></Helmet>
     <div style={{ color: '#272829' }}>
       <div className="flex items-center justify-between mb-5">
         <div>
@@ -238,6 +240,7 @@ const AdminScholarships = () => {
         confirmLabel={t('admin.deleteConfirm')}
       />
     </div>
+    </>
   );
 };
 

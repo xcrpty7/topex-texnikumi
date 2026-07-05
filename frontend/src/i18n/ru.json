@@ -131,6 +131,7 @@
       "directions": "Направления",
       "faq": "Вопрос-Ответ",
       "examResult": "Результат вступительного экзамена",
+      "prices": "Цены",
       "contract": "Получить договор",
       "studentLife": "Студенческая жизнь"
     }
@@ -339,7 +340,13 @@
       "phytolabF1": "Ботаника",
       "phytolabF2": "Приготовление лекарств",
       "phytolabF3": "Фитотерапия"
-    }
+    },
+    "pricingTitle": "Стоимость обучения",
+    "pricingSubtitle": "Условия оплаты по всем направлениям",
+    "pricingMonthly": "2 500 000 сум/мес",
+    "pricingYearly": "25 000 000 сум/год (10 мес)",
+    "pricingNote": "Оплата возможна ежемесячно, ежеквартально или ежегодно",
+    "pricingGrant": "Доступен грантовый фонд в 1 миллиард сумов"
   },
   "blogPage": {
     "fallbackCategory": "Новости",
@@ -608,6 +615,7 @@
     "create": "Создать"
   },
   "adminDirections": {
+    "pageTitle": "Направления – TOPEX Admin",
     "header": "Направления",
     "subtitle": "Управление направлениями обучения",
     "empty": "Направления пока не добавлены",
@@ -637,6 +645,7 @@
     "confirmMessage": "Вы уверены, что хотите удалить это направление?"
   },
   "adminTeachers": {
+    "pageTitle": "Учителя – TOPEX Admin",
     "header": "Учителя",
     "subtitle": "Управление преподавателями",
     "empty": "Учителя пока не добавлены",
@@ -662,6 +671,7 @@
     "confirmMessage": "Вы уверены, что хотите удалить этого учителя?"
   },
   "adminFAQ": {
+    "pageTitle": "Вопрос-Ответ – TOPEX Admin",
     "header": "Вопрос-Ответ",
     "questionsCount": "вопросов",
     "addQuestion": "Добавить вопрос",
@@ -680,6 +690,7 @@
     "confirmMessage": "Вы уверены, что хотите удалить этот вопрос?"
   },
   "adminScholarships": {
+    "pageTitle": "Гранты – TOPEX Admin",
     "header": "Гранты",
     "grantsCount": "грантов",
     "addGrant": "Добавить грант",
@@ -775,6 +786,7 @@
     }
   },
   "adminGallery": {
+    "pageTitle": "Галерея – TOPEX Admin",
     "header": "Галерея",
     "imagesCount": "изображений",
     "seedDefaults": "Загрузить стандартные",
@@ -805,6 +817,7 @@
     "catOther": "Другое"
   },
   "adminTestimonials": {
+    "pageTitle": "Отзывы – TOPEX Admin",
     "header": "Отзывы",
     "reviewsCount": "отзывов",
     "addReview": "Добавить отзыв",
@@ -827,6 +840,7 @@
     "confirmMessage": "Вы уверены, что хотите удалить этот отзыв?"
   },
   "adminVideos": {
+    "pageTitle": "Видео галерея – TOPEX Admin",
     "header": "Видео галерея",
     "videosCount": "видео",
     "refresh": "Обновить",
@@ -858,6 +872,7 @@
     "deleteConfirmLabel": "Да, удалить"
   },
   "adminHomeVideos": {
+    "pageTitle": "Видео главной – TOPEX Admin",
     "header": "Видео главной",
     "videosCount": "видео",
     "seedDefaults": "Загрузить стандартные",
@@ -883,6 +898,7 @@
     "defaultSeeded": "Добавлено {{count}} стандартных видео"
   },
   "adminSettings": {
+    "pageTitle": "Настройки сайта – TOPEX Admin",
     "header": "Настройки сайта",
     "subtitle": "Управление настройками и контентом сайта",
     "saved": "Настройки сохранены",
@@ -921,7 +937,7 @@
   "adminBlog": {
     "pageTitle": "Блог – TOPEX Admin",
     "header": "Блог / Статьи",
-    "articlesCount": "статей",
+    "articlesCount": "{{filtered}}/{{total}} статей",
     "published": "опубликовано",
     "draft": "черновик",
     "searchPlaceholder": "Название статьи или категория...",
@@ -1042,6 +1058,13 @@
       "created": "Курс создан!",
       "deleted": "Удалено!",
       "error": "Произошла ошибка"
+    }
+  },
+  "courses": {
+    "level": {
+      "beginner": "Начальный",
+      "intermediate": "Средний",
+      "advanced": "Продвинутый"
     }
   },
   "adminSiteEditor": {

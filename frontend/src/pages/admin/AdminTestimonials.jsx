@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Star, Plus, Trash2, Edit2, Eye, EyeOff, X, Upload, Search, MessageSquare } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -99,6 +100,7 @@ const AdminTestimonials = () => {
   const hiddenCount = items.length - activeCount;
 
   return (
+    <><Helmet><title>{t('adminTestimonials.pageTitle')}</title></Helmet>
     <div style={{ color: '#272829' }}>
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -299,6 +301,7 @@ const AdminTestimonials = () => {
         confirmStyle="danger"
       />
     </div>
+    </>
   );
 };
 

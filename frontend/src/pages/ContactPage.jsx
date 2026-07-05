@@ -124,11 +124,11 @@ const ContactPage = () => {
         <meta property="og:title" content={t('contactPage.meta.ogTitle')} />
         <meta property="og:description" content={t('contactPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/aloqalar" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={t('contactPage.meta.ogTitle')} />
         <meta name="twitter:description" content={t('contactPage.meta.ogDescription')} />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",

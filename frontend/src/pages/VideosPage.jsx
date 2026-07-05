@@ -40,11 +40,19 @@ const VideosPage = () => {
         <meta property="og:title" content="Videolar – Topex Texnikumi" />
         <meta property="og:description" content="Topex Texnikumi video galereyasi." />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/videolar" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Videolar – Topex Texnikumi" />
         <meta name="twitter:description" content="Topex Texnikumi video galereyasi." />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Videolar", "item": "https://topex-texnikumi.vercel.app/videolar" }
+          ]
+        })}</script>
       </Helmet>
 
       <section className="w-full pt-36 pb-24">

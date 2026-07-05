@@ -94,6 +94,32 @@ const ArticleDetailPage = () => {
             { "@type": "ListItem", "position": 3, "name": data.title, "item": `https://topex-texnikumi.vercel.app/blog/${data.slug || slug}` }
           ]
         })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": ["Article", "NewsArticle"],
+          "headline": data.title,
+          "description": data.excerpt || data.title,
+          "image": resolveImg(data.image) || 'https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png',
+          "datePublished": data.publishedAt || data.createdAt || new Date().toISOString(),
+          "dateModified": data.updatedAt || data.publishedAt || data.createdAt || new Date().toISOString(),
+          "author": {
+            "@type": "Organization",
+            "name": "TOPEX Texnikumi",
+            "url": "https://topex-texnikumi.vercel.app/"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "TOPEX Texnikumi",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://topex-texnikumi.vercel.app/blog/${data.slug || slug}`
+          }
+        })}</script>
       </Helmet>
 
       {/* ══ HERO ══════════════════════════════════════════════ */}

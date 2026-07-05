@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import {
   BookOpen, GraduationCap, ArrowRight, Home, ChevronRight,
   Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout,
-  Star, Award, Users, Globe, Cpu, Music, Camera, X,
+  Star, Award, Users, Globe, Cpu, Music, Camera, X, Wallet,
 } from 'lucide-react';
 import { fetchCourses, setFilters } from '../features/courses/coursesSlice';
 import CourseCard from '../components/common/CourseCard';
@@ -100,13 +100,13 @@ const CoursesPage = () => {
         <meta property="og:title" content={t('coursesPage.meta.ogTitle')} />
         <meta property="og:description" content={t('coursesPage.meta.ogDescription')} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/courses" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={t('coursesPage.meta.ogTitle')} />
         <meta name="twitter:description" content={t('coursesPage.meta.ogDescription')} />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -258,6 +258,48 @@ const CoursesPage = () => {
         </section>
       )}
 
+      {/* ── Pricing ── */}
+      <section className="sec bg-white">
+        <div className="wrap">
+          <motion.div {...up(0)} className="text-center mb-12">
+            <span className="lbl text-emerald-600">{t('coursesPage.heroBadge')}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-navy">
+              {t('coursesPage.pricingTitle')}
+            </h2>
+            <p className="text-navy/60 mt-3 max-w-2xl mx-auto">
+              {t('coursesPage.pricingSubtitle')}
+            </p>
+          </motion.div>
+
+          <motion.div {...up(0.05)}
+            className="max-w-2xl mx-auto bg-gradient-to-br from-emerald-50 to-white rounded-3xl p-8 md:p-12 border border-emerald-100 shadow-lg shadow-emerald-100/50"
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-6">
+              <div className="text-center">
+                <div className="text-4xl font-black text-emerald-700 whitespace-nowrap">
+                  {t('coursesPage.pricingMonthly')}
+                </div>
+                <div className="text-sm text-navy/50 mt-1">oylik to'lov</div>
+              </div>
+              <div className="hidden sm:block w-px h-16 bg-emerald-200" />
+              <div className="text-center">
+                <div className="text-2xl font-bold text-navy whitespace-nowrap">
+                  {t('coursesPage.pricingYearly')}
+                </div>
+                <div className="text-sm text-navy/50 mt-1">yillik to'lov</div>
+              </div>
+            </div>
+            <div className="text-center text-sm text-navy/60 mb-6">
+              {t('coursesPage.pricingNote')}
+            </div>
+            <div className="flex items-center justify-center gap-2 text-sm font-semibold text-emerald-700 bg-emerald-100/60 rounded-xl px-5 py-3">
+              <Award size={18} />
+              {t('coursesPage.pricingGrant')}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section className="sec-mid py-14">
         <div className="wrap">
@@ -332,6 +374,10 @@ const CoursesPage = () => {
                     <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
                       <GraduationCap size={20} className="text-blue" />
                       <span>O'qish muddati: <span className="font-bold">{selected.duration} (10-11 sinflar)</span></span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm font-medium text-emerald-700 bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                      <Wallet size={20} className="text-emerald-600" />
+                      <span>To'lov: <span className="font-bold">{t('coursesPage.pricingMonthly')}</span></span>
                     </div>
                     <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
                       <TrendingUp size={20} className="text-coral" />
