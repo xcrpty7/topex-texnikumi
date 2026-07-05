@@ -31,19 +31,12 @@ export default function HeroSwiper({ settings }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const swiperRef = useRef(null);
 
-  // 1) DB slaydlari bo'lsa — ulardan foydalan
-  // 2) Aks holda i18n + statik rasm
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
-  const heroImg = settings?.heroImage || '';
-  const heroImages = [
-    heroImg ? resolveImg(heroImg, IMAGES[0]) : IMAGES[0],
-    IMAGES[1],
-    IMAGES[2],
-  ];
-
-  const imgBg = (i) => (heroImages[i] || IMAGES[0]).replace('.webp', '-960w.webp');
-  const imgFg = (i) => heroImages[(i + 1) % heroImages.length] || IMAGES[0];
+  const resolveBg = (val, fallback) => {
+    const src = val ? resolveImg(val, fallback) : fallback;
+    return src.replace('.webp', '-960w.webp');
+  };
 
   const slides = dbSlides
     ? settings.heroSlides.map((s, i) => ({
@@ -51,18 +44,18 @@ export default function HeroSwiper({ settings }) {
           ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
           : [s.title1, s.title2, s.title3].filter(Boolean),
         subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
-        imageBg: imgBg(i),
-        imageFg: imgFg(i),
+        imageBg: resolveBg(s.image, IMAGES[i]),
+        imageFg: s.image ? resolveImg(s.image, IMAGES[i]) : IMAGES[i],
       }))
-    : [0, 1, 2].map((i) => ({
+    : IMAGES.map((img, i) => ({
         title: [
           t(`hero.slide${i+1}Title1`),
           t(`hero.slide${i+1}Title2`),
           t(`hero.slide${i+1}Title3`),
         ],
         subtitle: t(`hero.slide${i+1}Sub`),
-        imageBg: imgBg(i),
-        imageFg: imgFg(i),
+        imageBg: img.replace('.webp', '-960w.webp'),
+        imageFg: img,
       }));
 
   const ctaText  = t('hero.ctaApply');
