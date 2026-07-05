@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Play, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
@@ -12,13 +13,7 @@ import ConfirmModal from '../../components/ui/ConfirmModal';
 const API_URL = import.meta.env.VITE_API_URL || '';
 const EMPTY_FORM = { title: '', url: '', order: 0, isActive: true };
 
-const STATIC_VIDEOS = [
-  { title: 'Amaliy darslar',  url: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4', order: 1 },
-  { title: 'Tadbirlar',        url: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4',  order: 2 },
-  { title: 'Oromgoh',          url: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4', order: 3 },
-  { title: 'Dars jarayoni',   url: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4', order: 4 },
-  { title: 'Bitiruv kechasi', url: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4', order: 5 },
-];
+const STATIC_VIDEOS = [];
 
 const truncateUrl = (url, max = 40) => {
   if (!url) return '—';
@@ -183,6 +178,7 @@ const AdminHomeVideos = () => {
   };
 
   return (
+    <><Helmet><title>{t('adminHomeVideos.pageTitle')}</title></Helmet>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -386,6 +382,7 @@ const AdminHomeVideos = () => {
         confirmLabel={t('admin.deleteConfirm')}
       />
     </div>
+    </>
   );
 };
 

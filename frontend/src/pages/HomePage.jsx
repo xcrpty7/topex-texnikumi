@@ -127,15 +127,12 @@ const SUBJECTS = [
 ];
 
 const VIDEOS = [
-  { src: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4', title: 'Amaliy darslar' },
-  { src: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4', title: 'Tadbirlar' },
-  { src: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4', title: 'Oromgoh' },
-  { src: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4', title: 'Dars jarayoni' },
-  { src: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4', title: 'Bitiruv kechasi' },
+  { src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Amaliy darslar' },
+  { src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Tadbirlar' },
+  { src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Oromgoh' },
+  { src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dars jarayoni' },
+  { src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Bitiruv kechasi' },
 ];
-
-
-
 
 const EXTRAS = [
   "IT va Robototexnika",
@@ -364,13 +361,13 @@ const HomePage = () => {
         <meta property="og:title" content={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"} />
         <meta property="og:description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum."} />
         <meta property="og:url" content="https://topex-texnikumi.vercel.app/" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:title" content={settings?.siteTitle || "Topex Texnikumi"} />
         <meta name="twitter:description" content={settings?.siteDescription || "Toshkentdagi zamonaviy xususiy texnikum."} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png" />
+        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
       </Helmet>
 
       {/* ══ 1. HERO — Profi-style split ══════════════════════ */}
@@ -474,7 +471,7 @@ const HomePage = () => {
       <DiplomaSection settings={settings} />
 
       {/* ══ 7. VIDEO — Talabalik hayoti ═════════════════════ */}
-      <VideosSwiper videos={displayVideos} onOpen={setActiveVideo} settings={settings} />
+      {displayVideos.length > 0 && <VideosSwiper videos={displayVideos} onOpen={setActiveVideo} settings={settings} />}
 
 
 
