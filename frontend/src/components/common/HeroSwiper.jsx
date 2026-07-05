@@ -29,8 +29,18 @@ const IMAGES = [
 export default function HeroSwiper({ settings }) {
   const { t, i18n } = useTranslation();
   const [activeIdx, setActiveIdx] = useState(0);
-  const [failed, setFailed] = useState({});
+  const [failedImg, setFailedImg] = useState({});
   const swiperRef = useRef(null);
+
+  const onImgLoad = (e, i) => {
+    const img = e.currentTarget;
+    if (img.naturalWidth === 800 && img.naturalHeight === 600 && img.src.includes('render.com')) {
+      setFailedImg(p => ({ ...p, [i]: true }));
+    }
+  };
+
+  const fallbackImg = (i) => IMAGES[i];
+  const fallbackBg = (i) => IMAGES[i].replace('.webp', '-960w.webp');
 
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
@@ -82,7 +92,7 @@ export default function HeroSwiper({ settings }) {
               <div className="relative flex items-center px-6 sm:px-10 lg:px-20 py-14 lg:py-0 overflow-hidden bg-brand-deep">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url('${slide.imageBg}')` }}
+                  style={{ backgroundImage: `url('${failedImg[i] ? fallbackBg(i) : slide.imageBg}')` }}
                 />
                 <div className="absolute inset-0 bg-brand-deep/80" />
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/30 via-transparent to-brand-deep/40" />
@@ -149,10 +159,10 @@ export default function HeroSwiper({ settings }) {
                   {activeIdx === i && (
                     <motion.img
                       key={`img-${i}`}
-                      src={failed[i] ? IMAGES[i] : slide.imageFg}
+                      src={failedImg[i] ? fallbackImg(i) : slide.imageFg}
                       alt=""
                       fetchpriority={i === 0 ? 'high' : undefined}
-                      srcSet={!failed[i] ? srcSetFor(slide.imageFg) : undefined}
+                      srcSet={!failedImg[i] ? srcSetFor(slide.imageFg) : undefined}
                       sizes="(max-width: 480px) 480px, (max-width: 960px) 960px, (max-width: 1440px) 1440px, 1920px"
                       width={1920}
                       height={1080}
@@ -161,7 +171,7 @@ export default function HeroSwiper({ settings }) {
                       exit={{ scale: 1, opacity: 0 }}
                       transition={{ scale: { duration: 7, ease: 'easeOut' }, opacity: { duration: 0.9 } }}
                       className="absolute inset-0 w-full h-full object-cover"
-                      onError={() => setFailed(p => ({ ...p, [i]: true }))}
+                      onLoad={(e) => onImgLoad(e, i)}
                     />
                   )}
                 </AnimatePresence>
