@@ -29,6 +29,7 @@ const IMAGES = [
 export default function HeroSwiper({ settings }) {
   const { t, i18n } = useTranslation();
   const [activeIdx, setActiveIdx] = useState(0);
+  const [failed, setFailed] = useState({});
   const swiperRef = useRef(null);
 
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
@@ -148,10 +149,10 @@ export default function HeroSwiper({ settings }) {
                   {activeIdx === i && (
                     <motion.img
                       key={`img-${i}`}
-                      src={slide.imageFg}
+                      src={failed[i] ? IMAGES[i] : slide.imageFg}
                       alt=""
                       fetchpriority={i === 0 ? 'high' : undefined}
-                      srcSet={srcSetFor(slide.imageFg)}
+                      srcSet={!failed[i] ? srcSetFor(slide.imageFg) : undefined}
                       sizes="(max-width: 480px) 480px, (max-width: 960px) 960px, (max-width: 1440px) 1440px, 1920px"
                       width={1920}
                       height={1080}
@@ -160,6 +161,7 @@ export default function HeroSwiper({ settings }) {
                       exit={{ scale: 1, opacity: 0 }}
                       transition={{ scale: { duration: 7, ease: 'easeOut' }, opacity: { duration: 0.9 } }}
                       className="absolute inset-0 w-full h-full object-cover"
+                      onError={() => setFailed(p => ({ ...p, [i]: true }))}
                     />
                   )}
                 </AnimatePresence>
