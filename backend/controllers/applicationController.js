@@ -7,11 +7,13 @@ const createApplication = async (req, res) => {
 
     const application = await Application.create({ fullName, phone, grade, course, message });
 
-    try {
-      const amocrm = require('../services/amocrm');
-      await amocrm.sendLead({ fullName, phone, grade, message });
-    } catch (amocrmErr) {
-      console.error('AmoCRM sendLead error:', amocrmErr?.message);
+    const amocrm = require('../services/amocrm');
+    if (amocrm.isConfigured()) {
+      setImmediate(() => {
+        amocrm.sendLead({ fullName, phone, grade, message }).catch((err) => {
+          console.error('[AmoCRM] async sendLead error:', err?.message);
+        });
+      });
     }
 
     return sendSuccess(res, { application }, 'Arizangiz muvaffaqiyatli yuborildi', 201);
