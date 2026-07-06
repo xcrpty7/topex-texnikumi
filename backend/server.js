@@ -18,6 +18,7 @@ const courseRoutes = require('./routes/courseRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
+const amocrmRoutes = require('./routes/amocrmRoutes');
 
 const { getGallery } = require('./controllers/galleryController');
 const { getTestimonials } = require('./controllers/testimonialController');
@@ -186,6 +187,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/amocrm', amocrmRoutes);
 
 // Public ma'lumot yo'llari
 app.get('/api/gallery', getGallery);
