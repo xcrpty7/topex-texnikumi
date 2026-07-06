@@ -30,11 +30,4 @@ services:
         sync: false
       - key: ADMIN_NAME
         value: Super Admin
-      - key: AMOCRM_CLIENT_ID
-        sync: false
-      - key: AMOCRM_CLIENT_SECRET
-        sync: false
-      - key: AMOCRM_SUBDOMAIN
-        sync: false
-      - key: AMOCRM_REDIRECT_URI
-        value: https://topex-texnikumi-api.onrender.com/api/amocrm/callback
+
