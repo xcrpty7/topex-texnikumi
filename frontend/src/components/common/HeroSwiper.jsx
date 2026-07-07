@@ -132,7 +132,7 @@ export default function HeroSwiper({ settings }) {
                         transition={{ duration: 0.5, delay: 0.7 }}
                         className="mt-10 flex flex-wrap gap-3">
                         <button
-                          onClick={() => window.open('https://forms.amocrm.ru/rdrtdrm?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPNTY3MDY3MzQzMzUyNDI3AAGndm__bflw3M_s4CioAF2rbxIM8i_P_ZmsUz2VAl1Z4TmfDBB3zZOKHVfFpfk_aem_1TL6rTe_jeiibetDD5BbVA', '_blank')}
+                          onClick={() => window.location.href = '/#ariza'}
                           className="inline-flex items-center gap-2 bg-orange-grad hover:brightness-110
                                      text-white font-bold px-8 py-4 rounded-lg shadow-lg
                                      hover:-translate-y-0.5 transition-all duration-200 text-[15px]">

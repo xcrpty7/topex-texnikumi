@@ -106,9 +106,7 @@ const ImtihonNatijalariPage = () => {
               Natijalar e'lon qilinishi bilanoq SMS va telefon orqali xabardor qilamiz
             </p>
             <a
-              href="https://forms.amocrm.ru/rdrtdrm?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPNTY3MDY3MzQzMzUyNDI3AAGndm__bflw3M_s4CioAF2rbxIM8i_P_ZmsUz2VAl1Z4TmfDBB3zZOKHVfFpfk_aem_1TL6rTe_jeiibetDD5BbVA"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/#ariza"
               className="bg-white text-orange font-bold px-5 py-1.5 rounded-lg text-sm hover:bg-orange-50 transition-colors whitespace-nowrap"
             >
               Ariza qoldirish →

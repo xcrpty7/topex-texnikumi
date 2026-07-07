@@ -448,7 +448,7 @@ const HomePage = () => {
               </div>
 
               <button
-                onClick={() => window.open('https://forms.amocrm.ru/rdrtdrm?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPNTY3MDY3MzQzMzUyNDI3AAGndm__bflw3M_s4CioAF2rbxIM8i_P_ZmsUz2VAl1Z4TmfDBB3zZOKHVfFpfk_aem_1TL6rTe_jeiibetDD5BbVA', '_blank')}
+                onClick={() => document.getElementById('ariza')?.scrollIntoView({ behavior: 'smooth' })}
                 className="inline-flex items-center justify-center bg-brand hover:bg-brand-dark
                            text-white font-semibold px-12 py-4 rounded-xl shadow-lg
                            hover:-translate-y-0.5 transition-all duration-200 text-[15px]">
@@ -681,7 +681,7 @@ const HomePage = () => {
                 <button 
                   onClick={() => {
                     setSelected(null);
-                    window.open('https://forms.amocrm.ru/rdrtdrm?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPNTY3MDY3MzQzMzUyNDI3AAGndm__bflw3M_s4CioAF2rbxIM8i_P_ZmsUz2VAl1Z4TmfDBB3zZOKHVfFpfk_aem_1TL6rTe_jeiibetDD5BbVA', '_blank');
+                    document.getElementById('ariza')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   className="btn-blue w-full mt-8 py-4 text-base"
                 >

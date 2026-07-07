@@ -392,7 +392,7 @@ const CoursesPage = () => {
                   <button
                     onClick={() => {
                       setSelected(null);
-                      window.open('https://forms.amocrm.ru/rdrtdrm?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPNTY3MDY3MzQzMzUyNDI3AAGndm__bflw3M_s4CioAF2rbxIM8i_P_ZmsUz2VAl1Z4TmfDBB3zZOKHVfFpfk_aem_1TL6rTe_jeiibetDD5BbVA', '_blank');
+                      window.location.href = '/#ariza';
                     }}
                     className="btn-blue w-full mt-8 py-4 text-base"
                   >
