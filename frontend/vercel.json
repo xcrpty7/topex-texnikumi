@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.topextexnikum.uz" }], "destination": "https://topextexnikum.uz/$1", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
