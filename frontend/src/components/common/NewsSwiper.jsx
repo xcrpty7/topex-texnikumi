@@ -20,17 +20,13 @@ export default function NewsSwiper({ articles, settings }) {
   const { t } = useTranslation();
   const swiperRef = useRef(null);
 
-  const items = (articles && articles.length > 0)
-    ? articles.map((a, i) => ({
-        title: a.title,
-        img: NEWS_IMAGES[i % NEWS_IMAGES.length],
-        href: `/blog/${a.slug || a._id}`,
-      }))
-    : NEWS_IMAGES.map((img, i) => ({
-        title: t(`news.items.n${i+1}`),
-        img,
-        href: '/blog',
-      }));
+  if (!articles || articles.length === 0) return null;
+
+  const items = articles.slice(0, 9).map((a, i) => ({
+    title: a.title,
+    img: NEWS_IMAGES[i % NEWS_IMAGES.length],
+    href: `/blog/${a.slug || a._id}`,
+  }));
 
   return (
     <section className="relative bg-white py-20 lg:py-28 overflow-hidden">

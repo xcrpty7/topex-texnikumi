@@ -45,11 +45,11 @@ const seed = async () => {
   if (articlesCount === 0) {
     const admin = await User.findOne({ role: 'SUPER_ADMIN' });
     const articles = [
-      { title: 'TOPEX Texnikumida O\'qish Qanday Afzalliklari Bor?', excerpt: 'TOPEX Texnikumida o\'qishning asosiy afzalliklari haqida.', category: 'Yangiliklar', author: admin._id, isPublished: true, publishedAt: new Date(), tags: ['ta\'lim', 'texnikum', 'karyera'] },
-      { title: 'Grant va Stipendiyalar: Kimlar Olishi Mumkin?', excerpt: '2 million so\'mgacha grant olish imkoniyatlari haqida.', category: 'Granlar', author: admin._id, isPublished: true, publishedAt: new Date(Date.now() - 86400000), tags: ['grant', 'stipendiya', 'SAT', 'IELTS'] },
-      { title: 'Bitiruvchilarimiz Qanday Natijalar Qo\'lga Kiritdi?', excerpt: 'Muvaffaqiyatli bitiruvchilarimizning ish va karyera tajribalari.', category: 'Muvaffaqiyatlar', author: admin._id, isPublished: true, publishedAt: new Date(Date.now() - 172800000), tags: ['bitiruvchilar', 'muvaffaqiyat', 'karyera'] },
+      { title: 'TOPEX Texnikumida O\'qish Qanday Afzalliklari Bor?', content: '<p>TOPEX Texnikumida o\'qishning asosiy afzalliklari: zamonaviy ta\'lim dasturlari, tajribali o\'qituvchilar, amaliyot imkoniyatlari va karyera rivojlanishi. Biz sizni kelajak kasbiga tayyorlaymiz.</p>', excerpt: 'TOPEX Texnikumida o\'qishning asosiy afzalliklari haqida.', category: 'Yangiliklar', author: admin._id, isPublished: true, publishedAt: new Date(), tags: ['ta\'lim', 'texnikum', 'karyera'] },
+      { title: 'Grant va Stipendiyalar: Kimlar Olishi Mumkin?', content: '<p>TOPEX Texnikumida 1 milliard so\'mlik grant fondi mavjud. SAT 1200+, IELTS 7.0+ va fan olimpiadalari g\'oliblari uchun bepul o\'qish imkoniyati.</p>', excerpt: '2 million so\'mgacha grant olish imkoniyatlari haqida.', category: 'Granlar', author: admin._id, isPublished: true, publishedAt: new Date(Date.now() - 86400000), tags: ['grant', 'stipendiya', 'SAT', 'IELTS'] },
+      { title: 'Bitiruvchilarimiz Qanday Natijalar Qo\'lga Kiritdi?', content: '<p>Muvaffaqiyatli bitiruvchilarimiz TOPEX Texnikumida olgan bilimlari bilan nufuzli oliy o\'quv yurtlariga kirishdi va o\'z karyeralarini muvaffaqiyatli boshlashdi.</p>', excerpt: 'Muvaffaqiyatli bitiruvchilarimizning ish va karyera tajribalari.', category: 'Yangiliklar', author: admin._id, isPublished: true, publishedAt: new Date(Date.now() - 172800000), tags: ['bitiruvchilar', 'muvaffaqiyat', 'karyera'] },
     ];
-    for (const a of articles) await Article.create({ content: a.excerpt, ...a });
+    for (const a of articles) await Article.create(a);
     console.log(`✅ ${articles.length} ta maqola yaratildi`);
   } else {
     console.log(`ℹ️  Maqolalar allaqachon mavjud: ${articlesCount} ta`);

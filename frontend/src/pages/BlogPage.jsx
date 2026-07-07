@@ -9,7 +9,6 @@ import { fetchArticles } from '../features/blog/blogSlice';
 import NewsCard from '../components/common/NewsCard';
 import Spinner from '../components/ui/Spinner';
 import api from '../services/api';
-import { STATIC_NEWS } from '../data/staticNews';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -93,7 +92,7 @@ const BlogPage = () => {
 
   const heroTitle = t('news.title');
   const moreText  = t('news.more');
-  const display   = articles.length > 0 ? articles : STATIC_NEWS;
+  const display   = articles;
   const featured  = display[0];
   const rest      = display.slice(1);
 

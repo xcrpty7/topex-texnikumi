@@ -8,7 +8,6 @@ import { fetchArticleBySlug, clearCurrentArticle, fetchArticles } from '../featu
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/common/NewsCard';
 import Spinner from '../components/ui/Spinner';
-import { STATIC_NEWS } from '../data/staticNews';
 import DOMPurify from 'dompurify';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -43,11 +42,9 @@ const ArticleDetailPage = () => {
     return () => { dispatch(clearCurrentArticle()); };
   }, [slug, dispatch]);
 
-  const staticMatch = STATIC_NEWS.find((a) => a.slug === slug);
+  if (loading && !article) return <div className="flex justify-center py-32"><Spinner size="lg" /></div>;
 
-  if (loading && !article && !staticMatch) return <div className="flex justify-center py-32"><Spinner size="lg" /></div>;
-
-  const data = article?.article || staticMatch;
+  const data = article?.article;
   if (!data) {
     return (
       <div className="text-center py-32">
@@ -57,9 +54,8 @@ const ArticleDetailPage = () => {
     );
   }
 
-  // "Boshqa yangiliklar" — baza maqolalari + statik yangiliklar (dublikatsiz, joriysidan tashqari)
   const seen = new Set();
-  const others = [...(list || []), ...STATIC_NEWS]
+  const others = [...(list || [])]
     .filter((a) => {
       const key = a.slug || a._id;
       if (key === slug || seen.has(key)) return false;
