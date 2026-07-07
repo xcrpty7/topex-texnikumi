@@ -55,6 +55,23 @@ const seed = async () => {
     console.log(`ℹ️  Maqolalar allaqachon mavjud: ${articlesCount} ta`);
   }
 
+  const HomeVideo = require('../models/HomeVideo');
+
+  const homeVideosCount = await HomeVideo.countDocuments();
+  if (homeVideosCount === 0) {
+    const videos = [
+      { url: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4?v=2', title: 'Amaliy darslar', order: 1 },
+      { url: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4?v=2', title: 'Tadbirlar', order: 2 },
+      { url: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4?v=2', title: 'Oromgoh', order: 3 },
+      { url: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4?v=2', title: 'Dars jarayoni', order: 4 },
+      { url: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4?v=2', title: 'Bitiruv kechasi', order: 5 },
+    ];
+    for (const v of videos) await HomeVideo.create(v);
+    console.log(`✅ ${videos.length} ta video yaratildi`);
+  } else {
+    console.log(`ℹ️  Videolar allaqachon mavjud: ${homeVideosCount} ta`);
+  }
+
   const teachersCount = await Teacher.countDocuments();
   if (teachersCount === 0) {
     const teachers = [
