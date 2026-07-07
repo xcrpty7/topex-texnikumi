@@ -22,7 +22,7 @@ const ICON_MAP = {
 };
 
 const resolveImg = (url) => {
-  if (!url) return '';
+  if (!url) return '/assets/images/form-photo.webp';
   if (url.startsWith('http') || url.startsWith('/assets')) return url;
   return `${API_URL}${url}`;
 };
