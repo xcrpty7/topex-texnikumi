@@ -41,21 +41,21 @@ const LitsenziyaPage = () => {
       <Helmet>
         <title>Litsenziya – Topex Texnikumi</title>
         <meta name="description" content="Topex Texnikumi davlat litsenziyasi № 420567. O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi tomonidan berilgan." />
-        <link rel="canonical" href="https://topex-texnikumi.vercel.app/litsenziya" />
+        <link rel="canonical" href="https://topextexnikum.uz/litsenziya" />
         <meta property="og:title" content="Litsenziya – Topex Texnikumi" />
         <meta property="og:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
-        <meta property="og:url" content="https://topex-texnikumi.vercel.app/litsenziya" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <meta property="og:url" content="https://topextexnikum.uz/litsenziya" />
+        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Litsenziya – Topex Texnikumi" />
         <meta name="twitter:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Litsenziya", "item": "https://topex-texnikumi.vercel.app/litsenziya" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Litsenziya", "item": "https://topextexnikum.uz/litsenziya" }
           ]
         })}</script>
       </Helmet>

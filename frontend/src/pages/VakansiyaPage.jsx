@@ -39,21 +39,21 @@ const VakansiyaPage = () => {
       <Helmet>
         <title>Vakansiyalar – Topex Texnikumi</title>
         <meta name="description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
-        <link rel="canonical" href="https://topex-texnikumi.vercel.app/vakansiya" />
+        <link rel="canonical" href="https://topextexnikum.uz/vakansiya" />
         <meta property="og:title" content="Vakansiyalar – Topex Texnikumi" />
         <meta property="og:description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
-        <meta property="og:url" content="https://topex-texnikumi.vercel.app/vakansiya" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <meta property="og:url" content="https://topextexnikum.uz/vakansiya" />
+        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Vakansiyalar – Topex Texnikumi" />
         <meta name="twitter:description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Vakansiyalar", "item": "https://topex-texnikumi.vercel.app/vakansiya" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Vakansiyalar", "item": "https://topextexnikum.uz/vakansiya" }
           ]
         })}</script>
       </Helmet>

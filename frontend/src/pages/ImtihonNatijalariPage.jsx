@@ -50,21 +50,21 @@ const ImtihonNatijalariPage = () => {
       <Helmet>
         <title>Kirish imtihon natijalari – Topex Texnikumi</title>
         <meta name="description" content="Topex Texnikumiga kirish imtihon natijalari. Qabul jarayoni, imtihon sanasi va natijalar haqida ma'lumot." />
-        <link rel="canonical" href="https://topex-texnikumi.vercel.app/imtihon-natijalari" />
+        <link rel="canonical" href="https://topextexnikum.uz/imtihon-natijalari" />
         <meta property="og:title" content="Kirish imtihon natijalari – Topex Texnikumi" />
         <meta property="og:description" content="Topex Texnikumiga kirish imtihon natijalari." />
-        <meta property="og:url" content="https://topex-texnikumi.vercel.app/imtihon-natijalari" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01093.webp" />
+        <meta property="og:url" content="https://topextexnikum.uz/imtihon-natijalari" />
+        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01093.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Kirish imtihon natijalari – Topex Texnikumi" />
         <meta name="twitter:description" content="Topex Texnikumiga kirish imtihon natijalari." />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01093.webp" />
+        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01093.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Kirish imtihon natijalari", "item": "https://topex-texnikumi.vercel.app/imtihon-natijalari" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Kirish imtihon natijalari", "item": "https://topextexnikum.uz/imtihon-natijalari" }
           ]
         })}</script>
       </Helmet>

@@ -43,7 +43,7 @@ connectDB().then(() => {
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  'https://topex-texnikumi.vercel.app',
+  'https://topextexnikum.uz',
   'http://localhost:3000',
   'http://localhost:5173',
   'http://127.0.0.1:3000',

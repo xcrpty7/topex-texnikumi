@@ -74,24 +74,24 @@ const ArticleDetailPage = () => {
         <title>{data.title} – Topex Texnikumi</title>
         <meta name="description" content={data.excerpt || data.title} />
         {data.tags?.length > 0 && <meta name="keywords" content={data.tags.join(', ')} />}
-        <link rel="canonical" href={`https://topex-texnikumi.vercel.app/blog/${data.slug || slug}`} />
+        <link rel="canonical" href={`https://topextexnikum.uz/blog/${data.slug || slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={`${data.title} – Topex Texnikumi`} />
         <meta property="og:description" content={data.excerpt || ''} />
-        <meta property="og:url" content={`https://topex-texnikumi.vercel.app/blog/${data.slug || slug}`} />
-        <meta property="og:image" content={resolveImg(data.image) || 'https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png'} />
+        <meta property="og:url" content={`https://topextexnikum.uz/blog/${data.slug || slug}`} />
+        <meta property="og:image" content={resolveImg(data.image) || 'https://topextexnikum.uz/assets/logos/topex-logo.png'} />
         {data.createdAt && <meta property="article:published_time" content={new Date(data.createdAt).toISOString()} />}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${data.title} – Topex Texnikumi`} />
         <meta name="twitter:description" content={data.excerpt || ''} />
-        <meta name="twitter:image" content={resolveImg(data.image) || 'https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png'} />
+        <meta name="twitter:image" content={resolveImg(data.image) || 'https://topextexnikum.uz/assets/logos/topex-logo.png'} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topex-texnikumi.vercel.app/blog" },
-            { "@type": "ListItem", "position": 3, "name": data.title, "item": `https://topex-texnikumi.vercel.app/blog/${data.slug || slug}` }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topextexnikum.uz/blog" },
+            { "@type": "ListItem", "position": 3, "name": data.title, "item": `https://topextexnikum.uz/blog/${data.slug || slug}` }
           ]
         })}</script>
         <script type="application/ld+json">{JSON.stringify({
@@ -99,25 +99,25 @@ const ArticleDetailPage = () => {
           "@type": ["Article", "NewsArticle"],
           "headline": data.title,
           "description": data.excerpt || data.title,
-          "image": resolveImg(data.image) || 'https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png',
+          "image": resolveImg(data.image) || 'https://topextexnikum.uz/assets/logos/topex-logo.png',
           "datePublished": data.publishedAt || data.createdAt || new Date().toISOString(),
           "dateModified": data.updatedAt || data.publishedAt || data.createdAt || new Date().toISOString(),
           "author": {
             "@type": "Organization",
             "name": "TOPEX Texnikumi",
-            "url": "https://topex-texnikumi.vercel.app/"
+            "url": "https://topextexnikum.uz/"
           },
           "publisher": {
             "@type": "Organization",
             "name": "TOPEX Texnikumi",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png"
+              "url": "https://topextexnikum.uz/assets/logos/topex-logo.png"
             }
           },
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://topex-texnikumi.vercel.app/blog/${data.slug || slug}`
+            "@id": `https://topextexnikum.uz/blog/${data.slug || slug}`
           }
         })}</script>
       </Helmet>

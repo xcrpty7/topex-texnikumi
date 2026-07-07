@@ -51,21 +51,21 @@ const NarxPage = () => {
         <title>O'qish narxlari – Topex Texnikumi 2026</title>
         <meta name="description" content="Topex Texnikumi 2026 o'qish narxlari: oylik 2 500 000 so'm, yillik 25 000 000 so'm. 1 milliard so'mlik grant fondi, olimpiada g'oliblari va iqtidorli talabalar uchun chegirmalar." />
         <meta name="keywords" content="texnikum narxi, xususiy texnikum narxi 2026, Topex kontrakt, o'qish to'lovi, grant, stipendiya, Toshkent texnikum" />
-        <link rel="canonical" href="https://topex-texnikumi.vercel.app/narx" />
+        <link rel="canonical" href="https://topextexnikum.uz/narx" />
         <meta property="og:title" content="O'qish narxlari – Topex Texnikumi 2026" />
         <meta property="og:description" content="Topex Texnikumi 2026 o'qish narxlari: oylik 2.5 mln so'm. Grant va chegirmalar mavjud." />
-        <meta property="og:url" content="https://topex-texnikumi.vercel.app/narx" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
+        <meta property="og:url" content="https://topextexnikum.uz/narx" />
+        <meta property="og:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="O'qish narxlari – Topex Texnikumi 2026" />
         <meta name="twitter:description" content="Topex Texnikumi 2026 narxlari va grantlari." />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
+        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Narxlar", "item": "https://topex-texnikumi.vercel.app/narx" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Narxlar", "item": "https://topextexnikum.uz/narx" }
           ]
         })}</script>
         <script type="application/ld+json">{JSON.stringify({

@@ -103,21 +103,21 @@ const BlogPage = () => {
         <title>{t('blogPage.meta.title')}</title>
         <meta name="description" content={t('blogPage.meta.description')} />
         <meta name="keywords" content={t('blogPage.meta.keywords')} />
-        <link rel="canonical" href="https://topex-texnikumi.vercel.app/blog" />
+        <link rel="canonical" href="https://topextexnikum.uz/blog" />
         <meta property="og:title" content={t('blogPage.meta.ogTitle')} />
         <meta property="og:description" content={t('blogPage.meta.ogDescription')} />
-        <meta property="og:url" content="https://topex-texnikumi.vercel.app/blog" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <meta property="og:url" content="https://topextexnikum.uz/blog" />
+        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={t('blogPage.meta.ogTitle')} />
         <meta name="twitter:description" content={t('blogPage.meta.ogDescription')} />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/DSC01036.webp" />
+        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topex-texnikumi.vercel.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topex-texnikumi.vercel.app/blog" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topextexnikum.uz/blog" }
           ]
         })}</script>
       </Helmet>

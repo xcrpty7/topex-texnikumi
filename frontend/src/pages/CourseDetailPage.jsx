@@ -41,12 +41,12 @@ const CourseDetailPage = () => {
         <title>{data.seo?.metaTitle || data.title} – TOPEX Texnikumi</title>
         <meta name="description" content={data.seo?.metaDescription || data.shortDescription} />
         {data.seo?.metaKeywords && <meta name="keywords" content={data.seo.metaKeywords} />}
-        <link rel="canonical" href={`https://topex-texnikumi.vercel.app/courses/${data.slug || slug}`} />
+        <link rel="canonical" href={`https://topextexnikum.uz/courses/${data.slug || slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={`${data.seo?.metaTitle || data.title} – TOPEX Texnikumi`} />
         <meta property="og:description" content={data.seo?.metaDescription || data.shortDescription || ''} />
-        <meta property="og:url" content={`https://topex-texnikumi.vercel.app/courses/${data.slug || slug}`} />
-        <meta property="og:image" content={data.image ? (data.image.startsWith('http') ? data.image : `https://topex-texnikumi.vercel.app${data.image}`) : "https://topex-texnikumi.vercel.app/assets/logos/topex-logo.png"} />
+        <meta property="og:url" content={`https://topextexnikum.uz/courses/${data.slug || slug}`} />
+        <meta property="og:image" content={data.image ? (data.image.startsWith('http') ? data.image : `https://topextexnikum.uz${data.image}`) : "https://topextexnikum.uz/assets/logos/topex-logo.png"} />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
@@ -56,9 +56,9 @@ const CourseDetailPage = () => {
           "provider": {
             "@type": "EducationalOrganization",
             "name": "TOPEX Texnikumi",
-            "url": "https://topex-texnikumi.vercel.app/"
+            "url": "https://topextexnikum.uz/"
           },
-          "url": `https://topex-texnikumi.vercel.app/courses/${data.slug || slug}`
+          "url": `https://topextexnikum.uz/courses/${data.slug || slug}`
         })}</script>
       </Helmet>
 

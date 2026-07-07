@@ -357,17 +357,17 @@ const HomePage = () => {
         <title>{settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"}</title>
         <meta name="description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Tajribali o'qituvchilar, olimpiada natijalari."} />
         <meta name="keywords" content="TOPEX, Topex Texnikumi, xususiy texnikum Toshkent, Chilonzor, 10-sinf, 11-sinf, olimpiada, grant, akademik litsey" />
-        <link rel="canonical" href="https://topex-texnikumi.vercel.app/" />
+        <link rel="canonical" href="https://topextexnikum.uz/" />
         <meta property="og:title" content={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"} />
         <meta property="og:description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum."} />
-        <meta property="og:url" content="https://topex-texnikumi.vercel.app/" />
-        <meta property="og:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
+        <meta property="og:url" content="https://topextexnikum.uz/" />
+        <meta property="og:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:title" content={settings?.siteTitle || "Topex Texnikumi"} />
         <meta name="twitter:description" content={settings?.siteDescription || "Toshkentdagi zamonaviy xususiy texnikum."} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://topex-texnikumi.vercel.app/assets/images/hero/hero-2.webp" />
+        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
       </Helmet>
 
       {/* ══ 1. HERO — Profi-style split ══════════════════════ */}
