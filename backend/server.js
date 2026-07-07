@@ -19,6 +19,7 @@ const blogRoutes = require('./routes/blogRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const amocrmRoutes = require('./routes/amocrmRoutes');
+const vacancyRoutes = require('./routes/vacancyRoutes');
 
 const { getGallery } = require('./controllers/galleryController');
 const { getTestimonials } = require('./controllers/testimonialController');
@@ -29,6 +30,7 @@ const { getHomeVideos } = require('./controllers/homeVideoController');
 const { getTeachers } = require('./controllers/teacherController');
 const { getDirections } = require('./controllers/directionController');
 const { getVideos } = require('./controllers/videoController');
+const { getActive: getActiveVacancies } = require('./controllers/vacancyController');
 
 const app = express();
 
@@ -188,6 +190,7 @@ app.use('/api/blog', blogRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/amocrm', amocrmRoutes);
+app.use('/api/vacancies', vacancyRoutes);
 
 // Public ma'lumot yo'llari
 app.get('/api/gallery', getGallery);
@@ -199,6 +202,7 @@ app.get('/api/home-videos', getHomeVideos);
 app.get('/api/teachers', getTeachers);
 app.get('/api/directions', getDirections);
 app.get('/api/videos', getVideos);
+app.get('/api/vacancies/active', getActiveVacancies);
 
 // ─── Sog'lik tekshiruvi ───────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

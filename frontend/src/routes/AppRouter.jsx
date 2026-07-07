@@ -36,6 +36,7 @@ const AdminSiteEditor   = lazy(() => import('../pages/admin/AdminSiteEditor'));
 const AdminTeachers     = lazy(() => import('../pages/admin/AdminTeachers'));
 const AdminDirections   = lazy(() => import('../pages/admin/AdminDirections'));
 const AdminVideos       = lazy(() => import('../pages/admin/AdminVideos'));
+const AdminVacancies    = lazy(() => import('../pages/admin/AdminVacancies'));
 
 const Loader = () => (
   <div className="min-h-screen flex items-center justify-center">
@@ -93,6 +94,7 @@ const AppRouter = () => (
         <Route path="teachers"     element={<AdminTeachers />} />
         <Route path="directions"   element={<AdminDirections />} />
         <Route path="videos"       element={<AdminVideos />} />
+        <Route path="vacancies"    element={<AdminVacancies />} />
       </Route>
     </Routes>
   </Suspense>

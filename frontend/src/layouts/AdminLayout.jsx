@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard, Users, BookOpen, FileText,
   LogOut, ClipboardList, Menu, X,
-  Image, Star, HelpCircle, Award, Settings, Play, Film, ExternalLink, Globe, UserCog,
+  Image, Star, HelpCircle, Award, Settings, Play, Film, ExternalLink, Globe, UserCog, Briefcase,
 } from 'lucide-react';
 import { logout, selectUser } from '../features/auth/authSlice';
 import { fetchDashboard } from '../features/admin/adminSlice';
@@ -34,6 +34,7 @@ const AdminLayout = () => {
       { to: '/admin/home-videos',  label: t('adminLayout.homeVideos'),   icon: Play },
       { to: '/admin/videos',       label: t('adminLayout.videos'),       icon: Film },
       { to: '/admin/teachers',     label: t('adminLayout.teachers'),     icon: Users },
+      { to: '/admin/vacancies',    label: 'Vakansiyalar',                 icon: Briefcase },
       { to: '/admin/directions',   label: t('adminLayout.directions'),   icon: BookOpen },
     ]},
     { section: t('adminLayout.section.settings'), items: [

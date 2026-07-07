@@ -152,4 +152,12 @@ router.post('/videos', ...adminOnly, [
 router.put('/videos/:id', ...adminOnly, updateVideo);
 router.delete('/videos/:id', ...adminOnly, deleteVideo);
 
+// Vakansiyalar
+const { getVacancies, createVacancy, updateVacancy, deleteVacancy } = require('../controllers/vacancyController');
+
+router.get('/vacancies', ...adminOnly, getVacancies);
+router.post('/vacancies', ...adminOnly, createVacancy);
+router.put('/vacancies/:id', ...adminOnly, updateVacancy);
+router.delete('/vacancies/:id', ...adminOnly, deleteVacancy);
+
 module.exports = router;
