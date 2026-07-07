@@ -33,6 +33,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/googlec56ebc67e6c6816c.html", "destination": "/googlec56ebc67e6c6816c.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
