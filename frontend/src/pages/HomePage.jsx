@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import {
   CheckCircle2, Plus, Minus,
   Users, Award, Star, GraduationCap, BookOpen,
@@ -353,22 +353,13 @@ const HomePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"}</title>
-        <meta name="description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Tajribali o'qituvchilar, olimpiada natijalari."} />
-        <meta name="keywords" content="TOPEX, Topex Texnikumi, xususiy texnikum Toshkent, Chilonzor, 10-sinf, 11-sinf, olimpiada, grant, akademik litsey" />
-        <link rel="canonical" href="https://topextexnikum.uz/" />
-        <meta property="og:title" content={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"} />
-        <meta property="og:description" content={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum."} />
-        <meta property="og:url" content="https://topextexnikum.uz/" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:title" content={settings?.siteTitle || "Topex Texnikumi"} />
-        <meta name="twitter:description" content={settings?.siteDescription || "Toshkentdagi zamonaviy xususiy texnikum."} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
-      </Helmet>
+      <SeoHelmet
+        title={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"}
+        description={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Tajribali o'qituvchilar, olimpiada natijalari."}
+        keywords="TOPEX, Topex Texnikumi, xususiy texnikum Toshkent, Chilonzor, 10-sinf, 11-sinf, olimpiada, grant, akademik litsey"
+        canonical="https://topextexnikum.uz/"
+        ogImage="https://topextexnikum.uz/assets/images/hero/hero-2.webp"
+      />
 
       {/* ══ 1. HERO — Profi-style split ══════════════════════ */}
       <HeroSwiper settings={settings} />
@@ -408,10 +399,10 @@ const HomePage = () => {
             <motion.div {...up(0)} className="relative">
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { src: '/assets/images/about/about-1.webp', cls: 'aspect-[3/4] sm:-mt-6' },
-                  { src: '/assets/images/about/about-2.webp', cls: 'aspect-[3/4] sm:mt-6' },
-                  { src: '/assets/images/about/about-3.webp', cls: 'aspect-[4/3]' },
-                  { src: '/assets/images/about/about-4.webp', cls: 'aspect-[4/3] sm:mt-8' },
+                  { src: '/assets/images/about/about-1.webp', alt: "Topex Texnikumi binosi", cls: 'aspect-[3/4] sm:-mt-6' },
+                  { src: '/assets/images/about/about-2.webp', alt: "Topex Texnikumi o'quv xonasi", cls: 'aspect-[3/4] sm:mt-6' },
+                  { src: '/assets/images/about/about-3.webp', alt: "Topex Texnikumi talabalari", cls: 'aspect-[4/3]' },
+                  { src: '/assets/images/about/about-4.webp', alt: "Topex Texnikumi dars jarayoni", cls: 'aspect-[4/3] sm:mt-8' },
                 ].map((im, i) => {
                   const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
                   return (
@@ -419,7 +410,7 @@ const HomePage = () => {
                       initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                       transition={{ duration:0.6, delay: i*0.1 }}
                       className={`${im.cls} rounded-2xl overflow-hidden shadow-xl`}>
-                      <img src={src} alt="" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                      <img src={src} alt={im.alt} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                     </motion.div>
                   );
                 })}

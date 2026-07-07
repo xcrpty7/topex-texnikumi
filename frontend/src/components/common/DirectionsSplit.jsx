@@ -54,7 +54,7 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
             <img
               key={i}
               src={src}
-              alt=""
+              alt={`Topex Texnikumi filiali ${i + 1}`}
               loading="lazy"
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === photoIdx ? 'opacity-100' : 'opacity-0'}`}
             />

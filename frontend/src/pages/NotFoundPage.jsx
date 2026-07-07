@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { useTranslation } from 'react-i18next';
 import { Home, ArrowLeft, Clock, Compass } from 'lucide-react';
 
@@ -23,10 +23,10 @@ const NotFoundPage = ({
 
   return (
     <>
-      <Helmet>
-        <title>{heading} — Topex Texnikumi</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
+      <SeoHelmet
+        title={`${heading} — Topex Texnikumi`}
+        noindex
+      />
 
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-brand-deep py-24">
         {/* Decorative wavy lines */}
@@ -49,14 +49,12 @@ const NotFoundPage = ({
             {isSoon ? <Clock size={38} /> : <Compass size={38} />}
           </motion.div>
 
-          {!isSoon && (
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05, duration: 0.5 }}
-              className="text-[88px] md:text-[120px] font-black text-white leading-none mb-2 drop-shadow-lg">
-              {code}
-            </motion.h1>
-          )}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05, duration: 0.5 }}
+            className="text-[88px] md:text-[120px] font-black text-white leading-none mb-2 drop-shadow-lg">
+            {isSoon ? '🚀' : code}
+          </motion.h1>
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}

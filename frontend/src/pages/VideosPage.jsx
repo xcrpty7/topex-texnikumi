@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { Film, X, Play } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
@@ -33,18 +33,12 @@ const VideosPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('nav.videos') || 'Videolar'} — TOPEX</title>
-        <meta name="description" content="Topex Texnikumi video galereyasi. Tadbirlar, dars jarayonlari va texnikum hayotidan videolar." />
-        <link rel="canonical" href="https://topextexnikum.uz/videolar" />
-        <meta property="og:title" content="Videolar – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumi video galereyasi." />
-        <meta property="og:url" content="https://topextexnikum.uz/videolar" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Videolar – Topex Texnikumi" />
-        <meta name="twitter:description" content="Topex Texnikumi video galereyasi." />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
+      <SeoHelmet
+        title={`${t('nav.videos') || 'Videolar'} — TOPEX`}
+        description="Topex Texnikumi video galereyasi. Tadbirlar, dars jarayonlari va texnikum hayotidan videolar."
+        canonical="https://topextexnikum.uz/videolar"
+        ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -53,7 +47,7 @@ const VideosPage = () => {
             { "@type": "ListItem", "position": 2, "name": "Videolar", "item": "https://topextexnikum.uz/videolar" }
           ]
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       <section className="w-full pt-36 pb-24">
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-12">
@@ -99,7 +93,7 @@ const VideosPage = () => {
                     </div>
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-[#272829] text-lg mb-1">{item.title}</h3>
+                    <h2 className="font-bold text-[#272829] text-lg mb-1">{item.title}</h2>
                     {item.description && (
                       <p className="text-sm text-[#61677A] line-clamp-2">{item.description}</p>
                     )}
@@ -144,7 +138,7 @@ const VideosPage = () => {
                 <p>Brauzeringiz videoni qo'llab-quvvatlamaydi</p>
               </video>
               <div className="mt-4 text-white">
-                <h3 className="text-xl font-bold">{selected.title}</h3>
+                <h2 className="text-xl font-bold">{selected.title}</h2>
                 {selected.description && (
                   <p className="text-white/70 mt-1">{selected.description}</p>
                 )}

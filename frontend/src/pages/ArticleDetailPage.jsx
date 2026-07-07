@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { Calendar, Eye, Home, ChevronRight } from 'lucide-react';
 import { fetchArticleBySlug, clearCurrentArticle, fetchArticles } from '../features/blog/blogSlice';
 import { useTranslation } from 'react-i18next';
@@ -66,21 +66,15 @@ const ArticleDetailPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{data.title} – Topex Texnikumi</title>
-        <meta name="description" content={data.excerpt || data.title} />
-        {data.tags?.length > 0 && <meta name="keywords" content={data.tags.join(', ')} />}
-        <link rel="canonical" href={`https://topextexnikum.uz/blog/${data.slug || slug}`} />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={`${data.title} – Topex Texnikumi`} />
-        <meta property="og:description" content={data.excerpt || ''} />
-        <meta property="og:url" content={`https://topextexnikum.uz/blog/${data.slug || slug}`} />
-        <meta property="og:image" content={resolveImg(data.image) || 'https://topextexnikum.uz/assets/logos/topex-logo.png'} />
+      <SeoHelmet
+        title={`${data.title} – Topex Texnikumi`}
+        description={data.excerpt || data.title}
+        keywords={data.tags?.length > 0 ? data.tags.join(', ') : undefined}
+        canonical={`https://topextexnikum.uz/blog/${data.slug || slug}`}
+        ogImage={resolveImg(data.image) || 'https://topextexnikum.uz/assets/logos/topex-logo.png'}
+        ogType="article"
+      >
         {data.createdAt && <meta property="article:published_time" content={new Date(data.createdAt).toISOString()} />}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${data.title} – Topex Texnikumi`} />
-        <meta name="twitter:description" content={data.excerpt || ''} />
-        <meta name="twitter:image" content={resolveImg(data.image) || 'https://topextexnikum.uz/assets/logos/topex-logo.png'} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -116,7 +110,7 @@ const ArticleDetailPage = () => {
             "@id": `https://topextexnikum.uz/blog/${data.slug || slug}`
           }
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       {/* ══ HERO ══════════════════════════════════════════════ */}
       <section className="relative py-20 md:py-28 overflow-hidden">

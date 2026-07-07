@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { useTranslation } from 'react-i18next';
 import { Home, ChevronRight, Newspaper, Calendar, ArrowRight } from 'lucide-react';
 import { fetchArticles } from '../features/blog/blogSlice';
@@ -98,19 +98,14 @@ const BlogPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('blogPage.meta.title')}</title>
-        <meta name="description" content={t('blogPage.meta.description')} />
-        <meta name="keywords" content={t('blogPage.meta.keywords')} />
-        <link rel="canonical" href="https://topextexnikum.uz/blog" />
-        <meta property="og:title" content={t('blogPage.meta.ogTitle')} />
-        <meta property="og:description" content={t('blogPage.meta.ogDescription')} />
-        <meta property="og:url" content="https://topextexnikum.uz/blog" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t('blogPage.meta.ogTitle')} />
-        <meta name="twitter:description" content={t('blogPage.meta.ogDescription')} />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
+      <SeoHelmet
+        title={t('blogPage.meta.title')}
+        description={t('blogPage.meta.description')}
+        keywords={t('blogPage.meta.keywords')}
+        canonical="https://topextexnikum.uz/blog"
+        ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
+        ogType="blog"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -119,7 +114,7 @@ const BlogPage = () => {
             { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topextexnikum.uz/blog" }
           ]
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       {/* ══ HERO ══════════════════════════════════════════════ */}
       <section className="relative py-28 md:py-36 overflow-hidden">

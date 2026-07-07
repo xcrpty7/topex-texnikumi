@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, Mail, Clock, ChevronRight, Home } from 'lucide-react';
 import api from '../services/api';
@@ -116,19 +116,13 @@ const ContactPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('contactPage.meta.title')}</title>
-        <meta name="description" content={t('contactPage.meta.description')} />
-        <meta name="keywords" content={t('contactPage.meta.keywords')} />
-        <link rel="canonical" href="https://topextexnikum.uz/aloqalar" />
-        <meta property="og:title" content={t('contactPage.meta.ogTitle')} />
-        <meta property="og:description" content={t('contactPage.meta.ogDescription')} />
-        <meta property="og:url" content="https://topextexnikum.uz/aloqalar" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t('contactPage.meta.ogTitle')} />
-        <meta name="twitter:description" content={t('contactPage.meta.ogDescription')} />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
+      <SeoHelmet
+        title={t('contactPage.meta.title')}
+        description={t('contactPage.meta.description')}
+        keywords={t('contactPage.meta.keywords')}
+        canonical="https://topextexnikum.uz/aloqalar"
+        ogImage="https://topextexnikum.uz/assets/images/hero/hero-2.webp"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -137,7 +131,7 @@ const ContactPage = () => {
             { "@type": "ListItem", "position": 2, "name": "Aloqalar", "item": "https://topextexnikum.uz/aloqalar" }
           ]
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       {/* ══ HERO ══════════════════════════════════════════════ */}
       <section className="relative py-24 md:py-32 overflow-hidden">
@@ -312,6 +306,7 @@ const ContactPage = () => {
                     : '/assets/images/form-photo.webp'}
                   alt="Topex talabasi"
                   className="w-full h-full object-cover object-top"
+                  loading="lazy"
                 />
               </div>
             </motion.div>

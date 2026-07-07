@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { BookOpen, Users, Clock, CheckCircle, Lock, Play } from 'lucide-react';
 import { fetchCourseBySlug, enrollCourse } from '../features/courses/coursesSlice';
 import { selectIsAuthenticated, selectUser } from '../features/auth/authSlice';
@@ -37,30 +37,29 @@ const CourseDetailPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{data.seo?.metaTitle || data.title} – TOPEX Texnikumi</title>
-        <meta name="description" content={data.seo?.metaDescription || data.shortDescription} />
-        {data.seo?.metaKeywords && <meta name="keywords" content={data.seo.metaKeywords} />}
-        <link rel="canonical" href={`https://topextexnikum.uz/courses/${data.slug || slug}`} />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={`${data.seo?.metaTitle || data.title} – TOPEX Texnikumi`} />
-        <meta property="og:description" content={data.seo?.metaDescription || data.shortDescription || ''} />
-        <meta property="og:url" content={`https://topextexnikum.uz/courses/${data.slug || slug}`} />
-        <meta property="og:image" content={data.image ? (data.image.startsWith('http') ? data.image : `https://topextexnikum.uz${data.image}`) : "https://topextexnikum.uz/assets/logos/topex-logo.png"} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Course",
-          "name": data.title,
-          "description": data.shortDescription || data.seo?.metaDescription || '',
-          "provider": {
-            "@type": "EducationalOrganization",
-            "name": "TOPEX Texnikumi",
-            "url": "https://topextexnikum.uz/"
-          },
-          "url": `https://topextexnikum.uz/courses/${data.slug || slug}`
-        })}</script>
-      </Helmet>
+      <SeoHelmet
+        title={`${data.seo?.metaTitle || data.title} – TOPEX Texnikumi`}
+        description={data.seo?.metaDescription || data.shortDescription}
+        keywords={data.seo?.metaKeywords}
+        canonical={`https://topextexnikum.uz/courses/${data.slug || slug}`}
+        ogImage={data.image ? (data.image.startsWith('http') ? data.image : `https://topextexnikum.uz${data.image}`) : "https://topextexnikum.uz/assets/logos/topex-logo.png"}
+        ogType="article"
+      >
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": data.title,
+            "description": data.shortDescription || data.seo?.metaDescription || '',
+            "provider": {
+              "@type": "EducationalOrganization",
+              "name": "TOPEX Texnikumi",
+              "url": "https://topextexnikum.uz/"
+            },
+            "url": `https://topextexnikum.uz/courses/${data.slug || slug}`
+          })}
+        </script>
+      </SeoHelmet>
 
       <div className="page-container py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -78,7 +77,7 @@ const CourseDetailPage = () => {
                 <div className="flex items-center gap-3 mt-6">
                   <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white font-semibold">
                     {data.instructor.avatar
-                      ? <img src={data.instructor.avatar} className="w-10 h-10 rounded-full object-cover" alt="" loading="lazy" />
+                      ? <img src={data.instructor.avatar} className="w-10 h-10 rounded-full object-cover" alt={data.instructor.name} loading="lazy" />
                       : data.instructor.name?.[0]}
                   </div>
                   <div>

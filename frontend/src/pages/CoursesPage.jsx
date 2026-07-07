@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import {
   BookOpen, GraduationCap, ArrowRight, Home, ChevronRight,
   Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout,
@@ -92,21 +92,13 @@ const CoursesPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('coursesPage.meta.title')}</title>
-        <meta name="description" content={t('coursesPage.meta.description')} />
-        <meta name="keywords" content={t('coursesPage.meta.keywords')} />
-        <link rel="canonical" href="https://topextexnikum.uz/courses" />
-        <meta property="og:title" content={t('coursesPage.meta.ogTitle')} />
-        <meta property="og:description" content={t('coursesPage.meta.ogDescription')} />
-        <meta property="og:url" content="https://topextexnikum.uz/courses" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t('coursesPage.meta.ogTitle')} />
-        <meta name="twitter:description" content={t('coursesPage.meta.ogDescription')} />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
+      <SeoHelmet
+        title={t('coursesPage.meta.title')}
+        description={t('coursesPage.meta.description')}
+        keywords={t('coursesPage.meta.keywords')}
+        canonical="https://topextexnikum.uz/courses"
+        ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -115,7 +107,7 @@ const CoursesPage = () => {
             { "@type": "ListItem", "position": 2, "name": "Yo'nalishlar", "item": "https://topextexnikum.uz/courses" }
           ]
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       {/* ── Hero (dark banner — admin fon-rasmni boshqaradi) ── */}
       <section className="relative py-24 md:py-32 overflow-hidden">

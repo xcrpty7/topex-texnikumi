@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import {
   Home, ChevronRight, Wallet, GraduationCap, Award, CheckCircle,
   BookOpen, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout,
@@ -47,19 +47,13 @@ const NarxPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>O'qish narxlari – Topex Texnikumi 2026</title>
-        <meta name="description" content="Topex Texnikumi 2026 o'qish narxlari: oylik 2 500 000 so'm, yillik 25 000 000 so'm. 1 milliard so'mlik grant fondi, olimpiada g'oliblari va iqtidorli talabalar uchun chegirmalar." />
-        <meta name="keywords" content="texnikum narxi, xususiy texnikum narxi 2026, Topex kontrakt, o'qish to'lovi, grant, stipendiya, Toshkent texnikum" />
-        <link rel="canonical" href="https://topextexnikum.uz/narx" />
-        <meta property="og:title" content="O'qish narxlari – Topex Texnikumi 2026" />
-        <meta property="og:description" content="Topex Texnikumi 2026 o'qish narxlari: oylik 2.5 mln so'm. Grant va chegirmalar mavjud." />
-        <meta property="og:url" content="https://topextexnikum.uz/narx" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="O'qish narxlari – Topex Texnikumi 2026" />
-        <meta name="twitter:description" content="Topex Texnikumi 2026 narxlari va grantlari." />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/hero/hero-2.webp" />
+      <SeoHelmet
+        title="O'qish narxlari – Topex Texnikumi 2026"
+        description="Topex Texnikumi 2026 o'qish narxlari: oylik 2 500 000 so'm, yillik 25 000 000 so'm. 1 milliard so'mlik grant fondi, olimpiada g'oliblari va iqtidorli talabalar uchun chegirmalar."
+        keywords="texnikum narxi, xususiy texnikum narxi 2026, Topex kontrakt, o'qish to'lovi, grant, stipendiya, Toshkent texnikum"
+        canonical="https://topextexnikum.uz/narx"
+        ogImage="https://topextexnikum.uz/assets/images/hero/hero-2.webp"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -76,12 +70,12 @@ const NarxPage = () => {
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "UZS",
-            "lowPrice": "0",
+            "lowPrice": "500000",
             "highPrice": "25000000",
             "offerCount": "8"
           }
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div

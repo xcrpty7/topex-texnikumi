@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import {
   Camera, BookOpen, CheckCircle, TrendingUp, Phone, AtSign, KeyRound, Eye, EyeOff,
 } from 'lucide-react';
@@ -104,10 +104,10 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Profile – TOPEX</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <SeoHelmet
+        title="Profile – TOPEX"
+        noindex
+      />
 
       <div className="py-10 lg:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,7 +128,7 @@ const ProfilePage = () => {
               <div className="relative">
                 <div className="w-28 h-28 rounded-full border-4 border-white/20 overflow-hidden shadow-xl">
                   {user?.avatar ? (
-                    <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+                    <img src={user.avatar} alt={user?.name || "User avatar"} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full bg-orange flex items-center justify-center text-white text-4xl font-black">
                       {user?.name?.[0] || '?'}

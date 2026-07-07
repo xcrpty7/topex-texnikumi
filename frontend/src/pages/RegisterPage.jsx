@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { Eye, EyeOff, ArrowRight, Check, User, Lock, ArrowLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { register, selectAuth, clearError } from '../features/auth/authSlice';
@@ -60,10 +60,10 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('auth.signUp')} — Topex Texnikumi</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <SeoHelmet
+        title={`${t('auth.signUp')} — Topex Texnikumi`}
+        noindex
+      />
 
       <div className="min-h-screen flex bg-white">
         {/* ════ LEFT — visual ════ */}
@@ -229,8 +229,8 @@ const RegisterPage = () => {
                   className="mt-1 w-4 h-4 rounded border-2 border-gray-300 text-orange focus:ring-orange focus:ring-2"
                 />
                 <span className="text-gray-500 text-[13px] leading-relaxed">
-                  {t('registerPage.agreement.prefix')} <a href="#" className="text-orange font-semibold hover:underline">{t('registerPage.agreement.terms')}</a> {t('registerPage.agreement.and')}{' '}
-                  <a href="#" className="text-orange font-semibold hover:underline">{t('registerPage.agreement.privacy')}</a>{t('registerPage.agreement.suffix')}
+                  {t('registerPage.agreement.prefix')} <a href="/oferta" className="text-orange font-semibold hover:underline">{t('registerPage.agreement.terms')}</a> {t('registerPage.agreement.and')}{' '}
+                  <a href="/privacy" className="text-orange font-semibold hover:underline">{t('registerPage.agreement.privacy')}</a>{t('registerPage.agreement.suffix')}
                 </span>
               </label>
 

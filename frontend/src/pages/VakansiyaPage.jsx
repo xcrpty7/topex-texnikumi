@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { useTranslation } from 'react-i18next';
 import { ChevronRight, Home, Briefcase, Bell, Phone, Mail, MapPin, DollarSign, ListChecks } from 'lucide-react';
 
@@ -36,18 +36,12 @@ const VakansiyaPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Vakansiyalar – Topex Texnikumi</title>
-        <meta name="description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
-        <link rel="canonical" href="https://topextexnikum.uz/vakansiya" />
-        <meta property="og:title" content="Vakansiyalar – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
-        <meta property="og:url" content="https://topextexnikum.uz/vakansiya" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Vakansiyalar – Topex Texnikumi" />
-        <meta name="twitter:description" content="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar." />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
+      <SeoHelmet
+        title="Vakansiyalar – Topex Texnikumi"
+        description="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar."
+        canonical="https://topextexnikum.uz/vakansiya"
+        ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -56,7 +50,7 @@ const VakansiyaPage = () => {
             { "@type": "ListItem", "position": 2, "name": "Vakansiyalar", "item": "https://topextexnikum.uz/vakansiya" }
           ]
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       {/* ── HERO ── */}
       <section className="relative py-24 md:py-32 overflow-hidden">

@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { Eye, EyeOff, ArrowRight, Lock, ArrowLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { login, selectAuth, clearError } from '../features/auth/authSlice';
@@ -55,10 +55,10 @@ const LoginPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('auth.signIn')} — Topex Texnikumi</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <SeoHelmet
+        title={`${t('auth.signIn')} — Topex Texnikumi`}
+        noindex
+      />
 
       <div className="min-h-screen flex bg-white">
         {/* ════ LEFT — visual ════ */}
@@ -195,7 +195,7 @@ const LoginPage = () => {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-brand font-semibold text-[14px]">{t('loginPage.passwordLabel')}</label>
-                  <a href="#" className="text-orange text-[13px] font-semibold hover:underline">
+                  <a href="/login" className="text-orange text-[13px] font-semibold hover:underline">
                     {t('loginPage.forgot')}
                   </a>
                 </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import SeoHelmet from '../components/common/SeoHelmet';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChevronRight, Home, Award, Building2, Calendar, Hash, MapPin, Shield } from 'lucide-react';
@@ -38,18 +38,12 @@ const LitsenziyaPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Litsenziya – Topex Texnikumi</title>
-        <meta name="description" content="Topex Texnikumi davlat litsenziyasi № 420567. O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi tomonidan berilgan." />
-        <link rel="canonical" href="https://topextexnikum.uz/litsenziya" />
-        <meta property="og:title" content="Litsenziya – Topex Texnikumi" />
-        <meta property="og:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
-        <meta property="og:url" content="https://topextexnikum.uz/litsenziya" />
-        <meta property="og:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Litsenziya – Topex Texnikumi" />
-        <meta name="twitter:description" content="Topex Texnikumi davlat litsenziyasi № 420567." />
-        <meta name="twitter:image" content="https://topextexnikum.uz/assets/images/DSC01036.webp" />
+      <SeoHelmet
+        title="Litsenziya – Topex Texnikumi"
+        description="Topex Texnikumi davlat litsenziyasi № 420567. O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi tomonidan berilgan."
+        canonical="https://topextexnikum.uz/litsenziya"
+        ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
+      >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -58,7 +52,7 @@ const LitsenziyaPage = () => {
             { "@type": "ListItem", "position": 2, "name": "Litsenziya", "item": "https://topextexnikum.uz/litsenziya" }
           ]
         })}</script>
-      </Helmet>
+      </SeoHelmet>
 
       {/* ── HERO ───────────────────────────────────────────────── */}
       <section className="relative py-24 md:py-32 overflow-hidden">
