@@ -13,16 +13,13 @@ Disallow: /api/
 Disallow: /login
 Disallow: /register
 
-# Friendly to image and video crawlers
 User-agent: Googlebot-Image
 Allow: /assets/
 
 User-agent: Googlebot-Video
 Allow: /assets/
 
-# Block aggressive AI scrapers
 User-agent: GPTBot
-Disallow: /admin
-Disallow: /profile
+Disallow: /
 
-Sitemap: https://topex-texnikumi.vercel.app/sitemap.xml
+Sitemap: https://topextexnikum.uz/sitemap.xml

@@ -21,7 +21,7 @@ services:
       - key: JWT_REFRESH_EXPIRE
         value: 7d
       - key: CLIENT_URL
-        value: https://topex-texnikumi.vercel.app
+        value: https://topextexnikum.uz
       - key: MAX_FILE_SIZE
         value: 26214400
       - key: ADMIN_EMAIL
