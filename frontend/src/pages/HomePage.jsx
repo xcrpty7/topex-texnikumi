@@ -126,6 +126,14 @@ const SUBJECTS = [
   },
 ];
 
+const VIDEOS = [
+  { src: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4?v=2', title: 'Amaliy darslar' },
+  { src: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4?v=2', title: 'Tadbirlar' },
+  { src: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4?v=2', title: 'Oromgoh' },
+  { src: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4?v=2', title: 'Dars jarayoni' },
+  { src: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4?v=2', title: 'Bitiruv kechasi' },
+];
+
 const EXTRAS = [
   "IT va Robototexnika",
   "Ingliz tili (IELTS tayyorlov)",
@@ -298,14 +306,16 @@ const HomePage = () => {
   const displayFeatures        = dbFeatures.length        > 0 ? dbFeatures        : FEATURES;
   const displayScholarshipCards = dbScholarshipCards.length > 0 ? dbScholarshipCards : STATIC_SCHOLARSHIP_CARDS;
 
-  const displayVideos = homeVideos.map(v => ({
-      src: !v.url
-        ? ''
-        : v.url.startsWith('http') || v.url.startsWith('/assets')
-          ? v.url
-          : `${API_URL}${v.url}`,
-      title: v.title,
-    }));
+  const displayVideos = homeVideos.length > 0
+    ? homeVideos.map(v => ({
+        src: !v.url
+          ? ''
+          : v.url.startsWith('http') || v.url.startsWith('/assets')
+            ? v.url
+            : `${API_URL}${v.url}`,
+        title: v.title,
+      }))
+    : VIDEOS;
 
   const [submitting, setSubmitting] = useState(false);
 
