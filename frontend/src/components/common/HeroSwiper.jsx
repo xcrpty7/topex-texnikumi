@@ -38,15 +38,12 @@ export default function HeroSwiper({ settings }) {
   const [failedImg, setFailedImg] = useState({});
   const swiperRef = useRef(null);
 
-  const onImgLoad = (e, i) => {
-    const img = e.currentTarget;
-    if (img.naturalWidth === 800 && img.naturalHeight === 600 && img.src.includes('render.com')) {
-      setFailedImg(p => ({ ...p, [i]: true }));
-    }
+  const onImgError = (e, i) => {
+    setFailedImg(p => ({ ...p, [i]: true }));
   };
 
-  const fallbackImg = (i) => FG_IMAGES[i] || BG_IMAGES[i];
-  const fallbackBg = (i) => BG_IMAGES[i].replace('.webp', '-960w.webp');
+  const fallbackImg = (i) => FG_IMAGES[(i + 1) % FG_IMAGES.length];
+  const fallbackBg = (i) => BG_IMAGES[(i + 2) % BG_IMAGES.length].replace('.webp', '-960w.webp');
 
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
@@ -177,7 +174,8 @@ export default function HeroSwiper({ settings }) {
                       exit={{ scale: 1, opacity: 0 }}
                       transition={{ scale: { duration: 7, ease: 'easeOut' }, opacity: { duration: 0.9 } }}
                       className="absolute inset-0 w-full h-full object-cover"
-                      onLoad={(e) => onImgLoad(e, i)}
+                      onLoad={(e) => e.currentTarget.complete && e.currentTarget.naturalWidth > 0 && setFailedImg(p => ({ ...p, [i]: false }))}
+                      onError={(e) => onImgError(e, i)}
                     />
                   )}
                 </AnimatePresence>
