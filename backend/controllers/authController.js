@@ -7,24 +7,19 @@ const normalizePhone = (p) => (p ? String(p).replace(/[\s\-()]/g, '').trim() : '
 
 const register = async (req, res) => {
   try {
-    let { name, email, password, phone } = req.body;
-    email = email ? String(email).toLowerCase().trim() : undefined;
+    let { name, password, phone } = req.body;
     phone = phone ? normalizePhone(phone) : undefined;
 
-    if (!email && !phone) {
-      return sendError(res, 'Email yoki telefon raqami kiritilishi shart', 400);
+    if (!phone) {
+      return sendError(res, 'Telefon raqami kiritilishi shart', 400);
     }
 
-    // Email yoki telefon allaqachon bandligini tekshirish
-    const orConds = [];
-    if (email) orConds.push({ email });
-    if (phone) orConds.push({ phone });
-    const existing = await User.findOne({ $or: orConds });
+    const existing = await User.findOne({ phone });
     if (existing) {
-      return sendError(res, 'Bu email yoki telefon raqami allaqachon ro\'yxatdan o\'tgan', 400);
+      return sendError(res, 'Bu telefon raqami allaqachon ro\'yxatdan o\'tgan', 400);
     }
 
-    const user = await User.create({ name, email, password, phone });
+    const user = await User.create({ name, password, phone });
 
     const accessToken = generateAccessToken(user._id, user.role);
     const refreshToken = generateRefreshToken(user._id);
@@ -53,14 +48,13 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { identifier, email, phone, login, password } = req.body;
-    // Foydalanuvchi telefon, login (username) yoki email orqali kirishi mumkin
-    const idRaw = String(identifier || email || phone || login || '').trim();
+    const { identifier, phone, login, password } = req.body;
+    const idRaw = String(identifier || phone || login || '').trim();
     if (!idRaw) {
       return sendError(res, 'Telefon yoki login kiritilishi shart', 400);
     }
 
-    const conds = [{ email: idRaw.toLowerCase() }, { login: idRaw.toLowerCase() }];
+    const conds = [{ login: idRaw.toLowerCase() }];
     const normPhone = normalizePhone(idRaw);
     if (normPhone) conds.push({ phone: normPhone });
 

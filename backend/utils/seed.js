@@ -9,13 +9,20 @@ const Teacher = require('../models/Teacher');
 const seed = async () => {
   console.log('🌱 Seed boshlandi...');
 
+  // Eski email_1 unique index-ni tashlab yuboramiz (email maydoni olib tashlandi)
+  try {
+    await mongoose.connection.collection('users').dropIndex('email_1');
+    console.log('✅ email_1 index o\'chirildi');
+  } catch (e) {
+    if (e.code !== 27) console.warn('⚠️  email_1 index o\'chirishda xato:', e.message);
+  }
+
   const ADMIN_PHONE = (process.env.ADMIN_PHONE || '+998 99 999 99 99').replace(/[\s\-()]/g, '').trim();
   const ADMIN_LOGIN = process.env.ADMIN_LOGIN || 'admin';
-  const existingAdmin = await User.findOne({ email: process.env.ADMIN_EMAIL });
+  const existingAdmin = await User.findOne({ $or: [{ login: ADMIN_LOGIN }, { phone: ADMIN_PHONE }] });
   if (!existingAdmin) {
     const admin = await User.create({
       name: process.env.ADMIN_NAME || 'Super Admin',
-      email: process.env.ADMIN_EMAIL || 'admin@topex.uz',
       phone: ADMIN_PHONE,
       login: ADMIN_LOGIN,
       password: process.env.ADMIN_PASSWORD || 'Admin@topex2024',
@@ -104,7 +111,8 @@ if (require.main === module) {
       await seed();
       console.log('─'.repeat(50));
       console.log('Admin kirish ma\'lumotlari:');
-      console.log(`  Email:  ${process.env.ADMIN_EMAIL}`);
+      console.log(`  Login:  ${process.env.ADMIN_LOGIN || 'admin'}`);
+      console.log(`  Phone:  ${process.env.ADMIN_PHONE || '+998 99 999 99 99'}`);
       console.log(`  Parol:  ${process.env.ADMIN_PASSWORD}`);
       console.log('─'.repeat(50));
       await mongoose.disconnect();

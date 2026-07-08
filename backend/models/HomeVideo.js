@@ -10,6 +10,10 @@ const homeVideoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Video havolasi kiritilishi shart']
   },
+  photo: {
+    type: String,
+    default: ''
+  },
   order: {
     type: Number,
     default: 0

@@ -10,16 +10,6 @@ const userSchema = new mongoose.Schema(
       minlength: [2, 'Ism kamida 2 ta belgi bo\'lishi kerak'],
       maxlength: [100, 'Ism 100 ta belgidan oshmasligi kerak'],
     },
-    // Email yoki telefon — kamida bittasi bo'lishi shart (controller'da tekshiriladi).
-    // sparse: bir nechta foydalanuvchi email/telefonsiz bo'lsa ham unique buzilmaydi.
-    email: {
-      type: String,
-      unique: true,
-      sparse: true,
-      lowercase: true,
-      trim: true,
-      match: [/^\S+@\S+\.\S+$/, 'Email noto\'g\'ri formatda'],
-    },
     password: {
       type: String,
       required: [true, 'Parol kiritilishi shart'],

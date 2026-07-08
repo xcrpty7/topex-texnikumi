@@ -11,7 +11,7 @@ import Spinner from '../../components/ui/Spinner';
 import ConfirmModal from '../../components/ui/ConfirmModal';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
-const EMPTY_FORM = { title: '', url: '', order: 0, isActive: true };
+const EMPTY_FORM = { title: '', url: '', photo: '', order: 0, isActive: true };
 
 const STATIC_VIDEOS = [];
 
@@ -99,6 +99,7 @@ const AdminHomeVideos = () => {
     setForm({
       title: item.title,
       url: item.url,
+      photo: item.photo || '',
       order: item.order || 0,
       isActive: item.isActive
     });
@@ -211,10 +212,18 @@ const AdminHomeVideos = () => {
               style={{ opacity: item.isActive ? 1 : 0.6 }}
             >
               <div className="aspect-video bg-[#FFFFFF] relative group">
-                <video
-                  src={item.url?.startsWith('/uploads') ? `${API_URL}${item.url}` : item.url}
-                  className="w-full h-full object-cover"
-                />
+                {item.photo ? (
+                  <img
+                    src={item.photo}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <video
+                    src={item.url?.startsWith('/uploads') ? `${API_URL}${item.url}` : item.url}
+                    className="w-full h-full object-cover"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Play size={32} className="text-white fill-white" />
                 </div>
@@ -327,6 +336,13 @@ const AdminHomeVideos = () => {
             label={t('adminHomeVideos.form.videoUrl')}
             value={form.url}
             onChange={e => setForm(p => ({ ...p, url: e.target.value }))}
+            placeholder="https://..."
+          />
+
+          <Input
+            label="Photo URL (ixtiyoriy)"
+            value={form.photo}
+            onChange={e => setForm(p => ({ ...p, photo: e.target.value }))}
             placeholder="https://..."
           />
 

@@ -31,13 +31,7 @@ router.post(
   [
     body('name').trim().notEmpty().withMessage('Ism kiritilishi shart'),
     body('password').isLength({ min: 4 }).withMessage('Parol kamida 4 ta belgi bo\'lishi kerak'),
-    body('email').optional({ checkFalsy: true }).isEmail().withMessage('Email noto\'g\'ri formatda'),
-    body().custom((_, { req }) => {
-      if (!req.body.email && !req.body.phone) {
-        throw new Error('Email yoki telefon raqami kiritilishi shart');
-      }
-      return true;
-    }),
+    body('phone').notEmpty().withMessage('Telefon raqami kiritilishi shart'),
   ],
   validate,
   register
@@ -49,8 +43,8 @@ router.post(
   [
     body('password').notEmpty().withMessage('Parol kiritilishi shart'),
     body().custom((_, { req }) => {
-      if (!req.body.identifier && !req.body.email && !req.body.phone) {
-        throw new Error('Email yoki telefon raqami kiritilishi shart');
+      if (!req.body.identifier && !req.body.phone) {
+        throw new Error('Telefon yoki login kiritilishi shart');
       }
       return true;
     }),

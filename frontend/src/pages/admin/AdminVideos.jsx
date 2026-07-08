@@ -11,7 +11,7 @@ import Input from '../../components/ui/Input';
 import Spinner from '../../components/ui/Spinner';
 import ConfirmModal from '../../components/ui/ConfirmModal';
 
-const EMPTY_FORM = { title: '', description: '', order: 0, isActive: true };
+const EMPTY_FORM = { title: '', description: '', thumbnail: '', order: 0, isActive: true };
 
 const truncateUrl = (url, max = 40) => {
   if (!url) return '—';
@@ -65,6 +65,7 @@ const AdminVideos = () => {
     setForm({
       title: item.title,
       description: item.description || '',
+      thumbnail: item.thumbnail || '',
       order: item.order || 0,
       isActive: item.isActive,
     });
@@ -104,6 +105,7 @@ const AdminVideos = () => {
       const payload = {
         title: form.title,
         description: form.description,
+        thumbnail: form.thumbnail,
         url: videoUrl,
         order: form.order,
         isActive: form.isActive,
@@ -186,11 +188,19 @@ const AdminVideos = () => {
               style={{ opacity: item.isActive ? 1 : 0.6 }}
             >
               <div className="aspect-video bg-[#FFFFFF] relative group">
-                <video
-                  src={item.url}
-                  className="w-full h-full object-cover"
-                  preload="metadata"
-                />
+                {item.thumbnail ? (
+                  <img
+                    src={item.thumbnail}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <video
+                    src={item.url}
+                    className="w-full h-full object-cover"
+                    preload="metadata"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Film size={32} className="text-white" />
                 </div>
@@ -333,6 +343,13 @@ const AdminVideos = () => {
               </div>
             )}
           </div>
+
+          <Input
+            label={t('adminVideos.form.thumbnail') || 'Photo URL (ixtiyoriy)'}
+            value={form.thumbnail}
+            onChange={e => setForm(p => ({ ...p, thumbnail: e.target.value }))}
+            placeholder="https://..."
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <Input
