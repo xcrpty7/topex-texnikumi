@@ -103,20 +103,30 @@ router.post('/seed-teachers', ...adminOnly, async (req, res) => {
   try {
     const count = await Teacher.countDocuments();
     if (count > 0) return res.json({ success: true, message: `O'qituvchilar allaqachon mavjud: ${count} ta` });
-    const list = [
-      { name: "G'AYRAT SHOUMAROV",               image: '/assets/Ustozlar/DSC01143.webp',      order: 1, active: true },
-      { name: 'OLGERD FILLIPOV',                 image: '/assets/Ustozlar/DSC01155.webp',      order: 2, active: true },
-      { name: 'RUSTAM KARIMOV',                  image: '/assets/Ustozlar/DSC01164.webp',      order: 3, active: true },
-      { name: 'DILSHOD AZIZOV',                  image: '/assets/Ustozlar/DSC01187.webp',      order: 4, active: true },
-      { name: 'AKMAL RAHIMOV',                   image: '/assets/Ustozlar/DSC01199.webp',      order: 5, active: true },
-      { name: "NORBOYEV NE'MATBEK CHORIYEVICH",  image: '/assets/Ustozlar/teacher-new-1.webp', order: 6, active: true },
-      { name: "KUBAYEV RO'ZIMUROD HIKMATILLAYEVICH", image: '/assets/Ustozlar/teacher-new-2.webp', order: 7, active: true },
-      { name: 'BURTSEVA ALEKSANDRA VASILEVNA',   image: '/assets/Ustozlar/teacher-new-3.webp', order: 8, active: true },
-      { name: 'ABDULLAYEV OYBEK ODILOVICH',      image: '/assets/Ustozlar/teacher-new-4.webp', order: 9, active: true },
-      { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', image: '/assets/Ustozlar/teacher-new-5.webp', order: 10, active: true },
-    ];
-    for (const d of list) await Teacher.create(d);
-    res.json({ success: true, message: `${list.length} ta o'qituvchi qo'shildi` });
+    for (const d of teacherSeedList) await Teacher.create(d);
+    res.json({ success: true, message: `${teacherSeedList.length} ta o'qituvchi qo'shildi` });
+  } catch (e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
+// Reset teachers: delete all and re-seed
+const teacherSeedList = [
+  { name: "G'AYRAT SHOUMAROV",               image: '/assets/Ustozlar/DSC01143.webp',      role: 'Direktor', order: 1, active: true },
+  { name: 'OLGERD FILLIPOV',                 image: '/assets/Ustozlar/DSC01155.webp',      role: "Dasturlash o'qituvchisi", order: 2, active: true },
+  { name: 'RUSTAM KARIMOV',                  image: '/assets/Ustozlar/DSC01164.webp',      role: "Marketing o'qituvchisi", order: 3, active: true },
+  { name: 'DILSHOD AZIZOV',                  image: '/assets/Ustozlar/DSC01187.webp',      role: "Grafik dizayn o'qituvchisi", order: 4, active: true },
+  { name: 'AKMAL RAHIMOV',                   image: '/assets/Ustozlar/DSC01199.webp',      role: "Bank ishi o'qituvchisi", order: 5, active: true },
+  { name: "NORBOYEV NE'MATBEK CHORIYEVICH",  image: '/assets/Ustozlar/teacher-new-1.webp', role: "Dasturlash o'qituvchisi", order: 6, active: true },
+  { name: "KUBAYEV RO'ZIMUROD HIKMATILLAYEVICH", image: '/assets/Ustozlar/teacher-new-2.webp', role: "Marketing o'qituvchisi", order: 7, active: true },
+  { name: 'BURTSEVA ALEKSANDRA VASILEVNA',   image: '/assets/Ustozlar/teacher-new-3.webp', role: "Chet tili o'qituvchisi", order: 8, active: true },
+  { name: 'ABDULLAYEV OYBEK ODILOVICH',      image: '/assets/Ustozlar/teacher-new-4.webp', role: "Grafik dizayn o'qituvchisi", order: 9, active: true },
+  { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', image: '/assets/Ustozlar/teacher-new-5.webp', role: "Bank ishi o'qituvchisi", order: 10, active: true },
+];
+
+router.post('/reset-teachers', ...adminOnly, async (req, res) => {
+  try {
+    await Teacher.deleteMany({});
+    for (const d of teacherSeedList) await Teacher.create(d);
+    res.json({ success: true, message: `${teacherSeedList.length} ta o'qituvchi qayta yozildi` });
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
