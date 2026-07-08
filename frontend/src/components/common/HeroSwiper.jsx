@@ -15,8 +15,9 @@ const resolveImg = (val, fallback) => {
 };
 
 const srcSetFor = (path) => {
-  const base = path?.replace('.webp', '');
-  if (!base || !base.startsWith('/assets')) return undefined;
+  if (!path?.endsWith('.webp')) return undefined;
+  const base = path.slice(0, -5);
+  if (!base.startsWith('/assets')) return undefined;
   return `${base}-480w.webp 480w, ${base}-960w.webp 960w, ${base}-1440w.webp 1440w, ${path} 1920w`;
 };
 
@@ -48,7 +49,7 @@ export default function HeroSwiper({ settings }) {
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
   const resolveBg = (val, fallback) => {
-    const src = val ? resolveImg(val, fallback) : fallback;
+    const src = (val && !val.startsWith('/uploads')) ? resolveImg(val, fallback) : fallback;
     return src.replace('.webp', '-960w.webp');
   };
 
