@@ -20,10 +20,16 @@ const srcSetFor = (path) => {
   return `${base}-480w.webp 480w, ${base}-960w.webp 960w, ${base}-1440w.webp 1440w, ${path} 1920w`;
 };
 
-const IMAGES = [
+const BG_IMAGES = [
   '/assets/images/hero/hero-1.webp',
   '/assets/images/hero/hero-2.webp',
   '/assets/images/hero/hero-3.webp',
+];
+
+const FG_IMAGES = [
+  '/assets/images/DSC03766.jpg',
+  '/assets/images/DSC03779.jpg',
+  '/assets/images/DSC04192.jpg',
 ];
 
 export default function HeroSwiper({ settings }) {
@@ -39,8 +45,8 @@ export default function HeroSwiper({ settings }) {
     }
   };
 
-  const fallbackImg = (i) => IMAGES[i];
-  const fallbackBg = (i) => IMAGES[i].replace('.webp', '-960w.webp');
+  const fallbackImg = (i) => FG_IMAGES[i] || BG_IMAGES[i];
+  const fallbackBg = (i) => BG_IMAGES[i].replace('.webp', '-960w.webp');
 
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
@@ -55,18 +61,18 @@ export default function HeroSwiper({ settings }) {
           ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
           : [s.title1, s.title2, s.title3].filter(Boolean),
         subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
-        imageBg: resolveBg(s.image, IMAGES[i]),
-        imageFg: s.image ? resolveImg(s.image, IMAGES[i]) : IMAGES[i],
+        imageBg: resolveBg(s.image, BG_IMAGES[i]),
+        imageFg: s.image ? resolveImg(s.image, FG_IMAGES[i]) : FG_IMAGES[i],
       }))
-    : IMAGES.map((img, i) => ({
+    : BG_IMAGES.map((bg, i) => ({
         title: [
           t(`hero.slide${i+1}Title1`),
           t(`hero.slide${i+1}Title2`),
           t(`hero.slide${i+1}Title3`),
         ],
         subtitle: t(`hero.slide${i+1}Sub`),
-        imageBg: img.replace('.webp', '-960w.webp'),
-        imageFg: img,
+        imageBg: bg.replace('.webp', '-960w.webp'),
+        imageFg: FG_IMAGES[i],
       }));
 
   const ctaText  = t('hero.ctaApply');
