@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const mongoose = require('mongoose');
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwt');
 const { sendSuccess, sendError } = require('../utils/response');
 
@@ -19,7 +20,23 @@ const register = async (req, res) => {
       return sendError(res, 'Bu telefon raqami allaqachon ro\'yxatdan o\'tgan', 400);
     }
 
-    const user = await User.create({ name, password, phone });
+    let user;
+    try {
+      user = await User.create({ name, password, phone });
+    } catch (createErr) {
+      // E11000 = duplicate key → eski email_1 index qoldig'i
+      if (createErr.code === 11000) {
+        try {
+          await mongoose.connection.collection('users').dropIndex('email_1');
+          console.log('✅ email_1 index o\'chirildi (auto-fix authController)');
+          user = await User.create({ name, password, phone });
+        } catch {
+          return sendError(res, 'Ro\'yxatdan o\'tishda xatolik. Iltimos keyinroq urinib ko\'ring', 500);
+        }
+      } else {
+        throw createErr;
+      }
+    }
 
     const accessToken = generateAccessToken(user._id, user.role);
     const refreshToken = generateRefreshToken(user._id);

@@ -9,6 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 const path = require('path');
 
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const seed = require('./utils/seed');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
@@ -37,7 +38,15 @@ const app = express();
 app.set('trust proxy', 1);
 
 // ─── Ma'lumotlar bazasiga ulanish ───────────────────────────────────────────
-connectDB().then(() => {
+connectDB().then(async () => {
+  // Eski email_1 unique index-ni tashlash (regstratsiya ishlashi uchun)
+  try {
+    const db = require('mongoose').connection;
+    await db.collection('users').dropIndex('email_1');
+    console.log('✅ email_1 index o\'chirildi (server.js)');
+  } catch (e) {
+    if (e.code !== 27) console.warn('⚠️  email_1 index o\'chirishda xato:', e.message);
+  }
   seed().catch((err) => console.error('Seed error:', err?.message));
 });
 
@@ -191,6 +200,17 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/amocrm', amocrmRoutes);
 app.use('/api/vacancies', vacancyRoutes);
+
+// Eski email_1 index-ni tashlash (regstratsiya ishlashi uchun) — public, authsiz
+app.post('/api/drop-email-index', async (req, res) => {
+  try {
+    await mongoose.connection.collection('users').dropIndex('email_1');
+    res.json({ success: true, message: 'email_1 indeksi o\'chirildi' });
+  } catch (e) {
+    if (e.code === 27) return res.json({ success: true, message: 'email_1 indeksi mavjud emas' });
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
 
 // Public ma'lumot yo'llari
 app.get('/api/gallery', getGallery);
