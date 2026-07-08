@@ -65,17 +65,26 @@ export default function VideosSwiper({ videos = [], onOpen, settings }) {
                 className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer"
                 onClick={() => onOpen?.(vid)}>
 
-                {/* Video element */}
-                <video
-                  src={vid.src}
-                  className="absolute inset-0 w-full h-full object-cover
-                             group-hover:scale-105 transition-transform duration-700"
-                  muted
-                  loop
-                  playsInline
-                  onMouseOver={e => e.target.play().catch(()=>{})}
-                  onMouseOut={e => { e.target.pause(); e.target.currentTime = 0; }}
-                />
+                {vid.photo ? (
+                  <img
+                    src={vid.photo}
+                    alt={vid.title}
+                    className="absolute inset-0 w-full h-full object-cover
+                               group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                ) : (
+                  <video
+                    src={vid.src}
+                    className="absolute inset-0 w-full h-full object-cover
+                               group-hover:scale-105 transition-transform duration-700"
+                    muted
+                    loop
+                    playsInline
+                    onMouseOver={e => e.target.play().catch(()=>{})}
+                    onMouseOut={e => { e.target.pause(); e.target.currentTime = 0; }}
+                  />
+                )}
 
                 {/* Dark overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30

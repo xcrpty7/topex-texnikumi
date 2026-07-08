@@ -83,6 +83,7 @@ const VideosPage = () => {
                   <div className="aspect-video bg-[#F1F2F4] relative overflow-hidden">
                     <video
                       src={resolveVideo(item.url)}
+                      poster={item.thumbnail || undefined}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       preload="metadata"
                     />

@@ -314,6 +314,7 @@ const HomePage = () => {
             ? v.url
             : `${API_URL}${v.url}`,
         title: v.title,
+        photo: v.photo || '',
       }))
     : VIDEOS;
 
