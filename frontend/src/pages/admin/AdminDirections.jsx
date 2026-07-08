@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen } from 'lucide-react';
+import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen, RefreshCw } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import Button from '../../components/ui/Button';
@@ -83,10 +83,20 @@ const AdminDirections = () => {
             <p className="text-sm text-[#61677A]">{t('adminDirections.subtitle')}</p>
           </div>
         </div>
-        <Button onClick={openCreate} className="btn-orange">
-          <Plus size={16} /> {t('admin.addNew')}
-        </Button>
-      </div>
+        <div className="flex gap-2">
+          <Button onClick={openCreate} size="sm">
+            <Plus size={14} className="mr-1" /> {t('admin.addNew')}
+          </Button>
+          <Button onClick={async () => {
+            try {
+              await api.post('/admin/seed-directions', { force: true });
+              toast.success('8 ta yo\'nalish qayta yuklandi');
+              load();
+            } catch (e) { toast.error(e.response?.data?.message || t('admin.error')); }
+          }} variant="ghost" size="sm" style={{ borderColor: '#D97706', color: '#D97706' }}>
+            <RefreshCw size={14} className="mr-1" /> 8 ta yo'nalishni tiklash
+          </Button>
+        </div>
 
       {loading ? (
         <div className="flex justify-center py-16"><Spinner size="lg" /></div>

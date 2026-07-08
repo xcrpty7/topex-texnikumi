@@ -140,8 +140,10 @@ router.delete('/directions/:id', ...adminOnly, deleteDirection);
 
 router.post('/seed-directions', ...adminOnly, async (req, res) => {
   try {
+    const force = req.query.force === 'true' || req.body?.force === true;
     const count = await Direction.countDocuments();
-    if (count > 0) return res.json({ success: true, message: `Yo'nalishlar allaqachon mavjud: ${count} ta` });
+    if (!force && count > 0) return res.json({ success: true, message: `Yo'nalishlar allaqachon mavjud: ${count} ta` });
+    if (force && count > 0) await Direction.deleteMany({});
     const list = [
       { name: 'Dasturlash', desc: 'Zamonaviy dasturlash tillari va texnologiyalari', img: '/assets/images/DSC00827.webp', icon: 'Code', duration: '3 yil', features: ['Python, JavaScript, PHP', 'Web va mobil ilovalar', 'Real loyihalar bilan ishlash', 'Sertifikat olish imkoniyati'], order: 1, active: true },
       { name: 'Marketing va agrobiznes', desc: 'Raqamli marketing va qishloq xo\'jaligi iqtisodiyoti', img: '/assets/images/DSC00912.webp', icon: 'TrendingUp', duration: '3 yil', features: ['SMM, SEO, Google Ads', 'Agrobiznes strategiyalari', 'Analitika va hisobot', 'Amaliy loyihalar'], order: 2, active: true },
