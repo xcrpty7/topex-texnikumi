@@ -35,14 +35,14 @@ const NarxPage = () => {
   }, []);
 
   const subjects = settings?.subjects?.length > 0 ? settings.subjects : [
-    { name: 'Dasturlash', duration: '2 yil' },
-    { name: 'Marketing va Agrobiznes', duration: '2 yil' },
-    { name: 'Kompyuter Grafikasi', duration: '2 yil' },
-    { name: 'Bank Nazoratchisi', duration: '2 yil' },
-    { name: 'Mehmonxona Boshqaruvi', duration: '2 yil' },
-    { name: 'Raqamli Axborotlar Analitigi', duration: '2 yil' },
-    { name: 'Laborant-Analitik', duration: '2 yil' },
-    { name: "Dorivor O'simliklar Laboranti", duration: '2 yil' },
+    { name: 'Laborant analitik', duration: '3 yil' },
+    { name: "Dorivor o'simliklar laboranti", duration: '3 yil' },
+    { name: 'Marketing va agrobiznes', duration: '3 yil' },
+    { name: 'Dasturlash', duration: '3 yil' },
+    { name: 'Kompyuter grafikasi va dizayn', duration: '3 yil' },
+    { name: 'Bank ishi', duration: '3 yil' },
+    { name: 'Mehmonxona boshqaruvi', duration: '3 yil' },
+    { name: 'Raqamli axborotlar analitigi', duration: '3 yil' },
   ];
 
   return (

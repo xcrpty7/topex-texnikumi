@@ -61,68 +61,68 @@ const STATS = [
 
 const SUBJECTS = [
   { 
-    icon: Code,           
-    name: 'Dasturlash',                    
-    desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
-    img: '/assets/images/DSC00827.webp',
-    duration: '2 yil',
-    features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
-  },
-  { 
-    icon: TrendingUp,     
-    name: 'Marketing va Agrobiznes',       
-    desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.", 
-    img: '/assets/images/DSC00912.webp',
-    duration: '2 yil',
-    features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
-  },
-  { 
-    icon: Palette,        
-    name: 'Kompyuter Grafikasi',           
-    desc: '3D modellashtirish, brending va vizual kontent.', 
-    img: '/assets/images/DSC01093.webp',
-    duration: '2 yil',
-    features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
-  },
-  { 
-    icon: ShieldCheck,    
-    name: 'Bank Nazoratchisi',             
-    desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', 
-    img: '/assets/famali-photo/DSC00875.webp',
-    duration: '2 yil',
-    features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
-  },
-  { 
-    icon: Hotel,          
-    name: 'Mehmonxona Boshqaruvi',         
-    desc: "Xalqaro servis va mehmondo'stlik san'ati.", 
-    img: '/assets/famali-photo/DSC00954.webp',
-    duration: '2 yil',
-    features: ['Service Management', 'Event planning', 'Xorijiy tillar']
-  },
-  { 
-    icon: BarChart3,      
-    name: 'Raqamli Axborotlar Analitigi',   
-    desc: "Ma'lumotlar tahlili va biznes-bashorat.",
-    img: '/assets/famali-photo/DSC00955.webp',
-    duration: '2 yil',
-    features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
-  },
-  { 
     icon: FlaskConical,   
-    name: 'Laborant-Analitik',             
-    desc: 'Tibbiy va sanoat tahlillari ustasi.', 
+    name: 'Laborant analitik',             
+    desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar.', 
     img: '/assets/famali-photo/DSC00964.webp',
-    duration: '2 yil',
+    duration: '3 yil',
     features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
   },
   { 
     icon: Sprout,         
-    name: "Dorivor O'simliklar Laboranti",
-    desc: 'Farmatsevtika va fitoterapiya sirlari.', 
+    name: "Dorivor o'simliklar laboranti",
+    desc: 'Dorivor o\'simliklar yetishtirish va qayta ishlash.', 
     img: '/assets/famali-photo/DSC00980.webp',
-    duration: '2 yil',
+    duration: '3 yil',
     features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
+  },
+  { 
+    icon: TrendingUp,     
+    name: 'Marketing va agrobiznes',       
+    desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.", 
+    img: '/assets/images/DSC00912.webp',
+    duration: '3 yil',
+    features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
+  },
+  { 
+    icon: Code,           
+    name: 'Dasturlash',                    
+    desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
+    img: '/assets/images/DSC00827.webp',
+    duration: '3 yil',
+    features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
+  },
+  { 
+    icon: Palette,        
+    name: 'Kompyuter grafikasi va dizayn',           
+    desc: '3D modellashtirish, brending va vizual kontent.', 
+    img: '/assets/images/DSC01093.webp',
+    duration: '3 yil',
+    features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
+  },
+  { 
+    icon: ShieldCheck,    
+    name: 'Bank ishi',             
+    desc: 'Bank va moliya tizimi asoslari.', 
+    img: '/assets/famali-photo/DSC00875.webp',
+    duration: '3 yil',
+    features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
+  },
+  { 
+    icon: Hotel,          
+    name: 'Mehmonxona boshqaruvi',         
+    desc: "Mehmonxona va turizm menejmenti.", 
+    img: '/assets/famali-photo/DSC00954.webp',
+    duration: '3 yil',
+    features: ['Service Management', 'Event planning', 'Xorijiy tillar']
+  },
+  { 
+    icon: BarChart3,      
+    name: 'Raqamli axborotlar analitigi',   
+    desc: "Ma'lumotlar tahlili va axborot tizimlari.",
+    img: '/assets/famali-photo/DSC00955.webp',
+    duration: '3 yil',
+    features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
   },
 ];
 

@@ -6,8 +6,8 @@ import uz from './uz.json';
 
 i18n.use(initReactI18next).init({
   resources: { en: { translation: en }, ru: { translation: ru }, uz: { translation: uz } },
-  lng: localStorage.getItem('topex_lang') || 'uz',
-  fallbackLng: 'uz',
+  lng: localStorage.getItem('topex_lang') || 'ru',
+  fallbackLng: 'ru',
   interpolation: { escapeValue: false },
 });
 

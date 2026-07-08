@@ -933,14 +933,14 @@ const AdminSiteEditor = () => {
       // Ensure array fields exist with defaults
       if (!d.subjects || d.subjects.length === 0) {
         d.subjects = [
-          { id: 1, name: 'Dasturlash', desc: "Kod yozishdan tortib, murakkab tizimlar yaratishgacha.", duration: '2 yil', features: "Frontend & Backend, Mobil ilovalar, Portfolio yaratish", imgUrl: '/assets/images/DSC00827.webp', iconName: 'Code' },
-          { id: 2, name: 'Marketing va Agrobiznes', desc: "Zamonaviy savdo san'ati va agrar soha menejmenti.", duration: '2 yil', features: "SMM & Brending, Bozor tahlili, Eksport-import", imgUrl: '/assets/images/DSC00912.webp', iconName: 'TrendingUp' },
-          { id: 3, name: 'Kompyuter Grafikasi', desc: '3D modellashtirish, brending va vizual kontent.', duration: '2 yil', features: "Adobe Photoshop/Illustrator, 3D Blender, Motion dizayn", imgUrl: '/assets/images/DSC01093.webp', iconName: 'Palette' },
-          { id: 4, name: 'Bank Nazoratchisi', desc: 'Moliya tizimi xavfsizligi va audit mutaxassisi.', duration: '2 yil', features: "Kredit tahlili, Xavfsizlik tizimlari, Bank auditi", imgUrl: '/assets/famali-photo/DSC00875.webp', iconName: 'ShieldCheck' },
-          { id: 5, name: 'Mehmonxona Boshqaruvi', desc: "Xalqaro servis va mehmondo'stlik san'ati.", duration: '2 yil', features: "Service Management, Event planning, Xorijiy tillar", imgUrl: '/assets/famali-photo/DSC00954.webp', iconName: 'Hotel' },
-          { id: 6, name: 'Raqamli Axborotlar Analitigi', desc: "Ma'lumotlar tahlili va biznes-bashorat.", duration: '2 yil', features: 'Big Data, Excel & SQL, Biznes strategiya', imgUrl: '/assets/famali-photo/DSC00955.webp', iconName: 'BarChart3' },
-          { id: 7, name: 'Laborant-Analitik', desc: 'Tibbiy va sanoat tahlillari ustasi.', duration: '2 yil', features: "Kimyoviy tahlil, Sanoat laboratoriyasi, Sifat nazorati", imgUrl: '/assets/famali-photo/DSC00964.webp', iconName: 'FlaskConical' },
-          { id: 8, name: "Dorivor O'simliklar Laboranti", desc: 'Farmatsevtika va fitoterapiya sirlari.', duration: '2 yil', features: "Botanika, Dori tayyorlash, Fitoterapiya", imgUrl: '/assets/famali-photo/DSC00980.webp', iconName: 'Sprout' },
+          { id: 1, name: 'Laborant analitik', desc: "Laboratoriya tahlillari va ilmiy tadqiqotlar.", duration: '3 yil', features: "Kimyoviy tahlil, Sanoat laboratoriyasi, Sifat nazorati", imgUrl: '/assets/famali-photo/DSC00964.webp', iconName: 'FlaskConical' },
+          { id: 2, name: "Dorivor o'simliklar laboranti", desc: "Dorivor o'simliklar yetishtirish va qayta ishlash.", duration: '3 yil', features: "Botanika, Dori tayyorlash, Fitoterapiya", imgUrl: '/assets/famali-photo/DSC00980.webp', iconName: 'Sprout' },
+          { id: 3, name: 'Marketing va agrobiznes', desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.", duration: '3 yil', features: "SMM & Brending, Bozor tahlili, Eksport-import", imgUrl: '/assets/images/DSC00912.webp', iconName: 'TrendingUp' },
+          { id: 4, name: 'Dasturlash', desc: "Kod yozishdan tortib, murakkab tizimlar yaratishgacha.", duration: '3 yil', features: "Frontend & Backend, Mobil ilovalar, Portfolio yaratish", imgUrl: '/assets/images/DSC00827.webp', iconName: 'Code' },
+          { id: 5, name: 'Kompyuter grafikasi va dizayn', desc: '3D modellashtirish, brending va vizual kontent.', duration: '3 yil', features: "Adobe Photoshop/Illustrator, 3D Blender, Motion dizayn", imgUrl: '/assets/images/DSC01093.webp', iconName: 'Palette' },
+          { id: 6, name: 'Bank ishi', desc: 'Bank va moliya tizimi asoslari.', duration: '3 yil', features: "Kredit tahlili, Xavfsizlik tizimlari, Bank auditi", imgUrl: '/assets/famali-photo/DSC00875.webp', iconName: 'ShieldCheck' },
+          { id: 7, name: 'Mehmonxona boshqaruvi', desc: "Mehmonxona va turizm menejmenti.", duration: '3 yil', features: "Service Management, Event planning, Xorijiy tillar", imgUrl: '/assets/famali-photo/DSC00954.webp', iconName: 'Hotel' },
+          { id: 8, name: 'Raqamli axborotlar analitigi', desc: "Ma'lumotlar tahlili va axborot tizimlari.", duration: '3 yil', features: 'Big Data, Excel & SQL, Biznes strategiya', imgUrl: '/assets/famali-photo/DSC00955.webp', iconName: 'BarChart3' },
         ];
       }
       if (!d.extras || d.extras.length === 0) {
