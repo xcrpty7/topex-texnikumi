@@ -62,7 +62,7 @@ export default function HeroSwiper({ settings }) {
           : [s.title1, s.title2, s.title3].filter(Boolean),
         subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
         imageBg: resolveBg(s.image, BG_IMAGES[i]),
-        imageFg: s.image ? resolveImg(s.image, FG_IMAGES[i]) : FG_IMAGES[i],
+        imageFg: FG_IMAGES[i],
       }))
     : BG_IMAGES.map((bg, i) => ({
         title: [
