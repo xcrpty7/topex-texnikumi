@@ -44,14 +44,12 @@ export default function HeroSwiper({ settings }) {
   };
 
   const fallbackImg = (i) => FG_IMAGES[(i + 1) % FG_IMAGES.length];
-  const fallbackBg = (i) => BG_IMAGES[(i + 2) % BG_IMAGES.length].replace('.webp', '-960w.webp');
+  const fallbackBg = (i) => BG_IMAGES[(i + 2) % BG_IMAGES.length];
 
   const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
 
-  const resolveBg = (val, fallback) => {
-    const src = (val && !val.startsWith('/uploads')) ? resolveImg(val, fallback) : fallback;
-    return src.replace('.webp', '-960w.webp');
-  };
+  const resolveBg = (val, fallback) =>
+    (val && !val.startsWith('/uploads')) ? resolveImg(val, fallback) : fallback;
 
   const slides = dbSlides
     ? settings.heroSlides.map((s, i) => ({
@@ -69,7 +67,7 @@ export default function HeroSwiper({ settings }) {
           t(`hero.slide${i+1}Title3`),
         ],
         subtitle: t(`hero.slide${i+1}Sub`),
-        imageBg: bg.replace('.webp', '-960w.webp'),
+        imageBg: bg,
         imageFg: FG_IMAGES[i],
       }));
 
@@ -98,8 +96,26 @@ export default function HeroSwiper({ settings }) {
                   className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url('${failedImg[i] ? fallbackBg(i) : slide.imageBg}')` }}
                 />
-                <div className="absolute inset-0 bg-brand-deep/80" />
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/30 via-transparent to-brand-deep/40" />
+                {/* Asosiy gradient qatlam */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/95 via-brand-deep/85 to-[#0a1740]/95" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+
+                {/* Rangli nur dog'lari */}
+                <div className="absolute -top-28 -left-28 w-[24rem] h-[24rem] bg-blue-500/25 rounded-full blur-[130px] pointer-events-none" />
+                <div className="absolute -bottom-32 -right-20 w-[28rem] h-[28rem] bg-orange/20 rounded-full blur-[140px] pointer-events-none" />
+
+                {/* Nuqtali pattern */}
+                <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
+                     style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)', backgroundSize: '26px 26px' }} />
+
+                {/* Dekorativ halqalar */}
+                <div className="absolute top-10 right-10 w-44 h-44 rounded-full border border-white/10 pointer-events-none" />
+                <div className="absolute top-20 right-20 w-24 h-24 rounded-full border border-orange/25 pointer-events-none" />
+                <div className="absolute bottom-12 left-8 w-32 h-32 rounded-full border border-white/[0.07] pointer-events-none" />
+
+                {/* Diagonal chiziqlar pastki burchakda */}
+                <div className="absolute bottom-0 left-0 w-72 h-48 opacity-[0.08] pointer-events-none"
+                     style={{ backgroundImage: 'repeating-linear-gradient(135deg, transparent 0 18px, #fff 18px 19px)' }} />
 
                 <AnimatePresence mode="wait">
                   {activeIdx === i && (

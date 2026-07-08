@@ -14,15 +14,15 @@ const up = (delay = 0) => ({
 
 const API = import.meta.env.VITE_API_URL || '';
 
-const TYPE_LABELS = {
-  'full-time': 'To\'liq stavka',
-  'part-time': 'Yarim stavka',
-  'remote': 'Masofaviy',
-  'project': 'Loyiha asosida',
-};
-
 const VakansiyaPage = () => {
   const { t } = useTranslation();
+
+  const TYPE_LABELS = {
+    'full-time': t('vakansiyaPage.typeFullTime'),
+    'part-time': t('vakansiyaPage.typePartTime'),
+    'remote': t('vakansiyaPage.typeRemote'),
+    'project': t('vakansiyaPage.typeProject'),
+  };
   const [vacancies, setVacancies] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -62,20 +62,20 @@ const VakansiyaPage = () => {
         <div className="wrap relative z-10 text-center">
           <motion.div {...up(0)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
             <Briefcase size={16} className="text-orange" />
-            <span className="text-white/90 text-sm font-semibold">Ish o'rinlari</span>
+            <span className="text-white/90 text-sm font-semibold">{t('vakansiyaPage.heroBadge')}</span>
           </motion.div>
           <motion.h1 {...up(0.05)} className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-5 drop-shadow-lg">
-            Vakansiyalar
+            {t('vakansiyaPage.heroTitle')}
           </motion.h1>
           <motion.p {...up(0.1)} className="text-white/70 text-lg max-w-2xl mx-auto mb-8">
-            Topex Texnikumida professional jamoa bilan ishlashni xohlaysizmi? Biz doimo iqtidorli mutaxassislarni qidirmoqdamiz
+            {t('vakansiyaPage.heroSubtitle')}
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
               <Home size={14} /> {t('loginPage.backHome')}
             </Link>
             <ChevronRight size={14} className="opacity-60" />
-            <span className="text-orange">Vakansiyalar</span>
+            <span className="text-orange">{t('vakansiyaPage.heroTitle')}</span>
           </motion.div>
         </div>
       </section>
@@ -94,10 +94,10 @@ const VakansiyaPage = () => {
                   <Briefcase size={44} className="text-orange" />
                 </motion.div>
                 <motion.h2 {...up(0.05)} className="text-3xl md:text-4xl font-black text-brand mb-4">
-                  Hozircha ochiq vakansiyalar mavjud emas
+                  {t('vakansiyaPage.emptyTitle')}
                 </motion.h2>
                 <motion.p {...up(0.1)} className="text-gray-500 text-[16px] leading-relaxed mb-10">
-                  Biz doimo malakali pedagog va mutaxassislarni izlaymiz. Yangi vakansiyalar paydo bo'lishi bilanoq bu yerda e'lon qilamiz. Rezyumengizni jo'nating — siz bilan bog'lanamiz!
+                  {t('vakansiyaPage.emptyText')}
                 </motion.p>
               </div>
             ) : (
@@ -121,7 +121,7 @@ const VakansiyaPage = () => {
                     {v.requirements && (
                       <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
                         <div className="flex items-center gap-2 text-sm font-bold text-brand mb-2">
-                          <ListChecks size={16} className="text-orange" /> Talablar
+                          <ListChecks size={16} className="text-orange" /> {t('vakansiyaPage.requirements')}
                         </div>
                         <p className="text-gray-600 text-[14px] leading-relaxed whitespace-pre-line">{v.requirements}</p>
                       </div>
@@ -134,10 +134,10 @@ const VakansiyaPage = () => {
             <motion.div {...up(0.15)} className="bg-gray-50 border border-gray-200 rounded-2xl p-8 mt-10 text-left">
               <div className="flex items-center gap-3 mb-5">
                 <Bell size={18} className="text-orange" />
-                <h3 className="text-brand font-bold text-[17px]">Rezyume qoldiring</h3>
+                <h3 className="text-brand font-bold text-[17px]">{t('vakansiyaPage.resumeTitle')}</h3>
               </div>
               <p className="text-gray-500 text-[14px] mb-5 leading-relaxed">
-                Quyidagi kontaktlar orqali rezyumengizni yuboring. Mos vakansiya paydo bo'lganda siz bilan darhol bog'lanamiz.
+                {t('vakansiyaPage.resumeText')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="tel:+998787774477"
@@ -154,11 +154,11 @@ const VakansiyaPage = () => {
             <motion.div {...up(0.2)} className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
               <Link to="/"
                 className="inline-flex items-center gap-2 bg-orange text-white font-bold px-7 py-3 rounded-xl hover:brightness-110 transition-all">
-                <Home size={16} /> Bosh sahifaga
+                <Home size={16} /> {t('imtihonPage.backHome')}
               </Link>
               <Link to="/aloqalar"
                 className="inline-flex items-center gap-2 bg-gray-100 text-brand font-bold px-7 py-3 rounded-xl hover:bg-gray-200 transition-all">
-                Aloqalar
+                {t('nav.contacts')}
               </Link>
             </motion.div>
           </div>

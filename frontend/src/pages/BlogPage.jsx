@@ -30,6 +30,7 @@ const up = (delay = 0) => ({
 
 /* ─── Featured (eng so'nggi) yangilik — keng gorizontal karta ─── */
 const FeaturedNews = ({ article, moreText }) => {
+  const { t } = useTranslation();
   const to = `/blog/${article.slug || article._id}`;
   return (
     <motion.div {...up(0)} className="mb-12">
@@ -120,7 +121,7 @@ const BlogPage = () => {
       <section className="relative py-28 md:py-36 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center scale-105"
-          style={{ backgroundImage: `url('${settings?.blogHeroImage || '/assets/images/DSC01036.webp'}')` }}
+          style={{ backgroundImage: `url('${settings?.blogHeroImage || '/assets/images/DSC04061.jpg'}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/90 via-navy/80 to-navy/95" />
         {/* glow accents */}
@@ -146,7 +147,7 @@ const BlogPage = () => {
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
-              <Home size={14} /> Bosh sahifa
+              <Home size={14} /> {t('blogPage.breadcrumbHome')}
             </Link>
             <ChevronRight size={14} className="opacity-60" />
             <span className="text-orange">{t('news.title')}</span>
@@ -175,7 +176,7 @@ const BlogPage = () => {
             </div>
             {!loading && (
               <span className="text-gray-400 text-sm font-semibold bg-white border border-gray-200 rounded-full px-4 py-2">
-                {display.length} ta maqola
+                {display.length} {t('blogPage.articlesCount')}
               </span>
             )}
           </motion.div>

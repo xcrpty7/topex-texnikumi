@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Clock, ArrowRight, Calendar } from 'lucide-react';
 
 const FALLBACK_IMGS = [
@@ -14,6 +15,7 @@ const AVATAR_IMGS = [
 ];
 
 const ArticleCard = ({ article, index = 0 }) => {
+  const { t } = useTranslation();
   const thumb = article.thumbnail || FALLBACK_IMGS[index % FALLBACK_IMGS.length];
   const avatar = AVATAR_IMGS[index % AVATAR_IMGS.length];
 
@@ -52,7 +54,7 @@ const ArticleCard = ({ article, index = 0 }) => {
           {/* Read time */}
           <div className="absolute bottom-3 right-3">
             <span className="badge bg-navy/60 text-white backdrop-blur-sm flex items-center gap-1">
-              <Clock size={10} /> {article.readTime || 3} daqiqa
+              <Clock size={10} /> {article.readTime || 3} {t('articleCard.minutes')}
             </span>
           </div>
         </div>

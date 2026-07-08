@@ -8,19 +8,19 @@ import { Link } from 'react-router-dom';
 import 'swiper/css';
 
 const TEACHERS_RAW = [
-  { name: 'RUSTAM XALILOV',          roleKey: 'matematika', img: '/assets/Ustozlar/DSC03909.jpg' },
-  { name: 'DILRABO TOSHEVA',         roleKey: 'fizika',     img: '/assets/Ustozlar/DSC03827.jpg' },
-  { name: 'OLIYA ASKAROVA',          roleKey: 'kimyo',      img: '/assets/Ustozlar/DSC03834.jpg' },
-  { name: 'DILNOZA ZIYAYEVA',        roleKey: 'adabiyot',   img: '/assets/Ustozlar/DSC03842.jpg' },
-  { name: 'CHAROS MUROTOVA',         roleKey: 'tarix',      img: '/assets/Ustozlar/DSC03856.jpg' },
-  { name: 'FARIDA RAXIMOVA',         roleKey: 'ingliz',     img: '/assets/Ustozlar/DSC03861.jpg' },
-  { name: 'YULDUZ EGAMBERDIYEVA',    roleKey: 'biologiya',  img: '/assets/Ustozlar/DSC03872.jpg' },
-  { name: 'NARGIZA SHARIPOVA',       roleKey: 'rus',        img: '/assets/Ustozlar/DSC03883.jpg' },
-  { name: 'ODILJON TURG\'UNOV',      roleKey: 'jismoniy',   img: '/assets/Ustozlar/DSC03894.jpg' },
-  { name: 'JASUR KARIMOV',           roleKey: 'it',         img: '/assets/Ustozlar/DSC03901.jpg' },
-  { name: 'KAMOLA MURODOVA',         roleKey: 'ona_tili',   img: '/assets/Ustozlar/DSC03943.jpg' },
-  { name: 'SHUHRAT JABBOROV',        roleKey: 'kimyo2',     img: '/assets/Ustozlar/DSC03946.jpg' },
-  { name: 'SEVARA NURMATOVA',        roleKey: 'geografiya', img: '/assets/Ustozlar/DSC03951.jpg' },
+  { name: 'ABDURASULOV KOZIMJON',   roleKey: 'kimyo',          img: '/assets/Ustozlar/DSC03820.jpg' },
+  { name: "SHARIPOVA MA'MURA",      roleKey: 'ona_adabiyot',   img: '/assets/Ustozlar/DSC03830.jpg' },
+  { name: 'SHOVQIYEVA LAYLO',       roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03842.jpg' },
+  { name: 'DONIYOROVA SHAHNOZA',    roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03856.jpg' },
+  { name: 'IBRAGIMOVA KAMILA',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03861.jpg' },
+  { name: 'MUKIMBOEV FIRDAVS',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03872.jpg' },
+  { name: 'AYTBAYEVA SARBINAZ',     roleKey: 'biologiya_rus',  img: '/assets/Ustozlar/DSC03883.jpg' },
+  { name: 'SULTONALIYEV SHOXRUH',   roleKey: 'biologiya_uz',   img: '/assets/Ustozlar/DSC03894.jpg' },
+  { name: 'VALIYEV JAMSHIDBEK',     roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03901.jpg' },
+  { name: 'BEKOVA OYSARA',          roleKey: 'bosh_direktor',  img: '/assets/Ustozlar/DSC03904.jpg' },
+  { name: 'ESHONQULOVA MUNISA',     roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03943.jpg' },
+  { name: 'ABDUJALILOV BUNYODBEK',  roleKey: 'moliya',         img: '/assets/Ustozlar/DSC03944.jpg' },
+  { name: 'KARIMOV ISLOM',          roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03951.jpg' },
 ];
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -29,11 +29,14 @@ export default function TeamSection({ teachers = [], settings }) {
   const { t } = useTranslation();
   const swiperRef = useRef(null);
   const FALLBACK = TEACHERS_RAW.map(x => ({ ...x, role: t(`team.roles.${x.roleKey}`) }));
+  // Admin panel orqali kiritilgan o'qituvchilar ustuvor; bo'sh bo'lsa — statik ro'yxat
   const TEACHERS = teachers.length > 0
     ? teachers.map(x => ({
-        name:  x.name,
-        role:  x.role,
-        img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC03909.jpg',
+        name: x.name,
+        role: x.role,
+        img:  x.image
+          ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`)
+          : '/assets/Ustozlar/DSC03904.jpg',
       }))
     : FALLBACK;
 
@@ -122,25 +125,28 @@ export default function TeamSection({ teachers = [], settings }) {
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {chunk.map((t, i) => (
+                    {chunk.map((tc) => (
                       <div
-                        key={t.name}
-                        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer bg-brand-dark">
+                        key={tc.name}
+                        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer bg-brand-dark
+                                   ring-1 ring-black/5 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
                         <img
-                          src={t.img}
-                          alt={t.name}
+                          src={tc.img}
+                          alt={tc.name}
                           loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover
-                                     group-hover:scale-105 transition-transform duration-700"
+                          className="absolute inset-0 w-full h-full object-cover object-top
+                                     group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                         />
-                        <div className="absolute left-3 right-3 bottom-3 bg-brand/95 backdrop-blur-sm
-                                        rounded-lg px-4 py-3 text-center
-                                        group-hover:bg-orange transition-colors duration-300">
+                        {/* pastki gradient — matn o'qilishi uchun */}
+                        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
+                        <div className="absolute left-3 right-3 bottom-3 bg-brand/85 backdrop-blur-md
+                                        rounded-xl px-4 py-3 text-center ring-1 ring-white/15
+                                        transition-colors duration-300 group-hover:bg-orange/90">
                           <p className="text-white font-bold text-[13px] md:text-[14px] uppercase tracking-wide leading-tight">
-                            {t.name}
+                            {tc.name}
                           </p>
-                          <p className="text-white/80 text-[11px] mt-1">
-                            {t.role}
+                          <p className="text-white/80 text-[11px] mt-1 leading-snug">
+                            {tc.role}
                           </p>
                         </div>
                       </div>

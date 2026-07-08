@@ -27,6 +27,25 @@ const resolveImg = (url) => {
   return `${API_URL}${url}`;
 };
 
+/* Yo'nalish nomi bo'yicha lokal zaxira rasm — admin rasm yuklamagan bo'lsa
+   qora "Rasm mavjud emas" o'rniga shu ko'rsatiladi */
+const SUBJECT_IMG_FALLBACKS = [
+  ['dorivor',     '/assets/images/DSC03528.jpg'],
+  ['laborant',    '/assets/images/dir-5.jpg'],
+  ['marketing',   '/assets/images/DSC02988.jpg'],
+  ['grafik',      '/assets/images/DSC03024.jpg'],
+  ['dizayn',      '/assets/images/DSC03024.jpg'],
+  ['bank',        '/assets/images/DSC04146.jpg'],
+  ['mehmonxona',  '/assets/images/DSC03972.jpg'],
+  ['raqamli',     '/assets/images/DSC03700.jpg'],
+  ['dasturlash',  '/assets/images/dir-1.jpg'],
+];
+const subjectFallbackImg = (name = '') => {
+  const n = name.toLowerCase();
+  const hit = SUBJECT_IMG_FALLBACKS.find(([k]) => n.includes(k));
+  return hit ? hit[1] : '/assets/images/form-photo.webp';
+};
+
 const up = (delay = 0) => ({
   initial:     { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -42,20 +61,20 @@ const DEFAULT_HIGHLIGHTS = (t) => [
 ];
 
 const DEFAULT_SUBJECTS = (t) => [
-  { icon: Code,        name: t('coursesPage.subjects.programming'), desc: t('coursesPage.subjects.programmingDesc'),  img: '/assets/images/dir-1.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
-  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),   desc: t('coursesPage.subjects.marketingDesc'),    img: '/assets/images/dir-4.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
-  { icon: Palette,     name: t('coursesPage.subjects.design'),      desc: t('coursesPage.subjects.designDesc'),       img: '/assets/images/dir-2.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
-  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),     desc: t('coursesPage.subjects.bankingDesc'),      img: '/assets/images/dir-9.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
-  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),       desc: t('coursesPage.subjects.hotelDesc'),        img: '/assets/images/dir-10.jpg', duration: '3 yil', features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
-  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),   desc: t('coursesPage.subjects.analyticsDesc'),    img: '/assets/images/dir-3.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
-  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),    desc: t('coursesPage.subjects.laborantDesc'),     img: '/assets/images/dir-5.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
-  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),    desc: t('coursesPage.subjects.phytolabDesc'),     img: '/assets/images/dir-6.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
+  { icon: Code,        name: t('coursesPage.subjects.programming'), desc: t('coursesPage.subjects.programmingDesc'),  img: '/assets/images/dir-1.jpg',      duration: t('narxPage.years3'), features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
+  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),   desc: t('coursesPage.subjects.marketingDesc'),    img: '/assets/images/DSC02988.jpg',   duration: t('narxPage.years3'), features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
+  { icon: Palette,     name: t('coursesPage.subjects.design'),      desc: t('coursesPage.subjects.designDesc'),       img: '/assets/images/DSC03024.jpg',   duration: t('narxPage.years3'), features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
+  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),     desc: t('coursesPage.subjects.bankingDesc'),      img: '/assets/images/DSC04146.jpg',   duration: t('narxPage.years3'), features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
+  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),       desc: t('coursesPage.subjects.hotelDesc'),        img: '/assets/images/DSC03972.jpg',   imgPos: '50% 18%', duration: t('narxPage.years3'), features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
+  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),   desc: t('coursesPage.subjects.analyticsDesc'),    img: '/assets/images/DSC03700.jpg',   duration: t('narxPage.years3'), features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
+  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),    desc: t('coursesPage.subjects.laborantDesc'),     img: '/assets/images/dir-5.jpg',      duration: t('narxPage.years3'), features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
+  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),    desc: t('coursesPage.subjects.phytolabDesc'),     img: '/assets/images/DSC03528.jpg',   duration: t('narxPage.years3'), features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
 ];
 
 const COURSES_BGS = [
-  '/assets/images/courses-bg-1.jpg',
-  '/assets/images/courses-bg-2.jpg',
-  '/assets/images/courses-bg-3.jpg',
+  '/assets/images/DSC03752.jpg',
+  '/assets/images/DSC03690.jpg',
+  '/assets/images/DSC02973.jpg',
 ];
 
 const CoursesPage = () => {
@@ -83,14 +102,19 @@ const CoursesPage = () => {
       if (!d) return;
       setSettings(d);
       if (d.subjects?.length > 0) {
-        const normalized = d.subjects.map(sub => ({
-          ...sub,
-          img: resolveImg(sub.imgUrl || sub.img || ''),
-          icon: sub.icon || ICON_MAP[sub.iconName] || BookOpen,
-          features: Array.isArray(sub.features)
-            ? sub.features
-            : (sub.features || '').split(',').map(f => f.trim()).filter(Boolean),
-        }));
+        const normalized = d.subjects.map(sub => {
+          const cleanName = (sub.name || '').replace(/[;.\s]+$/, '');
+          return {
+            ...sub,
+            name: cleanName,
+            img: sub.imgUrl ? resolveImg(sub.imgUrl) : subjectFallbackImg(cleanName),
+            imgFallback: subjectFallbackImg(cleanName),
+            icon: ICON_MAP[sub.iconName] || ICON_MAP[sub.icon] || BookOpen,
+            features: Array.isArray(sub.features)
+              ? sub.features
+              : (sub.features || '').split(',').map(f => f.trim()).filter(Boolean),
+          };
+        });
         setDbSubjects(normalized);
       }
       if (d.coursesHighlights?.length > 0) setDbHighlights(d.coursesHighlights);
@@ -99,7 +123,7 @@ const CoursesPage = () => {
 
   const handlePage = (page) => dispatch(setFilters({ page }));
 
-  const displaySubjects  = dbSubjects.length  > 0 ? dbSubjects  : DEFAULT_SUBJECTS(t);
+  const displaySubjects  = dbSubjects.length > 0 ? dbSubjects : DEFAULT_SUBJECTS(t);
   const displayHighlights = dbHighlights.length > 0 ? dbHighlights : DEFAULT_HIGHLIGHTS(t);
 
   return (
@@ -157,10 +181,10 @@ const CoursesPage = () => {
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
-              <Home size={14} /> Bosh sahifa
+              <Home size={14} /> {t('coursesPage.breadcrumbHome')}
             </Link>
             <ChevronRight size={14} className="opacity-60" />
-            <span className="text-orange">Yo'nalishlar</span>
+            <span className="text-orange">{t('coursesPage.breadcrumbDirections')}</span>
           </motion.div>
         </div>
       </section>
@@ -194,6 +218,8 @@ const CoursesPage = () => {
                       src={s.img}
                       alt={s.name}
                       loading="lazy"
+                      style={{ objectPosition: s.imgPos || 'center' }}
+                      onError={(e) => { if (s.imgFallback && e.currentTarget.src !== location.origin + s.imgFallback) e.currentTarget.src = s.imgFallback; }}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[600ms] ease-out"
                     />
                     <div className="absolute top-3 left-3 w-10 h-10 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-blue shadow">
@@ -276,12 +302,18 @@ const CoursesPage = () => {
           </motion.div>
 
           <motion.div {...up(0.05)}
-            className="max-w-2xl mx-auto bg-gradient-to-br from-emerald-50 to-white rounded-3xl p-8 md:p-12 border border-emerald-100 shadow-lg shadow-emerald-100/50 relative overflow-hidden"
+            className="max-w-2xl mx-auto bg-gradient-to-br from-emerald-50 via-white to-emerald-50/40 rounded-3xl p-8 pt-12 md:p-12 md:pt-14 border border-emerald-100 relative overflow-hidden
+                       shadow-[0_24px_60px_-18px_rgba(16,185,129,0.35)] ring-1 ring-emerald-100/60
+                       transition-transform duration-300 hover:-translate-y-1"
           >
-            {/* 20% discount badge */}
-            <div className="absolute -top-2 -right-2">
-              <div className="bg-red-500 text-white font-black text-sm px-5 py-2 rounded-bl-2xl rounded-tr-3xl shadow-lg rotate-12">
-                20% CHEGIRMA
+            {/* 20% discount badge — to'liq ko'rinadigan 3D lenta */}
+            <div className="absolute top-0 right-0">
+              <div className="bg-gradient-to-b from-red-500 to-red-600 text-white font-black text-sm tracking-wider
+                              px-6 py-2.5 rounded-bl-3xl rounded-tr-3xl
+                              border-b-4 border-red-800/60
+                              shadow-[0_10px_24px_rgba(239,68,68,0.45)]
+                              [text-shadow:0_1px_3px_rgba(0,0,0,0.4)]">
+                {t('pricing.badge')}
               </div>
             </div>
 
@@ -289,28 +321,28 @@ const CoursesPage = () => {
               <div className="text-center">
                 {/* Old price — strikethrough red */}
                 <div className="text-3xl font-black text-red-500 line-through whitespace-nowrap">
-                  25 000 000 so'm
+                  25 000 000 {t('pricing.sum')}
                 </div>
-                <div className="text-xs text-red-400 mb-2">chegirmasiz</div>
+                <div className="text-xs text-red-400 mb-2">{t('pricing.noDiscount')}</div>
                 {/* Actual price — green */}
-                <div className="text-4xl font-black text-emerald-700 whitespace-nowrap">
-                  20 000 000 so'm
+                <div className="text-4xl font-black text-emerald-700 whitespace-nowrap [text-shadow:0_2px_10px_rgba(16,185,129,0.25)]">
+                  20 000 000 {t('pricing.sum')}
                 </div>
-                <div className="text-sm text-emerald-600 font-semibold">yillik to'lov</div>
+                <div className="text-sm text-emerald-600 font-semibold">{t('pricing.yearly')}</div>
               </div>
               <div className="hidden sm:block w-px h-20 bg-emerald-200" />
               <div className="text-center">
                 <div className="text-3xl font-black text-emerald-700 whitespace-nowrap">
-                  2 000 000 so'm
+                  2 000 000 {t('pricing.sum')}
                 </div>
-                <div className="text-sm text-navy/50 mt-1">oylik to'lov</div>
+                <div className="text-sm text-navy/50 mt-1">{t('pricing.monthly')}</div>
               </div>
             </div>
             <div className="text-center text-sm text-navy/60 mb-6">
               {t('coursesPage.pricingNote')}
             </div>
             <div className="text-center text-[13px] font-bold text-red-500 mb-4">
-              ⏳ Скидка 20% действует до 10 июля!
+              ⏳ {t('pricing.until')}
             </div>
             <div className="flex items-center justify-center gap-2 text-sm font-semibold text-emerald-700 bg-emerald-100/60 rounded-xl px-5 py-3">
               <Award size={18} />
@@ -393,11 +425,11 @@ const CoursesPage = () => {
                   <div className="mt-auto space-y-4">
                     <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
                       <GraduationCap size={20} className="text-blue" />
-                      <span>O'qish muddati: <span className="font-bold">{selected.duration} (10-11 sinflar)</span></span>
+                      <span>{t('coursesPage.duration')} <span className="font-bold">{selected.duration} {t('coursesPage.grades1011')}</span></span>
                     </div>
                     <div className="flex items-center gap-3 text-sm font-medium text-emerald-700 bg-emerald-50 p-4 rounded-xl border border-emerald-100">
                       <Wallet size={20} className="text-emerald-600" />
-                      <span>To'lov: <span className="font-bold">{t('coursesPage.pricingMonthly')}</span></span>
+                      <span>{t('coursesPage.payment')} <span className="font-bold">{t('coursesPage.pricingMonthly')}</span></span>
                     </div>
                     <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
                       <TrendingUp size={20} className="text-coral" />
@@ -416,7 +448,7 @@ const CoursesPage = () => {
                     }}
                     className="btn-blue w-full mt-8 py-4 text-base"
                   >
-                    Ariza qoldirish
+                    {t('coursesPage.applyBtn')}
                   </button>
                 </div>
               </motion.div>

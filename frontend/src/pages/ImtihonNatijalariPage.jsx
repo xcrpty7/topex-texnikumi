@@ -11,39 +11,15 @@ const up = (delay = 0) => ({
   transition:  { duration: 0.5, ease: 'easeOut', delay },
 });
 
-const EXAM_STAGES = [
-  {
-    Icon: FileText,
-    step: '01',
-    title: 'Ariza topshirish',
-    desc: "Onlayn yoki texnikumga kelib ariza qoldiring. Ismingiz, telefon raqamingiz va tanlagan yo'nalishingizni ko'rsating.",
-    status: 'active',
-  },
-  {
-    Icon: Calendar,
-    step: '02',
-    title: 'Kirish imtihoni',
-    desc: "Belgilangan sanada texnikumga keling. Imtihon o'zbek yoki rus tilida o'tkaziladi. Imtihon matematika va ona tili fanlaridan iborat.",
-    status: 'active',
-  },
-  {
-    Icon: Users,
-    step: '03',
-    title: "Natijalar e'lon qilinadi",
-    desc: "Imtihon natijalari 3 ish kuni ichida ushbu sahifada va telefon orqali xabar qilinadi.",
-    status: 'soon',
-  },
-  {
-    Icon: Bell,
-    step: '04',
-    title: 'Qabul & Shartnoma',
-    desc: "Muvaffaqiyatli o'quvchilar ro'yxatga olinadi va shartnoma imzolanadi. Grantlar darhol hisobga olinadi.",
-    status: 'soon',
-  },
-];
-
 const ImtihonNatijalariPage = () => {
   const { t } = useTranslation();
+
+  const EXAM_STAGES = [
+    { Icon: FileText, step: '01', title: t('imtihonPage.stage1Title'), desc: t('imtihonPage.stage1Desc'), status: 'active' },
+    { Icon: Calendar, step: '02', title: t('imtihonPage.stage2Title'), desc: t('imtihonPage.stage2Desc'), status: 'active' },
+    { Icon: Users,    step: '03', title: t('imtihonPage.stage3Title'), desc: t('imtihonPage.stage3Desc'), status: 'soon' },
+    { Icon: Bell,     step: '04', title: t('imtihonPage.stage4Title'), desc: t('imtihonPage.stage4Desc'), status: 'soon' },
+  ];
 
   return (
     <>
@@ -73,20 +49,20 @@ const ImtihonNatijalariPage = () => {
         <div className="wrap relative z-10 text-center">
           <motion.div {...up(0)} className="inline-flex items-center gap-2 bg-orange/20 backdrop-blur-sm border border-orange/30 rounded-full px-4 py-2 mb-6">
             <Clock size={16} className="text-orange" />
-            <span className="text-white/90 text-sm font-semibold">Tez orada e'lon qilinadi</span>
+            <span className="text-white/90 text-sm font-semibold">{t('imtihonPage.heroBadge')}</span>
           </motion.div>
           <motion.h1 {...up(0.05)} className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-5 drop-shadow-lg">
-            Kirish Imtihon Natijalari
+            {t('imtihonPage.heroTitle')}
           </motion.h1>
           <motion.p {...up(0.1)} className="text-white/70 text-lg max-w-2xl mx-auto mb-8">
-            Topex Texnikumiga 2026-yil qabul imtihoni natijalari yaqin kunlarda ushbu sahifada e'lon qilinadi
+            {t('imtihonPage.heroSubtitle')}
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
               <Home size={14} /> {t('loginPage.backHome')}
             </Link>
             <ChevronRight size={14} className="opacity-60" />
-            <span className="text-orange">Imtihon natijalari</span>
+            <span className="text-orange">{t('imtihonPage.breadcrumb')}</span>
           </motion.div>
         </div>
       </section>
@@ -97,13 +73,13 @@ const ImtihonNatijalariPage = () => {
           <motion.div {...up(0)} className="flex flex-col sm:flex-row items-center justify-center gap-3 text-white text-center">
             <Bell size={20} />
             <p className="font-bold text-[16px]">
-              Natijalar e'lon qilinishi bilanoq SMS va telefon orqali xabardor qilamiz
+              {t('imtihonPage.bannerText')}
             </p>
             <a
               href="/#ariza"
               className="bg-white text-orange font-bold px-5 py-1.5 rounded-lg text-sm hover:bg-orange-50 transition-colors whitespace-nowrap"
             >
-              Ariza qoldirish →
+              {t('coursesPage.applyBtn')} →
             </a>
           </motion.div>
         </div>
@@ -113,9 +89,9 @@ const ImtihonNatijalariPage = () => {
       <section className="bg-white py-16 lg:py-24">
         <div className="wrap">
           <motion.div {...up(0)} className="text-center mb-12">
-            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">QABUL JARAYONI</span>
-            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">Qabul bosqichlari</h2>
-            <p className="text-gray-500 mt-3 text-[15px]">Topex Texnikumiga qabul quyidagi bosqichlardan iborat</p>
+            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">{t('imtihonPage.processLabel')}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">{t('imtihonPage.processTitle')}</h2>
+            <p className="text-gray-500 mt-3 text-[15px]">{t('imtihonPage.processSubtitle')}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -137,9 +113,9 @@ const ImtihonNatijalariPage = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[11px] font-black text-gray-400 tracking-wider">BOSQICH {step}</span>
+                      <span className="text-[11px] font-black text-gray-400 tracking-wider">{t('imtihonPage.stageLabel')} {step}</span>
                       {status === 'soon' && (
-                        <span className="text-[10px] bg-orange text-white font-bold px-2 py-0.5 rounded-full">Tez orada</span>
+                        <span className="text-[10px] bg-orange text-white font-bold px-2 py-0.5 rounded-full">{t('imtihonPage.soonBadge')}</span>
                       )}
                     </div>
                     <h3 className="text-brand font-bold text-[16px] mb-2">{title}</h3>
@@ -156,8 +132,8 @@ const ImtihonNatijalariPage = () => {
       <section className="bg-gray-50 py-16 lg:py-24">
         <div className="wrap">
           <motion.div {...up(0)} className="text-center mb-12">
-            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">NATIJALAR</span>
-            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">O'quvchilar ro'yxati</h2>
+            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">{t('imtihonPage.resultsLabel')}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">{t('imtihonPage.resultsTitle')}</h2>
           </motion.div>
 
           <motion.div
@@ -178,13 +154,13 @@ const ImtihonNatijalariPage = () => {
                 to="/"
                 className="inline-flex items-center gap-2 bg-brand text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all"
               >
-                <Home size={16} /> Bosh sahifaga
+                <Home size={16} /> {t('imtihonPage.backHome')}
               </Link>
               <a
                 href="tel:+998787774477"
                 className="inline-flex items-center gap-2 bg-orange text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all"
               >
-                <Phone size={16} /> Qo'ng'iroq qilish
+                <Phone size={16} /> {t('imtihonPage.callBtn')}
               </a>
             </div>
           </motion.div>
@@ -199,7 +175,7 @@ const ImtihonNatijalariPage = () => {
               <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
                 <Phone size={24} className="text-orange" />
               </div>
-              <h3 className="text-white font-bold text-[16px] mb-2">Telefon orqali so'rang</h3>
+              <h3 className="text-white font-bold text-[16px] mb-2">{t('imtihonPage.phoneTitle')}</h3>
               <a href="tel:+998787774477" className="text-orange font-bold text-[18px] hover:text-orange/80 transition-colors">
                 +998 78 777 44 77
               </a>
@@ -208,15 +184,15 @@ const ImtihonNatijalariPage = () => {
               <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
                 <Clock size={24} className="text-orange" />
               </div>
-              <h3 className="text-white font-bold text-[16px] mb-2">Qabul vaqti</h3>
-              <p className="text-white/70">Du–Sha: 8:00 – 18:00</p>
+              <h3 className="text-white font-bold text-[16px] mb-2">{t('imtihonPage.hoursTitle')}</h3>
+              <p className="text-white/70">{t('imtihonPage.hoursValue')}</p>
             </motion.div>
             <motion.div {...up(0.1)}>
               <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
                 <Calendar size={24} className="text-orange" />
               </div>
-              <h3 className="text-white font-bold text-[16px] mb-2">Qabul davri</h3>
-              <p className="text-white/70">2026-yil qabul faol</p>
+              <h3 className="text-white font-bold text-[16px] mb-2">{t('imtihonPage.periodTitle')}</h3>
+              <p className="text-white/70">{t('imtihonPage.periodValue')}</p>
             </motion.div>
           </div>
         </div>

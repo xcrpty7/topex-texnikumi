@@ -30,7 +30,7 @@ const CourseDetailPage = () => {
   };
 
   if (loading) return <div className="flex justify-center py-32"><Spinner size="lg" /></div>;
-  if (!course || !course.course) return <div className="text-center py-32 text-accent">Kurs topilmadi</div>;
+  if (!course || !course.course) return <div className="text-center py-32 text-accent">{t('courseDetailPage.notFound')}</div>;
 
   const data = course.course;
   const isEnrolled = course.isEnrolled;
@@ -68,7 +68,7 @@ const CourseDetailPage = () => {
               <div className="flex flex-wrap gap-2 mb-4">
                 {data.category && <Badge variant="primary">{typeof data.category === 'string' ? data.category : data.category.name}</Badge>}
                 <Badge variant="neutral">{t(`courses.level.${data.level}`)}</Badge>
-                <Badge variant={data.isFree ? 'success' : 'warning'}>{data.isFree ? t('courses.free') : `${data.price?.toLocaleString()} so'm`}</Badge>
+                <Badge variant={data.isFree ? 'success' : 'warning'}>{data.isFree ? t('courses.free') : `${data.price?.toLocaleString()} ${t('pricing.sum')}`}</Badge>
               </div>
               <h1 className="text-4xl font-black text-surface leading-tight mb-4">{data.title}</h1>
               <p className="text-accent text-lg">{data.shortDescription || data.description}</p>
@@ -82,7 +82,7 @@ const CourseDetailPage = () => {
                   </div>
                   <div>
                     <p className="text-surface font-medium">{data.instructor.name}</p>
-                    <p className="text-accent text-sm">Instructor</p>
+                    <p className="text-accent text-sm">{t('courseDetailPage.instructor')}</p>
                   </div>
                 </div>
               )}
@@ -90,7 +90,7 @@ const CourseDetailPage = () => {
 
             {data.whatYouLearn?.length > 0 && (
               <div className="glass-card p-6">
-                <h2 className="text-xl font-bold text-surface mb-4">Nima o'rganasiz</h2>
+                <h2 className="text-xl font-bold text-surface mb-4">{t('courseDetailPage.whatYouLearn')}</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {data.whatYouLearn.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-accent text-sm">
@@ -102,7 +102,7 @@ const CourseDetailPage = () => {
             )}
 
             <div>
-              <h2 className="text-xl font-bold text-surface mb-4">Kurs tarkibi</h2>
+              <h2 className="text-xl font-bold text-surface mb-4">{t('courseDetailPage.courseSections')}</h2>
               <div className="space-y-2">
                 {data.lessons?.map((lesson, i) => (
                   <div key={lesson._id} className="glass-card px-4 py-3 flex items-center gap-3">
@@ -120,7 +120,7 @@ const CourseDetailPage = () => {
 
             {data.description && (
               <div className="glass-card p-6">
-                <h2 className="text-xl font-bold text-surface mb-4">Kurs haqida</h2>
+                <h2 className="text-xl font-bold text-surface mb-4">{t('courseDetailPage.aboutCourse')}</h2>
                 <p className="text-accent leading-relaxed">{data.description}</p>
               </div>
             )}
@@ -138,10 +138,10 @@ const CourseDetailPage = () => {
                 )}
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-3xl font-black text-surface">{data.isFree ? t('courses.free') : `${data.price?.toLocaleString()} so'm`}</p>
+                <p className="text-3xl font-black text-surface">{data.isFree ? t('courses.free') : `${data.price?.toLocaleString()} ${t('pricing.sum')}`}</p>
 
                 {isEnrolled ? (
-                  <Button className="w-full" variant="outline">O'rganishni davom ettirish</Button>
+                  <Button className="w-full" variant="outline">{t('courseDetailPage.continueLearning')}</Button>
                 ) : (
                   <Button className="w-full" onClick={handleEnroll}>
                     {t('courses.enroll')}

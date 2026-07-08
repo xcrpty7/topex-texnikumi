@@ -396,23 +396,26 @@ const HomePage = () => {
         <div className="w-full px-6 lg:px-16 max-w-[1500px] mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
-            {/* LEFT — 3 har xil DSC fotka (avvalgidan farqli) */}
-            <motion.div {...up(0)} className="relative space-y-6">
-              {[
-                { src: '/assets/images/DSC03766.jpg', alt: "Topex Texnikumi" },
-                { src: '/assets/images/DSC03779.jpg', alt: "Topex Texnikumi" },
-                { src: '/assets/images/DSC04192.jpg', alt: "Topex Texnikumi" },
-              ].map((im, i) => {
-                const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
-                return (
-                  <motion.div key={i}
+            {/* LEFT — foto kollaj: bitta katta + ikkita kichik */}
+            <motion.div {...up(0)} className="relative">
+              <div className="grid grid-cols-2 gap-4 lg:gap-5">
+                <motion.div
+                  initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                  transition={{ duration:0.6 }}
+                  className="col-span-2 rounded-2xl overflow-hidden shadow-xl aspect-[16/9]">
+                  <img src="/assets/images/DSC03766.jpg" alt="Topex Texnikumi" loading="lazy"
+                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                </motion.div>
+                {['/assets/images/DSC03779.jpg', '/assets/images/DSC04192.jpg'].map((src, i) => (
+                  <motion.div key={src}
                     initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-                    transition={{ duration:0.6, delay: i*0.1 }}
-                    className="rounded-2xl overflow-hidden shadow-xl w-full max-w-md mx-auto sm:mx-0">
-                    <img src={src} alt={im.alt} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 aspect-[4/3]" />
+                    transition={{ duration:0.6, delay: 0.12 + i*0.1 }}
+                    className="rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+                    <img src={src} alt="Topex Texnikumi" loading="lazy"
+                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                   </motion.div>
-                );
-              })}
+                ))}
+              </div>
             </motion.div>
 
             {/* RIGHT — text + stats */}
@@ -429,20 +432,6 @@ const HomePage = () => {
               <p className="text-gray-600 text-[15px] md:text-[16px] leading-[1.75] mb-10 max-w-xl">
                 {t('about.paragraph')}
               </p>
-
-              {/* Photo strip — 4 ta boshqa DSC (chapdagidan farqli) */}
-              <div className="grid grid-cols-4 gap-2 mb-8 max-w-xl">
-                {['DSC04074.jpg','DSC04165.jpg','DSC04114.jpg','DSC04055.jpg'].map((name, i) => (
-                  <div key={i} className="aspect-[3/4] rounded-lg overflow-hidden shadow-md">
-                    <img
-                      src={`/assets/images/${name}`}
-                      alt="Topex atmosferasi"
-                      loading="lazy"
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                ))}
-              </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-8 mb-12 max-w-md">
@@ -464,8 +453,8 @@ const HomePage = () => {
 
 
 
-      {/* ══ 4. YO'NALISHLAR — Profi-style split ══════════════ */}
-      <DirectionsSplit subjects={dbDirections.length > 0 ? dbDirections : displaySubjects} settings={settings} onSelect={setSelected} />
+      {/* ══ 4. YO'NALISHLAR — admin boshqaradi, bo'sh bo'lsa statik ro'yxat ══ */}
+      <DirectionsSplit subjects={dbDirections.length > 0 ? dbDirections : SUBJECTS} settings={settings} onSelect={setSelected} />
 
       {/* ══ 5. JAMOA — Bizning mutaxassislar ═════════════════ */}
       <TeamSection teachers={dbTeachers} settings={settings} />
@@ -610,9 +599,10 @@ const HomePage = () => {
                               shadow-2xl bg-gray-100"
                    style={{ borderRadius: '180px 180px 36px 36px' }}>
                 <img
-                  src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
+                  src={settings?.formImage
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/DSC00912.webp'}
+                    : '/assets/images/DSC04276.jpg'}
+                  onError={(e) => { e.currentTarget.src = '/assets/images/DSC04276.jpg'; }}
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"
@@ -666,7 +656,7 @@ const HomePage = () => {
                 <div className="mt-auto space-y-4">
                   <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
                     <GraduationCap size={20} className="text-blue" />
-                    <span>O'qish muddati: <span className="font-bold">{selected.duration} (10-11 sinflar)</span></span>
+                    <span>{t('coursesPage.duration')} <span className="font-bold">{selected.duration} {t('coursesPage.grades1011')}</span></span>
                   </div>
                   <div className="flex items-center gap-3 text-sm font-medium text-navy bg-gray-50 p-4 rounded-xl border border-gray-100">
                     <TrendingUp size={20} className="text-coral" />
@@ -688,7 +678,7 @@ const HomePage = () => {
                   }}
                   className="btn-blue w-full mt-8 py-4 text-base"
                 >
-                  Ariza qoldirish
+                  {t('coursesPage.applyBtn')}
                 </button>
               </div>
             </motion.div>

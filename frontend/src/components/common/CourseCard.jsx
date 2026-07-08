@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Users, Star, Clock, ArrowRight } from 'lucide-react';
 
 
-const LEVEL_MAP = {
-  beginner:     { label: 'Boshlang\'ich', cls: 'badge-teal' },
-  intermediate: { label: 'O\'rta',        cls: 'badge-blue' },
-  advanced:     { label: 'Yuqori',        cls: 'badge-coral' },
+const LEVEL_CLS = {
+  beginner:     'badge-teal',
+  intermediate: 'badge-blue',
+  advanced:     'badge-coral',
 };
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -25,8 +26,9 @@ const resolveImg = (url) => {
 };
 
 const CourseCard = ({ course, index = 0 }) => {
-  const level = course.level || 'beginner';
-  const lvl   = LEVEL_MAP[level] || LEVEL_MAP.beginner;
+  const { t } = useTranslation();
+  const level = LEVEL_CLS[course.level] ? course.level : 'beginner';
+  const lvl   = { label: t(`courses.level.${level}`), cls: LEVEL_CLS[level] };
   const rawImg = course.image || course.thumbnail;
   const thumb  = rawImg ? resolveImg(rawImg) : FALLBACK_IMGS[index % FALLBACK_IMGS.length];
 
@@ -52,11 +54,11 @@ const CourseCard = ({ course, index = 0 }) => {
           {/* Price badge */}
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             <span className={`badge text-xs font-bold ${course.isFree ? 'badge-teal' : 'badge-coral'}`}>
-              {course.isFree ? "Bepul" : `${course.price?.toLocaleString()} so'm`}
+              {course.isFree ? t('courseCard.free') : `${course.price?.toLocaleString()} ${t('pricing.sum')}`}
             </span>
             {course.isFeatured && (
               <span className="badge text-[10px] font-bold" style={{ background: '#FEF3C7', color: '#B45309', border: '1px solid #FDE68A' }}>
-                ★ Tanlangan
+                {t('courseCard.featured')}
               </span>
             )}
           </div>
@@ -83,7 +85,7 @@ const CourseCard = ({ course, index = 0 }) => {
           )}
           <h3 className="text-navy font-bold text-[15px] leading-snug mb-3 line-clamp-2
                           group-hover:text-blue transition-colors flex-1">
-            {course.title || "Kurs nomi"}
+            {course.title || t('courseCard.defaultTitle')}
           </h3>
 
           {course.description && (
@@ -94,7 +96,7 @@ const CourseCard = ({ course, index = 0 }) => {
 
           <div className="flex items-center gap-3 text-gray-400 text-xs mt-auto mb-4 flex-wrap">
             <span className="flex items-center gap-1">
-              <Users size={12} /> {course.enrollmentCount || 0} o'quvchi
+              <Users size={12} /> {course.enrollmentCount || 0} {t('courseCard.students')}
             </span>
             {course.duration && (
               <span className="flex items-center gap-1">

@@ -137,7 +137,7 @@ const ContactPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${settings?.contactHeroImage || '/assets/images/DSC01093.webp'}')` }}
+          style={{ backgroundImage: `url('${settings?.contactHeroImage || '/assets/images/DSC04071.jpg'}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
@@ -303,7 +303,8 @@ const ContactPage = () => {
                 <img
                   src={settings?.formImage
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/DSC00912.webp'}
+                    : '/assets/images/DSC04276.jpg'}
+                  onError={(e) => { e.currentTarget.src = '/assets/images/DSC04276.jpg'; }}
                   alt="Topex talabasi"
                   className="w-full h-full object-cover object-top"
                   loading="lazy"
@@ -370,7 +371,7 @@ const ContactPage = () => {
                   rel="noreferrer"
                   className="text-[14px] text-gray-600 hover:text-orange transition-colors"
                 >
-                  {branch.name} filialni Google Maps'da ko'rish →
+                  {t('contactPage.viewOnMap', { name: branch.name })}
                 </a>
               </div>
             </div>

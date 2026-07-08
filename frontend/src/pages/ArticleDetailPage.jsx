@@ -48,8 +48,8 @@ const ArticleDetailPage = () => {
   if (!data) {
     return (
       <div className="text-center py-32">
-        <p className="text-gray-500 text-lg font-semibold mb-4">Maqola topilmadi</p>
-        <Link to="/blog" className="text-orange font-bold hover:underline">← Barcha yangiliklar</Link>
+        <p className="text-gray-500 text-lg font-semibold mb-4">{t('articleDetailPage.notFound')}</p>
+        <Link to="/blog" className="text-orange font-bold hover:underline">{t('articleDetailPage.backToNews')}</Link>
       </div>
     );
   }
@@ -125,7 +125,7 @@ const ArticleDetailPage = () => {
           </motion.h1>
           <motion.div {...up(0.1)} className="flex items-center justify-center flex-wrap gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
-              <Home size={14} /> Bosh sahifa
+              <Home size={14} /> {t('articleDetailPage.breadcrumbHome')}
             </Link>
             <ChevronRight size={14} className="opacity-60" />
             <Link to="/blog" className="hover:text-orange transition-colors">{t('news.title')}</Link>
@@ -193,7 +193,7 @@ const ArticleDetailPage = () => {
         <section className="bg-white pb-20 lg:pb-28">
           <div className="w-full max-w-[1500px] mx-auto px-6 lg:px-16">
             <motion.h2 {...up(0)} className="text-[32px] md:text-[44px] font-black text-brand leading-tight mb-10">
-              Boshqa yangiliklar
+              {t('articleDetailPage.otherNews')}
             </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {others.map((a, i) => (

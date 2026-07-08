@@ -57,10 +57,10 @@ const VideosPage = () => {
               TOPEX
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-[#272829] mb-4">
-              {t('videos.title') || 'Video galereya'}
+              {t('videos.title')}
             </h1>
             <p className="text-[#61677A] max-w-2xl mx-auto text-lg">
-              {t('videos.subtitle') || 'Texnikum hayotidan lavhalar, dars jarayonlari va tadbirlar'}
+              {t('videos.subtitle') || t('videos.pageSubtitle')}
             </p>
           </motion.div>
 
@@ -69,7 +69,7 @@ const VideosPage = () => {
           ) : items.length === 0 ? (
             <div className="text-center py-20">
               <Film size={48} className="mx-auto mb-4 text-[#9CA3AF]" />
-              <p className="text-[#61677A]">{t('videos.empty') || 'Hali videolar mavjud emas'}</p>
+              <p className="text-[#61677A]">{t('videos.empty')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -136,7 +136,7 @@ const VideosPage = () => {
                 className="w-full rounded-2xl shadow-2xl"
                 style={{ maxHeight: '80vh' }}
               >
-                <p>Brauzeringiz videoni qo'llab-quvvatlamaydi</p>
+                <p>{t('videos.noSupport')}</p>
               </video>
               <div className="mt-4 text-white">
                 <h2 className="text-xl font-bold">{selected.title}</h2>

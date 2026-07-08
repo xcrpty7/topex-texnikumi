@@ -235,11 +235,11 @@ const Navbar = () => {
                   <div className="flex gap-2 px-1">
                     <Link to="/register" onClick={() => setOpen(false)}
                       className="flex-1 text-center py-2.5 rounded-lg border-2 border-brand text-brand font-semibold text-sm">
-                      Ro'yxatdan o'tish
+                      {t('nav.register')}
                     </Link>
                     <Link to="/login" onClick={() => setOpen(false)}
                       className="flex-1 text-center py-2.5 rounded-lg border-2 border-gray-200 text-brand font-semibold text-sm">
-                      Kirish
+                      {t('nav.login')}
                     </Link>
                   </div>
                 )}

@@ -166,8 +166,8 @@ const Footer = () => {
   ]);
 
   const LICENSE_IMGS = [
-    { src: '/assets/license/license-main.webp',       label: 'Litsenziya № 420567' },
-    { src: '/assets/license/license-directions.webp', label: "Ta'lim yo'nalishlari" },
+    { src: '/assets/license/license-main.webp',       label: `${t('footer.license')} № 420567` },
+    { src: '/assets/license/license-directions.webp', label: t('footer.links.directions') },
   ];
 
   return (

@@ -10,18 +10,17 @@ import 'swiper/css';
 
 const ICON_MAP = { Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout, BookOpen };
 
-const TRANS_KEYS = ['programming','marketing','graphics','bank','hotel','analytics','lab','pharma'];
+/* Tartib SUBJECTS (HomePage) bilan bir xil bo'lishi shart */
+const TRANS_KEYS = ['lab','pharma','marketing','programming','graphics','bank','hotel','analytics'];
 
 const PHOTOS = [
-  '/assets/images/DSC00827.webp',
-  '/assets/images/DSC00912.webp',
-  '/assets/images/DSC01036.webp',
-  '/assets/images/DSC01093.webp',
-  '/assets/images/DSC00827.webp',
-  '/assets/images/DSC00912.webp',
+  '/assets/images/DSC04074.jpg',
+  '/assets/images/DSC04165.jpg',
+  '/assets/images/DSC04114.jpg',
+  '/assets/images/DSC04055.jpg',
 ];
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 8;
 
 export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
   const { t, i18n } = useTranslation();
@@ -72,7 +71,7 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                  backgroundSize: '24px 24px',
                }} />
 
-          <div className="relative max-w-xl">
+          <div className="relative max-w-2xl">
             <span
               className="inline-block text-orange font-bold text-[13px] uppercase tracking-[0.18em] mb-5">
               {t('directions.label')}
@@ -91,23 +90,23 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
             >
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
-                  <ul className="space-y-5">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3.5 md:gap-y-5">
                     {chunk.map((s, i) => {
-                      const Icon = typeof s.icon === 'function'
-                        ? s.icon
-                        : (ICON_MAP[s.iconName] || ICON_MAP[s.icon] || BookOpen);
+                      const Icon = typeof s.icon === 'string'
+                        ? (ICON_MAP[s.icon] || BookOpen)
+                        : (s.icon || ICON_MAP[s.iconName] || BookOpen);
                       return (
                         <li
                           key={s.id || s.name || i}
                           onClick={() => onSelect?.(s)}
-                          className="group flex items-center gap-5 cursor-pointer py-1"
+                          className="group flex items-center gap-4 md:gap-5 cursor-pointer py-0.5"
                         >
-                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-orange flex items-center justify-center
+                          <div className="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-orange flex items-center justify-center
                                           flex-shrink-0 shadow-lg group-hover:scale-110 group-hover:rotate-3
                                           transition-all duration-300">
-                            <Icon size={24} className="text-white" strokeWidth={2} />
+                            <Icon size={22} className="text-white" strokeWidth={2} />
                           </div>
-                          <span className="text-white font-bold text-[15px] md:text-[19px] uppercase tracking-wide
+                          <span className="text-white font-bold text-[13px] md:text-[15px] uppercase tracking-wide leading-snug
                                            group-hover:text-orange transition-colors duration-300">
                             {s.name}
                           </span>
@@ -120,40 +119,49 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
             </Swiper>
 
             {/* Dots */}
-            <div className="flex items-center justify-center gap-2 mt-12">
-              {chunks.map((_, ci) => (
-                <button
-                  key={ci}
-                  onClick={() => swiperRef.current?.slideTo(ci)}
-                  className={`w-2.5 h-2.5 rounded-full border transition-all duration-200 ${
-                    activeIdx === ci ? 'bg-orange border-orange' : 'border-white/40 hover:bg-orange'
-                  }`}
-                  aria-label={`${t('directions.next')} ${ci + 1}`}
-                />
-              ))}
-            </div>
+            {chunks.length > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-10">
+                {chunks.map((_, ci) => (
+                  <button
+                    key={ci}
+                    onClick={() => swiperRef.current?.slideTo(ci)}
+                    className={`w-2.5 h-2.5 rounded-full border transition-all duration-200 ${
+                      activeIdx === ci ? 'bg-orange border-orange' : 'border-white/40 hover:bg-orange'
+                    }`}
+                    aria-label={`${t('directions.next')} ${ci + 1}`}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* ── Discount pricing panel ── */}
-            <div className="mt-10 bg-white/10 rounded-2xl p-5 border border-white/15 relative overflow-hidden">
-              <div className="absolute -top-3 -right-3">
-                <div className="bg-red-500 text-white font-black text-[11px] px-4 py-1.5 rounded-bl-xl rounded-tr-2xl shadow-lg rotate-12">
-                  20% CHEGIRMA
+            <div className="mt-10 rounded-2xl p-5 pt-7 border border-white/20 relative
+                            bg-gradient-to-br from-white/[0.14] to-white/[0.06] backdrop-blur-sm
+                            shadow-[0_16px_40px_-12px_rgba(0,0,0,0.45)]
+                            transition-transform duration-300 hover:-translate-y-1">
+              <div className="absolute top-0 right-0">
+                <div className="bg-gradient-to-b from-red-500 to-red-600 text-white font-black text-[11px]
+                                tracking-wider px-4 py-2 rounded-bl-2xl rounded-tr-2xl
+                                border-b-2 border-red-800/70
+                                shadow-[0_6px_16px_rgba(239,68,68,0.45)]
+                                [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
+                  {t('pricing.badge')}
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                 <div className="text-center">
-                  <div className="text-xl font-black text-red-300 line-through">25 000 000 so'm</div>
-                  <div className="text-2xl font-black text-emerald-300">20 000 000 so'm</div>
-                  <div className="text-xs text-white/60 mt-1">yillik to'lov</div>
+                  <div className="text-xl font-black text-red-300 line-through">25 000 000 {t('pricing.sum')}</div>
+                  <div className="text-2xl font-black text-emerald-300 [text-shadow:0_2px_8px_rgba(52,211,153,0.35)]">20 000 000 {t('pricing.sum')}</div>
+                  <div className="text-xs text-white/60 mt-1">{t('pricing.yearly')}</div>
                 </div>
                 <div className="hidden sm:block w-px h-10 bg-white/20" />
                 <div className="text-center">
-                  <div className="text-xl font-black text-emerald-300">2 000 000 so'm</div>
-                  <div className="text-xs text-white/60 mt-1">oylik to'lov</div>
+                  <div className="text-xl font-black text-emerald-300">2 000 000 {t('pricing.sum')}</div>
+                  <div className="text-xs text-white/60 mt-1">{t('pricing.monthly')}</div>
                 </div>
               </div>
               <div className="text-center text-[11px] text-orange font-semibold mt-3">
-                10 iyulgacha amal qiladi
+                {t('pricing.until')}
               </div>
             </div>
           </div>

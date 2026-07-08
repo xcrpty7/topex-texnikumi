@@ -12,29 +12,29 @@ const up = (delay = 0) => ({
   transition:  { duration: 0.5, ease: 'easeOut', delay },
 });
 
-const DIRECTIONS = [
-  { code: '30410501', name: 'Bank nazoratchisi' },
-  { code: '30411201', name: 'Agrobiznes va marketing agenti' },
-  { code: '30610101', name: "Raqamli axborotlarni qayta ishlash ustasi" },
-  { code: '30610102', name: 'Kompyuter grafikasi va dizayn operatori' },
-  { code: '30610202', name: 'Kompyuter tizimlarida dasturlash' },
-  { code: '30720101', name: 'Laborant-analitik' },
-  { code: '30811101', name: "Dorivor o'simliklarni yetishtirish va qayta ishlash laboranti" },
-  { code: '31010304', name: "Mehmonxona xo'jaligini tashkil qilish va boshqarish" },
-];
-
-const INFO_CARDS = [
-  { Icon: Hash,      label: 'Litsenziya raqami',      value: '№ 420567' },
-  { Icon: Hash,      label: 'Litsenziya reestri raqami', value: 'L-44091494' },
-  { Icon: Shield,    label: 'STIR',                   value: '303963872' },
-  { Icon: Calendar,  label: 'Amal qilish muddati',    value: '30.09.2024 dan — cheksiz' },
-  { Icon: Building2, label: 'Vakolatli organ',        value: "O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi" },
-  { Icon: MapPin,    label: 'Joylashgan manzil',      value: "Toshkent shahri, Sirg'ali tumani, Nurhayot MFY, Yangi Sergeli ko'chasi, 49-uy" },
-];
-
 const LitsenziyaPage = () => {
   const { t } = useTranslation();
   const [imgErrors, setImgErrors] = useState({});
+
+  const DIRECTIONS = [
+    { code: '30410501', name: t('litsenziyaPage.dir1') },
+    { code: '30411201', name: t('litsenziyaPage.dir2') },
+    { code: '30610101', name: t('litsenziyaPage.dir3') },
+    { code: '30610102', name: t('litsenziyaPage.dir4') },
+    { code: '30610202', name: t('litsenziyaPage.dir5') },
+    { code: '30720101', name: t('litsenziyaPage.dir6') },
+    { code: '30811101', name: t('litsenziyaPage.dir7') },
+    { code: '31010304', name: t('litsenziyaPage.dir8') },
+  ];
+
+  const INFO_CARDS = [
+    { Icon: Hash,      label: t('litsenziyaPage.licenseNumber'),  value: '№ 420567' },
+    { Icon: Hash,      label: t('litsenziyaPage.registryNumber'), value: 'L-44091494' },
+    { Icon: Shield,    label: t('litsenziyaPage.tin'),            value: '303963872' },
+    { Icon: Calendar,  label: t('litsenziyaPage.validity'),       value: t('litsenziyaPage.validityValue') },
+    { Icon: Building2, label: t('litsenziyaPage.authority'),      value: t('litsenziyaPage.authorityValue') },
+    { Icon: MapPin,    label: t('litsenziyaPage.addressLabel'),   value: t('litsenziyaPage.addressValue') },
+  ];
 
   return (
     <>
@@ -64,20 +64,20 @@ const LitsenziyaPage = () => {
         <div className="wrap relative z-10 text-center">
           <motion.div {...up(0)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
             <Award size={16} className="text-orange" />
-            <span className="text-white/90 text-sm font-semibold">Rasmiy hujjat</span>
+            <span className="text-white/90 text-sm font-semibold">{t('litsenziyaPage.heroBadge')}</span>
           </motion.div>
           <motion.h1 {...up(0.05)} className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-5 drop-shadow-lg">
-            Texnikum Litsenziyasi
+            {t('litsenziyaPage.heroTitle')}
           </motion.h1>
           <motion.p {...up(0.1)} className="text-white/70 text-lg max-w-2xl mx-auto mb-8">
-            O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi tomonidan berilgan nodavlat ta'lim xizmatlarini ko'rsatish uchun litsenziya
+            {t('litsenziyaPage.heroSubtitle')}
           </motion.p>
           <motion.div {...up(0.15)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
               <Home size={14} /> {t('loginPage.backHome')}
             </Link>
             <ChevronRight size={14} className="opacity-60" />
-            <span className="text-orange">Litsenziya</span>
+            <span className="text-orange">{t('litsenziyaPage.breadcrumb')}</span>
           </motion.div>
         </div>
       </section>
@@ -91,19 +91,19 @@ const LitsenziyaPage = () => {
                 <Award size={28} className="text-orange" />
               </div>
               <div className="text-left">
-                <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Litsenziya raqami</p>
+                <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">{t('litsenziyaPage.licenseNumber')}</p>
                 <p className="text-white text-3xl font-black">№ 420567</p>
               </div>
             </div>
             <div className="hidden sm:block w-px h-14 bg-white/20" />
             <div className="text-left">
-              <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Tashkilot</p>
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">{t('litsenziyaPage.organization')}</p>
               <p className="text-white text-xl font-bold">"TOPEX TEXNIKUM" MChJ</p>
             </div>
             <div className="hidden sm:block w-px h-14 bg-white/20" />
             <div className="text-left">
-              <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Faoliyat turi</p>
-              <p className="text-white text-base font-semibold">Professional ta'lim xizmatlari</p>
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">{t('litsenziyaPage.activityType')}</p>
+              <p className="text-white text-base font-semibold">{t('litsenziyaPage.activityValue')}</p>
             </div>
           </motion.div>
         </div>
@@ -113,8 +113,8 @@ const LitsenziyaPage = () => {
       <section className="bg-white py-16 lg:py-24">
         <div className="wrap">
           <motion.div {...up(0)} className="text-center mb-12">
-            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">RASMIY MA'LUMOTLAR</span>
-            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">Litsenziya tafsilotlari</h2>
+            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">{t('litsenziyaPage.infoLabel')}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">{t('litsenziyaPage.infoTitle')}</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -139,9 +139,9 @@ const LitsenziyaPage = () => {
       <section className="bg-gray-50 py-16 lg:py-24">
         <div className="wrap">
           <motion.div {...up(0)} className="text-center mb-12">
-            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">TA'LIM YO'NALISHLARI</span>
-            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">Litsenziyalashtirilgan yo'nalishlar</h2>
-            <p className="text-gray-500 text-[15px] mt-3">Quyidagi yo'nalishlar bo'yicha ta'lim berish uchun rasmiy litsenziya mavjud</p>
+            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">{t('litsenziyaPage.directionsLabel')}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">{t('litsenziyaPage.directionsTitle')}</h2>
+            <p className="text-gray-500 text-[15px] mt-3">{t('litsenziyaPage.directionsSubtitle')}</p>
           </motion.div>
 
           <motion.div {...up(0.1)} className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
@@ -150,8 +150,8 @@ const LitsenziyaPage = () => {
                 <thead>
                   <tr className="bg-brand text-white">
                     <th className="text-left py-4 px-6 text-[13px] font-semibold uppercase tracking-wide w-12">№</th>
-                    <th className="text-left py-4 px-6 text-[13px] font-semibold uppercase tracking-wide">Kod</th>
-                    <th className="text-left py-4 px-6 text-[13px] font-semibold uppercase tracking-wide">Yo'nalish nomi</th>
+                    <th className="text-left py-4 px-6 text-[13px] font-semibold uppercase tracking-wide">{t('litsenziyaPage.tableCode')}</th>
+                    <th className="text-left py-4 px-6 text-[13px] font-semibold uppercase tracking-wide">{t('litsenziyaPage.tableName')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,9 +175,9 @@ const LitsenziyaPage = () => {
       <section className="bg-white py-16 lg:py-24">
         <div className="wrap">
           <motion.div {...up(0)} className="text-center mb-12">
-            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">RASMIY HUJJAT</span>
-            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">Litsenziya hujjati</h2>
-            <p className="text-gray-500 mt-3 text-[15px]">O'zbekiston Respublikasi Oliy ta'lim vazirligi tomonidan berilgan rasmiy litsenziya</p>
+            <span className="text-orange font-bold text-[13px] uppercase tracking-[0.18em]">{t('litsenziyaPage.docLabel')}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-brand mt-2">{t('litsenziyaPage.docTitle')}</h2>
+            <p className="text-gray-500 mt-3 text-[15px]">{t('litsenziyaPage.docSubtitle')}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -195,34 +195,34 @@ const LitsenziyaPage = () => {
                   <div className="border-2 border-blue-200 rounded-2xl p-8 bg-gradient-to-br from-blue-50 to-white min-h-[500px] flex-col justify-between">
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4 leading-relaxed">
-                      O'ZBEKISTON RESPUBLIKASI OLIY TA'LIM,<br/>FAN VA INNOVATSIYALAR VAZIRLIGI
+                      {t('litsenziyaPage.authorityValue')}
                     </p>
-                    <h3 className="text-5xl font-black text-brand mb-2">LITSENZIYA</h3>
+                    <h3 className="text-5xl font-black text-brand mb-2">{t('litsenziyaPage.licenseWord')}</h3>
                     <p className="text-2xl font-bold text-gray-700 mb-6">№ 420567</p>
                     <div className="space-y-4 text-sm">
                       <div>
-                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">Tashkilot</p>
+                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">{t('litsenziyaPage.organization')}</p>
                         <p className="font-bold text-brand">"TOPEX TEXNIKUM" MChJ</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">Reestri raqami</p>
+                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">{t('litsenziyaPage.registryNumber')}</p>
                         <p className="font-bold text-brand">L-44091494</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">STIR</p>
+                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">{t('litsenziyaPage.tin')}</p>
                         <p className="font-bold text-brand">303963872</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">Amal qilish muddati</p>
-                        <p className="font-bold text-green-600">30.09.2024 — CHEKSIZ</p>
+                        <p className="text-gray-400 font-semibold uppercase text-[10px] tracking-wider">{t('litsenziyaPage.validity')}</p>
+                        <p className="font-bold text-green-600">{t('litsenziyaPage.validityValue')}</p>
                       </div>
                     </div>
                   </div>
-                  <p className="text-[11px] text-gray-400 mt-4">Taqdim etilgan: 30.09.2024 22:17</p>
+                  <p className="text-[11px] text-gray-400 mt-4">{t('litsenziyaPage.issuedAt')}: 30.09.2024 22:17</p>
                 </div>
                 )}
               </div>
-              <p className="text-center text-gray-500 text-sm mt-3 font-medium">Litsenziya — asosiy sahifa</p>
+              <p className="text-center text-gray-500 text-sm mt-3 font-medium">{t('litsenziyaPage.mainCaption')}</p>
             </motion.div>
 
             {/* Directions page photo */}
@@ -237,26 +237,26 @@ const LitsenziyaPage = () => {
                   />
                 ) : (
                   <div className="border-2 border-blue-200 rounded-2xl p-8 bg-gradient-to-br from-blue-50 to-white min-h-[500px] flex-col">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Litsenziya</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">{t('litsenziyaPage.breadcrumb')}</p>
                   <p className="text-right text-gray-500 text-sm mb-6">№ 420567</p>
-                  <h4 className="text-brand font-black text-lg mb-1">Faoliyat turi</h4>
-                  <p className="text-gray-600 text-sm mb-6">Professional ta'lim xizmatlari</p>
-                  <h4 className="text-brand font-black text-lg mb-3">Ta'lim yo'nalishlari</h4>
+                  <h4 className="text-brand font-black text-lg mb-1">{t('litsenziyaPage.activityType')}</h4>
+                  <p className="text-gray-600 text-sm mb-6">{t('litsenziyaPage.activityValue')}</p>
+                  <h4 className="text-brand font-black text-lg mb-3">{t('litsenziyaPage.directionsTitle')}</h4>
                   <div className="space-y-2">
-                    {['Bank nazoratchisi', 'Agrobiznes va marketing agenti', 'Raqamli axborotlarni qayta ishlash ustasi', 'Kompyuter grafikasi va dizayn operatori', 'Kompyuter tizimlarida dasturlash'].map(d => (
+                    {[t('litsenziyaPage.dir1'), t('litsenziyaPage.dir2'), t('litsenziyaPage.dir3'), t('litsenziyaPage.dir4'), t('litsenziyaPage.dir5')].map(d => (
                       <p key={d} className="text-[12px] text-gray-600 border-b border-gray-100 pb-1">{d}</p>
                     ))}
                   </div>
                 </div>
                 )}
               </div>
-              <p className="text-center text-gray-500 text-sm mt-3 font-medium">Litsenziya — ta'lim yo'nalishlari</p>
+              <p className="text-center text-gray-500 text-sm mt-3 font-medium">{t('litsenziyaPage.directionsCaption')}</p>
             </motion.div>
           </div>
 
           {/* Note about real license images */}
           <motion.p {...up(0.2)} className="text-center text-gray-400 text-[13px] mt-8">
-            * Rasmiy litsenziya hujjati O'zbekiston Respublikasi Oliy ta'lim, fan va innovatsiyalar vazirligi tomonidan berilgan
+            {t('litsenziyaPage.note')}
           </motion.p>
         </div>
       </section>
@@ -265,23 +265,23 @@ const LitsenziyaPage = () => {
       <section className="bg-brand py-16">
         <div className="wrap text-center">
           <motion.h2 {...up(0)} className="text-3xl font-black text-white mb-4">
-            Savollaringiz bormi?
+            {t('litsenziyaPage.ctaTitle')}
           </motion.h2>
           <motion.p {...up(0.05)} className="text-white/70 mb-8 text-[15px]">
-            Litsenziya va ta'lim yo'nalishlari haqida batafsil ma'lumot olish uchun biz bilan bog'laning
+            {t('litsenziyaPage.ctaSubtitle')}
           </motion.p>
           <motion.div {...up(0.1)} className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/aloqalar"
               className="inline-flex items-center gap-2 bg-orange text-white font-bold px-8 py-3.5 rounded-xl hover:brightness-110 transition-all"
             >
-              Bog'lanish
+              {t('litsenziyaPage.ctaContact')}
             </Link>
             <Link
               to="/courses"
               className="inline-flex items-center gap-2 bg-white/10 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-white/20 transition-all"
             >
-              Yo'nalishlar
+              {t('nav.courses')}
             </Link>
           </motion.div>
         </div>
