@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://topextexnikum.uz/$1",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "topex-texnikumi*.vercel.app"
+        }
+      ]
+    }
+  ]
+}
