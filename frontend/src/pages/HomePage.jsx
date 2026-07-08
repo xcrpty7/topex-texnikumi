@@ -396,13 +396,12 @@ const HomePage = () => {
         <div className="w-full px-6 lg:px-16 max-w-[1500px] mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
-            {/* LEFT — vertical separated image collage */}
+            {/* LEFT — 3 har xil DSC fotka (avvalgidan farqli) */}
             <motion.div {...up(0)} className="relative space-y-6">
               {[
-                { src: '/assets/images/about-new-1.jpg', alt: "Topex Texnikumi binosi" },
-                { src: '/assets/images/about-new-2.jpg', alt: "Topex Texnikumi o'quv xonasi" },
-                { src: '/assets/images/about-new-3.jpg', alt: "Topex Texnikumi talabalari" },
-                { src: '/assets/images/about/about-4.webp', alt: "Topex Texnikumi dars jarayoni" },
+                { src: '/assets/images/DSC03766.jpg', alt: "Topex Texnikumi" },
+                { src: '/assets/images/DSC03779.jpg', alt: "Topex Texnikumi" },
+                { src: '/assets/images/DSC04192.jpg', alt: "Topex Texnikumi" },
               ].map((im, i) => {
                 const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
                 return (
@@ -431,12 +430,12 @@ const HomePage = () => {
                 {t('about.paragraph')}
               </p>
 
-              {/* Photo strip — atmosfera */}
+              {/* Photo strip — 4 ta boshqa DSC (chapdagidan farqli) */}
               <div className="grid grid-cols-4 gap-2 mb-8 max-w-xl">
-                {['about-text-1','about-text-2','about-text-3','about-text-4'].map((name, i) => (
+                {['DSC04074.jpg','DSC04165.jpg','DSC04114.jpg','DSC04055.jpg'].map((name, i) => (
                   <div key={i} className="aspect-[3/4] rounded-lg overflow-hidden shadow-md">
                     <img
-                      src={`/assets/images/${name}.jpg`}
+                      src={`/assets/images/${name}`}
                       alt="Topex atmosferasi"
                       loading="lazy"
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
