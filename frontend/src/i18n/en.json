@@ -73,10 +73,19 @@
     "allTeachers": "All teachers",
     "roles": {
       "director": "Director of Topex Texnikumi",
-      "programming": "Head of Programming Department",
-      "marketing": "Head of Marketing Department",
-      "design": "Graphic Design Teacher",
-      "bank": "Banking Specialist"
+      "fizika": "Physics Teacher",
+      "kimyo": "Chemistry Teacher",
+      "adabiyot": "Literature Teacher",
+      "tarix": "History Teacher",
+      "ingliz": "English Teacher",
+      "biologiya": "Biology Teacher",
+      "rus": "Russian Teacher",
+      "jismoniy": "Physical Education Teacher",
+      "it": "IT Teacher",
+      "matematika": "Mathematics Teacher",
+      "ona_tili": "Native Language Teacher",
+      "kimyo2": "Chemistry Teacher",
+      "geografiya": "Geography Teacher"
     }
   },
   "news": {
@@ -94,8 +103,8 @@
   },
   "videos": {
     "label": "Current videos",
-    "title": "Student Life",
-    "subtitle": "Topex Life",
+    "title": "Our Students' Creativity",
+    "subtitle": "",
     "empty": "No videos available yet"
   },
   "form": {

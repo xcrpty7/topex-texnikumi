@@ -92,15 +92,7 @@ export default function VideosSwiper({ videos = [], onOpen, settings }) {
                   </div>
                 </div>
 
-                {/* Bottom title */}
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-white font-black text-lg md:text-xl uppercase tracking-tight leading-tight">
-                    {vid.title}
-                  </p>
-                  <p className="text-orange-light text-[11px] mt-2 uppercase tracking-[0.18em] font-bold">
-                    {t('videos.subtitle')}
-                  </p>
-                </div>
+                {/* Bottom title — скрыто по запросу */}
               </motion.div>
             </SwiperSlide>
           ))}

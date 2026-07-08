@@ -8,16 +8,19 @@ import { Link } from 'react-router-dom';
 import 'swiper/css';
 
 const TEACHERS_RAW = [
-  { name: "G'AYRAT SHOUMAROV", roleKey: 'new1',   img: '/assets/Ustozlar/DSC01143.webp' },
-  { name: 'OLGERD FILLIPOV',   roleKey: 'programming',img: '/assets/Ustozlar/DSC01155.webp' },
-  { name: 'RUSTAM KARIMOV',    roleKey: 'marketing',  img: '/assets/Ustozlar/DSC01164.webp' },
-  { name: 'DILSHOD AZIZOV',    roleKey: 'design',     img: '/assets/Ustozlar/DSC01187.webp' },
-  { name: 'AKMAL RAHIMOV',     roleKey: 'bank',       img: '/assets/Ustozlar/DSC01199.webp' },
-  { name: 'NORBOYEV NE\'MATBEK CHORIYEVICH', roleKey: 'new1', img: '/assets/Ustozlar/teacher-new-1.webp' },
-  { name: 'KUBAYEV RO\'ZIMUROD HIKMATILLAYEVICH', roleKey: 'new2', img: '/assets/Ustozlar/teacher-new-2.webp' },
-  { name: 'BURTSEVA ALEKSANDRA VASILEVNA', roleKey: 'new3', img: '/assets/Ustozlar/teacher-new-3.webp' },
-  { name: 'ABDULLAYEV OYBEK ODILOVICH', roleKey: 'new4', img: '/assets/Ustozlar/teacher-new-4.webp' },
-  { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', roleKey: 'new5', img: '/assets/Ustozlar/teacher-new-5.webp' },
+  { name: 'RUSTAM XALILOV',          roleKey: 'matematika', img: '/assets/Ustozlar/DSC03909.jpg' },
+  { name: 'DILRABO TOSHEVA',         roleKey: 'fizika',     img: '/assets/Ustozlar/DSC03827.jpg' },
+  { name: 'OLIYA ASKAROVA',          roleKey: 'kimyo',      img: '/assets/Ustozlar/DSC03834.jpg' },
+  { name: 'DILNOZA ZIYAYEVA',        roleKey: 'adabiyot',   img: '/assets/Ustozlar/DSC03842.jpg' },
+  { name: 'CHAROS MUROTOVA',         roleKey: 'tarix',      img: '/assets/Ustozlar/DSC03856.jpg' },
+  { name: 'FARIDA RAXIMOVA',         roleKey: 'ingliz',     img: '/assets/Ustozlar/DSC03861.jpg' },
+  { name: 'YULDUZ EGAMBERDIYEVA',    roleKey: 'biologiya',  img: '/assets/Ustozlar/DSC03872.jpg' },
+  { name: 'NARGIZA SHARIPOVA',       roleKey: 'rus',        img: '/assets/Ustozlar/DSC03883.jpg' },
+  { name: 'ODILJON TURG\'UNOV',      roleKey: 'jismoniy',   img: '/assets/Ustozlar/DSC03894.jpg' },
+  { name: 'JASUR KARIMOV',           roleKey: 'it',         img: '/assets/Ustozlar/DSC03901.jpg' },
+  { name: 'KAMOLA MURODOVA',         roleKey: 'ona_tili',   img: '/assets/Ustozlar/DSC03943.jpg' },
+  { name: 'SHUHRAT JABBOROV',        roleKey: 'kimyo2',     img: '/assets/Ustozlar/DSC03946.jpg' },
+  { name: 'SEVARA NURMATOVA',        roleKey: 'geografiya', img: '/assets/Ustozlar/DSC03951.jpg' },
 ];
 
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -30,7 +33,7 @@ export default function TeamSection({ teachers = [], settings }) {
     ? teachers.map(x => ({
         name:  x.name,
         role:  x.role,
-        img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC01143.webp',
+        img:   x.image ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`) : '/assets/Ustozlar/DSC03909.jpg',
       }))
     : FALLBACK;
 

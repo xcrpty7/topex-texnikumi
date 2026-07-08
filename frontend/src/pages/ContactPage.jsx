@@ -137,7 +137,7 @@ const ContactPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${settings?.contactHeroImage || '/assets/images/DSC01036.webp'}')` }}
+          style={{ backgroundImage: `url('${settings?.contactHeroImage || '/assets/images/contacts-bg.jpg'}')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
@@ -303,7 +303,7 @@ const ContactPage = () => {
                 <img
                   src={settings?.formImage
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/form-photo.webp'}
+                    : '/assets/images/form-new.jpg'}
                   alt="Topex talabasi"
                   className="w-full h-full object-cover object-top"
                   loading="lazy"
@@ -325,9 +325,9 @@ const ContactPage = () => {
           {/* Branch tabs */}
           <div className="flex gap-3 mb-6 flex-wrap">
             {[
+              { name: 'Sergeli',   lat: 41.211476, lng: 69.230987 },
               { name: 'Yunusobod', lat: 41.350913, lng: 69.327955 },
               { name: 'Chilonzor', lat: 41.283532, lng: 69.210518 },
-              { name: 'Sergeli',   lat: 41.211476, lng: 69.230987 },
             ].map((branch, i) => (
               <button
                 key={branch.name}
@@ -344,9 +344,9 @@ const ContactPage = () => {
           </div>
 
           {[
+            { name: 'Sergeli',   lat: 41.211476, lng: 69.230987 },
             { name: 'Yunusobod', lat: 41.350913, lng: 69.327955 },
             { name: 'Chilonzor', lat: 41.283532, lng: 69.210518 },
-            { name: 'Sergeli',   lat: 41.211476, lng: 69.230987 },
           ].map((branch, i) => (
             <div key={branch.name} className={activeTab === i ? 'block' : 'hidden'}>
               <motion.div {...up(0.1)}

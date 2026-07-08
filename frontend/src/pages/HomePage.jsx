@@ -64,7 +64,7 @@ const SUBJECTS = [
     icon: FlaskConical,   
     name: 'Laborant analitik',             
     desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar.', 
-    img: '/assets/famali-photo/DSC00964.webp',
+    img: '/assets/images/dir-5.jpg',
     duration: '3 yil',
     features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
   },
@@ -72,7 +72,7 @@ const SUBJECTS = [
     icon: Sprout,         
     name: "Dorivor o'simliklar laboranti",
     desc: 'Dorivor o\'simliklar yetishtirish va qayta ishlash.', 
-    img: '/assets/famali-photo/DSC00980.webp',
+    img: '/assets/images/dir-6.jpg',
     duration: '3 yil',
     features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
   },
@@ -80,7 +80,7 @@ const SUBJECTS = [
     icon: TrendingUp,     
     name: 'Marketing va agrobiznes',       
     desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.", 
-    img: '/assets/images/DSC00912.webp',
+    img: '/assets/images/dir-4.jpg',
     duration: '3 yil',
     features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
   },
@@ -88,7 +88,7 @@ const SUBJECTS = [
     icon: Code,           
     name: 'Dasturlash',                    
     desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
-    img: '/assets/images/DSC00827.webp',
+    img: '/assets/images/dir-1.jpg',
     duration: '3 yil',
     features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
   },
@@ -96,7 +96,7 @@ const SUBJECTS = [
     icon: Palette,        
     name: 'Kompyuter grafikasi va dizayn',           
     desc: '3D modellashtirish, brending va vizual kontent.', 
-    img: '/assets/images/DSC01093.webp',
+    img: '/assets/images/dir-2.jpg',
     duration: '3 yil',
     features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
   },
@@ -104,7 +104,7 @@ const SUBJECTS = [
     icon: ShieldCheck,    
     name: 'Bank ishi',             
     desc: 'Bank va moliya tizimi asoslari.', 
-    img: '/assets/famali-photo/DSC00875.webp',
+    img: '/assets/images/dir-9.jpg',
     duration: '3 yil',
     features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
   },
@@ -112,7 +112,7 @@ const SUBJECTS = [
     icon: Hotel,          
     name: 'Mehmonxona boshqaruvi',         
     desc: "Mehmonxona va turizm menejmenti.", 
-    img: '/assets/famali-photo/DSC00954.webp',
+    img: '/assets/images/dir-10.jpg',
     duration: '3 yil',
     features: ['Service Management', 'Event planning', 'Xorijiy tillar']
   },
@@ -120,18 +120,18 @@ const SUBJECTS = [
     icon: BarChart3,      
     name: 'Raqamli axborotlar analitigi',   
     desc: "Ma'lumotlar tahlili va axborot tizimlari.",
-    img: '/assets/famali-photo/DSC00955.webp',
+    img: '/assets/images/dir-3.jpg',
     duration: '3 yil',
     features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
   },
 ];
 
 const VIDEOS = [
-  { src: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4?v=2', title: 'Amaliy darslar' },
-  { src: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4?v=2', title: 'Tadbirlar' },
-  { src: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4?v=2', title: 'Oromgoh' },
-  { src: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4?v=2', title: 'Dars jarayoni' },
-  { src: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4?v=2', title: 'Bitiruv kechasi' },
+  { src: '/assets/images/AQM2loG1aPrNuG2FTRwfoI0IVFG5Q0Sj3Ru3sDUJa8MTtZGtFt3NfdibVyfBr08.mp4?v=2', title: '' },
+  { src: '/assets/images/AQNVohQJLVps32Fjk5QM6GotJ1A2VROgEZbGgigO7EqoawCIRlrzwPEblUpONxr.mp4?v=2', title: '' },
+  { src: '/assets/images/AQOg3sZQMrzC4wXOlnIa_Q4_3rhnd0iUd1hCvLkg_e5XHST8RTuI_ycE8hdNHSa.mp4?v=2', title: '' },
+  { src: '/assets/images/AQPNyI22OTZPaXj3NUGSKD3kFs6bzqdxkodds_uuUV0Lwq0eDy_WaArlTHUMil96DCvNrrnHjCT.mp4?v=2', title: '' },
+  { src: '/assets/images/AQPTt2KL3eeR5E_oD0skwnKQNJposlGgzp0MHWhSu2_2znBnZoj98qXDJk8cqrf.mp4?v=2', title: '' },
 ];
 
 const EXTRAS = [
@@ -399,9 +399,9 @@ const HomePage = () => {
             <motion.div {...up(0)} className="relative">
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { src: '/assets/images/about/about-1.webp', alt: "Topex Texnikumi binosi", cls: 'aspect-[3/4] sm:-mt-6' },
-                  { src: '/assets/images/about/about-2.webp', alt: "Topex Texnikumi o'quv xonasi", cls: 'aspect-[3/4] sm:mt-6' },
-                  { src: '/assets/images/about/about-3.webp', alt: "Topex Texnikumi talabalari", cls: 'aspect-[4/3]' },
+                  { src: '/assets/images/about-new-1.jpg', alt: "Topex Texnikumi binosi", cls: 'aspect-[3/4] sm:-mt-6' },
+                  { src: '/assets/images/about-new-2.jpg', alt: "Topex Texnikumi o'quv xonasi", cls: 'aspect-[3/4] sm:mt-6' },
+                  { src: '/assets/images/about-new-3.jpg', alt: "Topex Texnikumi talabalari", cls: 'aspect-[4/3]' },
                   { src: '/assets/images/about/about-4.webp', alt: "Topex Texnikumi dars jarayoni", cls: 'aspect-[4/3] sm:mt-8' },
                 ].map((im, i) => {
                   const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
@@ -431,6 +431,20 @@ const HomePage = () => {
               <p className="text-gray-600 text-[15px] md:text-[16px] leading-[1.75] mb-10 max-w-xl">
                 {t('about.paragraph')}
               </p>
+
+              {/* Photo strip — atmosfera */}
+              <div className="grid grid-cols-4 gap-2 mb-8 max-w-xl">
+                {['about-text-1','about-text-2','about-text-3','about-text-4'].map((name, i) => (
+                  <div key={i} className="aspect-[3/4] rounded-lg overflow-hidden shadow-md">
+                    <img
+                      src={`/assets/images/${name}.jpg`}
+                      alt="Topex atmosferasi"
+                      loading="lazy"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                ))}
+              </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-8 mb-12 max-w-md">
@@ -600,7 +614,7 @@ const HomePage = () => {
                 <img
                   src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/form-photo.webp'}
+                    : '/assets/images/form-new.jpg'}
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"

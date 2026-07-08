@@ -73,15 +73,19 @@
     "allTeachers": "Barcha ustozlar",
     "roles": {
       "director": "Topex Texnikumi direktori",
-      "programming": "Dasturlash kafedra mudiri",
-      "marketing": "Marketing kafedra mudiri",
-      "design": "Grafika dizayn ustozi",
-      "bank": "Bank ishi mutaxassisi",
-      "new1": "Ustoz",
-      "new2": "Ustoz",
-      "new3": "Ustoz",
-      "new4": "Ustoz",
-      "new5": "Ustoz"
+      "fizika": "Fizika fani o'qituvchisi",
+      "kimyo": "Kimyo fani o'qituvchisi",
+      "adabiyot": "Adabiyot fani o'qituvchisi",
+      "tarix": "Tarix fani o'qituvchisi",
+      "ingliz": "Ingliz tili o'qituvchisi",
+      "biologiya": "Biologiya fani o'qituvchisi",
+      "rus": "Rus tili o'qituvchisi",
+      "jismoniy": "Jismoniy tarbiya o'qituvchisi",
+      "it": "IT fani o'qituvchisi",
+      "matematika": "Matematika fani o'qituvchisi",
+      "ona_tili": "Ona tili fani o'qituvchisi",
+      "kimyo2": "Kimyo fani o'qituvchisi",
+      "geografiya": "Geografiya fani o'qituvchisi"
     }
   },
   "news": {
@@ -99,8 +103,8 @@
   },
   "videos": {
     "label": "Joriy video roliklar",
-    "title": "Talabalik hayoti",
-    "subtitle": "Topex hayoti",
+    "title": "Talabalarimiz ijodidan",
+    "subtitle": "",
     "empty": "Hali videolar mavjud emas"
   },
   "form": {

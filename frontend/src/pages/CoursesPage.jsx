@@ -42,14 +42,20 @@ const DEFAULT_HIGHLIGHTS = (t) => [
 ];
 
 const DEFAULT_SUBJECTS = (t) => [
-  { icon: Code,        name: t('coursesPage.subjects.programming'),            desc: t('coursesPage.subjects.programmingDesc'),           img: '/assets/images/DSC00827.webp',       duration: '2 yil', features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
-  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),              desc: t('coursesPage.subjects.marketingDesc'),             img: '/assets/images/DSC00912.webp',       duration: '2 yil', features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
-  { icon: Palette,     name: t('coursesPage.subjects.design'),                 desc: t('coursesPage.subjects.designDesc'),                img: '/assets/images/DSC01093.webp',       duration: '2 yil', features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
-  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),                desc: t('coursesPage.subjects.bankingDesc'),               img: '/assets/famali-photo/DSC00875.webp', duration: '2 yil', features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
-  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),                  desc: t('coursesPage.subjects.hotelDesc'),                 img: '/assets/famali-photo/DSC00954.webp', duration: '2 yil', features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
-  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),              desc: t('coursesPage.subjects.analyticsDesc'),             img: '/assets/famali-photo/DSC00955.webp', duration: '2 yil', features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
-  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),               desc: t('coursesPage.subjects.laborantDesc'),              img: '/assets/famali-photo/DSC00964.webp', duration: '2 yil', features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
-  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),               desc: t('coursesPage.subjects.phytolabDesc'),              img: '/assets/famali-photo/DSC00980.webp', duration: '2 yil', features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
+  { icon: Code,        name: t('coursesPage.subjects.programming'), desc: t('coursesPage.subjects.programmingDesc'),  img: '/assets/images/dir-1.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
+  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),   desc: t('coursesPage.subjects.marketingDesc'),    img: '/assets/images/dir-4.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
+  { icon: Palette,     name: t('coursesPage.subjects.design'),      desc: t('coursesPage.subjects.designDesc'),       img: '/assets/images/dir-2.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
+  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),     desc: t('coursesPage.subjects.bankingDesc'),      img: '/assets/images/dir-9.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
+  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),       desc: t('coursesPage.subjects.hotelDesc'),        img: '/assets/images/dir-10.jpg', duration: '3 yil', features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
+  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),   desc: t('coursesPage.subjects.analyticsDesc'),    img: '/assets/images/dir-3.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
+  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),    desc: t('coursesPage.subjects.laborantDesc'),     img: '/assets/images/dir-5.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
+  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),    desc: t('coursesPage.subjects.phytolabDesc'),     img: '/assets/images/dir-6.jpg',  duration: '3 yil', features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
+];
+
+const COURSES_BGS = [
+  '/assets/images/courses-bg-1.jpg',
+  '/assets/images/courses-bg-2.jpg',
+  '/assets/images/courses-bg-3.jpg',
 ];
 
 const CoursesPage = () => {
@@ -60,6 +66,12 @@ const CoursesPage = () => {
   const [settings, setSettings] = useState(null);
   const [dbSubjects, setDbSubjects] = useState([]);
   const [dbHighlights, setDbHighlights] = useState([]);
+  const [bgIdx, setBgIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setBgIdx(p => (p + 1) % COURSES_BGS.length), 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCourses(filters));
@@ -112,12 +124,12 @@ const CoursesPage = () => {
       {/* ── Hero (dark banner — admin fon-rasmni boshqaradi) ── */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center scale-105"
+          className="absolute inset-0 bg-cover bg-center scale-105 transition-opacity duration-700"
           style={{
             backgroundImage: `url('${
               settings?.coursesHeroImage
                 ? resolveImg(settings.coursesHeroImage)
-                : '/assets/famali-photo/DSC01053.webp'
+                : COURSES_BGS[bgIdx]
             }')`,
           }}
         />
@@ -264,21 +276,34 @@ const CoursesPage = () => {
           </motion.div>
 
           <motion.div {...up(0.05)}
-            className="max-w-2xl mx-auto bg-gradient-to-br from-emerald-50 to-white rounded-3xl p-8 md:p-12 border border-emerald-100 shadow-lg shadow-emerald-100/50"
+            className="max-w-2xl mx-auto bg-gradient-to-br from-emerald-50 to-white rounded-3xl p-8 md:p-12 border border-emerald-100 shadow-lg shadow-emerald-100/50 relative overflow-hidden"
           >
+            {/* 20% discount badge */}
+            <div className="absolute -top-2 -right-2">
+              <div className="bg-red-500 text-white font-black text-sm px-5 py-2 rounded-bl-2xl rounded-tr-3xl shadow-lg rotate-12">
+                20% CHEGIRMA
+              </div>
+            </div>
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-6">
               <div className="text-center">
+                {/* Old price — strikethrough red */}
+                <div className="text-3xl font-black text-red-500 line-through whitespace-nowrap">
+                  25 000 000 so'm
+                </div>
+                <div className="text-xs text-red-400 mb-2">chegirmasiz</div>
+                {/* Actual price — green */}
                 <div className="text-4xl font-black text-emerald-700 whitespace-nowrap">
-                  {t('coursesPage.pricingMonthly')}
+                  20 000 000 so'm
+                </div>
+                <div className="text-sm text-emerald-600 font-semibold">yillik to'lov</div>
+              </div>
+              <div className="hidden sm:block w-px h-20 bg-emerald-200" />
+              <div className="text-center">
+                <div className="text-3xl font-black text-emerald-700 whitespace-nowrap">
+                  2 000 000 so'm
                 </div>
                 <div className="text-sm text-navy/50 mt-1">oylik to'lov</div>
-              </div>
-              <div className="hidden sm:block w-px h-16 bg-emerald-200" />
-              <div className="text-center">
-                <div className="text-2xl font-bold text-navy whitespace-nowrap">
-                  {t('coursesPage.pricingYearly')}
-                </div>
-                <div className="text-sm text-navy/50 mt-1">yillik to'lov</div>
               </div>
             </div>
             <div className="text-center text-sm text-navy/60 mb-6">
