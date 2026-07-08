@@ -13,18 +13,18 @@ const ICON_MAP = { Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, Fla
 const TRANS_KEYS = ['programming','marketing','graphics','bank','hotel','analytics','lab','pharma'];
 
 const PHOTOS = [
-  '/assets/images/dir-1.jpg',
-  '/assets/images/dir-2.jpg',
-  '/assets/images/dir-4.jpg',
-  '/assets/images/dir-8.jpg',
-  '/assets/images/dir-5.jpg',
-  '/assets/images/dir-7.jpg',
+  '/assets/images/DSC00827.webp',
+  '/assets/images/DSC00912.webp',
+  '/assets/images/DSC01036.webp',
+  '/assets/images/DSC01093.webp',
+  '/assets/images/DSC00827.webp',
+  '/assets/images/DSC00912.webp',
 ];
 
 const PAGE_SIZE = 6;
 
 export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const swiperRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const [photoIdx, setPhotoIdx] = useState(0);
@@ -131,6 +131,30 @@ export default function DirectionsSplit({ subjects = [], settings, onSelect }) {
                   aria-label={`${t('directions.next')} ${ci + 1}`}
                 />
               ))}
+            </div>
+
+            {/* ── Discount pricing panel ── */}
+            <div className="mt-10 bg-white/10 rounded-2xl p-5 border border-white/15 relative overflow-hidden">
+              <div className="absolute -top-3 -right-3">
+                <div className="bg-red-500 text-white font-black text-[11px] px-4 py-1.5 rounded-bl-xl rounded-tr-2xl shadow-lg rotate-12">
+                  20% CHEGIRMA
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <div className="text-center">
+                  <div className="text-xl font-black text-red-300 line-through">25 000 000 so'm</div>
+                  <div className="text-2xl font-black text-emerald-300">20 000 000 so'm</div>
+                  <div className="text-xs text-white/60 mt-1">yillik to'lov</div>
+                </div>
+                <div className="hidden sm:block w-px h-10 bg-white/20" />
+                <div className="text-center">
+                  <div className="text-xl font-black text-emerald-300">2 000 000 so'm</div>
+                  <div className="text-xs text-white/60 mt-1">oylik to'lov</div>
+                </div>
+              </div>
+              <div className="text-center text-[11px] text-orange font-semibold mt-3">
+                10 iyulgacha amal qiladi
+              </div>
             </div>
           </div>
         </div>

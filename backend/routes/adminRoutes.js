@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const { body } = require('express-validator');
 const validate = require('../middleware/validate');
 const { protect, restrictTo } = require('../middleware/auth');
@@ -130,6 +131,17 @@ router.post('/reset-teachers', ...adminOnly, async (req, res) => {
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
+// Eski email_1 unique index-ni tashlash (regstratsiya ishlashi uchun)
+router.post('/drop-email-index', ...adminOnly, async (req, res) => {
+  try {
+    await mongoose.connection.collection('users').dropIndex('email_1');
+    res.json({ success: true, message: 'email_1 indeksi o\'chirildi' });
+  } catch (e) {
+    if (e.code === 27) return res.json({ success: true, message: 'email_1 indeksi mavjud emas' });
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
 // Yo'nalishlar
 router.get('/directions', ...adminOnly, getAdminDirections);
 router.post('/directions', ...adminOnly, [
@@ -144,6 +156,13 @@ router.post('/seed-directions', ...adminOnly, async (req, res) => {
     const count = await Direction.countDocuments();
     if (!force && count > 0) return res.json({ success: true, message: `Yo'nalishlar allaqachon mavjud: ${count} ta` });
     if (force && count > 0) await Direction.deleteMany({});
+    // Eski email_1 index-ni tashlab yuboramiz (regstratsiya ishlashi uchun)
+    try {
+      await mongoose.connection.collection('users').dropIndex('email_1');
+      console.log('✅ email_1 index o\'chirildi');
+    } catch (e) {
+      if (e.code !== 27) console.warn('⚠️  email_1 index o\'chirishda xato:', e.message);
+    }
     const list = [
       { name: 'Dasturlash', desc: 'Zamonaviy dasturlash tillari va texnologiyalari', img: '/assets/images/DSC00827.webp', icon: 'Code', duration: '3 yil', features: ['Python, JavaScript, PHP', 'Web va mobil ilovalar', 'Real loyihalar bilan ishlash', 'Sertifikat olish imkoniyati'], order: 1, active: true },
       { name: 'Marketing va agrobiznes', desc: 'Raqamli marketing va qishloq xo\'jaligi iqtisodiyoti', img: '/assets/images/DSC00912.webp', icon: 'TrendingUp', duration: '3 yil', features: ['SMM, SEO, Google Ads', 'Agrobiznes strategiyalari', 'Analitika va hisobot', 'Amaliy loyihalar'], order: 2, active: true },

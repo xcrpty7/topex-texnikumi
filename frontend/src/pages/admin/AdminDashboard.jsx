@@ -257,7 +257,6 @@ const AdminDashboard = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate" style={{ color: '#272829' }}>{u.name}</p>
-                        <p className="text-[11px] truncate" style={{ color: '#61677A' }}>{u.email}</p>
                       </div>
                       <span className="text-[11px]" style={{ color: '#9CA3AF' }} title={new Date(u.createdAt).toLocaleDateString(locale)}>
                         {timeAgo(u.createdAt, i18n.language)}

@@ -309,6 +309,9 @@ const CoursesPage = () => {
             <div className="text-center text-sm text-navy/60 mb-6">
               {t('coursesPage.pricingNote')}
             </div>
+            <div className="text-center text-[13px] font-bold text-red-500 mb-4">
+              ⏳ Скидка 20% действует до 10 июля!
+            </div>
             <div className="flex items-center justify-center gap-2 text-sm font-semibold text-emerald-700 bg-emerald-100/60 rounded-xl px-5 py-3">
               <Award size={18} />
               {t('coursesPage.pricingGrant')}

@@ -148,7 +148,6 @@ const ProfilePage = () => {
               </div>
               <div className="text-center sm:text-left">
                 <h1 className="text-white text-3xl sm:text-4xl font-black mb-1">{user?.name}</h1>
-                <p className="text-white/70 text-sm mb-3">{user?.email}</p>
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                   user?.role === 'SUPER_ADMIN' ? 'bg-coral/20 text-coral' :
                   user?.role === 'ADMIN' ? 'bg-orange/20 text-orange' :

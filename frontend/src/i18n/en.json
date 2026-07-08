@@ -240,6 +240,10 @@
   "adminMisc": {
     "profile": "Profile & login"
   },
+  "loginErr": {
+    "phoneIncomplete": "Enter your full phone number",
+    "loginShort": "Login must be at least 3 characters"
+  },
   "registerPage": {
     "backHome": "Home",
     "heroBadge": "Study at Topex Texnikumi",
@@ -624,6 +628,7 @@
     "create": "Create"
   },
   "adminDirections": {
+    "pageTitle": "Directions – TOPEX Admin",
     "header": "Directions",
     "subtitle": "Manage study directions",
     "empty": "No directions yet",
@@ -940,132 +945,132 @@
     "aboutTitleField": "About Section Title",
     "aboutTextField": "About Text",
     "aboutTextPlaceholder": "Enter the about section text...",
-    "footerDesc": "Footer Description",
-    "adminBlog": {
-      "pageTitle": "Blog – TOPEX Admin",
-      "header": "Blog / Articles",
-      "articlesCount": "{{filtered}}/{{total}} articles",
-      "published": "published",
-      "draft": "draft",
-      "searchPlaceholder": "Article title or category...",
-      "all": "All",
-      "categories": {
-        "yangiliklar": "News",
-        "elonlar": "Announcements",
-        "maqolalar": "Articles",
-        "tadbirlar": "Events"
-      },
-      "notFound": "Article not found",
-      "table": {
-        "image": "Image",
-        "title": "Title",
-        "category": "Category",
-        "status": "Status",
-        "views": "Views",
-        "actions": "Actions"
-      },
-      "statusPublished": "published",
-      "statusDraft": "draft",
-      "tooltip": {
-        "hide": "Hide",
-        "publish": "Publish",
-        "viewOnSite": "View on site"
-      },
-      "modalEdit": "Edit Article",
-      "modalAdd": "New Article",
-      "form": {
-        "title": "Title",
-        "coverImage": "Cover Image",
-        "coverImageHint": "Article cover (landscape recommended)",
-        "selectImage": "Select Image",
-        "category": "Category",
-        "videoUrl": "Video URL",
-        "videoUrlPlaceholder": "YouTube link...",
-        "content": "Content (text)",
-        "excerpt": "Short description (optional)",
-        "tags": "Tags (comma separated)",
-        "tagsPlaceholder": "javascript, react, tutorial",
-        "publishNow": "Publish immediately"
-      },
-      "editor": {
-        "bold": "Bold",
-        "italic": "Italic",
-        "underline": "Underline",
-        "unorderedList": "Bullet list",
-        "orderedList": "Numbered list",
-        "heading": "Heading",
-        "paragraph": "Paragraph",
-        "clearFormat": "Clear formatting",
-        "addLink": "Add link",
-        "linkPrompt": "Link URL:",
-        "htmlEditor": "HTML editor"
-      },
-      "confirmTitle": "Confirm delete article",
-      "confirmMessage": "This action cannot be undone. The article will be permanently deleted.",
-      "confirmLabel": "Yes, delete",
-      "toast": {
-        "updated": "Article updated",
-        "created": "Article created",
-        "deleted": "Article deleted!",
-        "error": "An error occurred"
-      }
+    "footerDesc": "Footer Description"
+  },
+  "adminBlog": {
+    "pageTitle": "Blog – TOPEX Admin",
+    "header": "Blog / Articles",
+    "articlesCount": "{{filtered}}/{{total}} articles",
+    "published": "published",
+    "draft": "draft",
+    "searchPlaceholder": "Article title or category...",
+    "all": "All",
+    "categories": {
+      "yangiliklar": "News",
+      "elonlar": "Announcements",
+      "maqolalar": "Articles",
+      "tadbirlar": "Events"
     },
-    "adminCourses": {
-      "pageTitle": "Courses – TOPEX Admin",
-      "header": "Courses",
-      "coursesCount": "courses",
-      "active": "active",
-      "inactive": "inactive",
-      "searchPlaceholder": "Course name or category...",
-      "filterAll": "All",
-      "filterPublished": "Published",
-      "filterDraft": "Draft",
-      "notFound": "Course not found",
-      "featured": "Featured",
-      "table": {
-        "image": "Image",
-        "title": "Title",
-        "level": "Level",
-        "status": "Status",
-        "students": "Students",
-        "actions": "Actions"
-      },
-      "statusPublished": "published",
-      "statusDraft": "draft",
-      "tooltip": {
-        "hide": "Hide",
-        "publish": "Publish",
-        "viewOnSite": "View on site"
-      },
-      "modalEdit": "Edit Course",
-      "modalAdd": "Add Course",
-      "form": {
-        "title": "Title",
-        "description": "Description",
-        "shortDescription": "Short Description",
-        "videoUrl": "Video URL (YouTube/Vimeo)",
-        "videoUrlPlaceholder": "https://youtube.com/watch?v=...",
-        "category": "Category",
-        "categoryPlaceholder": "-- Select Category --",
-        "categoryOther": "Other",
-        "level": "Level",
-        "price": "Price (UZS)",
-        "duration": "Duration (e.g. 3 months, 24 lessons)",
-        "image": "Image",
-        "imageHint": "Course cover (16:9 recommended)",
-        "isFree": "Free course",
-        "isActive": "Published",
-        "isFeatured": "Featured"
-      },
-      "confirmTitle": "Confirm delete course",
-      "confirmMessage": "This action cannot be undone. The course and related data will be permanently deleted.",
-      "confirmLabel": "Yes, delete",
-      "toast": {
-        "updated": "Course updated!",
-        "created": "Course created!",
-        "deleted": "Deleted!",
-        "error": "An error occurred"
-      }
+    "notFound": "Article not found",
+    "table": {
+      "image": "Image",
+      "title": "Title",
+      "category": "Category",
+      "status": "Status",
+      "views": "Views",
+      "actions": "Actions"
+    },
+    "statusPublished": "published",
+    "statusDraft": "draft",
+    "tooltip": {
+      "hide": "Hide",
+      "publish": "Publish",
+      "viewOnSite": "View on site"
+    },
+    "modalEdit": "Edit article",
+    "modalAdd": "New article",
+    "form": {
+      "title": "Title",
+      "coverImage": "Cover image",
+      "coverImageHint": "Article cover (landscape recommended)",
+      "selectImage": "Select image",
+      "category": "Category",
+      "videoUrl": "Video URL",
+      "videoUrlPlaceholder": "YouTube link...",
+      "content": "Content (text)",
+      "excerpt": "Short description (optional)",
+      "tags": "Tags (comma separated)",
+      "tagsPlaceholder": "javascript, react, tutorial",
+      "publishNow": "Publish immediately"
+    },
+    "editor": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "unorderedList": "Bullet list",
+      "orderedList": "Numbered list",
+      "heading": "Heading",
+      "paragraph": "Paragraph",
+      "clearFormat": "Clear formatting",
+      "addLink": "Add link",
+      "linkPrompt": "Link URL:",
+      "htmlEditor": "HTML editor"
+    },
+    "confirmTitle": "Confirm article deletion",
+    "confirmMessage": "This action cannot be undone. The article will be permanently deleted.",
+    "confirmLabel": "Yes, delete",
+    "toast": {
+      "updated": "Article updated",
+      "created": "Article created",
+      "deleted": "Article deleted!",
+      "error": "An error occurred"
+    }
+  },
+  "adminCourses": {
+    "pageTitle": "Courses – TOPEX Admin",
+    "header": "Courses",
+    "coursesCount": "courses",
+    "active": "active",
+    "inactive": "inactive",
+    "searchPlaceholder": "Course name or category...",
+    "filterAll": "All",
+    "filterPublished": "Published",
+    "filterDraft": "Drafts",
+    "notFound": "Course not found",
+    "featured": "Featured",
+    "table": {
+      "image": "Image",
+      "title": "Title",
+      "level": "Level",
+      "status": "Status",
+      "students": "Students",
+      "actions": "Actions"
+    },
+    "statusPublished": "published",
+    "statusDraft": "draft",
+    "tooltip": {
+      "hide": "Hide",
+      "publish": "Publish",
+      "viewOnSite": "View on site"
+    },
+    "modalEdit": "Edit course",
+    "modalAdd": "Add course",
+    "form": {
+      "title": "Title",
+      "description": "Description",
+      "shortDescription": "Short description",
+      "videoUrl": "Video URL (YouTube/Vimeo)",
+      "videoUrlPlaceholder": "https://youtube.com/watch?v=...",
+      "category": "Category",
+      "categoryPlaceholder": "-- Select category --",
+      "categoryOther": "Other",
+      "level": "Level",
+      "price": "Price (UZS)",
+      "duration": "Duration (e.g. 3 months, 24 lessons)",
+      "image": "Image",
+      "imageHint": "Course cover (16:9 recommended)",
+      "isFree": "Free course",
+      "isActive": "Published",
+      "isFeatured": "Featured"
+    },
+    "confirmTitle": "Confirm course deletion",
+    "confirmMessage": "This action cannot be undone. The course and related data will be permanently deleted.",
+    "confirmLabel": "Yes, delete",
+    "toast": {
+      "updated": "Course updated!",
+      "created": "Course created!",
+      "deleted": "Deleted!",
+      "error": "An error occurred"
     }
   },
   "courses": {
@@ -1594,132 +1599,6 @@
     "linkArray": {
       "text": "Text",
       "url": "URL"
-    }
-  },
-  "adminBlog": {
-    "pageTitle": "Blog – TOPEX Admin",
-    "header": "Blog / Articles",
-    "articlesCount": "{{filtered}}/{{total}} articles",
-    "published": "published",
-    "draft": "draft",
-    "searchPlaceholder": "Article title or category...",
-    "all": "All",
-    "categories": {
-      "yangiliklar": "News",
-      "elonlar": "Announcements",
-      "maqolalar": "Articles",
-      "tadbirlar": "Events"
-    },
-    "notFound": "Article not found",
-    "table": {
-      "image": "Image",
-      "title": "Title",
-      "category": "Category",
-      "status": "Status",
-      "views": "Views",
-      "actions": "Actions"
-    },
-    "statusPublished": "published",
-    "statusDraft": "draft",
-    "tooltip": {
-      "hide": "Hide",
-      "publish": "Publish",
-      "viewOnSite": "View on site"
-    },
-    "modalEdit": "Edit article",
-    "modalAdd": "New article",
-    "form": {
-      "title": "Title",
-      "coverImage": "Cover image",
-      "coverImageHint": "Article cover (landscape recommended)",
-      "selectImage": "Select image",
-      "category": "Category",
-      "videoUrl": "Video URL",
-      "videoUrlPlaceholder": "YouTube link...",
-      "content": "Content (text)",
-      "excerpt": "Short description (optional)",
-      "tags": "Tags (comma separated)",
-      "tagsPlaceholder": "javascript, react, tutorial",
-      "publishNow": "Publish immediately"
-    },
-    "editor": {
-      "bold": "Bold",
-      "italic": "Italic",
-      "underline": "Underline",
-      "unorderedList": "Bullet list",
-      "orderedList": "Numbered list",
-      "heading": "Heading",
-      "paragraph": "Paragraph",
-      "clearFormat": "Clear formatting",
-      "addLink": "Add link",
-      "linkPrompt": "Link URL:",
-      "htmlEditor": "HTML editor"
-    },
-    "confirmTitle": "Confirm article deletion",
-    "confirmMessage": "This action cannot be undone. The article will be permanently deleted.",
-    "confirmLabel": "Yes, delete",
-    "toast": {
-      "updated": "Article updated",
-      "created": "Article created",
-      "deleted": "Article deleted!",
-      "error": "An error occurred"
-    }
-  },
-  "adminCourses": {
-    "pageTitle": "Courses – TOPEX Admin",
-    "header": "Courses",
-    "coursesCount": "courses",
-    "active": "active",
-    "inactive": "inactive",
-    "searchPlaceholder": "Course name or category...",
-    "filterAll": "All",
-    "filterPublished": "Published",
-    "filterDraft": "Drafts",
-    "notFound": "Course not found",
-    "featured": "Featured",
-    "table": {
-      "image": "Image",
-      "title": "Title",
-      "level": "Level",
-      "status": "Status",
-      "students": "Students",
-      "actions": "Actions"
-    },
-    "statusPublished": "published",
-    "statusDraft": "draft",
-    "tooltip": {
-      "hide": "Hide",
-      "publish": "Publish",
-      "viewOnSite": "View on site"
-    },
-    "modalEdit": "Edit course",
-    "modalAdd": "Add course",
-    "form": {
-      "title": "Title",
-      "description": "Description",
-      "shortDescription": "Short description",
-      "videoUrl": "Video URL (YouTube/Vimeo)",
-      "videoUrlPlaceholder": "https://youtube.com/watch?v=...",
-      "category": "Category",
-      "categoryPlaceholder": "-- Select category --",
-      "categoryOther": "Other",
-      "level": "Level",
-      "price": "Price (UZS)",
-      "duration": "Duration (e.g. 3 months, 24 lessons)",
-      "image": "Image",
-      "imageHint": "Course cover (16:9 recommended)",
-      "isFree": "Free course",
-      "isActive": "Published",
-      "isFeatured": "Featured"
-    },
-    "confirmTitle": "Confirm course deletion",
-    "confirmMessage": "This action cannot be undone. The course and related data will be permanently deleted.",
-    "confirmLabel": "Yes, delete",
-    "toast": {
-      "updated": "Course updated!",
-      "created": "Course created!",
-      "deleted": "Deleted!",
-      "error": "An error occurred"
     }
   }
 }

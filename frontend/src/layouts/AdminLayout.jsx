@@ -155,7 +155,6 @@ const AdminLayout = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[12px] font-semibold truncate" style={{ color: '#fff' }}>{user?.name}</p>
-              <p className="text-[10px] truncate" style={{ color: '#9ca0ad' }}>{user?.email}</p>
             </div>
           </div>
           <button

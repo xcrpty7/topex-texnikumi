@@ -396,26 +396,24 @@ const HomePage = () => {
         <div className="w-full px-6 lg:px-16 max-w-[1500px] mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
-            {/* LEFT — 2x2 staggered image collage */}
-            <motion.div {...up(0)} className="relative">
-              <div className="grid grid-cols-2 gap-5">
-                {[
-                  { src: '/assets/images/about-new-1.jpg', alt: "Topex Texnikumi binosi", cls: 'aspect-[3/4] sm:-mt-6' },
-                  { src: '/assets/images/about-new-2.jpg', alt: "Topex Texnikumi o'quv xonasi", cls: 'aspect-[3/4] sm:mt-6' },
-                  { src: '/assets/images/about-new-3.jpg', alt: "Topex Texnikumi talabalari", cls: 'aspect-[4/3]' },
-                  { src: '/assets/images/about/about-4.webp', alt: "Topex Texnikumi dars jarayoni", cls: 'aspect-[4/3] sm:mt-8' },
-                ].map((im, i) => {
-                  const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
-                  return (
-                    <motion.div key={i}
-                      initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-                      transition={{ duration:0.6, delay: i*0.1 }}
-                      className={`${im.cls} rounded-2xl overflow-hidden shadow-xl`}>
-                      <img src={src} alt={im.alt} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-                    </motion.div>
-                  );
-                })}
-              </div>
+            {/* LEFT — vertical separated image collage */}
+            <motion.div {...up(0)} className="relative space-y-6">
+              {[
+                { src: '/assets/images/about-new-1.jpg', alt: "Topex Texnikumi binosi" },
+                { src: '/assets/images/about-new-2.jpg', alt: "Topex Texnikumi o'quv xonasi" },
+                { src: '/assets/images/about-new-3.jpg', alt: "Topex Texnikumi talabalari" },
+                { src: '/assets/images/about/about-4.webp', alt: "Topex Texnikumi dars jarayoni" },
+              ].map((im, i) => {
+                const src = im.src.startsWith('/assets') || im.src.startsWith('http') ? im.src : `${API_URL}${im.src}`;
+                return (
+                  <motion.div key={i}
+                    initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+                    transition={{ duration:0.6, delay: i*0.1 }}
+                    className="rounded-2xl overflow-hidden shadow-xl w-full max-w-md mx-auto sm:mx-0">
+                    <img src={src} alt={im.alt} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 aspect-[4/3]" />
+                  </motion.div>
+                );
+              })}
             </motion.div>
 
             {/* RIGHT — text + stats */}
@@ -615,7 +613,7 @@ const HomePage = () => {
                 <img
                   src={settings?.formImage && !settings.formImage.startsWith('/uploads/')
                     ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/form-new.jpg'}
+                    : '/assets/images/DSC00912.webp'}
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"

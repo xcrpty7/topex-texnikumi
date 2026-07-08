@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen, RefreshCw } from 'lucide-react';
+import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen, RefreshCw, UserCheck } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import Button from '../../components/ui/Button';
@@ -96,6 +96,15 @@ const AdminDirections = () => {
           }} variant="ghost" size="sm" style={{ borderColor: '#D97706', color: '#D97706' }}>
             <RefreshCw size={14} className="mr-1" /> 8 ta yo'nalishni tiklash
           </Button>
+          <Button onClick={async () => {
+            try {
+              const res = await api.post('/admin/drop-email-index');
+              toast.success(res.data?.message || 'Registratsiya tuzatildi');
+            } catch (e) { toast.error(e.response?.data?.message || t('admin.error')); }
+          }} variant="ghost" size="sm" style={{ borderColor: '#059669', color: '#059669' }}>
+            <UserCheck size={14} className="mr-1" /> Registratsiyani tuzatish
+          </Button>
+        </div>
         </div>
 
       {loading ? (

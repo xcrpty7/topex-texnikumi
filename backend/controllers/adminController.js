@@ -43,7 +43,7 @@ const getDashboardStats = async (req, res) => {
       Application.countDocuments({ status: 'yangi' }),
       Application.countDocuments({ createdAt: { $gte: todayStart } }),
       Application.countDocuments({ createdAt: { $gte: weekStart } }),
-      User.find({ role: 'USER' }).sort({ createdAt: -1 }).limit(5).select('name email createdAt'),
+      User.find({ role: 'USER' }).sort({ createdAt: -1 }).limit(5).select('name createdAt'),
       Application.find()
         .sort({ createdAt: -1 })
         .limit(5)

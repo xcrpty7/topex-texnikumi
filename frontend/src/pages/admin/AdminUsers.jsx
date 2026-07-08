@@ -183,7 +183,6 @@ const AdminUsers = () => {
                 <thead>
                   <tr>
                     <th>{t('adminUsers.table.user')}</th>
-                    <th>{t('adminUsers.table.email')}</th>
                     <th>{t('adminUsers.table.role')}</th>
                     <th>{t('adminUsers.table.status')}</th>
                     <th>{t('adminUsers.table.joined')}</th>
@@ -204,7 +203,6 @@ const AdminUsers = () => {
                           <span className="font-medium text-[13px]" style={{ color: '#272829' }}>{user.name}</span>
                         </div>
                       </td>
-                      <td className="muted font-mono text-[11px]">{user.email}</td>
                       <td><RoleBadge role={user.role} /></td>
                       <td>
                         <span
