@@ -99,7 +99,22 @@ router.post('/teachers', ...adminOnly, uploadTeacher.single('image'), handleMult
 router.put('/teachers/:id', ...adminOnly, uploadTeacher.single('image'), handleMulterError, updateTeacher);
 router.delete('/teachers/:id', ...adminOnly, deleteTeacher);
 
-// Bir martalik seed: admin panel uchun o'qituvchilarni bazaga yozish
+const teacherSeedList = [
+  { name: 'ABDURASULOV KOZIMJON',   image: '/assets/Ustozlar/DSC03820.jpg', role: "Kimyo o'qituvchisi",      order: 1, active: true },
+  { name: "SHARIPOVA MA'MURA",      image: '/assets/Ustozlar/DSC03830.jpg', role: "Ona tili/adabiyot o'qituvchisi", order: 2, active: true },
+  { name: 'SHOVQIYEVA LAYLO',       image: '/assets/Ustozlar/DSC03842.jpg', role: "Ingliz tili o'qituvchisi", order: 3, active: true },
+  { name: 'DONIYOROVA SHAHNOZA',    image: '/assets/Ustozlar/DSC03856.jpg', role: "Ingliz tili o'qituvchisi", order: 4, active: true },
+  { name: 'IBRAGIMOVA KAMILA',      image: '/assets/Ustozlar/DSC03861.jpg', role: "Matematika o'qituvchisi",  order: 5, active: true },
+  { name: 'MUKIMBOEV FIRDAVS',      image: '/assets/Ustozlar/DSC03872.jpg', role: "Matematika o'qituvchisi",  order: 6, active: true },
+  { name: 'AYTBAYEVA SARBINAZ',     image: '/assets/Ustozlar/DSC03883.jpg', role: "Biologiya o'qituvchisi",   order: 7, active: true },
+  { name: 'SULTONALIYEV SHOXRUH',   image: '/assets/Ustozlar/DSC03894.jpg', role: "Biologiya o'qituvchisi",   order: 8, active: true },
+  { name: 'VALIYEV JAMSHIDBEK',     image: '/assets/Ustozlar/DSC03901.jpg', role: "Ingliz tili o'qituvchisi", order: 9, active: true },
+  { name: 'BEKOVA OYSARA',          image: '/assets/Ustozlar/DSC03904.jpg', role: 'Bosh direktor',            order: 10, active: true },
+  { name: 'ESHONQULOVA MUNISA',     image: '/assets/Ustozlar/DSC03943.jpg', role: 'Administrator',           order: 11, active: true },
+  { name: 'ABDUJALILOV BUNYODBEK',  image: '/assets/Ustozlar/DSC03944.jpg', role: "Moliyaviy tashkiliy",     order: 12, active: true },
+  { name: 'KARIMOV ISLOM',          image: '/assets/Ustozlar/DSC03951.jpg', role: 'Administrator',           order: 13, active: true },
+];
+
 router.post('/seed-teachers', ...adminOnly, async (req, res) => {
   try {
     const count = await Teacher.countDocuments();
@@ -108,20 +123,6 @@ router.post('/seed-teachers', ...adminOnly, async (req, res) => {
     res.json({ success: true, message: `${teacherSeedList.length} ta o'qituvchi qo'shildi` });
   } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
-
-// Reset teachers: delete all and re-seed
-const teacherSeedList = [
-  { name: "G'AYRAT SHOUMAROV",               image: '/assets/Ustozlar/DSC01143.webp',      role: 'Direktor', order: 1, active: true },
-  { name: 'OLGERD FILLIPOV',                 image: '/assets/Ustozlar/DSC01155.webp',      role: "Dasturlash o'qituvchisi", order: 2, active: true },
-  { name: 'RUSTAM KARIMOV',                  image: '/assets/Ustozlar/DSC01164.webp',      role: "Marketing o'qituvchisi", order: 3, active: true },
-  { name: 'DILSHOD AZIZOV',                  image: '/assets/Ustozlar/DSC01187.webp',      role: "Grafik dizayn o'qituvchisi", order: 4, active: true },
-  { name: 'AKMAL RAHIMOV',                   image: '/assets/Ustozlar/DSC01199.webp',      role: "Bank ishi o'qituvchisi", order: 5, active: true },
-  { name: "NORBOYEV NE'MATBEK CHORIYEVICH",  image: '/assets/Ustozlar/teacher-new-1.webp', role: "Dasturlash o'qituvchisi", order: 6, active: true },
-  { name: "KUBAYEV RO'ZIMUROD HIKMATILLAYEVICH", image: '/assets/Ustozlar/teacher-new-2.webp', role: "Marketing o'qituvchisi", order: 7, active: true },
-  { name: 'BURTSEVA ALEKSANDRA VASILEVNA',   image: '/assets/Ustozlar/teacher-new-3.webp', role: "Chet tili o'qituvchisi", order: 8, active: true },
-  { name: 'ABDULLAYEV OYBEK ODILOVICH',      image: '/assets/Ustozlar/teacher-new-4.webp', role: "Grafik dizayn o'qituvchisi", order: 9, active: true },
-  { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', image: '/assets/Ustozlar/teacher-new-5.webp', role: "Bank ishi o'qituvchisi", order: 10, active: true },
-];
 
 router.post('/reset-teachers', ...adminOnly, async (req, res) => {
   try {
@@ -156,22 +157,15 @@ router.post('/seed-directions', ...adminOnly, async (req, res) => {
     const count = await Direction.countDocuments();
     if (!force && count > 0) return res.json({ success: true, message: `Yo'nalishlar allaqachon mavjud: ${count} ta` });
     if (force && count > 0) await Direction.deleteMany({});
-    // Eski email_1 index-ni tashlab yuboramiz (regstratsiya ishlashi uchun)
-    try {
-      await mongoose.connection.collection('users').dropIndex('email_1');
-      console.log('✅ email_1 index o\'chirildi');
-    } catch (e) {
-      if (e.code !== 27) console.warn('⚠️  email_1 index o\'chirishda xato:', e.message);
-    }
     const list = [
-      { name: 'Dasturlash', desc: 'Zamonaviy dasturlash tillari va texnologiyalari', img: '/assets/images/DSC00827.webp', icon: 'Code', duration: '3 yil', features: ['Python, JavaScript, PHP', 'Web va mobil ilovalar', 'Real loyihalar bilan ishlash', 'Sertifikat olish imkoniyati'], order: 1, active: true },
-      { name: 'Marketing va agrobiznes', desc: 'Raqamli marketing va qishloq xo\'jaligi iqtisodiyoti', img: '/assets/images/DSC00912.webp', icon: 'TrendingUp', duration: '3 yil', features: ['SMM, SEO, Google Ads', 'Agrobiznes strategiyalari', 'Analitika va hisobot', 'Amaliy loyihalar'], order: 2, active: true },
-      { name: 'Kompyuter grafikasi va dizayn', desc: 'Vizual dizayn va kompyuter grafikasi', img: '/assets/images/DSC01093.webp', icon: 'Palette', duration: '3 yil', features: ['Photoshop, Illustrator, Figma', 'Logo va brending dizayn', 'UI/UX asoslari', 'Portfolio tayyorlash'], order: 3, active: true },
-      { name: 'Bank ishi', desc: 'Bank va moliya tizimi asoslari', img: '/assets/famali-photo/DSC00875.webp', icon: 'ShieldCheck', duration: '3 yil', features: ['Bank operatsiyalari', 'Moliyaviy tahlil', 'Kredit va depozit turlari', 'Amaliy mashg\'ulotlar'], order: 4, active: true },
-      { name: 'Mehmonxona boshqaruvi', desc: 'Mehmonxona va turizm menejmenti', img: '/assets/famali-photo/DSC00954.webp', icon: 'Hotel', duration: '3 yil', features: ['Mehmonxona boshqaruvi', 'Turizm marketingi', 'Mijozlar bilan ishlash', 'Amaliy mashg\'ulotlar'], order: 5, active: true },
-      { name: 'Raqamli axborotlar analitigi', desc: 'Raqamli ma\'lumotlar tahlili va boshqaruvi', img: '/assets/famali-photo/DSC00955.webp', icon: 'BarChart3', duration: '3 yil', features: ['Ma\'lumotlar tahlili', 'Axborot tizimlari', 'Raqamli texnologiyalar', 'Amaliy loyihalar'], order: 6, active: true },
-      { name: 'Laborant analitik', desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar', img: '/assets/famali-photo/DSC00964.webp', icon: 'FlaskConical', duration: '3 yil', features: ['Laboratoriya tahlillari', 'Ilmiy tadqiqotlar', 'Analitik usullar', 'Amaliy mashg\'ulotlar'], order: 7, active: true },
-      { name: 'Dorivor o\'simliklar laboranti', desc: 'Dorivor o\'simliklar yetishtirish va qayta ishlash', img: '/assets/famali-photo/DSC00980.webp', icon: 'Sprout', duration: '3 yil', features: ['Dorivor o\'simliklar', 'Fitokimyo asoslari', 'Laboratoriya ishlari', 'Amaliy mashg\'ulotlar'], order: 8, active: true },
+      { name: 'Dasturlash',                    desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.',              img: '/assets/images/dir-1.jpg',    icon: 'Code',        duration: '3 yil', features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish'],              order: 1, active: true },
+      { name: 'Marketing va agrobiznes',       desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.",                img: '/assets/images/dir-4.jpg',    icon: 'TrendingUp',  duration: '3 yil', features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import'],                order: 2, active: true },
+      { name: 'Kompyuter grafikasi va dizayn', desc: '3D modellashtirish, brending va vizual kontent.',                      img: '/assets/images/dir-2.jpg',    icon: 'Palette',     duration: '3 yil', features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn'],        order: 3, active: true },
+      { name: 'Bank ishi',                     desc: 'Bank va moliya tizimi asoslari.',                                     img: '/assets/images/dir-9.jpg',    icon: 'ShieldCheck', duration: '3 yil', features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi'],           order: 4, active: true },
+      { name: 'Mehmonxona boshqaruvi',         desc: "Mehmonxona va turizm menejmenti.",                                   img: '/assets/images/dir-10.jpg',   icon: 'Hotel',       duration: '3 yil', features: ['Service Management', 'Event planning', 'Xorijiy tillar'],            order: 5, active: true },
+      { name: 'Raqamli axborotlar analitigi',  desc: 'Raqamli ma\'lumotlar tahlili va boshqaruvi.',                         img: '/assets/images/DSC03700.jpg', icon: 'BarChart3',   duration: '3 yil', features: ['Ma\'lumotlar tahlili', 'Axborot tizimlari', 'Raqamli texnologiyalar'], order: 6, active: true },
+      { name: 'Laborant analitik',             desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar.',                        img: '/assets/images/dir-5.jpg',    icon: 'FlaskConical',duration: '3 yil', features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati'],          order: 7, active: true },
+      { name: "Dorivor o'simliklar laboranti", desc: "Dorivor o'simliklar yetishtirish va qayta ishlash.",                  img: '/assets/images/dir-6.jpg',    icon: 'Sprout',      duration: '3 yil', features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya'],                       order: 8, active: true },
     ];
     for (const d of list) await Direction.create(d);
     res.json({ success: true, message: `${list.length} ta yo'nalish qo'shildi` });
