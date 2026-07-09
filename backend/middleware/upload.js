@@ -59,6 +59,7 @@ const uploadGallery = createUpload('gallery');
 const uploadTestimonial = createUpload('testimonials');
 const uploadTeacher = createUpload('teachers');
 const uploadVideo = createUpload('videos', videoFilter, MAX_VIDEO_MB);
+const uploadVideoPhoto = createUpload('video-photos');
 
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
@@ -73,5 +74,5 @@ const handleMulterError = (err, req, res, next) => {
 
 module.exports = {
   uploadImage, uploadAvatar, uploadPost, uploadGallery, uploadTestimonial,
-  uploadTeacher, uploadVideo, handleMulterError
+  uploadTeacher, uploadVideo, uploadVideoPhoto, handleMulterError
 };

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { body } = require('express-validator');
 const validate = require('../middleware/validate');
 const { protect, restrictTo } = require('../middleware/auth');
-const { uploadGallery, uploadTestimonial, uploadVideo, uploadTeacher, handleMulterError } = require('../middleware/upload');
+const { uploadGallery, uploadTestimonial, uploadVideo, uploadVideoPhoto, uploadTeacher, handleMulterError } = require('../middleware/upload');
 
 const {
   getDashboardStats, getUsers, getUserById, updateUser, deleteUser, toggleUserBlock,
@@ -85,10 +85,14 @@ router.post('/settings/upload-image', ...adminOnly, uploadGallery.single('image'
 
 // Bosh sahifa videolari
 router.get('/home-videos', ...adminOnly, getAdminHomeVideos);
-router.post('/home-videos', ...adminOnly, uploadVideo.single('video'), handleMulterError, [
+const videoUpload = uploadVideo.fields([
+  { name: 'video', maxCount: 1 },
+  { name: 'photo', maxCount: 1 },
+]);
+router.post('/home-videos', ...adminOnly, videoUpload, handleMulterError, [
   body('title').notEmpty().withMessage('Video sarlavhasi kiritilishi shart'),
 ], validate, createHomeVideo);
-router.put('/home-videos/:id', ...adminOnly, uploadVideo.single('video'), handleMulterError, updateHomeVideo);
+router.put('/home-videos/:id', ...adminOnly, videoUpload, handleMulterError, updateHomeVideo);
 router.delete('/home-videos/:id', ...adminOnly, deleteHomeVideo);
 
 // O'qituvchilar
