@@ -29,7 +29,7 @@ const ContactPage = () => {
   }, []);
 
   const phone   = '+998 55 588 44 77';
-  const phone2  = settings?.phone2  || '';
+  const phone2  = '+998 78 777 44 77';
   const email   = settings?.email   || 'info@topex.uz';
   const address = t('contact.addressValue') || settings?.address;
   const hours   = settings?.workingHours || t('contactPage.workingHours');

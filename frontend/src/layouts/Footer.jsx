@@ -81,6 +81,7 @@ const Footer = () => {
        : `${API_URL}${u}`;
   const logoSrc   = resolveImg(settings?.logo);
   const phone     = '+998 55 588 44 77';
+  const phone2    = '+998 78 777 44 77';
   const email     = settings?.email     || 'info@topex.uz';
   const address1  = t('contact.addressValue') || settings?.address;
   const address2  = t('contact.addressValue2') || settings?.address2;
@@ -261,6 +262,11 @@ const Footer = () => {
                      className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors">
                     <Phone size={16} className="text-orange mt-0.5 flex-shrink-0" />
                     <span className="text-[14px]">{phone}</span>
+                  </a>
+                  <a href={`tel:${phone2.replace(/\s/g,'')}`}
+                     className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors mt-1.5">
+                    <Phone size={16} className="text-orange mt-0.5 flex-shrink-0" />
+                    <span className="text-[14px]">{phone2}</span>
                   </a>
                 </li>
                 <li>

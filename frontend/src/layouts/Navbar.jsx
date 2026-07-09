@@ -28,6 +28,7 @@ const Navbar = () => {
        : `${import.meta.env.VITE_API_URL || ''}${u}`;
   const logoSrc    = resolveImg(siteSettings?.logo);
   const navPhone   = '+998 55 588 44 77';
+  const navPhone2  = '+998 78 777 44 77';
   const navAddress = t('contact.addressValue') || siteSettings?.address;
   const navEmail   = siteSettings?.email   || 'info@topex.uz';
 
@@ -86,7 +87,7 @@ const Navbar = () => {
                 </div>
               </button>
               <div className="w-px h-12 bg-gray-200" />
-              <ContactItem icon={<Phone size={18} className="text-orange" />} title={t('contact.phone')} lines={[navPhone]} href={`tel:${navPhone.replace(/\s/g,'')}`} />
+              <ContactItem icon={<Phone size={18} className="text-orange" />} title={t('contact.phone')} lines={[navPhone, navPhone2]} href={`tel:${navPhone.replace(/\s/g,'')}`} />
               <div className="w-px h-12 bg-gray-200" />
               <ContactItem icon={<Mail size={18} className="text-orange" />} title={t('contact.email')} lines={[navEmail]} href={`mailto:${navEmail}`} />
             </div>
