@@ -28,7 +28,7 @@ const ContactPage = () => {
     api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
   }, []);
 
-  const phone   = settings?.phone   || '+998 78 777 44 77';
+  const phone   = settings?.phone   || '+998 55 588 44 77';
   const phone2  = settings?.phone2  || '';
   const email   = settings?.email   || 'info@topex.uz';
   const address = t('contact.addressValue') || settings?.address;

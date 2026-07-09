@@ -157,7 +157,7 @@ const ImtihonNatijalariPage = () => {
                 <Home size={16} /> {t('imtihonPage.backHome')}
               </Link>
               <a
-                href="tel:+998787774477"
+                href="tel:+998555884477"
                 className="inline-flex items-center gap-2 bg-orange text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all"
               >
                 <Phone size={16} /> {t('imtihonPage.callBtn')}
@@ -176,8 +176,8 @@ const ImtihonNatijalariPage = () => {
                 <Phone size={24} className="text-orange" />
               </div>
               <h3 className="text-white font-bold text-[16px] mb-2">{t('imtihonPage.phoneTitle')}</h3>
-              <a href="tel:+998787774477" className="text-orange font-bold text-[18px] hover:text-orange/80 transition-colors">
-                +998 78 777 44 77
+              <a href="tel:+998555884477" className="text-orange font-bold text-[18px] hover:text-orange/80 transition-colors">
+                +998 55 588 44 77
               </a>
             </motion.div>
             <motion.div {...up(0.05)}>

@@ -80,7 +80,7 @@ const Footer = () => {
        : (u.startsWith('http') || u.startsWith('/assets')) ? u
        : `${API_URL}${u}`;
   const logoSrc   = resolveImg(settings?.logo);
-  const phone     = settings?.phone     || '+998 78 777 44 77';
+  const phone     = settings?.phone     || '+998 55 588 44 77';
   const email     = settings?.email     || 'info@topex.uz';
   const address1  = t('contact.addressValue') || settings?.address;
   const address2  = t('contact.addressValue2') || settings?.address2;

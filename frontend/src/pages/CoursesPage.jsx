@@ -350,7 +350,7 @@ const CoursesPage = () => {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-              <a href={`tel:${settings?.coursesCtaPhone || '+998787774477'}`} className="btn-coral text-base px-8 py-4 whitespace-nowrap">
+              <a href={`tel:${settings?.coursesCtaPhone || '+998555884477'}`} className="btn-coral text-base px-8 py-4 whitespace-nowrap">
                 {t('coursesPage.ctaPhoneBtn')}
               </a>
               <a href="/" className="btn-outline text-base px-8 py-4 whitespace-nowrap border-white text-white hover:bg-white hover:text-navy">

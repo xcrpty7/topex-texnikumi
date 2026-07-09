@@ -231,7 +231,7 @@ const NarxPage = () => {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-              <a href="tel:+998787774477" className="btn-coral text-base px-8 py-4 whitespace-nowrap">
+              <a href="tel:+998555884477" className="btn-coral text-base px-8 py-4 whitespace-nowrap">
                 {t('narxPage.ctaCall')}
               </a>
               <a

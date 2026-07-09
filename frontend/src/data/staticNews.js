@@ -74,7 +74,7 @@ export const STATIC_NEWS = [
       <h2>Grant va chegirmalar</h2>
       <p>TOPEXda iqtidorli o'quvchilar uchun <strong>bepul grantlar</strong> va chegirmalar mavjud. Olimpiada g'oliblari, a'lo baholar bilan o'qiydigan talabalar grant asosida o'qish imkoniyatiga ega. Batafsil ma'lumot uchun <a href="/courses">kurslar sahifasini</a> ko'ring yoki admin bilan bog'laning.</p>
 
-      <p>Telefon: +998787774477<br/>Telegram: @topex_uz</p>
+      <p>Telefon: +998555884477<br/>Telegram: @topex_uz</p>
     `
   },
   {
@@ -180,7 +180,7 @@ export const STATIC_NEWS = [
         <li>Sertifikat yoki diplom (grant olish uchun)</li>
       </ul>
 
-      <p>Grant olish uchun <a href="/">bosh sahifadagi ariza formasini</a> to'ldiring yoki +998787774477 raqamiga qo'ng'iroq qiling.</p>
+      <p>Grant olish uchun <a href="/">bosh sahifadagi ariza formasini</a> to'ldiring yoki +998555884477 raqamiga qo'ng'iroq qiling.</p>
     `
   },
   {
@@ -223,7 +223,7 @@ export const STATIC_NEWS = [
       <h2>Xususiy texnikum vs akademik litsey</h2>
       <p>Xususiy texnikumlar (TOPEX kabi) akademik litseylardan farqli ravishda ko'proq amaliy bilim va kasbiy ko'nikmalar beradi. Texnikum bitiruvchilari davlat namunasidagi diplom bilan bir qatorda, tanlangan soha bo'yicha amaliy tajribaga ega bo'lishadi. <a href="/courses">Yo'nalishlar bilan tanishish</a>.</p>
 
-      <p>Telefon: +998787774477<br/>Telegram: @topex_uz<br/>Manzil: Chilonzor, Sergeli, Yunusobod filiallari</p>
+      <p>Telefon: +998555884477<br/>Telegram: @topex_uz<br/>Manzil: Chilonzor, Sergeli, Yunusobod filiallari</p>
     `
   }
 ];

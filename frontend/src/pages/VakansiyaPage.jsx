@@ -140,9 +140,9 @@ const VakansiyaPage = () => {
                 {t('vakansiyaPage.resumeText')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="tel:+998787774477"
+                <a href="tel:+998555884477"
                   className="inline-flex items-center gap-2 bg-brand text-white font-bold px-6 py-3 rounded-xl hover:brightness-110 transition-all">
-                  <Phone size={16} /> +998 78 777 44 77
+                  <Phone size={16} /> +998 55 588 44 77
                 </a>
                 <a href="mailto:info@topex.uz"
                   className="inline-flex items-center gap-2 bg-white border-2 border-brand text-brand font-bold px-6 py-3 rounded-xl hover:bg-brand hover:text-white transition-all">
