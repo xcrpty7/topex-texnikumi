@@ -251,7 +251,13 @@
     "back": "Back"
   },
   "diplomaSection": {
-    "badge": "Document"
+    "badge": "Document",
+    "title": "State-recognized diploma",
+    "text": "Topex graduates receive a state-recognized diploma — a document confirming practical skills in digital technologies, programming and other fields. This diploma opens doors to employment at leading IT companies and high-tech industries, giving you a competitive edge in the job market.\n\nThe Topex program suits participants with any level of prior preparation. Beginners can master a new profession from scratch, while practicing specialists can upgrade their digital skills and change direction.",
+    "card1Title": "State recognition",
+    "card1Desc": "Official document",
+    "card2Title": "Professional skills",
+    "card2Desc": "Practical validation"
   },
   "adminMisc": {
     "profile": "Profile & login"
@@ -434,6 +440,7 @@
   },
   "contactPage": {
     "heroTitle": "Contacts",
+    "heroSubtitle": "Get in touch with us any way you like — we'll answer all your questions about admission and studying.",
     "breadcrumbHome": "Home",
     "breadcrumbContacts": "Contacts",
     "cardAddress": "Our Address",

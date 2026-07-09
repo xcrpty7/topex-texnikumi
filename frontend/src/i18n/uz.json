@@ -251,7 +251,13 @@
     "back": "Orqaga"
   },
   "diplomaSection": {
-    "badge": "Hujjat"
+    "badge": "Hujjat",
+    "title": "Davlat namunasidagi diplom",
+    "text": "Topex bitiruvchilari davlat namunasidagi diplom oladilar — bu hujjat raqamli texnologiyalar, dasturlash va boshqa sohalardagi amaliy ko'nikmalarni tasdiqlaydi. Ushbu diplom sizga yetakchi IT-kompaniyalar va yuqori texnologik tarmoqlarda ish topish hamda mehnat bozorida raqobatbardosh ustunlik uchun eshik ochadi.\n\nTopex dasturi har qanday dastlabki tayyorgarlikdagi ishtirokchilar uchun mos. Yangi boshlovchilar nol darajadan yangi kasbni egallashlari mumkin, amaliyotchi mutaxassislar esa raqamli texnologiyalar sohasida malakalarini oshirib, yo'nalishini o'zgartira oladilar.",
+    "card1Title": "Davlat tan olishi",
+    "card1Desc": "Rasmiy hujjat",
+    "card2Title": "Kasbiy ko'nikmalar",
+    "card2Desc": "Amaliy tasdiqlash"
   },
   "adminMisc": {
     "profile": "Profil va kirish"
@@ -434,6 +440,7 @@
   },
   "contactPage": {
     "heroTitle": "Aloqalar",
+    "heroSubtitle": "Biz bilan istalgan qulay usulda bog'laning — qabul va o'qish bo'yicha barcha savollaringizga javob beramiz.",
     "breadcrumbHome": "Bosh sahifa",
     "breadcrumbContacts": "Aloqalar",
     "cardAddress": "Bizning manzil",

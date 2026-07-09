@@ -7,26 +7,24 @@ const resolveImg = (u) =>
   !u ? '' : (u.startsWith('http') || u.startsWith('/assets')) ? u : `${API_URL}${u}`;
 
 /**
- * Hujjat / Sertifikat (Diplom) bo'limi — admin paneldan boshqariladi.
+ * Hujjat / Sertifikat (Diplom) bo'limi — matn statik (i18n), rasmlar admin paneldan (ixtiyoriy).
  * Rasmlar object-contain bilan to'liq, kesilmasdan, matni o'qiladigan ko'rinishda.
- * Faqat ma'lumot mavjud bo'lganda ko'rinadi.
  */
 const DiplomaSection = ({ settings }) => {
   const { t } = useTranslation();
-  if (!settings) return null;
 
-  const img1 = resolveImg(settings.diplomaImage1);
-  const img2 = resolveImg(settings.diplomaImage2);
-  const title = settings.diplomaTitle;
-  const text = settings.diplomaText;
+  const img1 = resolveImg(settings?.diplomaImage1);
+  const img2 = resolveImg(settings?.diplomaImage2);
+  const title = t('diplomaSection.title');
+  const text = t('diplomaSection.text');
 
   const images = [img1, img2].filter(Boolean);
   const cards = [
-    { t: settings.diplomaCard1Title, d: settings.diplomaCard1Desc },
-    { t: settings.diplomaCard2Title, d: settings.diplomaCard2Desc },
-  ].filter((c) => c.t || c.d);
+    { t: t('diplomaSection.card1Title'), d: t('diplomaSection.card1Desc') },
+    { t: t('diplomaSection.card2Title'), d: t('diplomaSection.card2Desc') },
+  ];
 
-  // Hech qanday ma'lumot yo'q bo'lsa — bo'limni umuman ko'rsatmaymiz
+  // Sertifikat rasmlari hali yuklanmagan bo'lsa — matn qismini baribir ko'rsatamiz
   if (!images.length && !title && !text) return null;
 
   return (

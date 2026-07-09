@@ -144,11 +144,9 @@ const ContactPage = () => {
             <motion.h1 {...up(0)} className="text-4xl md:text-6xl font-black text-white leading-[1.1] mb-5 drop-shadow-lg">
             {t('contactPage.heroTitle')}
           </motion.h1>
-          {settings?.contactHeroSubtitle && (
-            <motion.p {...up(0.05)} className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
-              {settings.contactHeroSubtitle}
-            </motion.p>
-          )}
+          <motion.p {...up(0.05)} className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
+            {t('contactPage.heroSubtitle')}
+          </motion.p>
           <motion.div {...up(0.1)} className="flex items-center justify-center gap-2 text-white/70 text-sm font-medium">
             <Link to="/" className="inline-flex items-center gap-1 hover:text-orange transition-colors">
               <Home size={14} /> {t('loginPage.backHome')}

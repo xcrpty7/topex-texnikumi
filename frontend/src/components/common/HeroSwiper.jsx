@@ -167,7 +167,7 @@ export default function HeroSwiper({ settings }) {
                     <motion.img
                       key={`img-${i}`}
                       src={failedImg[i] ? fallbackImg(i) : slide.imageFg}
-                      alt=""
+                      alt="Topex Texnikumi o'quvchilari - Toshkentdagi zamonaviy xususiy texnikum"
                       fetchpriority={i === 0 ? 'high' : undefined}
                       srcSet={!failedImg[i] ? srcSetFor(slide.imageFg) : undefined}
                       sizes="(max-width: 480px) 480px, (max-width: 960px) 960px, (max-width: 1440px) 1440px, 1920px"

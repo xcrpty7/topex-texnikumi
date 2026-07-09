@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SeoHelmet from '../components/common/SeoHelmet';
 import {
@@ -8,7 +7,6 @@ import {
   BookOpen, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout,
   ArrowRight, CreditCard, Percent, Landmark, Gift,
 } from 'lucide-react';
-import api from '../services/api';
 
 const up = (delay = 0) => ({
   initial:     { opacity: 0, y: 24 },
@@ -17,24 +15,10 @@ const up = (delay = 0) => ({
   transition:  { duration: 0.5, ease: 'easeOut', delay },
 });
 
-const ICON_MAP = {
-  Dasturlash: BookOpen, Marketing: TrendingUp, Grafikasi: Palette,
-  Nazoratchisi: ShieldCheck, Boshqaruvi: Hotel, Analitigi: BarChart3,
-    Laborant: FlaskConical, "O'simliklar": Sprout,
-};
-
 const NarxPage = () => {
   const { t } = useTranslation();
-  const [settings, setSettings] = useState(null);
 
-  useEffect(() => {
-    api.get('/settings').then(r => {
-      const d = r.data.data;
-      if (d) setSettings(d);
-    }).catch(() => {});
-  }, []);
-
-  const subjects = settings?.subjects?.length > 0 ? settings.subjects : [
+  const subjects = [
     { name: t('directions.items.lab'), duration: t('narxPage.years3'), Icon: FlaskConical },
     { name: t('directions.items.pharma'), duration: t('narxPage.years3'), Icon: Sprout },
     { name: t('directions.items.marketing'), duration: t('narxPage.years3'), Icon: TrendingUp },
@@ -212,19 +196,16 @@ const NarxPage = () => {
               <div>{t('narxPage.tableDuration')}</div>
               <div className="text-right">{t('narxPage.tablePrice')}</div>
             </div>
-            {subjects.map((s, i) => {
-              const Icon = s.Icon || ICON_MAP[Object.keys(ICON_MAP).find(k => s.name?.includes(k))] || BookOpen;
-              return (
-                <div key={i} className={`grid grid-cols-3 items-center px-6 py-4 text-sm ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
-                  <div className="flex items-center gap-2 font-medium text-navy">
-                    <Icon size={16} className="text-blue flex-shrink-0" />
-                    {s.name}
-                  </div>
-                  <div className="text-navy/60">{s.duration || t('narxPage.years2')}</div>
-                  <div className="text-right font-bold text-navy">2 500 000 {t('pricing.sum')}</div>
+            {subjects.map((s, i) => (
+              <div key={i} className={`grid grid-cols-3 items-center px-6 py-4 text-sm ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                <div className="flex items-center gap-2 font-medium text-navy">
+                  <s.Icon size={16} className="text-blue flex-shrink-0" />
+                  {s.name}
                 </div>
-              );
-            })}
+                <div className="text-navy/60">{s.duration}</div>
+                <div className="text-right font-bold text-navy">2 500 000 {t('pricing.sum')}</div>
+              </div>
+            ))}
           </div>
 
           <motion.div {...up(0.1)} className="text-center mt-8">

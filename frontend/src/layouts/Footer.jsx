@@ -248,13 +248,13 @@ const Footer = () => {
               </div>
             </div>
 
-            <FooterCol title={settings?.footerColAboutTitle      || t('footer.colAbout')}      links={COL1} />
-            <FooterCol title={settings?.footerColApplicantsTitle || t('footer.colApplicants')} links={COL2} />
-            <FooterCol title={settings?.footerColStudentsTitle   || t('footer.colStudents')}   links={COL3} />
+            <FooterCol title={t('footer.colAbout')}      links={COL1} />
+            <FooterCol title={t('footer.colApplicants')} links={COL2} />
+            <FooterCol title={t('footer.colStudents')}   links={COL3} />
 
             {/* Column 4: Aloqalar */}
             <div>
-              <h4 className="text-white font-bold text-[18px] mb-6">{settings?.footerColContactsTitle || t('footer.colContacts')}</h4>
+              <h4 className="text-white font-bold text-[18px] mb-6">{t('footer.colContacts')}</h4>
               <ul className="space-y-5">
                 <li>
                   <a href={`tel:${phone.replace(/\s/g,'')}`}
@@ -287,10 +287,10 @@ const Footer = () => {
           {/* ── Copyright ── */}
           <div className="mt-8 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-white/60 text-[13px]">
-              {settings?.footerCopyText || t('footer.copyright')} {year}
+              {t('footer.copyright')} {year}
             </p>
             <a href="#" onClick={(e) => e.preventDefault()} className="text-white/60 hover:text-orange text-[13px] underline-offset-2 hover:underline transition-colors">
-              {settings?.footerOfertaText || t('footer.oferta')}
+              {t('footer.oferta')}
             </a>
           </div>
         </div>

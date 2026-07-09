@@ -197,7 +197,7 @@ const ArticleDetailPage = () => {
             </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {others.map((a, i) => (
-                <NewsCard key={a._id || i} article={a} index={i} moreText={settings?.newsMoreText || t('news.more')} />
+                <NewsCard key={a._id || i} article={a} index={i} moreText={t('news.more')} />
               ))}
             </div>
           </div>

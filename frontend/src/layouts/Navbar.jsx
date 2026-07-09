@@ -56,10 +56,10 @@ const Navbar = () => {
             {/* Logo — brendli ko'k rang (CSS mask orqali, shakl saqlanadi) */}
             <Link to="/" className="flex items-center gap-3 group flex-shrink-0" aria-label="Topex">
               <span
-                className="block h-12 lg:h-14"
+                className="block h-14 lg:h-16"
                 style={{
-                  width: '13.5rem',
-                  maxWidth: '52vw',
+                  width: '16rem',
+                  maxWidth: '55vw',
                   backgroundColor: '#1d3a8a',
                   WebkitMaskImage: `url(${logoSrc})`,
                   maskImage: `url(${logoSrc})`,
