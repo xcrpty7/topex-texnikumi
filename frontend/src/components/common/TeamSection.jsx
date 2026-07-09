@@ -8,19 +8,19 @@ import { Link } from 'react-router-dom';
 import 'swiper/css';
 
 const TEACHERS_RAW = [
-  { name: 'ABDURASULOV KOZIMJON',   roleKey: 'kimyo',          img: '/assets/Ustozlar/DSC03820.jpg' },
-  { name: "SHARIPOVA MA'MURA",      roleKey: 'ona_adabiyot',   img: '/assets/Ustozlar/DSC03830.jpg' },
-  { name: 'SHOVQIYEVA LAYLO',       roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03842.jpg' },
-  { name: 'DONIYOROVA SHAHNOZA',    roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03856.jpg' },
-  { name: 'IBRAGIMOVA KAMILA',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03861.jpg' },
-  { name: 'MUKIMBOEV FIRDAVS',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03872.jpg' },
-  { name: 'AYTBAYEVA SARBINAZ',     roleKey: 'biologiya_rus',  img: '/assets/Ustozlar/DSC03883.jpg' },
-  { name: 'SULTONALIYEV SHOXRUH',   roleKey: 'biologiya_uz',   img: '/assets/Ustozlar/DSC03894.jpg' },
-  { name: 'VALIYEV JAMSHIDBEK',     roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03901.jpg' },
-  { name: 'BEKOVA OYSARA',          roleKey: 'bosh_direktor',  img: '/assets/Ustozlar/DSC03904.jpg' },
-  { name: 'ESHONQULOVA MUNISA',     roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03943.jpg' },
-  { name: 'ABDUJALILOV BUNYODBEK',  roleKey: 'moliya',         img: '/assets/Ustozlar/DSC03944.jpg' },
-  { name: 'KARIMOV ISLOM',          roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03951.jpg' },
+  { name: 'ABDURASULOV KOZIMJON',   roleKey: 'kimyo',          img: '/assets/Ustozlar/DSC03820.webp' },
+  { name: "SHARIPOVA MA'MURA",      roleKey: 'ona_adabiyot',   img: '/assets/Ustozlar/DSC03830.webp' },
+  { name: 'SHOVQIYEVA LAYLO',       roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03842.webp' },
+  { name: 'DONIYOROVA SHAHNOZA',    roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03856.webp' },
+  { name: 'IBRAGIMOVA KAMILA',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03861.webp' },
+  { name: 'MUKIMBOEV FIRDAVS',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03872.webp' },
+  { name: 'AYTBAYEVA SARBINAZ',     roleKey: 'biologiya_rus',  img: '/assets/Ustozlar/DSC03883.webp' },
+  { name: 'SULTONALIYEV SHOXRUH',   roleKey: 'biologiya_uz',   img: '/assets/Ustozlar/DSC03894.webp' },
+  { name: 'VALIYEV JAMSHIDBEK',     roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03901.webp' },
+  { name: 'BEKOVA OYSARA',          roleKey: 'bosh_direktor',  img: '/assets/Ustozlar/DSC03904.webp' },
+  { name: 'ESHONQULOVA MUNISA',     roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03943.webp' },
+  { name: 'ABDUJALILOV BUNYODBEK',  roleKey: 'moliya',         img: '/assets/Ustozlar/DSC03944.webp' },
+  { name: 'KARIMOV ISLOM',          roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03951.webp' },
 ];
 
 export default function TeamSection({ settings }) {

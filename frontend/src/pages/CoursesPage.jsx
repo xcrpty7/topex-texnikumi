@@ -30,15 +30,15 @@ const resolveImg = (url) => {
 /* Yo'nalish nomi bo'yicha lokal zaxira rasm — admin rasm yuklamagan bo'lsa
    qora "Rasm mavjud emas" o'rniga shu ko'rsatiladi */
 const SUBJECT_IMG_FALLBACKS = [
-  ['dorivor',     '/assets/images/DSC03528.jpg'],
-  ['laborant',    '/assets/images/dir-5.jpg'],
-  ['marketing',   '/assets/images/DSC02988.jpg'],
-  ['grafik',      '/assets/images/DSC03024.jpg'],
-  ['dizayn',      '/assets/images/DSC03024.jpg'],
-  ['bank',        '/assets/images/DSC04146.jpg'],
-  ['mehmonxona',  '/assets/images/DSC03972.jpg'],
-  ['raqamli',     '/assets/images/DSC03700.jpg'],
-  ['dasturlash',  '/assets/images/dir-1.jpg'],
+  ['dorivor',     '/assets/images/DSC03528.webp'],
+  ['laborant',    '/assets/images/dir-5.webp'],
+  ['marketing',   '/assets/images/DSC02988.webp'],
+  ['grafik',      '/assets/images/DSC03024.webp'],
+  ['dizayn',      '/assets/images/DSC03024.webp'],
+  ['bank',        '/assets/images/DSC04146.webp'],
+  ['mehmonxona',  '/assets/images/DSC03972.webp'],
+  ['raqamli',     '/assets/images/DSC03700.webp'],
+  ['dasturlash',  '/assets/images/dir-1.webp'],
 ];
 const subjectFallbackImg = (name = '') => {
   const n = name.toLowerCase();
@@ -61,20 +61,20 @@ const DEFAULT_HIGHLIGHTS = (t) => [
 ];
 
 const DEFAULT_SUBJECTS = (t) => [
-  { icon: Code,        name: t('coursesPage.subjects.programming'), desc: t('coursesPage.subjects.programmingDesc'),  img: '/assets/images/dir-1.jpg',      duration: t('narxPage.years2'), features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
-  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),   desc: t('coursesPage.subjects.marketingDesc'),    img: '/assets/images/DSC02988.jpg',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
-  { icon: Palette,     name: t('coursesPage.subjects.design'),      desc: t('coursesPage.subjects.designDesc'),       img: '/assets/images/DSC03024.jpg',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
-  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),     desc: t('coursesPage.subjects.bankingDesc'),      img: '/assets/images/DSC04146.jpg',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
-  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),       desc: t('coursesPage.subjects.hotelDesc'),        img: '/assets/images/DSC03972.jpg',   imgPos: '50% 18%', duration: t('narxPage.years2'), features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
-  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),   desc: t('coursesPage.subjects.analyticsDesc'),    img: '/assets/images/DSC03700.jpg',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
-  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),    desc: t('coursesPage.subjects.laborantDesc'),     img: '/assets/images/dir-5.jpg',      duration: t('narxPage.years2'), features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
-  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),    desc: t('coursesPage.subjects.phytolabDesc'),     img: '/assets/images/DSC03528.jpg',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
+  { icon: Code,        name: t('coursesPage.subjects.programming'), desc: t('coursesPage.subjects.programmingDesc'),  img: '/assets/images/dir-1.webp',      duration: t('narxPage.years2'), features: [t('coursesPage.subjects.programmingF1'), t('coursesPage.subjects.programmingF2'), t('coursesPage.subjects.programmingF3')] },
+  { icon: TrendingUp,  name: t('coursesPage.subjects.marketing'),   desc: t('coursesPage.subjects.marketingDesc'),    img: '/assets/images/DSC02988.webp',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.marketingF1'), t('coursesPage.subjects.marketingF2'), t('coursesPage.subjects.marketingF3')] },
+  { icon: Palette,     name: t('coursesPage.subjects.design'),      desc: t('coursesPage.subjects.designDesc'),       img: '/assets/images/DSC03024.webp',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.designF1'), t('coursesPage.subjects.designF2'), t('coursesPage.subjects.designF3')] },
+  { icon: ShieldCheck, name: t('coursesPage.subjects.banking'),     desc: t('coursesPage.subjects.bankingDesc'),      img: '/assets/images/DSC04146.webp',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.bankingF1'), t('coursesPage.subjects.bankingF2'), t('coursesPage.subjects.bankingF3')] },
+  { icon: Hotel,       name: t('coursesPage.subjects.hotel'),       desc: t('coursesPage.subjects.hotelDesc'),        img: '/assets/images/DSC03972.webp',   imgPos: '50% 18%', duration: t('narxPage.years2'), features: [t('coursesPage.subjects.hotelF1'), t('coursesPage.subjects.hotelF2'), t('coursesPage.subjects.hotelF3')] },
+  { icon: BarChart3,   name: t('coursesPage.subjects.analytics'),   desc: t('coursesPage.subjects.analyticsDesc'),    img: '/assets/images/DSC03700.webp',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.analyticsF1'), t('coursesPage.subjects.analyticsF2'), t('coursesPage.subjects.analyticsF3')] },
+  { icon: FlaskConical,name: t('coursesPage.subjects.laborant'),    desc: t('coursesPage.subjects.laborantDesc'),     img: '/assets/images/dir-5.webp',      duration: t('narxPage.years2'), features: [t('coursesPage.subjects.laborantF1'), t('coursesPage.subjects.laborantF2'), t('coursesPage.subjects.laborantF3')] },
+  { icon: Sprout,      name: t('coursesPage.subjects.phytolab'),    desc: t('coursesPage.subjects.phytolabDesc'),     img: '/assets/images/DSC03528.webp',   duration: t('narxPage.years2'), features: [t('coursesPage.subjects.phytolabF1'), t('coursesPage.subjects.phytolabF2'), t('coursesPage.subjects.phytolabF3')] },
 ];
 
 const COURSES_BGS = [
-  '/assets/images/DSC03752.jpg',
-  '/assets/images/DSC03690.jpg',
-  '/assets/images/DSC02973.jpg',
+  '/assets/images/DSC03752.webp',
+  '/assets/images/DSC03690.webp',
+  '/assets/images/DSC02973.webp',
 ];
 
 const CoursesPage = () => {

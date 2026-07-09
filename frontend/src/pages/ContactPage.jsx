@@ -137,7 +137,7 @@ const ContactPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/images/DSC04071.jpg')" }}
+          style={{ backgroundImage: "url('/assets/images/DSC04071.webp')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
@@ -299,7 +299,7 @@ const ContactPage = () => {
                               shadow-2xl bg-gray-100"
                    style={{ borderRadius: '180px 180px 36px 36px' }}>
                 <img
-                  src="/assets/images/DSC04276.jpg"
+                  src="/assets/images/DSC04276.webp"
                   alt="Topex talabasi"
                   className="w-full h-full object-cover object-top"
                   loading="lazy"

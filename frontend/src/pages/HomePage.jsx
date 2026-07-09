@@ -61,7 +61,7 @@ const SUBJECTS = [
     icon: FlaskConical,   
     name: 'Laborant analitik',             
     desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar.', 
-    img: '/assets/images/dir-5.jpg',
+    img: '/assets/images/dir-5.webp',
     duration: '2 yil',
     features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
   },
@@ -69,7 +69,7 @@ const SUBJECTS = [
     icon: Sprout,         
     name: "Dorivor o'simliklar laboranti",
     desc: 'Dorivor o\'simliklar yetishtirish va qayta ishlash.', 
-    img: '/assets/images/dir-6.jpg',
+    img: '/assets/images/dir-6.webp',
     duration: '2 yil',
     features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
   },
@@ -77,7 +77,7 @@ const SUBJECTS = [
     icon: TrendingUp,     
     name: 'Marketing va agrobiznes',       
     desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.", 
-    img: '/assets/images/dir-4.jpg',
+    img: '/assets/images/dir-4.webp',
     duration: '2 yil',
     features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
   },
@@ -85,7 +85,7 @@ const SUBJECTS = [
     icon: Code,           
     name: 'Dasturlash',                    
     desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
-    img: '/assets/images/dir-1.jpg',
+    img: '/assets/images/dir-1.webp',
     duration: '2 yil',
     features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
   },
@@ -93,7 +93,7 @@ const SUBJECTS = [
     icon: Palette,        
     name: 'Kompyuter grafikasi va dizayn',           
     desc: '3D modellashtirish, brending va vizual kontent.', 
-    img: '/assets/images/dir-2.jpg',
+    img: '/assets/images/dir-2.webp',
     duration: '2 yil',
     features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
   },
@@ -101,7 +101,7 @@ const SUBJECTS = [
     icon: ShieldCheck,    
     name: 'Bank ishi',             
     desc: 'Bank va moliya tizimi asoslari.', 
-    img: '/assets/images/dir-9.jpg',
+    img: '/assets/images/dir-9.webp',
     duration: '2 yil',
     features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
   },
@@ -109,7 +109,7 @@ const SUBJECTS = [
     icon: Hotel,          
     name: 'Mehmonxona boshqaruvi',         
     desc: "Mehmonxona va turizm menejmenti.", 
-    img: '/assets/images/dir-10.jpg',
+    img: '/assets/images/dir-10.webp',
     duration: '2 yil',
     features: ['Service Management', 'Event planning', 'Xorijiy tillar']
   },
@@ -117,7 +117,7 @@ const SUBJECTS = [
     icon: BarChart3,      
     name: 'Raqamli axborotlar analitigi',   
     desc: "Ma'lumotlar tahlili va axborot tizimlari.",
-    img: '/assets/images/dir-3.jpg',
+    img: '/assets/images/dir-3.webp',
     duration: '2 yil',
     features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
   },
@@ -394,10 +394,10 @@ const HomePage = () => {
                   initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                   transition={{ duration:0.6 }}
                   className="col-span-2 rounded-2xl overflow-hidden shadow-xl aspect-[16/9]">
-                  <img src="/assets/images/DSC03766.jpg" alt="Topex Texnikumi" loading="lazy"
+                  <img src="/assets/images/DSC03766.webp" alt="Topex Texnikumi" loading="lazy"
                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </motion.div>
-                {['/assets/images/DSC03779.jpg', '/assets/images/DSC04192.jpg'].map((src, i) => (
+                {['/assets/images/DSC03779.webp', '/assets/images/DSC04192.webp'].map((src, i) => (
                   <motion.div key={src}
                     initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                     transition={{ duration:0.6, delay: 0.12 + i*0.1 }}
@@ -590,7 +590,7 @@ const HomePage = () => {
                               shadow-2xl bg-gray-100"
                    style={{ borderRadius: '180px 180px 36px 36px' }}>
                 <img
-                  src="/assets/images/DSC04276.jpg"
+                  src="/assets/images/DSC04276.webp"
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"
