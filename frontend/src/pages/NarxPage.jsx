@@ -19,14 +19,14 @@ const NarxPage = () => {
   const { t } = useTranslation();
 
   const subjects = [
-    { name: t('directions.items.lab'), duration: t('narxPage.years3'), Icon: FlaskConical },
-    { name: t('directions.items.pharma'), duration: t('narxPage.years3'), Icon: Sprout },
-    { name: t('directions.items.marketing'), duration: t('narxPage.years3'), Icon: TrendingUp },
-    { name: t('directions.items.programming'), duration: t('narxPage.years3'), Icon: BookOpen },
-    { name: t('directions.items.graphics'), duration: t('narxPage.years3'), Icon: Palette },
-    { name: t('directions.items.bank'), duration: t('narxPage.years3'), Icon: ShieldCheck },
-    { name: t('directions.items.hotel'), duration: t('narxPage.years3'), Icon: Hotel },
-    { name: t('directions.items.analytics'), duration: t('narxPage.years3'), Icon: BarChart3 },
+    { name: t('directions.items.lab'), duration: t('narxPage.years2'), Icon: FlaskConical },
+    { name: t('directions.items.pharma'), duration: t('narxPage.years2'), Icon: Sprout },
+    { name: t('directions.items.marketing'), duration: t('narxPage.years2'), Icon: TrendingUp },
+    { name: t('directions.items.programming'), duration: t('narxPage.years2'), Icon: BookOpen },
+    { name: t('directions.items.graphics'), duration: t('narxPage.years2'), Icon: Palette },
+    { name: t('directions.items.bank'), duration: t('narxPage.years2'), Icon: ShieldCheck },
+    { name: t('directions.items.hotel'), duration: t('narxPage.years2'), Icon: Hotel },
+    { name: t('directions.items.analytics'), duration: t('narxPage.years2'), Icon: BarChart3 },
   ];
 
   return (

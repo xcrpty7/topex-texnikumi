@@ -62,7 +62,7 @@ const SUBJECTS = [
     name: 'Laborant analitik',             
     desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar.', 
     img: '/assets/images/dir-5.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
   },
   { 
@@ -70,7 +70,7 @@ const SUBJECTS = [
     name: "Dorivor o'simliklar laboranti",
     desc: 'Dorivor o\'simliklar yetishtirish va qayta ishlash.', 
     img: '/assets/images/dir-6.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
   },
   { 
@@ -78,7 +78,7 @@ const SUBJECTS = [
     name: 'Marketing va agrobiznes',       
     desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.", 
     img: '/assets/images/dir-4.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
   },
   { 
@@ -86,7 +86,7 @@ const SUBJECTS = [
     name: 'Dasturlash',                    
     desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
     img: '/assets/images/dir-1.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
   },
   { 
@@ -94,7 +94,7 @@ const SUBJECTS = [
     name: 'Kompyuter grafikasi va dizayn',           
     desc: '3D modellashtirish, brending va vizual kontent.', 
     img: '/assets/images/dir-2.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
   },
   { 
@@ -102,7 +102,7 @@ const SUBJECTS = [
     name: 'Bank ishi',             
     desc: 'Bank va moliya tizimi asoslari.', 
     img: '/assets/images/dir-9.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
   },
   { 
@@ -110,7 +110,7 @@ const SUBJECTS = [
     name: 'Mehmonxona boshqaruvi',         
     desc: "Mehmonxona va turizm menejmenti.", 
     img: '/assets/images/dir-10.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Service Management', 'Event planning', 'Xorijiy tillar']
   },
   { 
@@ -118,7 +118,7 @@ const SUBJECTS = [
     name: 'Raqamli axborotlar analitigi',   
     desc: "Ma'lumotlar tahlili va axborot tizimlari.",
     img: '/assets/images/dir-3.jpg',
-    duration: '3 yil',
+    duration: '2 yil',
     features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
   },
 ];
