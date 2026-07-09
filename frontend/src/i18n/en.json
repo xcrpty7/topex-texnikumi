@@ -927,6 +927,7 @@
       "videoFile": "Video file",
       "clickToUpload": "Click to upload a video file",
       "videoUrl": "Video URL",
+      "photoLabel": "Video cover image",
       "order": "Order",
       "status": "Status"
     },
