@@ -101,22 +101,6 @@ const CoursesPage = () => {
       const d = r.data.data;
       if (!d) return;
       setSettings(d);
-      if (d.subjects?.length > 0) {
-        const normalized = d.subjects.map(sub => {
-          const cleanName = (sub.name || '').replace(/[;.\s]+$/, '');
-          return {
-            ...sub,
-            name: cleanName,
-            img: sub.imgUrl ? resolveImg(sub.imgUrl) : subjectFallbackImg(cleanName),
-            imgFallback: subjectFallbackImg(cleanName),
-            icon: ICON_MAP[sub.iconName] || ICON_MAP[sub.icon] || BookOpen,
-            features: Array.isArray(sub.features)
-              ? sub.features
-              : (sub.features || '').split(',').map(f => f.trim()).filter(Boolean),
-          };
-        });
-        setDbSubjects(normalized);
-      }
       if (d.coursesHighlights?.length > 0) setDbHighlights(d.coursesHighlights);
     }).catch(() => {});
   }, []);
@@ -150,11 +134,7 @@ const CoursesPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-center scale-105 transition-opacity duration-700"
           style={{
-            backgroundImage: `url('${
-              settings?.coursesHeroImage
-                ? resolveImg(settings.coursesHeroImage)
-                : COURSES_BGS[bgIdx]
-            }')`,
+            backgroundImage: `url('${COURSES_BGS[bgIdx]}')`,
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/90 via-navy/80 to-navy/95" />

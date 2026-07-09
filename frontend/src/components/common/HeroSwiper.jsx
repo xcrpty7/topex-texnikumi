@@ -46,21 +46,8 @@ export default function HeroSwiper({ settings }) {
   const fallbackImg = (i) => FG_IMAGES[(i + 1) % FG_IMAGES.length];
   const fallbackBg = (i) => BG_IMAGES[(i + 2) % BG_IMAGES.length];
 
-  const dbSlides = Array.isArray(settings?.heroSlides) && settings.heroSlides.length > 0;
-
-  const resolveBg = (val, fallback) =>
-    (val && !val.startsWith('/uploads')) ? resolveImg(val, fallback) : fallback;
-
-  const slides = dbSlides
-    ? settings.heroSlides.map((s, i) => ({
-        title: i < 3
-          ? [t(`hero.slide${i+1}Title1`), t(`hero.slide${i+1}Title2`), t(`hero.slide${i+1}Title3`)].filter(Boolean)
-          : [s.title1, s.title2, s.title3].filter(Boolean),
-        subtitle: i < 3 ? t(`hero.slide${i+1}Sub`) : (s.subtitle || ''),
-        imageBg: resolveBg(s.image, BG_IMAGES[i]),
-        imageFg: FG_IMAGES[i],
-      }))
-    : BG_IMAGES.map((bg, i) => ({
+  // Faqat statik slaydlar — bazadagi eski heroSlides ishlatilmaydi
+  const slides = BG_IMAGES.map((bg, i) => ({
         title: [
           t(`hero.slide${i+1}Title1`),
           t(`hero.slide${i+1}Title2`),
@@ -96,8 +83,8 @@ export default function HeroSwiper({ settings }) {
                   className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url('${failedImg[i] ? fallbackBg(i) : slide.imageBg}')` }}
                 />
-                {/* Asosiy gradient qatlam */}
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/95 via-brand-deep/85 to-[#0a1740]/95" />
+                {/* Asosiy gradient qatlam — fon rasm ko'k tus bilan ko'rinib turadi */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/90 via-brand-deep/70 to-[#0a1740]/90" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
 
                 {/* Rangli nur dog'lari */}

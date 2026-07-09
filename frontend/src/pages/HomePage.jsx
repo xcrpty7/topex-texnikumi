@@ -15,15 +15,12 @@ import {
 
 const ICON_MAP = { Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout, BookOpen, Star, Award, Users, Globe, Cpu, Music, Camera };
 import { fetchCourses } from '../features/courses/coursesSlice';
-import { fetchArticles } from '../features/blog/blogSlice';
 import CourseCard from '../components/common/CourseCard';
 import HeroSwiper from '../components/common/HeroSwiper';
 import DirectionsSplit from '../components/common/DirectionsSplit';
 import TeamSection from '../components/common/TeamSection';
 import DiplomaSection from '../components/common/DiplomaSection';
-import NewsSwiper from '../components/common/NewsSwiper';
 import VideosSwiper from '../components/common/VideosSwiper';
-import ArticleCard from '../components/common/ArticleCard';
 import Spinner from '../components/ui/Spinner';
 import PhoneInput from '../components/ui/PhoneInput';
 import api from '../services/api';
@@ -268,14 +265,11 @@ const HomePage = () => {
   const [selected, setSelected] = useState(null);
   const [activeVideo, setActiveVideo] = useState(null);
   const { list: courses, loading: cLoad } = useSelector(s => s.courses);
-  const { list: articles, loading: aLoad } = useSelector(s => s.blog);
   const [form, setForm] = useState({ name: '', phone: '', grade: '9' });
   const [faqs, setFaqs] = useState(STATIC_FAQS);
   const [reviews, setReviews] = useState(STATIC_REVIEWS);
   const [settings, setSettings] = useState(null);
   const [homeVideos, setHomeVideos] = useState([]);
-  const [dbTeachers, setDbTeachers] = useState([]);
-  const [dbDirections, setDbDirections] = useState([]);
   const [dbSubjects, setDbSubjects] = useState([]);
   const [dbExtras, setDbExtras] = useState([]);
   const [dbFeatures, setDbFeatures] = useState([]);
@@ -283,7 +277,6 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchCourses({ limit: 6 }));
-    dispatch(fetchArticles({ limit: 3 }));
     api.get('/faq').then(r => { if (r.data.data?.length) setFaqs(r.data.data); }).catch(() => {});
     api.get('/testimonials').then(r => { if (r.data.data?.length) setReviews(r.data.data); }).catch(() => {});
     api.get('/settings').then(r => {
@@ -297,8 +290,6 @@ const HomePage = () => {
       }
     }).catch(() => {});
     api.get('/home-videos').then(r => { if (Array.isArray(r.data.data)) setHomeVideos(r.data.data); }).catch(() => {});
-    api.get('/teachers').then(r => { if (Array.isArray(r.data.data)) setDbTeachers(r.data.data); }).catch(() => {});
-    api.get('/directions').then(r => { if (Array.isArray(r.data.data)) setDbDirections(r.data.data); }).catch(() => {});
   }, [dispatch]);
 
   const displaySubjects        = dbSubjects.length        > 0 ? dbSubjects        : SUBJECTS;
@@ -453,11 +444,11 @@ const HomePage = () => {
 
 
 
-      {/* ══ 4. YO'NALISHLAR — admin boshqaradi, bo'sh bo'lsa statik ro'yxat ══ */}
-      <DirectionsSplit subjects={dbDirections.length > 0 ? dbDirections : SUBJECTS} settings={settings} onSelect={setSelected} />
+      {/* ══ 4. YO'NALISHLAR — statik ro'yxat ══ */}
+      <DirectionsSplit subjects={SUBJECTS} settings={settings} onSelect={setSelected} />
 
-      {/* ══ 5. JAMOA — Bizning mutaxassislar ═════════════════ */}
-      <TeamSection teachers={dbTeachers} settings={settings} />
+      {/* ══ 5. JAMOA — Bizning mutaxassislar (statik 13 ustoz) ═ */}
+      <TeamSection settings={settings} />
 
       {/* ══ 6. HUJJAT / SERTIFIKAT — Diplom bo'limi ═══════════ */}
       <DiplomaSection settings={settings} />
@@ -599,10 +590,7 @@ const HomePage = () => {
                               shadow-2xl bg-gray-100"
                    style={{ borderRadius: '180px 180px 36px 36px' }}>
                 <img
-                  src={settings?.formImage
-                    ? (settings.formImage.startsWith('/assets') || settings.formImage.startsWith('http') ? settings.formImage : `${API_URL}${settings.formImage}`)
-                    : '/assets/images/DSC04276.jpg'}
-                  onError={(e) => { e.currentTarget.src = '/assets/images/DSC04276.jpg'; }}
+                  src="/assets/images/DSC04276.jpg"
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"

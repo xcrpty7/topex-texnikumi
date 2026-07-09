@@ -23,22 +23,11 @@ const TEACHERS_RAW = [
   { name: 'KARIMOV ISLOM',          roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03951.jpg' },
 ];
 
-const API_URL = import.meta.env.VITE_API_URL || '';
-
-export default function TeamSection({ teachers = [], settings }) {
+export default function TeamSection({ settings }) {
   const { t } = useTranslation();
   const swiperRef = useRef(null);
-  const FALLBACK = TEACHERS_RAW.map(x => ({ ...x, role: t(`team.roles.${x.roleKey}`) }));
-  // Admin panel orqali kiritilgan o'qituvchilar ustuvor; bo'sh bo'lsa — statik ro'yxat
-  const TEACHERS = teachers.length > 0
-    ? teachers.map(x => ({
-        name: x.name,
-        role: x.role,
-        img:  x.image
-          ? (x.image.startsWith('http') || x.image.startsWith('/assets') ? x.image : `${API_URL}${x.image}`)
-          : '/assets/Ustozlar/DSC03904.jpg',
-      }))
-    : FALLBACK;
+  // Faqat statik ro'yxat — bazadagi eski yozuvlar ishlatilmaydi
+  const TEACHERS = TEACHERS_RAW.map(x => ({ ...x, role: t(`team.roles.${x.roleKey}`) }));
 
   const chunks = [];
   for (let i = 0; i < TEACHERS.length; i += 2) {
