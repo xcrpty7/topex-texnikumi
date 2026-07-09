@@ -24,6 +24,7 @@ import VideosSwiper from '../components/common/VideosSwiper';
 import Spinner from '../components/ui/Spinner';
 import PhoneInput from '../components/ui/PhoneInput';
 import api from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 import { toast } from 'react-toastify';
 
 /* ─── reusable Stat block ──────────────────────────────── */
@@ -268,7 +269,7 @@ const HomePage = () => {
   const [form, setForm] = useState({ name: '', phone: '', grade: '9' });
   const [faqs, setFaqs] = useState(STATIC_FAQS);
   const [reviews, setReviews] = useState(STATIC_REVIEWS);
-  const [settings, setSettings] = useState(null);
+  const settings = useSettings();
   const [homeVideos, setHomeVideos] = useState([]);
   const [dbSubjects, setDbSubjects] = useState([]);
   const [dbExtras, setDbExtras] = useState([]);
@@ -276,19 +277,18 @@ const HomePage = () => {
   const [dbScholarshipCards, setDbScholarshipCards] = useState([]);
 
   useEffect(() => {
+    if (settings) {
+      if (settings.subjects?.length > 0)         setDbSubjects(settings.subjects);
+      if (settings.extras?.length > 0)            setDbExtras(settings.extras);
+      if (settings.features?.length > 0)          setDbFeatures(settings.features);
+      if (settings.scholarshipCards?.length > 0)  setDbScholarshipCards(settings.scholarshipCards);
+    }
+  }, [settings]);
+
+  useEffect(() => {
     dispatch(fetchCourses({ limit: 6 }));
     api.get('/faq').then(r => { if (r.data.data?.length) setFaqs(r.data.data); }).catch(() => {});
     api.get('/testimonials').then(r => { if (r.data.data?.length) setReviews(r.data.data); }).catch(() => {});
-    api.get('/settings').then(r => {
-      const d = r.data.data;
-      if (d) {
-        setSettings(d);
-        if (d.subjects?.length > 0)         setDbSubjects(d.subjects);
-        if (d.extras?.length > 0)            setDbExtras(d.extras);
-        if (d.features?.length > 0)          setDbFeatures(d.features);
-        if (d.scholarshipCards?.length > 0)  setDbScholarshipCards(d.scholarshipCards);
-      }
-    }).catch(() => {});
     api.get('/home-videos').then(r => { if (Array.isArray(r.data.data)) setHomeVideos(r.data.data); }).catch(() => {});
   }, [dispatch]);
 

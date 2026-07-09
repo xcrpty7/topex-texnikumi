@@ -114,7 +114,7 @@ export default function TeamSection({ settings }) {
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {chunk.map((tc) => (
+                    {chunk.map((tc, tci) => (
                       <div
                         key={tc.name}
                         className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer bg-brand-dark
@@ -122,7 +122,8 @@ export default function TeamSection({ settings }) {
                         <img
                           src={tc.img}
                           alt={tc.name}
-                          loading="lazy"
+                          loading={ci === 0 && tci < 2 ? 'eager' : 'lazy'}
+                          fetchpriority={ci === 0 && tci === 0 ? 'high' : undefined}
                           className="absolute inset-0 w-full h-full object-cover object-top
                                      group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                         />

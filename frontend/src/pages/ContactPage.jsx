@@ -5,6 +5,7 @@ import SeoHelmet from '../components/common/SeoHelmet';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, Mail, Clock, ChevronRight, Home } from 'lucide-react';
 import api from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 import PhoneInput from '../components/ui/PhoneInput';
 import { toast } from 'react-toastify';
 
@@ -19,14 +20,10 @@ const up = (delay = 0) => ({
 
 const ContactPage = () => {
   const { t } = useTranslation();
-  const [settings, setSettings] = useState(null);
+  const settings = useSettings();
   const [form, setForm] = useState({ name: '', phone: '', grade: '9' });
   const [activeTab, setActiveTab] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
-  }, []);
 
   const phone   = '+998 55 588 44 77';
   const phone2  = '+998 78 777 44 77';

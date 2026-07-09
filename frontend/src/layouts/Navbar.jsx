@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, User, LogOut, Shield, Phone, MapPin, Mail, ChevronDown } from 'lucide-react';
 import { logout, selectUser, selectIsAuthenticated } from '../features/auth/authSlice';
 import LanguageSwitcher from '../components/common/LanguageSwitcher';
-import api from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -16,11 +16,7 @@ const Navbar = () => {
   const isAuth      = useSelector(selectIsAuthenticated);
   const [open,   setOpen]   = useState(false);
   const [uMenu,  setUMenu]  = useState(false);
-  const [siteSettings, setSiteSettings] = useState(null);
-
-  useEffect(() => {
-    api.get('/settings').then(r => { if (r.data.data) setSiteSettings(r.data.data); }).catch(() => {});
-  }, []);
+  const siteSettings = useSettings();
 
   const resolveImg = (u) =>
     !u ? '/assets/logos/topex-logo.png'

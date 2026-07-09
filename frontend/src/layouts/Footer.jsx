@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Phone, Mail, MapPin, X, ZoomIn } from 'lucide-react';
-import api from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -68,12 +68,8 @@ const Lightbox = ({ src, alt, onClose }) => {
 const Footer = () => {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
-  const [settings, setSettings] = useState(null);
+  const settings = useSettings();
   const [lightbox, setLightbox] = useState(null);
-
-  useEffect(() => {
-    api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
-  }, []);
 
   const resolveImg = (u) =>
     !u ? '/assets/logos/topex-logo.png'

@@ -12,7 +12,7 @@ import {
 import { fetchCourses, setFilters } from '../features/courses/coursesSlice';
 import CourseCard from '../components/common/CourseCard';
 import Spinner from '../components/ui/Spinner';
-import api from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -82,7 +82,7 @@ const CoursesPage = () => {
   const dispatch = useDispatch();
   const { list, loading, meta, filters } = useSelector((s) => s.courses);
   const [selected, setSelected] = useState(null);
-  const [settings, setSettings] = useState(null);
+  const settings = useSettings();
   const [dbSubjects, setDbSubjects] = useState([]);
   const [dbHighlights, setDbHighlights] = useState([]);
   const [bgIdx, setBgIdx] = useState(0);
@@ -97,13 +97,8 @@ const CoursesPage = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    api.get('/settings').then(r => {
-      const d = r.data.data;
-      if (!d) return;
-      setSettings(d);
-      if (d.coursesHighlights?.length > 0) setDbHighlights(d.coursesHighlights);
-    }).catch(() => {});
-  }, []);
+    if (settings?.coursesHighlights?.length > 0) setDbHighlights(settings.coursesHighlights);
+  }, [settings]);
 
   const handlePage = (page) => dispatch(setFilters({ page }));
 
