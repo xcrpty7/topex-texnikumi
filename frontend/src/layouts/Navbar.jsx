@@ -210,6 +210,9 @@ const Navbar = () => {
                 <a href={`tel:${navPhone.replace(/\s/g,'')}`} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
                   <Phone size={14} className="text-orange" /> {navPhone}
                 </a>
+                <a href={`tel:${navPhone2.replace(/\s/g,'')}`} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
+                  <Phone size={14} className="text-orange" /> {navPhone2}
+                </a>
                 <a href={`mailto:${navEmail}`} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
                   <Mail size={14} className="text-orange" /> {navEmail}
                 </a>
