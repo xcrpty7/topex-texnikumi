@@ -53,6 +53,7 @@ connectDB().then(async () => {
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'https://topextexnikum.uz',
+  'https://www.topextexnikum.uz',
   'http://localhost:3000',
   'http://localhost:5173',
   'http://127.0.0.1:3000',
@@ -145,6 +146,25 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// ─── Cache-Control middleware (Cloudflare uchun) ──────────────────────────────
+const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|avif|svg|ico)$/i;
+const VIDEO_EXTS = /\.(mp4|webm|ogg|mov)$/i;
+
+const setCacheHeaders = (req, res, next) => {
+  const ext = req.path.toLowerCase();
+  if (IMAGE_EXTS.test(ext)) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    res.setHeader('CDN-Cache-Control', 'public, max-age=31536000');
+  } else if (VIDEO_EXTS.test(ext)) {
+    res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+    res.setHeader('CDN-Cache-Control', 'public, max-age=2592000');
+  } else {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('CDN-Cache-Control', 'public, max-age=86400');
+  }
+  next();
+};
+
 // ─── Statik fayllar ───────────────────────────────────────────────────────────
 const PLACEHOLDER_SVG = Buffer.from(
   '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">' +
@@ -156,10 +176,10 @@ app.use('/uploads', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
-}, express.static(path.join(__dirname, 'uploads')), (req, res) => {
+}, setCacheHeaders, express.static(path.join(__dirname, 'uploads')), (req, res) => {
   res.setHeader('Content-Type', 'image/svg+xml');
   res.setHeader('Content-Length', PLACEHOLDER_SVG.length);
-  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
   res.status(200).end(PLACEHOLDER_SVG);
 });
 
@@ -212,17 +232,23 @@ app.post('/api/drop-email-index', async (req, res) => {
   }
 });
 
-// Public ma'lumot yo'llari
-app.get('/api/gallery', getGallery);
-app.get('/api/testimonials', getTestimonials);
-app.get('/api/faq', getFaqs);
-app.get('/api/scholarships', getScholarships);
-app.get('/api/settings', getSettings);
-app.get('/api/home-videos', getHomeVideos);
-app.get('/api/teachers', getTeachers);
-app.get('/api/directions', getDirections);
-app.get('/api/videos', getVideos);
-app.get('/api/vacancies/active', getActiveVacancies);
+// ─── Public ma'lumot yo'llari (keshlanadi) ─────────────────────────────────────
+const publicCache = (req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
+  res.setHeader('CDN-Cache-Control', 'public, max-age=300');
+  next();
+};
+
+app.get('/api/gallery', publicCache, getGallery);
+app.get('/api/testimonials', publicCache, getTestimonials);
+app.get('/api/faq', publicCache, getFaqs);
+app.get('/api/scholarships', publicCache, getScholarships);
+app.get('/api/settings', publicCache, getSettings);
+app.get('/api/home-videos', publicCache, getHomeVideos);
+app.get('/api/teachers', publicCache, getTeachers);
+app.get('/api/directions', publicCache, getDirections);
+app.get('/api/videos', publicCache, getVideos);
+app.get('/api/vacancies/active', publicCache, getActiveVacancies);
 
 // ─── Sog'lik tekshiruvi ───────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
