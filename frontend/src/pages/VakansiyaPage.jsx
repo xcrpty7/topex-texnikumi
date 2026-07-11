@@ -40,7 +40,6 @@ const VakansiyaPage = () => {
         title={t('vakansiyaPage.meta.title')}
         description={t('vakansiyaPage.meta.description')}
         keywords={t('vakansiyaPage.meta.keywords')}
-        canonical="https://topextexnikum.uz/vakansiya"
         ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
       >
         <script type="application/ld+json">{JSON.stringify({
@@ -48,7 +47,7 @@ const VakansiyaPage = () => {
           "@type": "BreadcrumbList",
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Вакансии", "item": "https://topextexnikum.uz/vakansiya" }
+            { "@type": "ListItem", "position": 2, "name": "Вакансии", "item": "https://topextexnikum.uz/vakansiyalar" }
           ]
         })}</script>
       </SeoHelmet>

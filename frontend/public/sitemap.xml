@@ -48,13 +48,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://topextexnikum.uz/gallery" />
   </url>
   <url>
-    <loc>https://topextexnikum.uz/videolar</loc>
+    <loc>https://topextexnikum.uz/videos</loc>
     <lastmod>2026-07-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://topextexnikum.uz/videolar" />
-    <xhtml:link rel="alternate" hreflang="uz" href="https://topextexnikum.uz/videolar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://topextexnikum.uz/videolar" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://topextexnikum.uz/videos" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://topextexnikum.uz/videos" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://topextexnikum.uz/videos" />
   </url>
   <url>
     <loc>https://topextexnikum.uz/litsenziya</loc>
@@ -75,13 +75,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://topextexnikum.uz/imtihon-natijalari" />
   </url>
   <url>
-    <loc>https://topextexnikum.uz/vakansiya</loc>
+    <loc>https://topextexnikum.uz/vakansiyalar</loc>
     <lastmod>2026-07-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://topextexnikum.uz/vakansiya" />
-    <xhtml:link rel="alternate" hreflang="uz" href="https://topextexnikum.uz/vakansiya" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://topextexnikum.uz/vakansiya" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://topextexnikum.uz/vakansiyalar" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://topextexnikum.uz/vakansiyalar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://topextexnikum.uz/vakansiyalar" />
   </url>
   <url>
     <loc>https://topextexnikum.uz/aloqalar</loc>

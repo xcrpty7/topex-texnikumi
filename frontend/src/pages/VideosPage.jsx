@@ -36,7 +36,6 @@ const VideosPage = () => {
       <SeoHelmet
         title={`${t('nav.videos') || 'Videolar'} — TOPEX`}
         description="Topex Texnikumi video galereyasi. Tadbirlar, dars jarayonlari va texnikum hayotidan videolar."
-        canonical="https://topextexnikum.uz/videolar"
         ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
       >
         <script type="application/ld+json">{JSON.stringify({
@@ -44,7 +43,7 @@ const VideosPage = () => {
           "@type": "BreadcrumbList",
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Видео", "item": "https://topextexnikum.uz/videolar" }
+            { "@type": "ListItem", "position": 2, "name": "Видео", "item": "https://topextexnikum.uz/videos" }
           ]
         })}</script>
       </SeoHelmet>

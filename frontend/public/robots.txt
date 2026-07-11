@@ -6,12 +6,12 @@ Allow: /blog
 Allow: /blog/
 Allow: /gallery
 Allow: /gallery/
-Allow: /videolar
-Allow: /videolar/
+Allow: /videos
+Allow: /videos/
 Allow: /narx
 Allow: /narx/
-Allow: /vakansiya
-Allow: /vakansiya/
+Allow: /vakansiyalar
+Allow: /vakansiyalar/
 Allow: /aloqalar
 Allow: /aloqalar/
 Allow: /litsenziya
