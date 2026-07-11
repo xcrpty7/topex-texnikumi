@@ -37,8 +37,9 @@ const VakansiyaPage = () => {
   return (
     <>
       <SeoHelmet
-        title="Vakansiyalar – Topex Texnikumi"
-        description="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar."
+        title={t('vakansiyaPage.meta.title')}
+        description={t('vakansiyaPage.meta.description')}
+        keywords={t('vakansiyaPage.meta.keywords')}
         canonical="https://topextexnikum.uz/vakansiya"
         ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
       >
@@ -46,8 +47,8 @@ const VakansiyaPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Vakansiyalar", "item": "https://topextexnikum.uz/vakansiya" }
+            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Вакансии", "item": "https://topextexnikum.uz/vakansiya" }
           ]
         })}</script>
       </SeoHelmet>

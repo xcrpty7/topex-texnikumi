@@ -346,9 +346,9 @@ const HomePage = () => {
   return (
     <>
       <SeoHelmet
-        title={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"}
-        description={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Tajribali o'qituvchilar, olimpiada natijalari."}
-        keywords="TOPEX, Topex Texnikumi, xususiy texnikum Toshkent, Chilonzor, 10-sinf, 11-sinf, olimpiada, grant, akademik litsey"
+        title={t('homePage.meta.title')}
+        description={t('homePage.meta.description')}
+        keywords={t('homePage.meta.keywords')}
         canonical="https://topextexnikum.uz/"
         ogImage="https://topextexnikum.uz/assets/images/hero/hero-2.webp"
       />

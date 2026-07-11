@@ -21,8 +21,8 @@ const GalleryPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Galereya", "item": "https://topextexnikum.uz/gallery" }
+            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Галерея", "item": "https://topextexnikum.uz/gallery" }
           ]
         })}</script>
       </SeoHelmet>

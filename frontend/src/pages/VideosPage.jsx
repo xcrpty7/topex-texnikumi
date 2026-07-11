@@ -43,8 +43,8 @@ const VideosPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Videolar", "item": "https://topextexnikum.uz/videolar" }
+            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Видео", "item": "https://topextexnikum.uz/videolar" }
           ]
         })}</script>
       </SeoHelmet>

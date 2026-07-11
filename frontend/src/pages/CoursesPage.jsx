@@ -118,8 +118,8 @@ const CoursesPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Yo'nalishlar", "item": "https://topextexnikum.uz/courses" }
+            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Направления", "item": "https://topextexnikum.uz/courses" }
           ]
         })}</script>
       </SeoHelmet>

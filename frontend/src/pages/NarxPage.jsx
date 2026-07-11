@@ -32,9 +32,9 @@ const NarxPage = () => {
   return (
     <>
       <SeoHelmet
-        title="O'qish narxlari – Topex Texnikumi 2026"
-        description="Topex Texnikumi 2026 o'qish narxlari: oylik 2 500 000 so'm, yillik 25 000 000 so'm. 1 milliard so'mlik grant fondi, olimpiada g'oliblari va iqtidorli talabalar uchun chegirmalar."
-        keywords="texnikum narxi, xususiy texnikum narxi 2026, Topex kontrakt, o'qish to'lovi, grant, stipendiya, Toshkent texnikum"
+        title={t('narxPage.meta.title')}
+        description={t('narxPage.meta.description')}
+        keywords={t('narxPage.meta.keywords')}
         canonical="https://topextexnikum.uz/narx"
         ogImage="https://topextexnikum.uz/assets/images/hero/hero-2.webp"
       >
@@ -42,15 +42,15 @@ const NarxPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Narxlar", "item": "https://topextexnikum.uz/narx" }
+            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Цены", "item": "https://topextexnikum.uz/narx" }
           ]
         })}</script>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Product",
-          "name": "Topex Texnikumi ta'lim xizmati",
-          "description": "10-11 sinflar uchun zamonaviy kasblar bo'yicha ta'lim",
+          "name": "Образование в TOPEX Texnikуме",
+          "description": "Обучение по 8 современным специальностям для 10-11 классов в Ташкенте",
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "UZS",
