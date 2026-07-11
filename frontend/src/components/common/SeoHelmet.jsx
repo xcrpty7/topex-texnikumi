@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 const SITE_NAME = 'TOPEX Texnikumi';
-const DEFAULT_OG_IMAGE = 'https://topextexnikum.uz/assets/images/hero/hero-2.webp';
+const BASE_URL = 'https://topextexnikum.uz';
+const DEFAULT_OG_IMAGE = `${BASE_URL}/assets/images/hero/hero-2.webp`;
 const OG_IMAGE_W = 1200;
 const OG_IMAGE_H = 630;
 
@@ -19,10 +21,11 @@ const SeoHelmet = ({
   children,
 }) => {
   const { i18n } = useTranslation();
+  const location = useLocation();
   const lang = i18n?.language || 'ru';
   const img = ogImage || DEFAULT_OG_IMAGE;
   const locale = LOCALE_MAP[lang] || 'ru_RU';
-  const pageUrl = canonical || 'https://topextexnikum.uz/';
+  const pageUrl = canonical || `${BASE_URL}${location.pathname}`;
 
   return (
     <Helmet>
