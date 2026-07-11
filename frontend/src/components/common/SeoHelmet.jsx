@@ -33,7 +33,7 @@ const SeoHelmet = ({
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
       {keywords && <meta name="keywords" content={keywords} />}
-      {canonical && <link rel="canonical" href={pageUrl} />}
+      <link rel="canonical" href={pageUrl} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
 
       <meta property="og:type" content={ogType} />
