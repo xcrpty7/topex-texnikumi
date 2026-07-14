@@ -3,13 +3,6 @@ const { sendSuccess, sendError } = require('../utils/response');
 const fs = require('fs');
 const path = require('path');
 
-const deleteFile = (url) => {
-  if (url && url.startsWith('/uploads/')) {
-    const p = path.join(__dirname, '..', url);
-    if (fs.existsSync(p)) fs.unlinkSync(p);
-  }
-};
-
 const getHomeVideos = async (req, res) => {
   try {
     const videos = await HomeVideo.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
@@ -31,10 +24,7 @@ const getAdminHomeVideos = async (req, res) => {
 const createHomeVideo = async (req, res) => {
   try {
     const data = { ...req.body };
-    const videoFile = req.files?.video?.[0];
-    const photoFile = req.files?.photo?.[0];
-    if (videoFile) data.url = `/uploads/videos/${videoFile.filename}`;
-    if (photoFile) data.photo = `/uploads/video-photos/${photoFile.filename}`;
+    if (req.file) data.url = `/uploads/videos/${req.file.filename}`;
     if (!data.url) return sendError(res, 'Video fayl yoki URL kiritilishi shart', 400);
 
     const video = await HomeVideo.create(data);
@@ -50,16 +40,12 @@ const updateHomeVideo = async (req, res) => {
     if (!video) return sendError(res, 'Video topilmadi', 404);
 
     const updates = { ...req.body };
-    const videoFile = req.files?.video?.[0];
-    const photoFile = req.files?.photo?.[0];
-
-    if (videoFile) {
-      deleteFile(video.url);
-      updates.url = `/uploads/videos/${videoFile.filename}`;
-    }
-    if (photoFile) {
-      deleteFile(video.photo);
-      updates.photo = `/uploads/video-photos/${photoFile.filename}`;
+    if (req.file) {
+      if (video.url && video.url.startsWith('/uploads/')) {
+        const oldPath = path.join(__dirname, '..', video.url);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+      updates.url = `/uploads/videos/${req.file.filename}`;
     }
     if (updates.isActive !== undefined) {
       updates.isActive = updates.isActive === 'true' || updates.isActive === true;
@@ -78,8 +64,10 @@ const deleteHomeVideo = async (req, res) => {
     const video = await HomeVideo.findByIdAndDelete(req.params.id);
     if (!video) return sendError(res, 'Video topilmadi', 404);
 
-    deleteFile(video.url);
-    deleteFile(video.photo);
+    if (video.url && video.url.startsWith('/uploads/')) {
+      const oldPath = path.join(__dirname, '..', video.url);
+      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+    }
     return sendSuccess(res, { data: null }, 'Video o\'chirildi');
   } catch (error) {
     return sendError(res, error.message, 500);

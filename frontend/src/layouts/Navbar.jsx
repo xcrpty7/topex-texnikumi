@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, User, LogOut, Shield, Phone, MapPin, Mail, ChevronDown } from 'lucide-react';
 import { logout, selectUser, selectIsAuthenticated } from '../features/auth/authSlice';
 import LanguageSwitcher from '../components/common/LanguageSwitcher';
-import { useSettings } from '../context/SettingsContext';
+import api from '../services/api';
+import { fbTrackCustom } from '../utils/metaPixel';
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -16,7 +17,11 @@ const Navbar = () => {
   const isAuth      = useSelector(selectIsAuthenticated);
   const [open,   setOpen]   = useState(false);
   const [uMenu,  setUMenu]  = useState(false);
-  const siteSettings = useSettings();
+  const [siteSettings, setSiteSettings] = useState(null);
+
+  useEffect(() => {
+    api.get('/settings').then(r => { if (r.data.data) setSiteSettings(r.data.data); }).catch(() => {});
+  }, []);
 
   const resolveImg = (u) =>
     !u ? '/assets/logos/topex-logo.png'
@@ -83,7 +88,7 @@ const Navbar = () => {
                 </div>
               </button>
               <div className="w-px h-12 bg-gray-200" />
-              <ContactItem icon={<Phone size={18} className="text-orange" />} title={t('contact.phone')} lines={[navPhone, navPhone2]} href={`tel:${navPhone.replace(/\s/g,'')}`} />
+              <ContactItem icon={<Phone size={18} className="text-orange" />} title={t('contact.phone')} lines={[navPhone, navPhone2]} href={`tel:${navPhone.replace(/\s/g,'')}`} onClick={() => fbTrackCustom('ContactClick', { channel: 'phone' })} />
               <div className="w-px h-12 bg-gray-200" />
               <ContactItem icon={<Mail size={18} className="text-orange" />} title={t('contact.email')} lines={[navEmail]} href={`mailto:${navEmail}`} />
             </div>
@@ -203,10 +208,10 @@ const Navbar = () => {
                 </NavLink>
               ))}
               <div className="border-t border-gray-100 pt-3 mt-3 space-y-2">
-                <a href={`tel:${navPhone.replace(/\s/g,'')}`} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
+                <a href={`tel:${navPhone.replace(/\s/g,'')}`} onClick={() => fbTrackCustom('ContactClick', { channel: 'phone' })} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
                   <Phone size={14} className="text-orange" /> {navPhone}
                 </a>
-                <a href={`tel:${navPhone2.replace(/\s/g,'')}`} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
+                <a href={`tel:${navPhone2.replace(/\s/g,'')}`} onClick={() => fbTrackCustom('ContactClick', { channel: 'phone' })} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
                   <Phone size={14} className="text-orange" /> {navPhone2}
                 </a>
                 <a href={`mailto:${navEmail}`} className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm">
@@ -255,7 +260,7 @@ const Navbar = () => {
   );
 };
 
-const ContactItem = ({ icon, title, lines, href }) => {
+const ContactItem = ({ icon, title, lines, href, onClick }) => {
   const Content = (
     <>
       <div className="w-10 h-10 rounded-full bg-orange-faint flex items-center justify-center flex-shrink-0">
@@ -270,7 +275,7 @@ const ContactItem = ({ icon, title, lines, href }) => {
     </>
   );
   return href ? (
-    <a href={href} className="flex items-center gap-3 hover:opacity-80 transition-opacity">{Content}</a>
+    <a href={href} onClick={onClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity">{Content}</a>
   ) : (
     <div className="flex items-center gap-3">{Content}</div>
   );

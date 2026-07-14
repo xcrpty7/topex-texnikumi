@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { fbTrack } from '../utils/metaPixel';
 
 /* easeInOutCubic — sekin boshlanadi, o'rtada tezlashadi, sekin tugaydi (silliq) */
 const easeInOutCubic = (t) =>
@@ -34,8 +35,17 @@ const smoothScrollTo = (targetY, duration = 700) => {
  */
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // index.html'dagi bazaviy Pixel skripti birinchi PageView'ni allaqachon yuborgan —
+    // faqat keyingi (SPA) sahifa almashinuvlarida qayta yuboramiz
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    } else {
+      fbTrack('PageView');
+    }
+
     // Yangi sahifa (lazy) render bo'lib bo'lgach scroll qilamiz
     const id = requestAnimationFrame(() => {
       if (hash) {

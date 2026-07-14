@@ -1,0 +1,159 @@
+=====================================================================
+TOPEX TEXNIKUMI — ЗАДАЧА ДЛЯ ДРУГА (бэкенд/БД, MERN: React+Vite / Express+Mongo)
+=====================================================================
+
+КОНТЕКСТ ИНЦИДЕНТА (2026-07-09):
+Публичные страницы сайта (главная, /courses, /aloqalar) какое-то время
+брали данные с приоритетом "из БД, если там что-то есть, иначе статика".
+Локальный бэкенд ожил и вернул старые/мусорные записи — битые фото
+(/uploads/... которых нет на диске → "Rasm mavjud emas"), имена с "; "
+на конце, и левых "учителей", которых на сайте никогда не было.
+
+НАЙДЕН ИСТОЧНИК МУСОРА:
+backend/routes/adminRoutes.js, строки ~113-124 — хардкод seed-списка:
+
+  const teacherSeedList = [
+    { name: "G'AYRAT SHOUMAROV", ... },
+    { name: 'OLGERD FILLIPOV', ... },
+    ...
+    { name: 'ABDULLAYEV OYBEK ODILOVICH', image: '/assets/Ustozlar/teacher-new-4.webp', role: "Grafik dizayn o'qituvchisi", order: 9, active: true },
+    { name: 'ERKINOV JAVOHIRBEK JURABEKOVICH', image: '/assets/Ustozlar/teacher-new-5.webp', role: "Bank ishi o'qituvchisi", order: 10, active: true },
+  ];
+
+  router.post('/seed-teachers', ...)   // если Teacher.countDocuments() === 0 — досевает этот список
+  router.post('/reset-teachers', ...)  // ВСЕГДА удаляет всех учителей и пересоздаёт из этого списка
+
+Это СТАРЫЕ тестовые данные, оставшиеся от прошлой версии сайта (другие
+имена, другие фото). Когда кто-то (админка/скрипт/случайный вызов
+эндпоинта) triggerнул /reset-teachers или после переустановки БД
+count===0 и сработал /seed-teachers — в базу залилась эта пачка вместо
+актуальных 13 учителей.
+
+Похожая история с /seed-directions (строки ~153-179) — там тоже
+жёстко зашит СТАРЫЙ список направлений с другими картинками
+(/assets/famali-photo/DSC00875.webp и т.п., которых, возможно, уже
+нет в текущем наборе assets).
+
+ЧТО УЖЕ СДЕЛАНО (frontend, не трогать без причины):
+Все публичные React-страницы (HomePage.jsx, ContactPage.jsx,
+CoursesPage.jsx, BlogPage.jsx, ArticleDetailPage.jsx,
+components/common/TeamSection.jsx, HeroSwiper.jsx) переведены на
+ЧИСТУЮ СТАТИКУ — они больше НЕ фетчат /api/teachers, /api/directions,
+не читают settings.subjects / heroSlides / formImage / coursesHeroImage
+/ blogHeroImage / contactHeroImage. Так что даже если в БД опять будет
+мусор — сайт его не покажет. Это правильное и финальное решение для
+паблик-страниц, дублировать его не нужно.
+
+ЧТО НАДО СДЕЛАТЬ ДРУГУ (бэкенд/админка):
+1. backend/routes/adminRoutes.js — либо вообще удалить эндпоинты
+   /seed-teachers, /reset-teachers, /seed-directions (раз паблик
+   больше не читает БД для этих сущностей, смысла в seed-роутах нет),
+   либо как минимум заменить teacherSeedList и list (в seed-directions)
+   на АКТУАЛЬНЫЕ 13 учителей / 8 направлений (взять из
+   frontend/src/components/common/TeamSection.jsx — там массив
+   TEACHERS_RAW с правильными именами и путями /assets/Ustozlar/DSC*.jpg,
+   и frontend/src/pages/HomePage.jsx — массив SUBJECTS с правильными
+   /assets/images/dir-*.jpg и DSC*.jpg).
+2. Проверить админку (frontend/src/pages/admin/AdminTeachers.jsx,
+   AdminDirections.jsx, AdminSiteEditor.jsx) — если владелец сайта
+   продолжит редактировать учителей/направления/hero через админку,
+   эти правки теперь НИКАК не попадают на паблик-сайт (т.к. паблик
+   читает только статику). Нужно решить и явно сказать юзеру:
+   либо (a) выпилить эти разделы админки как мёртвые/неиспользуемые,
+   либо (b) вернуть какой-то контролируемый способ подмены статики
+   через БД, но БЕЗ треш-фоллбэка "что угодно из БД покажем как есть" —
+   с валидацией картинок (существование файла) и санацией имён (без
+   ";" и лишних пробелов на конце, как было в CoursesPage.jsx раньше:
+   .replace(/[;.\s]+$/, '')).
+3. backend/controllers/settingsController.js — есть костыль
+   (строки 57-62): при чтении settings, если formImage === старый
+   битый путь, автоматически подменяет на другой. Такие "тихие"
+   автофиксы в контроллере — плохой знак; лучше почистить сами
+   данные в БД одним разом (миграция/скрипт), а не патчить на лету
+   при каждом GET.
+4. Понять, ПОЧЕМУ вообще произошёл вызов /seed-teachers или
+   /reset-teachers (или БД была пересоздана с нуля) — посмотреть логи
+   бэкенда/деплоя, историю вызовов этих admin-роутов, не остался ли
+   где-то скрипт/cron/CI-шаг, который дёргает эти эндпоинты
+   автоматически при деплое.
+
+ФАЙЛЫ ДЛЯ РАБОТЫ (полные пути от корня репо):
+  backend/routes/adminRoutes.js          <- главный виновник (seed-списки)
+  backend/controllers/settingsController.js
+  backend/controllers/teacherController.js
+  backend/controllers/directionController.js
+  backend/models/Teacher.js
+  backend/models/Direction.js
+  backend/models/SiteSettings.js
+  frontend/src/pages/admin/AdminTeachers.jsx
+  frontend/src/pages/admin/AdminDirections.jsx
+  frontend/src/pages/admin/AdminSiteEditor.jsx
+
+ДЛЯ СПРАВКИ — актуальный список 13 учителей (frontend/src/components/common/TeamSection.jsx):
+  ABDURASULOV KOZIMJON   — Kimyo               — /assets/Ustozlar/DSC03820.jpg
+  SHARIPOVA MA'MURA      — Ona tili/adabiyot   — /assets/Ustozlar/DSC03830.jpg
+  SHOVQIYEVA LAYLO       — Ingliz tili         — /assets/Ustozlar/DSC03842.jpg
+  DONIYOROVA SHAHNOZA    — Ingliz tili         — /assets/Ustozlar/DSC03856.jpg
+  IBRAGIMOVA KAMILA      — Matematika          — /assets/Ustozlar/DSC03861.jpg
+  MUKIMBOEV FIRDAVS      — Matematika          — /assets/Ustozlar/DSC03872.jpg
+  AYTBAYEVA SARBINAZ     — Biologiya (rus)     — /assets/Ustozlar/DSC03883.jpg
+  SULTONALIYEV SHOXRUH   — Biologiya (uzb)     — /assets/Ustozlar/DSC03894.jpg
+  VALIYEV JAMSHIDBEK     — Ingliz tili         — /assets/Ustozlar/DSC03901.jpg
+  BEKOVA OYSARA          — Bosh direktor       — /assets/Ustozlar/DSC03904.jpg
+  ESHONQULOVA MUNISA     — Administrator       — /assets/Ustozlar/DSC03943.jpg
+  ABDUJALILOV BUNYODBEK  — Moliyaviy tashkiliy — /assets/Ustozlar/DSC03944.jpg
+  KARIMOV ISLOM          — Administrator       — /assets/Ustozlar/DSC03951.jpg
+
+=====================================================================
+ПРОМПТ ДЛЯ OPENCODE (скопировать целиком и вставить в OpenCode)
+=====================================================================
+
+Работай в репозитории topex-texnikumi (MERN: frontend — React+Vite,
+backend — Express+Mongoose). Контекст: 2026-07-09 на сайте появились
+левые учителя (ABDULLAYEV OYBEK ODILOVICH, ERKINOV JAVOHIRBEK
+JURABEKOVICH) и битые картинки — потому что backend/routes/adminRoutes.js
+содержит устаревшие хардкод seed-списки (teacherSeedList в блоке
+/seed-teachers и /reset-teachers, ~строки 113-179, там же аналогичный
+список в /seed-directions) со старыми тестовыми данными, и кто-то/что-то
+вызвало эти эндпоинты, перезаписав таблицы Teacher и Direction в MongoDB.
+
+Frontend публичные страницы уже исправлены и переведены на статику —
+они больше не читают /api/teachers, /api/directions, settings.subjects,
+settings.heroSlides, settings.formImage и другие settings.*HeroImage —
+это НЕ трогать и не возвращать обратно на чтение из БД.
+
+Задачи:
+1. Прочитай backend/routes/adminRoutes.js целиком, найди все seed/reset
+   эндпоинты (/seed-teachers, /reset-teachers, /seed-directions) и
+   реши вместе со мной: либо удалить их полностью (раз паблик-сайт их
+   больше не использует), либо обновить хардкод-списки на актуальные
+   данные (13 учителей и 8 направлений — списки лежат в
+   frontend/src/components/common/TeamSection.jsx (TEACHERS_RAW) и
+   frontend/src/pages/HomePage.jsx (SUBJECTS)).
+2. Проверь backend/controllers/settingsController.js,
+   teacherController.js, directionController.js — есть ли ещё
+   какие-то места, автоматически подставляющие старые/дефолтные
+   данные при пустой/битой БД.
+3. Проверь frontend/src/pages/admin/AdminTeachers.jsx,
+   AdminDirections.jsx, AdminSiteEditor.jsx — раз паблик-страницы
+   больше не читают эти данные из БД, эти разделы админки сейчас
+   "no-op" для конечного сайта. Предложи: убрать их из UI админки,
+   пометить как deprecated, или (если владелец сайта захочет)
+   спроектировать безопасный путь снова связать админку с паблик-
+   сайтом — с валидацией путей к картинкам (проверять существование
+   файла/URL) и санацией текстовых полей (обрезать ";", лишние
+   пробелы, HTML-мусор).
+4. Найди причину, почему seed/reset эндпоинт вообще вызвался —
+   поищи в git log/CI/deploy-скриптах (Render.com, package.json
+   postinstall/start скрипты, любые start-up хуки) обращения к
+   /api/admin/seed-teachers, /api/admin/reset-teachers,
+   /api/admin/seed-directions.
+5. Не удаляй и не трогай ничего из frontend/src/pages/HomePage.jsx,
+   ContactPage.jsx, CoursesPage.jsx, BlogPage.jsx,
+   ArticleDetailPage.jsx, components/common/TeamSection.jsx,
+   HeroSwiper.jsx кроме случаев, когда это прямо нужно для решения
+   задач выше — они уже приведены в порядок.
+
+Работай аккуратно, объясняй, что меняешь и почему, прежде чем менять
+код в backend — это продакшн-бэкенд с реальной БД.
+=====================================================================

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen, RefreshCw, UserCheck, Info } from 'lucide-react';
+import { Plus, Trash2, Edit2, Eye, EyeOff, BookOpen, RefreshCw, UserCheck } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import Button from '../../components/ui/Button';
@@ -106,11 +106,6 @@ const AdminDirections = () => {
           </Button>
         </div>
         </div>
-
-      <div className="mb-4 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm flex items-start gap-2">
-        <Info size={16} className="mt-0.5 shrink-0" />
-        <span>Yo'nalishlar ma'lumotlari faqat admin panel uchun saqlanadi. Saytning asosiy sahifasida hozircha statik ro'yxat ko'rsatilmoqda.</span>
-      </div>
 
       {loading ? (
         <div className="flex justify-center py-16"><Spinner size="lg" /></div>

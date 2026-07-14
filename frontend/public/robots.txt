@@ -1,23 +1,8 @@
 User-agent: *
 Allow: /
-Allow: /courses
 Allow: /courses/
-Allow: /blog
 Allow: /blog/
-Allow: /gallery
 Allow: /gallery/
-Allow: /videos
-Allow: /videos/
-Allow: /narx
-Allow: /narx/
-Allow: /vakansiyalar
-Allow: /vakansiyalar/
-Allow: /aloqalar
-Allow: /aloqalar/
-Allow: /litsenziya
-Allow: /litsenziya/
-Allow: /imtihon-natijalari
-Allow: /imtihon-natijalari/
 Allow: /assets/
 
 Disallow: /admin
@@ -30,11 +15,9 @@ Disallow: /register
 
 User-agent: Googlebot-Image
 Allow: /assets/
-Allow: /uploads/
 
 User-agent: Googlebot-Video
 Allow: /assets/
-Allow: /uploads/
 
 User-agent: GPTBot
 Disallow: /

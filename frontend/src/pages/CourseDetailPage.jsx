@@ -10,6 +10,7 @@ import { selectIsAuthenticated, selectUser } from '../features/auth/authSlice';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import Spinner from '../components/ui/Spinner';
+import { fbTrack } from '../utils/metaPixel';
 
 const CourseDetailPage = () => {
   const { slug } = useParams();
@@ -23,6 +24,10 @@ const CourseDetailPage = () => {
   useEffect(() => {
     dispatch(fetchCourseBySlug(slug));
   }, [slug, dispatch]);
+
+  useEffect(() => {
+    if (course?.course) fbTrack('ViewContent', { content_name: course.course.title, content_type: 'course' });
+  }, [course]);
 
   const handleEnroll = () => {
     if (!isAuthenticated) return navigate('/login');

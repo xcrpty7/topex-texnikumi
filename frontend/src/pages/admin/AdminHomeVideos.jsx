@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { Play, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload, Image } from 'lucide-react';
+import { Play, Plus, Trash2, Edit2, Eye, EyeOff, X, RefreshCw, Upload } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import Button from '../../components/ui/Button';
@@ -28,23 +28,16 @@ const AdminHomeVideos = () => {
   const [editing, setEditing]     = useState(null);
   const [form, setForm]           = useState(EMPTY_FORM);
   const [file, setFile]           = useState(null);
-  const [photoFile, setPhotoFile] = useState(null);
   const [preview, setPreview]     = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(null);
   const [saving, setSaving]       = useState(false);
   const [confirmId, setConfirmId]     = useState(null);
   const [deleting, setDeleting]       = useState(false);
   const [seedConfirm, setSeedConfirm] = useState(false);
   const [seeding, setSeeding]         = useState(false);
   const fileRef = useRef();
-  const photoFileRef = useRef();
   const blobUrl = useRef(null);
-  const photoBlobUrl = useRef(null);
 
-  useEffect(() => () => {
-    if (blobUrl.current) URL.revokeObjectURL(blobUrl.current);
-    if (photoBlobUrl.current) URL.revokeObjectURL(photoBlobUrl.current);
-  }, []);
+  useEffect(() => () => { if (blobUrl.current) URL.revokeObjectURL(blobUrl.current); }, []);
 
   const load = async () => {
     try {
@@ -97,9 +90,7 @@ const AdminHomeVideos = () => {
     setEditing(null);
     setForm(EMPTY_FORM);
     setFile(null);
-    setPhotoFile(null);
     setPreview(null);
-    setPhotoPreview(null);
     setShowModal(true);
   };
 
@@ -117,13 +108,7 @@ const AdminHomeVideos = () => {
         : item.url.startsWith('/uploads') ? `${API_URL}${item.url}`
         : item.url)
       : null);
-    setPhotoPreview(item.photo
-      ? (item.photo.startsWith('http') ? item.photo
-        : item.photo.startsWith('/uploads') ? `${API_URL}${item.photo}`
-        : item.photo)
-      : null);
     setFile(null);
-    setPhotoFile(null);
     setShowModal(true);
   };
 
@@ -138,17 +123,6 @@ const AdminHomeVideos = () => {
     }
   };
 
-  const handlePhotoFile = (e) => {
-    const f = e.target.files[0];
-    if (f) {
-      if (photoBlobUrl.current) URL.revokeObjectURL(photoBlobUrl.current);
-      const url = URL.createObjectURL(f);
-      photoBlobUrl.current = url;
-      setPhotoFile(f);
-      setPhotoPreview(url);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -156,7 +130,6 @@ const AdminHomeVideos = () => {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       if (file) fd.append('video', file);
-      if (photoFile) fd.append('photo', photoFile);
 
       if (editing) {
         await api.put(`/admin/home-videos/${editing}`, fd);
@@ -169,9 +142,7 @@ const AdminHomeVideos = () => {
       setEditing(null);
       setForm(EMPTY_FORM);
       setFile(null);
-      setPhotoFile(null);
       setPreview(null);
-      setPhotoPreview(null);
       load();
     } catch (err) {
       toast.error(err.response?.data?.message || t('admin.error'));
@@ -317,7 +288,7 @@ const AdminHomeVideos = () => {
 
       <Modal
         isOpen={showModal}
-        onClose={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPhotoFile(null); setPreview(null); setPhotoPreview(null); }}
+        onClose={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); }}
         title={editing ? t('adminHomeVideos.modalEdit') : t('adminHomeVideos.modalAdd')}
         size="md"
       >
@@ -368,33 +339,12 @@ const AdminHomeVideos = () => {
             placeholder="https://..."
           />
 
-          <div className="space-y-2">
-            <label className="text-xs font-mono text-[#61677A]">{t('adminHomeVideos.form.photoLabel') || 'Video oblojka (ixtiyoriy)'}</label>
-            <div
-              className="border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#2563EB] transition-colors"
-              style={{ borderColor: photoPreview ? '#272829' : '#D8D9DA', background: '#FFFFFF' }}
-              onClick={() => photoFileRef.current?.click()}
-            >
-              {photoPreview ? (
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                  <img src={photoPreview} alt="Oblojka" className="w-full h-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setPhotoFile(null); setPhotoPreview(null); setForm(p => ({ ...p, photo: '' })); }}
-                    className="absolute top-2 right-2 p-1 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Image size={24} className="text-[#9CA3AF] mb-2" />
-                  <p className="text-[10px] text-[#61677A]">Oblojka rasmini yuklang</p>
-                </>
-              )}
-              <input ref={photoFileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoFile} />
-            </div>
-          </div>
+          <Input
+            label="Photo URL (ixtiyoriy)"
+            value={form.photo}
+            onChange={e => setForm(p => ({ ...p, photo: e.target.value }))}
+            placeholder="https://..."
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <Input
@@ -418,7 +368,7 @@ const AdminHomeVideos = () => {
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-[#E5E7EA]">
-            <Button variant="ghost" type="button" onClick={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPhotoFile(null); setPreview(null); setPhotoPreview(null); }}>
+            <Button variant="ghost" type="button" onClick={() => { setShowModal(false); setEditing(null); setForm(EMPTY_FORM); setFile(null); setPreview(null); }}>
               {t('admin.cancel')}
             </Button>
             <Button type="submit" loading={saving}>

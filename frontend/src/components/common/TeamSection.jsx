@@ -8,19 +8,19 @@ import { Link } from 'react-router-dom';
 import 'swiper/css';
 
 const TEACHERS_RAW = [
-  { name: 'ABDURASULOV KOZIMJON',   roleKey: 'kimyo',          img: '/assets/Ustozlar/DSC03820.webp' },
-  { name: "SHARIPOVA MA'MURA",      roleKey: 'ona_adabiyot',   img: '/assets/Ustozlar/DSC03830.webp' },
-  { name: 'SHOVQIYEVA LAYLO',       roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03842.webp' },
-  { name: 'DONIYOROVA SHAHNOZA',    roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03856.webp' },
-  { name: 'IBRAGIMOVA KAMILA',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03861.webp' },
-  { name: 'MUKIMBOEV FIRDAVS',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03872.webp' },
-  { name: 'AYTBAYEVA SARBINAZ',     roleKey: 'biologiya_rus',  img: '/assets/Ustozlar/DSC03883.webp' },
-  { name: 'SULTONALIYEV SHOXRUH',   roleKey: 'biologiya_uz',   img: '/assets/Ustozlar/DSC03894.webp' },
-  { name: 'VALIYEV JAMSHIDBEK',     roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03901.webp' },
-  { name: 'BEKOVA OYSARA',          roleKey: 'bosh_direktor',  img: '/assets/Ustozlar/DSC03904.webp' },
-  { name: 'ESHONQULOVA MUNISA',     roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03943.webp' },
-  { name: 'ABDUJALILOV BUNYODBEK',  roleKey: 'moliya',         img: '/assets/Ustozlar/DSC03944.webp' },
-  { name: 'KARIMOV ISLOM',          roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03951.webp' },
+  { name: 'ABDURASULOV KOZIMJON',   roleKey: 'kimyo',          img: '/assets/Ustozlar/DSC03820.jpg' },
+  { name: "SHARIPOVA MA'MURA",      roleKey: 'ona_adabiyot',   img: '/assets/Ustozlar/DSC03830.jpg' },
+  { name: 'SHOVQIYEVA LAYLO',       roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03842.jpg' },
+  { name: 'DONIYOROVA SHAHNOZA',    roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03856.jpg' },
+  { name: 'IBRAGIMOVA KAMILA',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03861.jpg' },
+  { name: 'MUKIMBOEV FIRDAVS',      roleKey: 'matematika',     img: '/assets/Ustozlar/DSC03872.jpg' },
+  { name: 'AYTBAYEVA SARBINAZ',     roleKey: 'biologiya_rus',  img: '/assets/Ustozlar/DSC03883.jpg' },
+  { name: 'SULTONALIYEV SHOXRUH',   roleKey: 'biologiya_uz',   img: '/assets/Ustozlar/DSC03894.jpg' },
+  { name: 'VALIYEV JAMSHIDBEK',     roleKey: 'ingliz',         img: '/assets/Ustozlar/DSC03901.jpg' },
+  { name: 'BEKOVA OYSARA',          roleKey: 'bosh_direktor',  img: '/assets/Ustozlar/DSC03904.jpg' },
+  { name: 'ESHONQULOVA MUNISA',     roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03943.jpg' },
+  { name: 'ABDUJALILOV BUNYODBEK',  roleKey: 'moliya',         img: '/assets/Ustozlar/DSC03944.jpg' },
+  { name: 'KARIMOV ISLOM',          roleKey: 'administrator',  img: '/assets/Ustozlar/DSC03951.jpg' },
 ];
 
 export default function TeamSection({ settings }) {
@@ -114,7 +114,7 @@ export default function TeamSection({ settings }) {
               {chunks.map((chunk, ci) => (
                 <SwiperSlide key={ci}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {chunk.map((tc, tci) => (
+                    {chunk.map((tc) => (
                       <div
                         key={tc.name}
                         className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl group cursor-pointer bg-brand-dark
@@ -122,8 +122,7 @@ export default function TeamSection({ settings }) {
                         <img
                           src={tc.img}
                           alt={tc.name}
-                          loading={ci === 0 && tci < 2 ? 'eager' : 'lazy'}
-                          fetchpriority={ci === 0 && tci === 0 ? 'high' : undefined}
+                          loading="lazy"
                           className="absolute inset-0 w-full h-full object-cover object-top
                                      group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                         />

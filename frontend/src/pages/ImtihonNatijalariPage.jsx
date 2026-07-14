@@ -33,8 +33,8 @@ const ImtihonNatijalariPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Результаты экзамена", "item": "https://topextexnikum.uz/imtihon-natijalari" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Kirish imtihon natijalari", "item": "https://topextexnikum.uz/imtihon-natijalari" }
           ]
         })}</script>
       </SeoHelmet>

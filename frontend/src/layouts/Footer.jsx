@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Phone, Mail, MapPin, X, ZoomIn } from 'lucide-react';
-import { useSettings } from '../context/SettingsContext';
+import api from '../services/api';
+import { fbTrackCustom } from '../utils/metaPixel';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -68,8 +69,12 @@ const Lightbox = ({ src, alt, onClose }) => {
 const Footer = () => {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
-  const settings = useSettings();
+  const [settings, setSettings] = useState(null);
   const [lightbox, setLightbox] = useState(null);
+
+  useEffect(() => {
+    api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
+  }, []);
 
   const resolveImg = (u) =>
     !u ? '/assets/logos/topex-logo.png'
@@ -213,6 +218,7 @@ const Footer = () => {
                     aria-label={label}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => fbTrackCustom('ContactClick', { channel: label.toLowerCase() })}
                     className="w-10 h-10 bg-white/10 hover:bg-orange rounded-lg flex items-center
                                justify-center text-white transition-all duration-200 hover:-translate-y-0.5">
                     <Icon size={20} />
@@ -255,11 +261,13 @@ const Footer = () => {
               <ul className="space-y-5">
                 <li>
                   <a href={`tel:${phone.replace(/\s/g,'')}`}
+                     onClick={() => fbTrackCustom('ContactClick', { channel: 'phone' })}
                      className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors">
                     <Phone size={16} className="text-orange mt-0.5 flex-shrink-0" />
                     <span className="text-[14px]">{phone}</span>
                   </a>
                   <a href={`tel:${phone2.replace(/\s/g,'')}`}
+                     onClick={() => fbTrackCustom('ContactClick', { channel: 'phone' })}
                      className="flex items-start gap-3 text-white/85 hover:text-orange transition-colors mt-1.5">
                     <Phone size={16} className="text-orange mt-0.5 flex-shrink-0" />
                     <span className="text-[14px]">{phone2}</span>

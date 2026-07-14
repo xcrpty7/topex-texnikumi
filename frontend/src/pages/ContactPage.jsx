@@ -5,9 +5,9 @@ import SeoHelmet from '../components/common/SeoHelmet';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, Mail, Clock, ChevronRight, Home } from 'lucide-react';
 import api from '../services/api';
-import { useSettings } from '../context/SettingsContext';
 import PhoneInput from '../components/ui/PhoneInput';
 import { toast } from 'react-toastify';
+import { fbTrack, fbTrackCustom } from '../utils/metaPixel';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -20,10 +20,14 @@ const up = (delay = 0) => ({
 
 const ContactPage = () => {
   const { t } = useTranslation();
-  const settings = useSettings();
+  const [settings, setSettings] = useState(null);
   const [form, setForm] = useState({ name: '', phone: '', grade: '9' });
   const [activeTab, setActiveTab] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    api.get('/settings').then(r => { if (r.data.data) setSettings(r.data.data); }).catch(() => {});
+  }, []);
 
   const phone   = '+998 55 588 44 77';
   const phone2  = '+998 78 777 44 77';
@@ -74,7 +78,7 @@ const ContactPage = () => {
 
   const cards = [
     { Icon: MapPin, title: t('contactPage.cardAddress'), lines: [address], href: '#map-section', onClick: scrollToMap },
-    { Icon: Phone,  title: t('contactPage.cardPhone'),  lines: [phone, phone2].filter(Boolean), href: `tel:${phone.replace(/\s/g, '')}` },
+    { Icon: Phone,  title: t('contactPage.cardPhone'),  lines: [phone, phone2].filter(Boolean), href: `tel:${phone.replace(/\s/g, '')}`, onClick: () => fbTrackCustom('ContactClick', { channel: 'phone' }) },
     { Icon: Mail,   title: t('contactPage.cardEmail'),   lines: [email], href: `mailto:${email}` },
     { Icon: Clock,  title: t('contactPage.cardHours'), lines: [hours], href: '#map-section', onClick: scrollToMap },
   ];
@@ -94,6 +98,7 @@ const ContactPage = () => {
     try {
       setSubmitting(true);
       await api.post('/applications', { fullName, phone: ph, grade });
+      fbTrack('Lead', { content_name: 'contact_form', grade });
       toast.success(t('formToast.success', { name: fullName }));
       setForm({ name: '', phone: '', grade: '9' });
     } catch (err) {
@@ -124,8 +129,8 @@ const ContactPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Контакты", "item": "https://topextexnikum.uz/aloqalar" }
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Aloqalar", "item": "https://topextexnikum.uz/aloqalar" }
           ]
         })}</script>
       </SeoHelmet>
@@ -134,7 +139,7 @@ const ContactPage = () => {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/images/DSC04071.webp')" }}
+          style={{ backgroundImage: "url('/assets/images/DSC04071.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/75 to-navy/90" />
         <div className="wrap relative z-10 text-center">
@@ -296,7 +301,7 @@ const ContactPage = () => {
                               shadow-2xl bg-gray-100"
                    style={{ borderRadius: '180px 180px 36px 36px' }}>
                 <img
-                  src="/assets/images/DSC04276.webp"
+                  src="/assets/images/DSC04276.jpg"
                   alt="Topex talabasi"
                   className="w-full h-full object-cover object-top"
                   loading="lazy"

@@ -28,9 +28,9 @@ const BG_IMAGES = [
 ];
 
 const FG_IMAGES = [
-  '/assets/images/DSC03766.webp',
-  '/assets/images/DSC03779.webp',
-  '/assets/images/DSC04192.webp',
+  '/assets/images/DSC03766.jpg',
+  '/assets/images/DSC03779.jpg',
+  '/assets/images/DSC04192.jpg',
 ];
 
 export default function HeroSwiper({ settings }) {

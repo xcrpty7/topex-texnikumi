@@ -24,7 +24,6 @@ import VideosSwiper from '../components/common/VideosSwiper';
 import Spinner from '../components/ui/Spinner';
 import PhoneInput from '../components/ui/PhoneInput';
 import api from '../services/api';
-import { useSettings } from '../context/SettingsContext';
 import { toast } from 'react-toastify';
 
 /* ─── reusable Stat block ──────────────────────────────── */
@@ -62,7 +61,7 @@ const SUBJECTS = [
     icon: FlaskConical,   
     name: 'Laborant analitik',             
     desc: 'Laboratoriya tahlillari va ilmiy tadqiqotlar.', 
-    img: '/assets/images/dir-5.webp',
+    img: '/assets/images/dir-5.jpg',
     duration: '2 yil',
     features: ['Kimyoviy tahlil', 'Sanoat laboratoriyasi', 'Sifat nazorati']
   },
@@ -70,7 +69,7 @@ const SUBJECTS = [
     icon: Sprout,         
     name: "Dorivor o'simliklar laboranti",
     desc: 'Dorivor o\'simliklar yetishtirish va qayta ishlash.', 
-    img: '/assets/images/dir-6.webp',
+    img: '/assets/images/dir-6.jpg',
     duration: '2 yil',
     features: ['Botanika', 'Dori tayyorlash', 'Fitoterapiya']
   },
@@ -78,7 +77,7 @@ const SUBJECTS = [
     icon: TrendingUp,     
     name: 'Marketing va agrobiznes',       
     desc: "Raqamli marketing va qishloq xo'jaligi iqtisodiyoti.", 
-    img: '/assets/images/dir-4.webp',
+    img: '/assets/images/dir-4.jpg',
     duration: '2 yil',
     features: ['SMM & Brending', 'Bozor tahlili', 'Eksport-import']
   },
@@ -86,7 +85,7 @@ const SUBJECTS = [
     icon: Code,           
     name: 'Dasturlash',                    
     desc: 'Kod yozishdan tortib, murakkab tizimlar yaratishgacha.', 
-    img: '/assets/images/dir-1.webp',
+    img: '/assets/images/dir-1.jpg',
     duration: '2 yil',
     features: ['Frontend & Backend', 'Mobil ilovalar', 'Portfolio yaratish']
   },
@@ -94,7 +93,7 @@ const SUBJECTS = [
     icon: Palette,        
     name: 'Kompyuter grafikasi va dizayn',           
     desc: '3D modellashtirish, brending va vizual kontent.', 
-    img: '/assets/images/dir-2.webp',
+    img: '/assets/images/dir-2.jpg',
     duration: '2 yil',
     features: ['Adobe Photoshop/Illustrator', '3D Blender', 'Motion dizayn']
   },
@@ -102,7 +101,7 @@ const SUBJECTS = [
     icon: ShieldCheck,    
     name: 'Bank ishi',             
     desc: 'Bank va moliya tizimi asoslari.', 
-    img: '/assets/images/dir-9.webp',
+    img: '/assets/images/dir-9.jpg',
     duration: '2 yil',
     features: ['Kredit tahlili', 'Xavfsizlik tizimlari', 'Bank auditi']
   },
@@ -110,7 +109,7 @@ const SUBJECTS = [
     icon: Hotel,          
     name: 'Mehmonxona boshqaruvi',         
     desc: "Mehmonxona va turizm menejmenti.", 
-    img: '/assets/images/dir-10.webp',
+    img: '/assets/images/dir-10.jpg',
     duration: '2 yil',
     features: ['Service Management', 'Event planning', 'Xorijiy tillar']
   },
@@ -118,7 +117,7 @@ const SUBJECTS = [
     icon: BarChart3,      
     name: 'Raqamli axborotlar analitigi',   
     desc: "Ma'lumotlar tahlili va axborot tizimlari.",
-    img: '/assets/images/dir-3.webp',
+    img: '/assets/images/dir-3.jpg',
     duration: '2 yil',
     features: ['Big Data', 'Excel & SQL', 'Biznes strategiya']
   },
@@ -269,7 +268,7 @@ const HomePage = () => {
   const [form, setForm] = useState({ name: '', phone: '', grade: '9' });
   const [faqs, setFaqs] = useState(STATIC_FAQS);
   const [reviews, setReviews] = useState(STATIC_REVIEWS);
-  const settings = useSettings();
+  const [settings, setSettings] = useState(null);
   const [homeVideos, setHomeVideos] = useState([]);
   const [dbSubjects, setDbSubjects] = useState([]);
   const [dbExtras, setDbExtras] = useState([]);
@@ -277,18 +276,19 @@ const HomePage = () => {
   const [dbScholarshipCards, setDbScholarshipCards] = useState([]);
 
   useEffect(() => {
-    if (settings) {
-      if (settings.subjects?.length > 0)         setDbSubjects(settings.subjects);
-      if (settings.extras?.length > 0)            setDbExtras(settings.extras);
-      if (settings.features?.length > 0)          setDbFeatures(settings.features);
-      if (settings.scholarshipCards?.length > 0)  setDbScholarshipCards(settings.scholarshipCards);
-    }
-  }, [settings]);
-
-  useEffect(() => {
     dispatch(fetchCourses({ limit: 6 }));
     api.get('/faq').then(r => { if (r.data.data?.length) setFaqs(r.data.data); }).catch(() => {});
     api.get('/testimonials').then(r => { if (r.data.data?.length) setReviews(r.data.data); }).catch(() => {});
+    api.get('/settings').then(r => {
+      const d = r.data.data;
+      if (d) {
+        setSettings(d);
+        if (d.subjects?.length > 0)         setDbSubjects(d.subjects);
+        if (d.extras?.length > 0)            setDbExtras(d.extras);
+        if (d.features?.length > 0)          setDbFeatures(d.features);
+        if (d.scholarshipCards?.length > 0)  setDbScholarshipCards(d.scholarshipCards);
+      }
+    }).catch(() => {});
     api.get('/home-videos').then(r => { if (Array.isArray(r.data.data)) setHomeVideos(r.data.data); }).catch(() => {});
   }, [dispatch]);
 
@@ -346,9 +346,9 @@ const HomePage = () => {
   return (
     <>
       <SeoHelmet
-        title={t('homePage.meta.title')}
-        description={t('homePage.meta.description')}
-        keywords={t('homePage.meta.keywords')}
+        title={settings?.siteTitle || "Topex Texnikumi – Sifatli Ta'lim, 10–11 Sinflar"}
+        description={settings?.siteDescription || "Topex – Toshkent, Chilonzor tumanidagi zamonaviy xususiy texnikum. 10-11 sinflar. Tajribali o'qituvchilar, olimpiada natijalari."}
+        keywords="TOPEX, Topex Texnikumi, xususiy texnikum Toshkent, Chilonzor, 10-sinf, 11-sinf, olimpiada, grant, akademik litsey"
         canonical="https://topextexnikum.uz/"
         ogImage="https://topextexnikum.uz/assets/images/hero/hero-2.webp"
       />
@@ -394,10 +394,10 @@ const HomePage = () => {
                   initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                   transition={{ duration:0.6 }}
                   className="col-span-2 rounded-2xl overflow-hidden shadow-xl aspect-[16/9]">
-                  <img src="/assets/images/DSC03766.webp" alt="Topex Texnikumi" loading="lazy"
+                  <img src="/assets/images/DSC03766.jpg" alt="Topex Texnikumi" loading="lazy"
                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </motion.div>
-                {['/assets/images/DSC03779.webp', '/assets/images/DSC04192.webp'].map((src, i) => (
+                {['/assets/images/DSC03779.jpg', '/assets/images/DSC04192.jpg'].map((src, i) => (
                   <motion.div key={src}
                     initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                     transition={{ duration:0.6, delay: 0.12 + i*0.1 }}
@@ -590,7 +590,7 @@ const HomePage = () => {
                               shadow-2xl bg-gray-100"
                    style={{ borderRadius: '180px 180px 36px 36px' }}>
                 <img
-                  src="/assets/images/DSC04276.webp"
+                  src="/assets/images/DSC04276.jpg"
                   alt="Topex talabasi"
                   loading="lazy"
                   className="w-full h-full object-cover object-top"

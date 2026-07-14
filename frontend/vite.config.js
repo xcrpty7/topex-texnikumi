@@ -14,19 +14,4 @@ export default defineConfig({
       '/uploads': { target: 'http://localhost:10000', changeOrigin: true },
     },
   },
-  build: {
-    target: 'es2020',
-    cssCodeSplit: false,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'state-vendor': ['@reduxjs/toolkit', 'react-redux'],
-          'ui-vendor': ['framer-motion', 'swiper', 'lucide-react'],
-          'i18n-vendor': ['i18next', 'react-i18next'],
-          'firebase-vendor': ['firebase/app', 'firebase/storage'],
-        },
-      },
-    },
-  },
 });

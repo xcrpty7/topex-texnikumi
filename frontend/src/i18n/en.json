@@ -13,13 +13,6 @@
     "logout": "Logout",
     "admin": "Admin panel"
   },
-  "homePage": {
-    "meta": {
-      "title": "TOPEX Texnikum — Private Technical College in Tashkent, Education after Grade 9",
-      "description": "TOPEX private college in Tashkent: Chilonzar, Sergeli, Yunusobod. Programming, design, marketing. Scholarships and grants up to 2,000,000 UZS/month.",
-      "keywords": "private college, Tashkent, programming, design, marketing, scholarship, grant, education after grade 9, TOPEX"
-    }
-  },
   "contact": {
     "address": "Address",
     "phone": "Contact",
@@ -934,7 +927,6 @@
       "videoFile": "Video file",
       "clickToUpload": "Click to upload a video file",
       "videoUrl": "Video URL",
-      "photoLabel": "Video cover image",
       "order": "Order",
       "status": "Status"
     },
@@ -1696,12 +1688,7 @@
     "faq3q": "Can I pay by card?",
     "faq3a": "Yes, you can pay with any card (UzCard, HUMO, VISA, MasterCard). Cash payment is also available.",
     "faq4q": "Can payment be deferred?",
-    "faq4a": "Yes, in certain cases payment can be deferred. This must be agreed with the administration.",
-    "meta": {
-      "title": "Tuition Fees 2026 — Private Technical College in Tashkent | TOPEX",
-      "description": "TOPEX Texnikum tuition: 2,500,000 UZS/month. Discounts for quarterly and annual payment. Grants up to 1 billion UZS for SAT 1200+, IELTS 7.0+. Private college Tashkent.",
-      "keywords": "college tuition fees, private college Tashkent, TOPEX fees, grants scholarships"
-    }
+    "faq4a": "Yes, in certain cases payment can be deferred. This must be agreed with the administration."
   },
   "vakansiyaPage": {
     "heroBadge": "Careers",

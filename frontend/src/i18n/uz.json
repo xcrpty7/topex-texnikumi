@@ -13,13 +13,6 @@
     "logout": "Chiqish",
     "admin": "Admin panel"
   },
-  "homePage": {
-    "meta": {
-      "title": "TOPEX Texnikumi — xususiy texnikum Toshkent, 9 sinfdan keyin o'qish 2026",
-      "description": "TOPEX xususiy texnikumi Toshkent: Chilonzor, Sergeli, Yunusobod. Dasturlash, dizayn, marketing. Grantlar va stipendiyalar. Bolangizni yozing!",
-      "keywords": "xususiy texnikum, Toshkent, Chilonzor, Sergeli, Yunusobod, dasturlash, dizayn, marketing, grant, stipendiya, 9 sinfdan keyin, TOPEX"
-    }
-  },
   "contact": {
     "address": "Manzili",
     "phone": "Murojaat",
@@ -934,7 +927,6 @@
       "videoFile": "Video fayl",
       "clickToUpload": "Yuklash uchun bosing",
       "videoUrl": "Video URL",
-      "photoLabel": "Video oblojkasi",
       "order": "Tartib",
       "status": "Holat"
     },
@@ -1696,12 +1688,7 @@
     "faq3q": "To'lovni karta orqali amalga oshirish mumkinmi?",
     "faq3a": "Ha, barcha turdagi plastik kartalar (UzCard, HUMO, VISA, MasterCard) orqali to'lash mumkin. Naqd pulda ham to'lash imkoniyati bor.",
     "faq4q": "To'lovni kechiktirib to'lash mumkinmi?",
-    "faq4a": "Ha, alohida holatlarda to'lovni kechiktirish imkoniyati mavjud. Bu haqda admin bilan kelishish kerak.",
-    "meta": {
-      "title": "O'qish narxlari 2026 — xususiy texnikum Toshkent, narxlar | TOPEX",
-      "description": "TOPEX Texnikumida o'qish narxi: 2 500 000 so'm/oy. Chegirmalar va grantlar. SAT 1200+, IELTS 7.0+ uchun bepul o'qish. Xususiy texnikum Toshkent.",
-      "keywords": "texnikum narxi, xususiy texnikum narxi, o'qish to'lovi Toshkent, TOPEX narx, grant stipendiya"
-    }
+    "faq4a": "Ha, alohida holatlarda to'lovni kechiktirish imkoniyati mavjud. Bu haqda admin bilan kelishish kerak."
   },
   "vakansiyaPage": {
     "heroBadge": "Ish o'rinlari",
@@ -1715,12 +1702,7 @@
     "emptyTitle": "Hozircha ochiq vakansiyalar mavjud emas",
     "emptyText": "Biz doimo malakali pedagog va mutaxassislarni izlaymiz. Yangi vakansiyalar paydo bo'lishi bilanoq bu yerda e'lon qilamiz. Rezyumengizni jo'nating — siz bilan bog'lanamiz!",
     "resumeTitle": "Rezyume qoldiring",
-    "resumeText": "Quyidagi kontaktlar orqali rezyumengizni yuboring. Mos vakansiya paydo bo'lganda siz bilan darhol bog'lanamiz.",
-    "meta": {
-      "title": "Vakansiyalar — TOPEX Texnikumida ish, Toshkent",
-      "description": "TOPEX Texnikumida ochiq ish o'rinlari. O'qituvchilar, metodistlar, administrativ xodimlar. Rezyume jo'nating!",
-      "keywords": "vakansiyalar Toshkent, ish o'rinlari, TOPEX ish, texnikumda ish"
-    }
+    "resumeText": "Quyidagi kontaktlar orqali rezyumengizni yuboring. Mos vakansiya paydo bo'lganda siz bilan darhol bog'lanamiz."
   },
   "imtihonPage": {
     "heroBadge": "Tez orada e'lon qilinadi",

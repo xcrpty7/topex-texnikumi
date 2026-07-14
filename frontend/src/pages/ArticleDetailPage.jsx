@@ -79,8 +79,8 @@ const ArticleDetailPage = () => {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://topextexnikum.uz/" },
-            { "@type": "ListItem", "position": 2, "name": "Новости", "item": "https://topextexnikum.uz/blog" },
+            { "@type": "ListItem", "position": 1, "name": "Bosh sahifa", "item": "https://topextexnikum.uz/" },
+            { "@type": "ListItem", "position": 2, "name": "Yangiliklar", "item": "https://topextexnikum.uz/blog" },
             { "@type": "ListItem", "position": 3, "name": data.title, "item": `https://topextexnikum.uz/blog/${data.slug || slug}` }
           ]
         })}</script>
