@@ -36,7 +36,7 @@ const VideosPage = () => {
       <SeoHelmet
         title={`${t('nav.videos') || 'Videolar'} — TOPEX`}
         description="Topex Texnikumi video galereyasi. Tadbirlar, dars jarayonlari va texnikum hayotidan videolar."
-        canonical="https://topextexnikum.uz/videolar"
+        canonical="https://topextexnikum.uz/videos"
         ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
       >
         <script type="application/ld+json">{JSON.stringify({

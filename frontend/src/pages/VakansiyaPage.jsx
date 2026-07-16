@@ -39,7 +39,7 @@ const VakansiyaPage = () => {
       <SeoHelmet
         title="Vakansiyalar – Topex Texnikumi"
         description="Topex Texnikumidagi ochiq ish o'rinlari va vakansiyalar."
-        canonical="https://topextexnikum.uz/vakansiya"
+        canonical="https://topextexnikum.uz/vakansiyalar"
         ogImage="https://topextexnikum.uz/assets/images/DSC01036.webp"
       >
         <script type="application/ld+json">{JSON.stringify({
