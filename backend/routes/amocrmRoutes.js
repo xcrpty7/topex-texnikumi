@@ -28,7 +28,17 @@ router.get('/status', (req, res) => {
 router.get('/auth', (req, res) => {
   try {
     const url = amocrm.getAuthUrl();
-    res.redirect(url);
+    // amoCRM authorize endpoint accepts ONLY POST — redirect (GET) gives 405.
+    // Send auto-submitting HTML form instead of 302 redirect.
+    res.send(`<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>AmoCRM Auth</title></head>
+<body>
+<p>Redirecting to AmoCRM...</p>
+<form id="f" method="POST" action="${url}">
+  <input type="submit" value="Continue to AmoCRM" />
+</form>
+<script>document.getElementById('f').submit();</script>
+</body></html>`);
   } catch (err) {
     res.status(400).json({
       success: false,
@@ -39,12 +49,13 @@ router.get('/auth', (req, res) => {
 });
 
 /**
- * GET /api/amocrm/callback?code=...
+ * GET|POST /api/amocrm/callback
  * Callback от AmoCRM после авторизации.
- * Меняет code на access_token + refresh_token.
+ * mode=post → code в POST body; mode=get → code в query string.
  */
-router.get('/callback', async (req, res) => {
-  const { code } = req.query;
+const handleCallback = async (req, res) => {
+  // amoCRM mode=post sends code in POST body; mode=get sends in query string
+  const code = req.query.code || req.body?.code;
 
   if (!code) {
     return res.status(400).json({
@@ -67,7 +78,9 @@ router.get('/callback', async (req, res) => {
       error: err.message,
     });
   }
-});
+};
+router.get('/callback', handleCallback);
+router.post('/callback', handleCallback);
 
 /**
  * POST /api/amocrm/test
