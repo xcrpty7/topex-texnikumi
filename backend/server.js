@@ -72,6 +72,7 @@ app.use(
         connectSrc: ["'self'", ...allowedOrigins.filter(Boolean)],
         frameSrc: ["'self'"],
         objectSrc: ["'none'"],
+        formAction: ["'self'", 'https://*.amocrm.ru'],
         upgradeInsecureRequests: [],
       },
     },
