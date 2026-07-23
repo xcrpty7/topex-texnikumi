@@ -263,7 +263,7 @@ function getAuthUrl() {
   return `https://${cfg.subdomain}.amocrm.ru/oauth2/authorize?` +
     `client_id=${cfg.clientId}&` +
     `redirect_uri=${encodeURIComponent(cfg.redirectUri)}&` +
-    `mode=post`;
+    `mode=post_message`;
 }
 
 // ─── OAuth: Callback Handler ────────────────────────────────────────────────
