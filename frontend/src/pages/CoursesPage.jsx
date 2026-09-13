@@ -7,7 +7,7 @@ import SeoHelmet from '../components/common/SeoHelmet';
 import {
   BookOpen, GraduationCap, ArrowRight, Home, ChevronRight,
   Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout,
-  Star, Award, Users, Globe, Cpu, Music, Camera, X, Wallet,
+  Star, Users, Globe, Cpu, Music, Camera, X, Wallet,
 } from 'lucide-react';
 import { fetchCourses, setFilters } from '../features/courses/coursesSlice';
 import CourseCard from '../components/common/CourseCard';
@@ -19,7 +19,7 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 
 const ICON_MAP = {
   Code, TrendingUp, Palette, ShieldCheck, Hotel, BarChart3, FlaskConical, Sprout,
-  BookOpen, Star, Award, Users, Globe, Cpu, Music, Camera,
+  BookOpen, Star, Users, Globe, Cpu, Music, Camera,
 };
 
 const resolveImg = (url) => {
@@ -272,51 +272,6 @@ const CoursesPage = () => {
           </div>
         </section>
       )}
-
-      {/* ── Pricing ── */}
-      <section className="sec bg-white">
-        <div className="wrap">
-          <motion.div {...up(0)} className="text-center mb-12">
-            <span className="lbl text-emerald-600">{t('coursesPage.heroBadge')}</span>
-            <h2 className="text-3xl md:text-4xl font-black text-navy">
-              {t('coursesPage.pricingTitle')}
-            </h2>
-            <p className="text-navy/60 mt-3 max-w-2xl mx-auto">
-              {t('coursesPage.pricingSubtitle')}
-            </p>
-          </motion.div>
-
-          <motion.div {...up(0.05)}
-            className="max-w-2xl mx-auto bg-gradient-to-br from-emerald-50 via-white to-emerald-50/40 rounded-3xl p-8 pt-12 md:p-12 md:pt-14 border border-emerald-100 relative overflow-hidden
-                       shadow-[0_24px_60px_-18px_rgba(16,185,129,0.35)] ring-1 ring-emerald-100/60
-                       transition-transform duration-300 hover:-translate-y-1"
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-6">
-              <div className="text-center">
-                {/* Current price — green */}
-                <div className="text-4xl font-black text-emerald-700 whitespace-nowrap [text-shadow:0_2px_10px_rgba(16,185,129,0.25)]">
-                  20 000 000 {t('pricing.sum')}
-                </div>
-                <div className="text-sm text-emerald-600 font-semibold">{t('pricing.yearly')}</div>
-              </div>
-              <div className="hidden sm:block w-px h-20 bg-emerald-200" />
-              <div className="text-center">
-                <div className="text-3xl font-black text-emerald-700 whitespace-nowrap">
-                  2 000 000 {t('pricing.sum')}
-                </div>
-                <div className="text-sm text-navy/50 mt-1">{t('pricing.monthly')}</div>
-              </div>
-            </div>
-            <div className="text-center text-sm text-navy/60 mb-6">
-              {t('coursesPage.pricingNote')}
-            </div>
-            <div className="flex items-center justify-center gap-2 text-sm font-semibold text-emerald-700 bg-emerald-100/60 rounded-xl px-5 py-3">
-              <Award size={18} />
-              {t('coursesPage.pricingGrant')}
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* ── CTA ── */}
       <section className="sec-mid py-14">
