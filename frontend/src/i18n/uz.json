@@ -95,12 +95,9 @@
     }
   },
   "pricing": {
-    "badge": "20% CHEGIRMA",
     "sum": "so'm",
-    "noDiscount": "chegirmasiz",
     "yearly": "yillik to'lov",
-    "monthly": "oylik to'lov",
-    "until": "20% chegirma 10-iyulgacha amal qiladi!"
+    "monthly": "oylik to'lov"
   },
   "news": {
     "label": "Bizning blog",
